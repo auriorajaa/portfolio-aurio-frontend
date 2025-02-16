@@ -944,7 +944,7 @@ const App = () => {
 
   const handleDownload = () => {
     const link = document.createElement("a");
-    link.href = "/path-to-your-cv.pdf";
+    link.href = "/CV_AurioRajaa.pdf";
     link.download = "CV_AurioRajaa.pdf";
     link.click();
   };
