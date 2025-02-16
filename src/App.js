@@ -1027,34 +1027,36 @@ const App = () => {
       <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent bg={cardBg} zIndex="overlay">
-          {" "}
-          {/* ✅ Pastikan Drawer muncul di atas header */}
           <DrawerCloseButton />
           <DrawerHeader borderBottomWidth="1px" borderColor={borderColor}>
             Menu
           </DrawerHeader>
           <DrawerBody>
-            <VStack spacing={4} align="flex-start" onClick={onClose}>
-              <Link href="#work" fontWeight="medium">
+            <VStack spacing={4} align="flex-start">
+              {/* ✅ Link tetap menutup Drawer saat diklik */}
+              <Link href="#work" fontWeight="medium" onClick={onClose}>
                 Work
               </Link>
-              <Link href="#activities" fontWeight="medium">
+              <Link href="#activities" fontWeight="medium" onClick={onClose}>
                 Activities
               </Link>
-              <Link href="#skills" fontWeight="medium">
+              <Link href="#skills" fontWeight="medium" onClick={onClose}>
                 Skills
               </Link>
-              <Link href="#achievements" fontWeight="medium">
+              <Link href="#achievements" fontWeight="medium" onClick={onClose}>
                 Achievements
               </Link>
-              <Link href="#contact" fontWeight="medium">
+              <Link href="#contact" fontWeight="medium" onClick={onClose}>
                 Contact
               </Link>
 
               {/* ✅ HStack untuk Download CV & Dark Mode Toggle */}
               <HStack spacing={3} w="full">
                 <Button
-                  onClick={handleDownload}
+                  onClick={(e) => {
+                    e.stopPropagation(); // ✅ Mencegah Drawer tertutup saat tombol ditekan
+                    handleDownload();
+                  }}
                   leftIcon={
                     isDownloading ? <Spinner size="sm" /> : <FiDownload />
                   }
@@ -1074,7 +1076,7 @@ const App = () => {
                   aria-label="Toggle theme"
                   onClick={toggleColorMode}
                   variant="ghost"
-                  size="md" // ✅ **Lebih kecil agar sejajar dengan button**
+                  size="md"
                   _hover={{
                     transform: "scale(1.2)",
                   }}
