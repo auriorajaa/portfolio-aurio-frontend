@@ -28,17 +28,8 @@ import {
   Textarea,
   keyframes,
   chakra,
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
-  Divider,
   SimpleGrid,
-  Stat,
-  StatLabel,
-  StatNumber,
-  StatHelpText,
+  Spinner,
   List,
   ListItem,
   ListIcon,
@@ -57,18 +48,10 @@ import {
   FiLinkedin,
   FiMail,
   FiExternalLink,
-  FiStar,
-  FiChevronRight,
   FiCodepen,
   FiCheck,
-  FiCode,
-  FiUsers,
-  FiLayers,
   FiCalendar,
-  FiBookOpen,
   FiAward,
-  FiBriefcase,
-  FiCoffee,
   FiSun,
   FiMoon,
   FiSend,
@@ -942,11 +925,22 @@ const App = () => {
       });
   };
 
+  const [isDownloading, setIsDownloading] = useState(false);
+
   const handleDownload = () => {
-    const link = document.createElement("a");
-    link.href = "/CV_AurioRajaa.pdf";
-    link.download = "CV_AurioRajaa.pdf";
-    link.click();
+    // Tampilkan indikator sedang mendownload
+    setIsDownloading(true);
+
+    // Simulasikan proses download dengan setTimeout
+    setTimeout(() => {
+      const link = document.createElement("a");
+      link.href = "/CV_AurioRajaa.pdf"; // Ganti dengan path file yang benar
+      link.download = "CV_AurioRajaa.pdf";
+      link.click();
+
+      // Sembunyikan indikator setelah download
+      setIsDownloading(false);
+    }, 1000); // Simulasi jeda 1 detik
   };
 
   return (
@@ -990,7 +984,9 @@ const App = () => {
               </Link>
               <Button
                 onClick={handleDownload}
-                leftIcon={<FiDownload />}
+                leftIcon={
+                  isDownloading ? <Spinner size="sm" /> : <FiDownload />
+                }
                 backgroundColor={bgColor}
                 variant="outline"
                 size="md"
@@ -999,7 +995,7 @@ const App = () => {
                   transform: "scale(1.05)",
                 }}
               >
-                Download CV
+                {isDownloading ? "Downloading..." : "Download CV"}
               </Button>
 
               <IconButton
@@ -1059,17 +1055,18 @@ const App = () => {
               <HStack spacing={3} w="full">
                 <Button
                   onClick={handleDownload}
-                  leftIcon={<FiDownload />}
+                  leftIcon={
+                    isDownloading ? <Spinner size="sm" /> : <FiDownload />
+                  }
                   backgroundColor={bgColor}
                   variant="outline"
                   size="md"
-                  flex="1" // ✅ **Biar rapi & proporsional di mobile**
                   _hover={{
                     backgroundColor: bgColor,
                     transform: "scale(1.05)",
                   }}
                 >
-                  Download CV
+                  {isDownloading ? "Downloading..." : "Download CV"}
                 </Button>
 
                 <IconButton
