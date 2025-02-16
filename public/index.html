@@ -1,43 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/portfolio.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+  <!-- Primary Meta Tags -->
+  <title>Aurio Rajaa | Full-Stack Engineer | Java, Django & React Specialist | Cloud Computing Expert</title>
+  <meta name="title"
+    content="Aurio Rajaa | Full-Stack Engineer | Java, Django & React Specialist | Cloud Computing Expert">
+  <meta name="description"
+    content="Portfolio of Aurio Rajaa - Award-winning Software Engineer (3rd Place Huawei AI Competition) specializing in Django REST, React.js, Java, and Google Cloud. University of Indonesia & PNJ graduate with expertise in backend & frontend development. View my projects: Small Circle, Flick Share, Upfront, and more.">
+  <meta name="author" content="Aurio Rajaa">
+  <meta name="keywords"
+    content="Aurio Rajaa, Software Engineer, Full-Stack Developer, Django REST Framework, React.js, Java Developer, Cloud Computing, Google Cloud, Backend Development, Frontend Development, Jakarta, Indonesia, University of Indonesia, Politeknik Negeri Jakarta, Huawei AI Competition, Small Circle, Flick Share, Upfront, Link Shortener, Social Lib, API Design, Docker, Containerization, Spring Framework, Native Android Java">
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://auriorajaa.com/">
+  <meta property="og:title"
+    content="Aurio Rajaa | Full-Stack Engineer | Java, Django & React Specialist | Cloud Computing Expert">
+  <meta property="og:description"
+    content="Portfolio of Aurio Rajaa - Award-winning Software Engineer (3rd Place Huawei AI Competition) specializing in Django REST, React.js, Java, and Google Cloud. University of Indonesia & PNJ graduate with expertise in backend & frontend development. View my projects: Small Circle, Flick Share, Upfront, and more.">
+  <meta property="og:image" content="%PUBLIC_URL%/portfolio-og-image.png">
+  <meta property="og:image:alt" content="Aurio Rajaa - Software Engineer Portfolio">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://auriorajaa.com/">
+  <meta name="twitter:title"
+    content="Aurio Rajaa | Full-Stack Engineer | Java, Django & React Specialist | Cloud Computing Expert">
+  <meta name="twitter:description"
+    content="Portfolio of Aurio Rajaa - Award-winning Software Engineer (3rd Place Huawei AI Competition) specializing in Django REST, React.js, Java, and Google Cloud. University of Indonesia & PNJ graduate with expertise in backend & frontend development. View my projects: Small Circle, Flick Share, Upfront, and more.">
+  <meta name="twitter:image" content="%PUBLIC_URL%/portfolio-og-image.png">
+  <meta name="twitter:image:alt" content="Aurio Rajaa - Software Engineer Portfolio">
+  <meta name="twitter:creator" content="@auriorajaa">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://auriorajaa.com/">
+
+  <!-- Apple Touch Icon -->
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/portfolio.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="%PUBLIC_URL%/apple-touch-icon-152x152.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon-180x180.png" />
+
+  <!-- Manifest file -->
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+  <!-- Favicon variations for different devices -->
+  <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png">
+  <link rel="mask-icon" href="%PUBLIC_URL%/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-TileImage" content="%PUBLIC_URL%/mstile-144x144.png">
+
+  <!-- Preload critical resources -->
+  <link rel="preload" href="%PUBLIC_URL%/fonts/main-font.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Structured Data / JSON-LD for Person -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Aurio Rajaa",
+    "url": "https://auriorajaa.com",
+    "image": "https://auriorajaa.com/profile-photo.jpg",
+    "sameAs": [
+      "https://github.com/auriorajaa",
+      "https://www.linkedin.com/in/auriorajaa",
+      "https://twitter.com/auriorajaa"
+    ],
+    "jobTitle": "Software Engineer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Freelance"
+    },
+    "alumniOf": [
+      {
+        "@type": "EducationalOrganization",
+        "name": "University of Indonesia IT Program (CCIT-FTUI)",
+        "sameAs": "https://ccit.eng.ui.ac.id/"
+      },
+      {
+        "@type": "EducationalOrganization",
+        "name": "Polytechnic State of Jakarta",
+        "sameAs": "https://pnj.ac.id/"
+      },
+      {
+        "@type": "EducationalOrganization",
+        "name": "Bangkit Academy - Studi Independen (MSIB)",
+        "sameAs": "https://grow.google/intl/id_id/bangkit/"
+      }
+    ],
+    "knowsAbout": ["Software Engineering", "Django REST Framework", "React.js", "Java", "Cloud Computing", "Google Cloud", "API Development", "Docker", "Containerization", "Spring Framework", "Native Android Java"],
+    "award": "3rd Place, Huawei AI Cloud Computing National Competition"
+  }
+  </script>
+
+  <!-- Structured Data for WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://auriorajaa.com/",
+    "name": "Aurio Rajaa - Software Engineer Portfolio",
+    "description": "Portfolio of Aurio Rajaa - Award-winning Software Engineer specializing in Django REST, React.js, Java, and Google Cloud",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://auriorajaa.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- Structured Data for SoftwareApplication (for each project) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Small Circle",
+    "applicationCategory": "MobileApplication",
+    "operatingSystem": "Android",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Aurio Rajaa",
+      "url": "https://auriorajaa.com"
+    },
+    "description": "Small Circle is a native Android marketplace application that connects local buyers and sellers. Users can discover items based on location, chat with sellers, manage listings, and more.",
+    "url": "https://github.com/auriorajaa/Small_Circle",
+    "image": "https://repository-images.githubusercontent.com/876764928/95dd8a08-3549-47ac-8a7a-f432e21c4a9c",
+    "softwareVersion": "1.0"
+  }
+  </script>
+
+  <!-- Add more script blocks for each project following the pattern above -->
+
+  <!-- Google site verification (you'll need to get this from Google Search Console) -->
+  <meta name="google-site-verification" content="your-verification-code" />
+
+  <!-- Bing Webmaster Tools verification -->
+  <meta name="msvalidate.01" content="your-bing-verification-code" />
+
+  <!-- Pinterest verification -->
+  <meta name="p:domain_verify" content="your-pinterest-verification-code" />
+
+  <!-- Prevent content from being translated automatically -->
+  <meta name="google" content="notranslate">
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+</body>
+
 </html>
