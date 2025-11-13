@@ -13,7 +13,6 @@ import {
   StatHelpText,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { personalInfo } from "../../data/portfolioData";
 
 const MotionBox = motion(Box);
 

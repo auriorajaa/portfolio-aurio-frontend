@@ -6,7 +6,6 @@ import {
   Text,
   HStack,
   IconButton,
-  Link,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { FiGithub, FiLinkedin, FiMail, FiHeart } from "react-icons/fi";

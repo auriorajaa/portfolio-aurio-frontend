@@ -15,7 +15,7 @@ import {
   ListItem,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { FiCalendar, FiMapPin, FiBriefcase } from "react-icons/fi";
+import { FiCalendar, FiMapPin } from "react-icons/fi";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const MotionBox = motion(Box);

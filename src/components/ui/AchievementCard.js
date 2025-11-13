@@ -11,7 +11,6 @@ import {
   ModalCloseButton,
   ModalBody,
   useDisclosure,
-  Button,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { FiAward, FiCalendar, FiMaximize2 } from "react-icons/fi";

@@ -6,14 +6,12 @@ import { Helmet } from "react-helmet-async";
 import Header from "./components/ui/Header";
 import Footer from "./components/ui/Footer";
 import Hero from "./components/sections/Hero";
-import About from "./components/sections/About";
 import Experience from "./components/sections/Experience";
 import Projects from "./components/sections/Projects";
 import Skills from "./components/sections/Skills";
 import Education from "./components/sections/Education";
 import Activities from "./components/sections/Activities";
 import Achievements from "./components/sections/Achievements";
-import Articles from "./components/sections/Articles";
 import Contact from "./components/sections/Contact";
 
 // Data

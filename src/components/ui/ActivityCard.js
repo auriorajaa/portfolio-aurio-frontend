@@ -3,7 +3,6 @@ import {
   Box,
   Heading,
   Text,
-  Image,
   Badge,
   useColorModeValue,
   Flex,

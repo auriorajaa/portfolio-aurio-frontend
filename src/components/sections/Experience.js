@@ -13,15 +13,9 @@ import { motion } from "framer-motion";
 import ExperienceCard from "../ui/ExperienceCard";
 import { experienceData } from "../../data/portfolioData";
 
-const MotionBox = motion(Box);
-
 const Experience = () => {
   const textPrimary = useColorModeValue("gray.800", "white");
   const textSecondary = useColorModeValue("gray.600", "gray.400");
-  const floatingAnimation = keyframes`
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(5deg); }
-`;
 
   const bgGradient = useColorModeValue(
     "linear(to-br, teal.50, brand.50, blue.100)",

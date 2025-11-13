@@ -10,7 +10,6 @@ import {
   Text,
   Button,
   IconButton,
-  Image,
   useColorModeValue,
   keyframes,
 } from "@chakra-ui/react";
