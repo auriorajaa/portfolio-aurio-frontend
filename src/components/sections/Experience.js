@@ -4,12 +4,10 @@ import {
   Container,
   VStack,
   Heading,
-  keyframes,
   Text,
   useColorModeValue,
   SimpleGrid,
 } from "@chakra-ui/react";
-import { motion } from "framer-motion";
 import ExperienceCard from "../ui/ExperienceCard";
 import { experienceData } from "../../data/portfolioData";
 
