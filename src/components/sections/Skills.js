@@ -16,7 +16,6 @@ import {
   TabPanels,
   Tab,
   TabPanel,
-  Stack,
   Flex,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
@@ -39,8 +38,6 @@ import {
   SiMysql,
   SiRedis,
   SiJsonwebtokens,
-  SiMicrosoftsqlserver,
-  SiFirebase,
 } from "react-icons/si";
 import {
   FiDatabase,
@@ -52,7 +49,6 @@ import {
   FiServer,
   FiCpu,
   FiCheckCircle,
-  FiAward,
 } from "react-icons/fi";
 
 const MotionBox = motion(Box);
