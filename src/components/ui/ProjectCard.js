@@ -48,12 +48,12 @@ const ProjectCard = ({ project, delay = 0 }) => {
           borderColor: "rgba(255,255,255,0.45)",
         }}
       >
-        {/* Image */}
+        {/* Image - Fixed height */}
         <Box
           position="relative"
           overflow="hidden"
           role="group"
-          h={{ base: "180px", md: "200px" }}
+          h="200px"
           flexShrink={0}
         >
           <LazyLoadImage
@@ -110,43 +110,45 @@ const ProjectCard = ({ project, delay = 0 }) => {
           </Flex>
         </Box>
 
-        {/* Content */}
-        <Flex direction="column" p={{ base: 4, md: 5 }} flex="1" minH="0">
-          {/* Title */}
+        {/* Content - Fixed structure */}
+        <Flex direction="column" p={5} flex="1" minH="0">
+          {/* Title - Fixed height */}
           <Heading
             as="h3"
-            fontSize={{ base: "lg", md: "xl" }}
+            fontSize="xl"
             mb={2}
             color={textPrimary}
             fontWeight="semibold"
-            lineHeight="short"
+            lineHeight="1.3"
             noOfLines={2}
-            minH={{ base: "2rem", md: "2rem" }}
+            h="2.6em"
+            overflow="hidden"
           >
             {project.title}
           </Heading>
 
-          {/* Description */}
+          {/* Description - Fixed height */}
           <Text
             color={textSecondary}
-            fontSize={{ base: "sm", md: "md" }}
+            fontSize="md"
             mb={4}
-            lineHeight="1.7"
+            lineHeight="1.6"
             noOfLines={3}
-            minH={{ base: "4rem", md: "4.5rem" }}
+            h="4.8em"
+            overflow="hidden"
           >
             {project.description}
           </Text>
 
-          {/* Tags */}
-          <Box mb={4} minH="2rem">
+          {/* Tags - Fixed height */}
+          <Box mb={4} h="2.5em" overflow="hidden">
             <HStack spacing={2} flexWrap="wrap">
-              {project.tags.slice(0, 5).map((tag, i) => (
+              {project.tags.slice(0, 3).map((tag, i) => (
                 <Badge
                   key={i}
                   colorScheme="gray.100"
                   variant="subtle"
-                  fontSize={{ base: "xs", md: "sm" }}
+                  fontSize="xs"
                   px={2.5}
                   py="3px"
                   borderRadius="md"
@@ -156,36 +158,37 @@ const ProjectCard = ({ project, delay = 0 }) => {
                   {tag}
                 </Badge>
               ))}
-              {project.tags.length > 5 && (
+              {project.tags.length > 3 && (
                 <Badge
                   colorScheme="gray"
                   variant="subtle"
-                  fontSize={{ base: "xs", md: "sm" }}
+                  fontSize="xs"
                   px={2.5}
                   py="3px"
                   borderRadius="md"
                   bg="rgba(255,255,255,0.25)"
                   backdropFilter="blur(6px)"
                 >
-                  +{project.tags.length - 5}
+                  +{project.tags.length - 3}
                 </Badge>
               )}
             </HStack>
           </Box>
 
-          {/* Action Buttons */}
-          <HStack spacing={3} mt="auto" flexWrap="wrap">
+          {/* Action Buttons - Push to bottom */}
+          <HStack spacing={3} mt="auto" pt={2}>
             {project.github && (
               <Button
                 as="a"
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                size={{ base: "sm", md: "md" }}
+                size="md"
                 variant="outline"
                 leftIcon={<FiGithub />}
                 colorScheme="brand"
-                fontSize={{ base: "xs", md: "sm" }}
+                fontSize="md"
+                flex="1"
               >
                 GitHub
               </Button>
@@ -196,13 +199,14 @@ const ProjectCard = ({ project, delay = 0 }) => {
                 href={project.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                size={{ base: "sm", md: "md" }}
+                size="md"
                 variant="outline"
                 leftIcon={<FiExternalLink />}
                 colorScheme="brand"
-                fontSize={{ base: "xs", md: "sm" }}
+                fontSize="md"
+                flex="1"
               >
-                Visit Website
+                Visit
               </Button>
             )}
           </HStack>

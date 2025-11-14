@@ -14,14 +14,13 @@ import {
 } from "@chakra-ui/react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Pagination } from "swiper/modules";
 
 import ProjectCard from "../ui/ProjectCard";
 import { projects } from "../../data/portfolioData";
 
 // Import Swiper styles
 import "swiper/css";
-import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 const Projects = () => {
@@ -126,7 +125,7 @@ const Projects = () => {
           <VStack spacing={4} textAlign="center" pt={{ base: 4, md: 6 }}>
             <Heading
               as="h2"
-              fontSize={{ base: "2xl", md: "4xl", lg: "5xl" }}
+              fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
               color={textPrimary}
               fontWeight="bold"
             >
@@ -136,7 +135,7 @@ const Projects = () => {
             <Text
               color={textSecondary}
               maxW="700px"
-              fontSize={{ base: "md", md: "lg" }}
+              fontSize={{ base: "md", md: "lg", lg: "xl" }}
               lineHeight="1.8"
             >
               A selection of my recent work that highlights my technical
@@ -217,19 +216,12 @@ const Projects = () => {
             </Swiper>
           </Box>
 
-          {/* TABLET (2 columns) */}
+          {/* TABLET (2 columns × 2 rows per slide) */}
           <Box
             w="100%"
             display={{ base: "none", md: "block", lg: "none" }}
             sx={{
               ".swiper": { paddingBottom: "50px" },
-              ".swiper-button-next, .swiper-button-prev": {
-                color: "brand.500",
-                "&:after": {
-                  fontSize: "28px",
-                  fontWeight: "bold",
-                },
-              },
               ".swiper-pagination-bullet": {
                 bg: "gray.300",
                 opacity: 1,
@@ -242,16 +234,31 @@ const Projects = () => {
             }}
           >
             <Swiper
-              modules={[Navigation, Pagination]}
-              spaceBetween={28} // 🔥 jarak antar card tablet
-              slidesPerView={2}
-              navigation
+              modules={[Pagination]}
+              spaceBetween={0}
+              slidesPerView={1}
               pagination={{ clickable: true }}
               key={activeFilter}
             >
-              {filteredProjects.map((project, i) => (
-                <SwiperSlide key={project.id}>
-                  <ProjectCard project={project} delay={i * 0.1} />
+              {Array.from({
+                length: Math.ceil(filteredProjects.length / 4),
+              }).map((_, slideIndex) => (
+                <SwiperSlide key={slideIndex}>
+                  <Box
+                    px={4}
+                    display="grid"
+                    gridTemplateColumns="repeat(2, 1fr)"
+                    gridTemplateRows="repeat(2, 1fr)"
+                    gap={6}
+                  >
+                    {filteredProjects
+                      .slice(slideIndex * 4, slideIndex * 4 + 4)
+                      .map((project, i) => (
+                        <Box key={project.id} h="100%">
+                          <ProjectCard project={project} delay={i * 0.1} />
+                        </Box>
+                      ))}
+                  </Box>
                 </SwiperSlide>
               ))}
             </Swiper>
