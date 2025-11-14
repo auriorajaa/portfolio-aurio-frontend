@@ -8,18 +8,13 @@ import {
   HStack,
   Button,
   useColorModeValue,
-  chakra,
-  shouldForwardProp,
+  VStack,
+  Icon,
 } from "@chakra-ui/react";
-import { motion, isValidMotionProp } from "framer-motion";
-import { FiClock, FiArrowRight } from "react-icons/fi";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import { fadeInUp } from "../../utils/animations";
+import { motion } from "framer-motion";
+import { FiClock, FiArrowRight, FiCalendar } from "react-icons/fi";
 
-const ChakraBox = chakra(motion.div, {
-  shouldForwardProp: (prop) =>
-    isValidMotionProp(prop) || shouldForwardProp(prop),
-});
+const MotionBox = motion(Box);
 
 const ArticleCard = ({
   title,
@@ -30,126 +25,163 @@ const ArticleCard = ({
   image,
   link,
 }) => {
-  const cardBg = useColorModeValue("white", "#112240");
-  const textPrimary = useColorModeValue("gray.800", "#e6f1ff");
-  const textSecondary = useColorModeValue("gray.600", "#8892b0");
-  const textBody = useColorModeValue("gray.700", "#ccd6f6");
-  const borderColor = useColorModeValue("gray.200", "#1e3a5f");
+  const cardBg = useColorModeValue("white", "gray.800");
+  const textPrimary = useColorModeValue("gray.800", "white");
+  const textSecondary = useColorModeValue("gray.600", "gray.400");
+  const textBody = useColorModeValue("gray.700", "gray.300");
+  const borderColor = useColorModeValue("gray.200", "gray.700");
+  const hoverBorderColor = useColorModeValue("brand.500", "brand.400");
+  const overlayGradient = useColorModeValue(
+    "linear(to-b, transparent 0%, blackAlpha.600 100%)",
+    "linear(to-b, transparent 0%, blackAlpha.800 100%)"
+  );
 
   return (
-    <ChakraBox
-      {...fadeInUp}
-      borderWidth="1px"
-      borderColor={borderColor}
-      borderRadius="xl"
-      overflow="hidden"
-      bg={cardBg}
-      transition="all 0.3s"
-      _hover={{
-        transform: "translateY(-4px)",
-        boxShadow: "2xl",
-        borderColor: "brand.500",
-      }}
-      height="100%"
-      display="flex"
-      flexDirection="column"
+    <MotionBox
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5 }}
+      h="100%"
     >
       <Box
-        position="relative"
+        borderWidth="1px"
+        borderColor={borderColor}
+        borderRadius="2xl"
         overflow="hidden"
-        role="group"
-        h={{ base: "160px", md: "180px" }}
-        bg="gray.900"
-      >
-        <LazyLoadImage
-          src={image}
-          alt={title}
-          effect="blur"
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            transition: "transform 0.5s",
-          }}
-          className="group-hover:scale-110"
-        />
-        <Badge
-          position="absolute"
-          top={{ base: 2, md: 3 }}
-          left={{ base: 2, md: 3 }}
-          colorScheme="brand"
-          fontSize={{ base: "2xs", md: "xs" }}
-          px={{ base: 2, md: 3 }}
-          py={1}
-          borderRadius="md"
-          fontWeight="600"
-        >
-          {category}
-        </Badge>
-      </Box>
-
-      <Box
-        p={{ base: 4, md: 5 }}
-        flex="1"
+        bg={cardBg}
+        transition="all 0.3s ease-in-out"
+        _hover={{
+          transform: "translateY(-8px)",
+          boxShadow: "2xl",
+          borderColor: hoverBorderColor,
+        }}
+        h="100%"
         display="flex"
         flexDirection="column"
+        cursor="pointer"
       >
-        <Heading
-          as="h3"
-          fontSize={{ base: "md", md: "lg" }}
-          mb={{ base: 2, md: 3 }}
-          color={textPrimary}
-          noOfLines={2}
-          fontWeight="bold"
-          lineHeight="1.3"
+        {/* Image Container */}
+        <Box
+          position="relative"
+          overflow="hidden"
+          h={{ base: "180px", md: "220px" }}
+          bg="gray.900"
         >
-          {title}
-        </Heading>
+          <Image
+            src={image}
+            alt={title}
+            w="100%"
+            h="100%"
+            objectFit="cover"
+            transition="transform 0.5s ease"
+            _groupHover={{ transform: "scale(1.1)" }}
+          />
 
-        <Text
-          mb={{ base: 3, md: 4 }}
-          color={textBody}
-          fontSize={{ base: "sm", md: "md" }}
-          noOfLines={3}
-          flex="1"
-          lineHeight="1.7"
-        >
-          {excerpt}
-        </Text>
+          {/* Gradient Overlay */}
+          <Box
+            position="absolute"
+            top={0}
+            left={0}
+            right={0}
+            bottom={0}
+            bgGradient={overlayGradient}
+          />
 
-        <HStack
+          {/* Category Badge */}
+          <Badge
+            position="absolute"
+            top={{ base: 3, md: 4 }}
+            left={{ base: 3, md: 4 }}
+            colorScheme="brand"
+            fontSize={{ base: "xs", md: "sm" }}
+            px={{ base: 3, md: 4 }}
+            py={{ base: 1, md: 2 }}
+            borderRadius="lg"
+            fontWeight="700"
+            textTransform="uppercase"
+            letterSpacing="wide"
+            shadow="lg"
+          >
+            {category}
+          </Badge>
+        </Box>
+
+        {/* Content Container */}
+        <VStack
+          p={{ base: 5, md: 6 }}
           spacing={{ base: 3, md: 4 }}
-          mb={{ base: 3, md: 4 }}
-          fontSize={{ base: "xs", md: "sm" }}
-          color={textSecondary}
-          flexWrap="wrap"
+          align="stretch"
+          flex="1"
         >
-          <HStack>
-            <Box as={FiClock} flexShrink={0} />
-            <Text>{readTime}</Text>
-          </HStack>
-          <Text>{date}</Text>
-        </HStack>
+          {/* Title */}
+          <Heading
+            as="h3"
+            fontSize={{ base: "lg", md: "xl" }}
+            color={textPrimary}
+            noOfLines={2}
+            fontWeight="bold"
+            lineHeight="1.4"
+            minH={{ base: "56px", md: "64px" }}
+          >
+            {title}
+          </Heading>
 
-        <Button
-          as="a"
-          href={link}
-          variant="ghost"
-          size={{ base: "sm", md: "md" }}
-          rightIcon={<FiArrowRight />}
-          alignSelf="flex-start"
-          mt="auto"
-          colorScheme="brand"
-          fontSize={{ base: "xs", md: "sm" }}
-          _hover={{
-            transform: "translateX(4px)",
-          }}
-          transition="all 0.2s"
-        >
-          Read More
-        </Button>
+          {/* Excerpt */}
+          <Text
+            color={textBody}
+            fontSize={{ base: "sm", md: "md" }}
+            noOfLines={3}
+            lineHeight="1.7"
+            flex="1"
+            minH={{ base: "60px", md: "72px" }}
+          >
+            {excerpt}
+          </Text>
+
+          {/* Meta Info */}
+          <HStack
+            spacing={{ base: 4, md: 6 }}
+            pt={{ base: 2, md: 3 }}
+            borderTopWidth="1px"
+            borderColor={borderColor}
+            fontSize={{ base: "xs", md: "sm" }}
+            color={textSecondary}
+            flexWrap="wrap"
+          >
+            <HStack spacing={2}>
+              <Icon as={FiCalendar} />
+              <Text fontWeight="medium">{date}</Text>
+            </HStack>
+            <HStack spacing={2}>
+              <Icon as={FiClock} />
+              <Text fontWeight="medium">{readTime}</Text>
+            </HStack>
+          </HStack>
+
+          {/* Read More Button */}
+          <Button
+            as="a"
+            href={link}
+            variant="ghost"
+            size={{ base: "sm", md: "md" }}
+            rightIcon={<FiArrowRight />}
+            colorScheme="brand"
+            fontSize={{ base: "sm", md: "md" }}
+            fontWeight="600"
+            justifyContent="flex-start"
+            px={0}
+            _hover={{
+              transform: "translateX(8px)",
+              color: hoverBorderColor,
+            }}
+            transition="all 0.3s"
+          >
+            Read Article
+          </Button>
+        </VStack>
       </Box>
-    </ChakraBox>
+    </MotionBox>
   );
 };
 

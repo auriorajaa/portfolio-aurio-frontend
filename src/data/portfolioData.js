@@ -211,6 +211,7 @@ export const skillsData = [
     category: "Backend Development",
     skills: [
       "Spring Boot REST API",
+      "Django REST Framework",
       "API Design",
       "SQL & NoSQL Databases",
       "Authentication & Security",

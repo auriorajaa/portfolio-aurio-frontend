@@ -22,8 +22,8 @@ const ScrollToTopButton = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const bgColor = useColorModeValue("#47B5FF", "#47B5FF");
-  const hoverBg = useColorModeValue("#1aa3d1ff", "#47B5FF");
+  const bgColor = useColorModeValue("#47B5FF", "#2b8fd1ff");
+  const hoverBg = useColorModeValue("#1aa3d1ff", "#2b8fd1ff");
   const iconColor = useColorModeValue("white", "#042735ff");
 
   return (

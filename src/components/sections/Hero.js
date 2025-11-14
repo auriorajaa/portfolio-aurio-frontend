@@ -202,9 +202,9 @@ const Hero = () => {
                     width: "100%",
                     height: "100%",
                     objectFit: "cover",
-                    objectPosition: "center -55px", // geser dikit ke atas
-                    transform: "scale(1.25)", // 👈 zoom dikit (1.15 = 15%)
-                    transition: "transform 0.5s ease", // biar smooth
+                    objectPosition: "center -55px",
+                    transform: "scale(1.35)",
+                    transition: "transform 0.5s ease",
                   }}
                 />
               </Box>

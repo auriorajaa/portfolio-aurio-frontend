@@ -12,6 +12,7 @@ import Skills from "./components/sections/Skills";
 import Education from "./components/sections/Education";
 import Activities from "./components/sections/Activities";
 import Achievements from "./components/sections/Achievements";
+import Articles from "./components/sections/Articles";
 import Contact from "./components/sections/Contact";
 
 // Data
@@ -64,7 +65,7 @@ const App = () => {
       <Skills />
       <Activities />
       <Achievements />
-      {/* <Articles /> Non-active for now */}
+      <Articles />
       <Contact />
       <ScrollToTopButton />
       <Footer />

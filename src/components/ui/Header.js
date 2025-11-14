@@ -114,9 +114,9 @@ const Header = ({ isDownloading, handleDownload }) => {
                 <MenuItem as="a" href="#achievements" fontSize="sm">
                   Achievements
                 </MenuItem>
-                {/* <MenuItem as="a" href="#articles" fontSize="sm">
+                <MenuItem as="a" href="#articles" fontSize="sm">
                   Articles
-                </MenuItem> */}
+                </MenuItem>
               </MenuList>
             </Menu>
 
@@ -226,7 +226,7 @@ const Header = ({ isDownloading, handleDownload }) => {
                 >
                   Achievements
                 </Link>
-                {/* <Link
+                <Link
                   href="#articles"
                   fontWeight="500"
                   fontSize="md"
@@ -237,7 +237,7 @@ const Header = ({ isDownloading, handleDownload }) => {
                   transition="color 0.2s"
                 >
                   Articles
-                </Link> */}
+                </Link>
               </Box>
 
               <Box borderTopWidth="1px" borderColor={borderColor} pt={4}>

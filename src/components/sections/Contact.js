@@ -50,8 +50,8 @@ const Contact = () => {
 `;
 
   const bgGradient = useColorModeValue(
-    "linear(to-tr, teal.50, brand.50, blue.100)",
-    "linear(to-tr, teal.900, brand.900, blue.900)"
+    "linear(to-br, teal.50, brand.50, blue.100)",
+    "linear(to-br, teal.900, brand.900, blue.900)"
   );
 
   const handleChange = (e) => {
