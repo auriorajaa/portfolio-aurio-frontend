@@ -6,8 +6,8 @@ import {
   Badge,
   HStack,
   Button,
-  useColorModeValue,
   Flex,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { FiGithub, FiExternalLink } from "react-icons/fi";
@@ -16,10 +16,8 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 const MotionBox = motion(Box);
 
 const ProjectCard = ({ project, delay = 0 }) => {
-  const cardBg = useColorModeValue("white", "#112240");
   const textPrimary = useColorModeValue("gray.800", "#e6f1ff");
   const textSecondary = useColorModeValue("gray.600", "#b8bfd3ff");
-  const borderColor = useColorModeValue("gray.200", "#1e3a5f");
 
   return (
     <MotionBox
@@ -31,18 +29,23 @@ const ProjectCard = ({ project, delay = 0 }) => {
     >
       <Box
         borderWidth="1px"
-        borderColor={borderColor}
+        borderColor="rgba(255,255,255,0.2)"
         borderRadius="xl"
         overflow="hidden"
-        bg={cardBg}
         h="100%"
         display="flex"
         flexDirection="column"
         transition="all 0.3s ease-in-out"
+        bg={useColorModeValue(
+          "rgba(255, 255, 255, 0.35)",
+          "rgba(17, 34, 64, 0.35)"
+        )}
+        backdropFilter="blur(14px)"
+        boxShadow="0 4px 30px rgba(0,0,0,0.1)"
         _hover={{
           transform: "translateY(-6px)",
           shadow: "xl",
-          borderColor: "brand.500",
+          borderColor: "rgba(255,255,255,0.45)",
         }}
       >
         {/* Image */}
@@ -51,6 +54,7 @@ const ProjectCard = ({ project, delay = 0 }) => {
           overflow="hidden"
           role="group"
           h={{ base: "180px", md: "200px" }}
+          flexShrink={0}
         >
           <LazyLoadImage
             src={project.image}
@@ -107,7 +111,8 @@ const ProjectCard = ({ project, delay = 0 }) => {
         </Box>
 
         {/* Content */}
-        <Flex direction="column" p={{ base: 4, md: 5 }} flex="1">
+        <Flex direction="column" p={{ base: 4, md: 5 }} flex="1" minH="0">
+          {/* Title */}
           <Heading
             as="h3"
             fontSize={{ base: "lg", md: "xl" }}
@@ -115,36 +120,58 @@ const ProjectCard = ({ project, delay = 0 }) => {
             color={textPrimary}
             fontWeight="semibold"
             lineHeight="short"
+            noOfLines={2}
+            minH={{ base: "2rem", md: "2rem" }}
           >
             {project.title}
           </Heading>
 
+          {/* Description */}
           <Text
             color={textSecondary}
             fontSize={{ base: "sm", md: "md" }}
             mb={4}
             lineHeight="1.7"
-            flex="1"
+            noOfLines={3}
+            minH={{ base: "4rem", md: "4.5rem" }}
           >
             {project.description}
           </Text>
 
           {/* Tags */}
-          <HStack spacing={2} flexWrap="wrap" mb={4}>
-            {project.tags.map((tag, i) => (
-              <Badge
-                key={i}
-                colorScheme="brand"
-                variant="subtle"
-                fontSize={{ base: "xs", md: "sm" }}
-                px={2.5}
-                py="3px"
-                borderRadius="md"
-              >
-                {tag}
-              </Badge>
-            ))}
-          </HStack>
+          <Box mb={4} minH="2rem">
+            <HStack spacing={2} flexWrap="wrap">
+              {project.tags.slice(0, 5).map((tag, i) => (
+                <Badge
+                  key={i}
+                  colorScheme="gray.100"
+                  variant="subtle"
+                  fontSize={{ base: "xs", md: "sm" }}
+                  px={2.5}
+                  py="3px"
+                  borderRadius="md"
+                  bg="rgba(255,255,255,0.25)"
+                  backdropFilter="blur(6px)"
+                >
+                  {tag}
+                </Badge>
+              ))}
+              {project.tags.length > 5 && (
+                <Badge
+                  colorScheme="gray"
+                  variant="subtle"
+                  fontSize={{ base: "xs", md: "sm" }}
+                  px={2.5}
+                  py="3px"
+                  borderRadius="md"
+                  bg="rgba(255,255,255,0.25)"
+                  backdropFilter="blur(6px)"
+                >
+                  +{project.tags.length - 5}
+                </Badge>
+              )}
+            </HStack>
+          </Box>
 
           {/* Action Buttons */}
           <HStack spacing={3} mt="auto" flexWrap="wrap">

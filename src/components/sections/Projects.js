@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import {
   Box,
   Container,
@@ -10,34 +11,36 @@ import {
   SimpleGrid,
   HStack,
   Button,
-  IconButton,
 } from "@chakra-ui/react";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+
 import ProjectCard from "../ui/ProjectCard";
 import { projects } from "../../data/portfolioData";
 
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
 const Projects = () => {
   const [activeFilter, setActiveFilter] = useState("all");
-  const [currentPage, setCurrentPage] = useState(0);
   const [showAll, setShowAll] = useState(false);
 
   const textPrimary = useColorModeValue("gray.800", "white");
   const textSecondary = useColorModeValue("gray.600", "gray.400");
-  const chevronBg = useColorModeValue("white", "#112240");
-  const chevronHoverBg = useColorModeValue("gray.50", "#1a2942");
 
   const floatingAnimation = keyframes`
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(5deg); }
-`;
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+  `;
 
   const bgGradient = useColorModeValue(
     "linear(to-tr, teal.50, brand.50, blue.100)",
     "linear(to-tr, teal.900, brand.900, blue.900)"
   );
 
-  const ITEMS_PER_PAGE_DESKTOP = 6;
-  const ITEMS_PER_PAGE_TABLET = 4;
   const ITEMS_PER_PAGE_MOBILE = 3;
 
   const filteredProjects =
@@ -45,64 +48,19 @@ const Projects = () => {
       ? projects
       : projects.filter((p) => p.tags.includes(activeFilter));
 
-  // Reset pagination when filter changes
   const handleFilterChange = (filterKey) => {
     setActiveFilter(filterKey);
-    setCurrentPage(0);
     setShowAll(false);
   };
 
-  // Desktop pagination
-  const totalPagesDesktop = Math.ceil(
-    filteredProjects.length / ITEMS_PER_PAGE_DESKTOP
-  );
-  const totalPagesTablet = Math.ceil(
-    filteredProjects.length / ITEMS_PER_PAGE_TABLET
-  );
-  const startIndexDesktop = currentPage * ITEMS_PER_PAGE_DESKTOP;
-  const endIndexDesktop = startIndexDesktop + ITEMS_PER_PAGE_DESKTOP;
-  const startIndexTablet = currentPage * ITEMS_PER_PAGE_TABLET;
-  const endIndexTablet = startIndexTablet + ITEMS_PER_PAGE_TABLET;
-  const currentProjectsDesktop = filteredProjects.slice(
-    startIndexDesktop,
-    endIndexDesktop
-  );
-  const currentProjectsTablet = filteredProjects.slice(
-    startIndexTablet,
-    endIndexTablet
-  );
-
-  // Mobile pagination
   const visibleMobileCount = showAll
     ? filteredProjects.length
     : ITEMS_PER_PAGE_MOBILE;
+
   const mobileProjects = filteredProjects.slice(0, visibleMobileCount);
-
-  const handlePrevPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-      // Scroll to projects section
-      document
-        .getElementById("projects")
-        ?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
-
-  const handleNextPage = () => {
-    const totalPages =
-      window.innerWidth >= 1024 ? totalPagesDesktop : totalPagesTablet;
-    if (currentPage < totalPages - 1) {
-      setCurrentPage(currentPage + 1);
-      // Scroll to projects section
-      document
-        .getElementById("projects")
-        ?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
 
   const handleShowLess = () => {
     setShowAll(false);
-    // Scroll to projects section
     setTimeout(() => {
       document
         .getElementById("projects")
@@ -126,7 +84,7 @@ const Projects = () => {
       position="relative"
       overflow="hidden"
     >
-      {/* Decorative Blobs */}
+      {/* FLOATING BLOBS */}
       <Box
         position="absolute"
         top="10%"
@@ -139,6 +97,7 @@ const Projects = () => {
         filter="blur(80px)"
         animation={`${floatingAnimation} 13s ease-in-out infinite`}
       />
+
       <Box
         position="absolute"
         bottom="20%"
@@ -151,18 +110,19 @@ const Projects = () => {
         filter="blur(70px)"
         animation={`${floatingAnimation} 17s ease-in-out infinite reverse`}
       />
+
       <Container
         maxW="container.xl"
         px={{
-          base: 4, // 1rem (mobile) → pas buat HP kecil
-          sm: 6, // 1.5rem (sedikit lega di HP besar)
-          md: 10, // 2.5rem (tablet biar gak nabrak tapi gak keluar layar)
-          lg: 16, // 4rem (desktop normal)
-          xl: 18, // 5rem (layar lebar)
+          base: 4,
+          sm: 6,
+          md: 10,
+          lg: 16,
+          xl: 18,
         }}
       >
         <VStack spacing={{ base: 8, md: 10, lg: 12 }}>
-          {/* Heading */}
+          {/* TITLE */}
           <VStack spacing={4} textAlign="center" pt={{ base: 4, md: 6 }}>
             <Heading
               as="h2"
@@ -172,6 +132,7 @@ const Projects = () => {
             >
               Featured Projects
             </Heading>
+
             <Text
               color={textSecondary}
               maxW="700px"
@@ -183,7 +144,7 @@ const Projects = () => {
             </Text>
           </VStack>
 
-          {/* Filter Buttons */}
+          {/* FILTER BUTTONS */}
           <HStack
             spacing={{ base: 2, md: 3 }}
             wrap="wrap"
@@ -208,195 +169,95 @@ const Projects = () => {
             ))}
           </HStack>
 
-          {/* Desktop View with Chevron Navigation */}
+          {/* DESKTOP SWIPER (3 columns × 2 rows) */}
           <Box
             w="100%"
-            position="relative"
             display={{ base: "none", lg: "block" }}
+            sx={{
+              ".swiper": { paddingBottom: "50px" },
+              ".swiper-pagination-bullet": {
+                bg: "gray.300",
+                opacity: 1,
+              },
+              ".swiper-pagination-bullet-active": {
+                bg: "brand.500",
+                width: "24px",
+                borderRadius: "4px",
+              },
+            }}
           >
-            {/* Left Chevron */}
-            {currentPage > 0 && (
-              <IconButton
-                icon={<FiChevronLeft />}
-                aria-label="Previous page"
-                position="absolute"
-                left={{ base: "-80px", xl: "-80px" }}
-                top="50%"
-                transform="translateY(-50%)"
-                size="md"
-                colorScheme="brand"
-                variant="solid"
-                bg={chevronBg}
-                borderWidth="1px"
-                borderColor="brand.500"
-                color="brand.500"
-                _hover={{
-                  bg: chevronHoverBg,
-                  transform: "translateY(-50%) scale(1.1)",
-                }}
-                onClick={handlePrevPage}
-                zIndex={2}
-                boxShadow="lg"
-              />
-            )}
-
-            {/* Grid */}
-            <SimpleGrid
-              columns={3}
-              spacing={{ base: 6, md: 8 }}
-              w="100%"
-              alignItems="stretch"
+            <Swiper
+              modules={[Pagination]}
+              spaceBetween={0}
+              slidesPerView={1}
+              pagination={{ clickable: true }}
+              key={activeFilter}
             >
-              {currentProjectsDesktop.map((project, i) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  delay={i * 0.1}
-                />
-              ))}
-            </SimpleGrid>
-
-            {/* Right Chevron */}
-            {currentPage < totalPagesDesktop - 1 && (
-              <IconButton
-                icon={<FiChevronRight />}
-                aria-label="Next page"
-                position="absolute"
-                right={{ base: "-80px", xl: "-80px" }}
-                top="50%"
-                transform="translateY(-50%)"
-                size="md"
-                colorScheme="brand"
-                variant="solid"
-                bg={chevronBg}
-                borderWidth="1px"
-                borderColor="brand.500"
-                color="brand.500"
-                _hover={{
-                  bg: chevronHoverBg,
-                  transform: "translateY(-50%) scale(1.1)",
-                }}
-                onClick={handleNextPage}
-                zIndex={2}
-                boxShadow="lg"
-              />
-            )}
-
-            {/* Page Indicator */}
-            {totalPagesDesktop > 1 && (
-              <HStack justify="center" mt={8} spacing={2}>
-                {Array.from({ length: totalPagesDesktop }).map((_, index) => (
+              {Array.from({
+                length: Math.ceil(filteredProjects.length / 6),
+              }).map((_, slideIndex) => (
+                <SwiperSlide key={slideIndex}>
                   <Box
-                    key={index}
-                    w={currentPage === index ? "24px" : "8px"}
-                    h="8px"
-                    bg={currentPage === index ? "brand.500" : "gray.300"}
-                    borderRadius="full"
-                    transition="all 0.3s ease"
-                    cursor="pointer"
-                    onClick={() => setCurrentPage(index)}
-                    _hover={{ bg: "brand.400" }}
-                  />
-                ))}
-              </HStack>
-            )}
+                    px={4}
+                    display="grid"
+                    gridTemplateColumns="repeat(3, 1fr)"
+                    gridTemplateRows="repeat(2, 1fr)"
+                    gap={6}
+                  >
+                    {filteredProjects
+                      .slice(slideIndex * 6, slideIndex * 6 + 6)
+                      .map((project, i) => (
+                        <Box key={project.id} h="100%">
+                          <ProjectCard project={project} delay={i * 0.1} />
+                        </Box>
+                      ))}
+                  </Box>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </Box>
 
-          {/* Tablet View with Chevron Navigation (2 columns) */}
+          {/* TABLET (2 columns) */}
           <Box
             w="100%"
-            position="relative"
             display={{ base: "none", md: "block", lg: "none" }}
+            sx={{
+              ".swiper": { paddingBottom: "50px" },
+              ".swiper-button-next, .swiper-button-prev": {
+                color: "brand.500",
+                "&:after": {
+                  fontSize: "28px",
+                  fontWeight: "bold",
+                },
+              },
+              ".swiper-pagination-bullet": {
+                bg: "gray.300",
+                opacity: 1,
+              },
+              ".swiper-pagination-bullet-active": {
+                bg: "brand.500",
+                width: "24px",
+                borderRadius: "4px",
+              },
+            }}
           >
-            {/* Left Chevron */}
-            {currentPage > 0 && (
-              <IconButton
-                icon={<FiChevronLeft />}
-                aria-label="Previous page"
-                position="absolute"
-                left="-50px"
-                top="50%"
-                transform="translateY(-50%)"
-                size="lg"
-                colorScheme="brand"
-                variant="solid"
-                bg={chevronBg}
-                borderWidth="1px"
-                borderColor="brand.500"
-                color="brand.500"
-                _hover={{
-                  bg: chevronHoverBg,
-                  transform: "translateY(-50%) scale(1.1)",
-                }}
-                onClick={handlePrevPage}
-                zIndex={2}
-                boxShadow="lg"
-              />
-            )}
-
-            {/* Grid */}
-            <SimpleGrid
-              columns={2}
-              spacing={{ base: 6, md: 8 }}
-              w="100%"
-              alignItems="stretch"
+            <Swiper
+              modules={[Navigation, Pagination]}
+              spaceBetween={28} // 🔥 jarak antar card tablet
+              slidesPerView={2}
+              navigation
+              pagination={{ clickable: true }}
+              key={activeFilter}
             >
-              {currentProjectsTablet.map((project, i) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  delay={i * 0.1}
-                />
+              {filteredProjects.map((project, i) => (
+                <SwiperSlide key={project.id}>
+                  <ProjectCard project={project} delay={i * 0.1} />
+                </SwiperSlide>
               ))}
-            </SimpleGrid>
-
-            {/* Right Chevron */}
-            {currentPage < totalPagesTablet - 1 && (
-              <IconButton
-                icon={<FiChevronRight />}
-                aria-label="Next page"
-                position="absolute"
-                right="-50px"
-                top="50%"
-                transform="translateY(-50%)"
-                size="lg"
-                colorScheme="brand"
-                variant="solid"
-                bg={chevronBg}
-                borderWidth="1px"
-                borderColor="brand.500"
-                color="brand.500"
-                _hover={{
-                  bg: chevronHoverBg,
-                  transform: "translateY(-50%) scale(1.1)",
-                }}
-                onClick={handleNextPage}
-                zIndex={2}
-                boxShadow="lg"
-              />
-            )}
-
-            {/* Page Indicator */}
-            {totalPagesTablet > 1 && (
-              <HStack justify="center" mt={8} spacing={2}>
-                {Array.from({ length: totalPagesTablet }).map((_, index) => (
-                  <Box
-                    key={index}
-                    w={currentPage === index ? "24px" : "8px"}
-                    h="8px"
-                    bg={currentPage === index ? "brand.500" : "gray.300"}
-                    borderRadius="full"
-                    transition="all 0.3s ease"
-                    cursor="pointer"
-                    onClick={() => setCurrentPage(index)}
-                    _hover={{ bg: "brand.400" }}
-                  />
-                ))}
-              </HStack>
-            )}
+            </Swiper>
           </Box>
 
-          {/* Mobile View with Load More */}
+          {/* MOBILE */}
           <Box w="100%" display={{ base: "block", md: "none" }}>
             <SimpleGrid columns={1} spacing={{ base: 6, md: 8 }} w="100%">
               {mobileProjects.map((project, i) => (
@@ -408,7 +269,7 @@ const Projects = () => {
               ))}
             </SimpleGrid>
 
-            {/* Load More / Show Less Button */}
+            {/* LOAD MORE */}
             {filteredProjects.length > ITEMS_PER_PAGE_MOBILE && (
               <HStack justify="center" mt={8}>
                 <Button

@@ -26,7 +26,7 @@ const ActivityCard = ({ activity }) => {
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
       width="100%"
-      h="100%" // âœ… biar semua card punya tinggi sama dalam grid
+      h="100%"
     >
       <Box
         bg={cardBg}
