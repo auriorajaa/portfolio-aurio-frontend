@@ -146,6 +146,17 @@ export const projects = [
       "https://repository-images.githubusercontent.com/915189640/7faab232-d2fa-4377-9dd6-fc0cc4f23ea2",
     github: "https://github.com/auriorajaa/social_lib",
   },
+  {
+    id: 6,
+    title: "Smart Investment App Finder",
+    description:
+      "Smart Investment App Finder is a user-friendly web platform designed to help individuals—especially beginner investors—make smarter and more informed investment decisions.",
+    tags: ["html", "tailwind-css", "javascript"],
+    image:
+      "https://repository-images.githubusercontent.com/829793467/a9390949-beef-4285-b7ce-6c536a91c4a8",
+    github: "https://github.com/auriorajaa/web-penentuan-app-invest",
+    website: "https://web-penentuan-app-invest.vercel.app/",
+  },
 ];
 
 export const achievements = [

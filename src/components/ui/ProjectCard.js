@@ -90,17 +90,17 @@ const ProjectCard = ({ project, delay = 0 }) => {
                 Code
               </Button>
             )}
-            {project.link && (
+            {project.website && (
               <Button
                 as="a"
-                href={project.link}
+                href={project.website}
                 target="_blank"
                 rel="noopener noreferrer"
                 leftIcon={<FiExternalLink />}
                 colorScheme="whiteAlpha"
                 size={{ base: "sm", md: "md" }}
               >
-                Demo
+                Visit
               </Button>
             )}
           </Flex>
@@ -163,10 +163,10 @@ const ProjectCard = ({ project, delay = 0 }) => {
                 GitHub
               </Button>
             )}
-            {project.link && (
+            {project.website && (
               <Button
                 as="a"
-                href={project.link}
+                href={project.website}
                 target="_blank"
                 rel="noopener noreferrer"
                 size={{ base: "sm", md: "md" }}
@@ -175,7 +175,7 @@ const ProjectCard = ({ project, delay = 0 }) => {
                 colorScheme="brand"
                 fontSize={{ base: "xs", md: "sm" }}
               >
-                Demo
+                Visit Website
               </Button>
             )}
           </HStack>
