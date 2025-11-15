@@ -49,11 +49,14 @@ const TimelineNode = ({
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
       position="relative"
+      align="center"
+      minW={{ base: "auto", md: "0" }}
     >
       <MotionBox
         position="relative"
         w={{ base: "70px", md: "80px" }}
         h={{ base: "70px", md: "80px" }}
+        flexShrink={0}
         borderRadius="full"
         bg={cardBg}
         borderWidth="3px"
@@ -66,7 +69,6 @@ const TimelineNode = ({
         overflow="hidden"
         animate={{
           scale: isSelected ? 1.15 : isHovered ? 1.05 : 1,
-          y: isSelected ? -5 : 0,
         }}
         transition={{ duration: 0.3 }}
         shadow={isSelected ? "xl" : "md"}
@@ -102,14 +104,17 @@ const TimelineNode = ({
           <FiBriefcase size={30} color="var(--chakra-colors-brand-500)" />
         )}
       </MotionBox>
-      <VStack spacing={2} maxW="160px">
+      <VStack spacing={2} w="100%" align="center" px={2}>
         <Text
-          fontSize={{ base: "md", md: "lg" }}
+          fontSize={{ base: "sm", md: "md" }}
           fontWeight={isSelected ? "bold" : "600"}
           color={isSelected ? "brand.500" : textSecondary}
           textAlign="center"
-          noOfLines={2}
           transition="all 0.3s"
+          wordBreak="break-word"
+          hyphens="auto"
+          lineHeight="1.3"
+          w="100%"
         >
           {exp.company}
         </Text>
@@ -117,7 +122,10 @@ const TimelineNode = ({
           fontSize="xs"
           color={textSecondary}
           textAlign="center"
-          lineHeight="1.3"
+          lineHeight="1.2"
+          wordBreak="keep-all"
+          whiteSpace="nowrap"
+          w="100%"
         >
           {exp.period}
         </Text>
@@ -211,6 +219,7 @@ const ExperienceDetailPanel = ({ experience, index }) => {
                   color={textPrimary}
                   fontWeight="bold"
                   lineHeight="1.2"
+                  wordBreak="break-word"
                 >
                   {experience.position}
                 </Heading>
@@ -221,6 +230,7 @@ const ExperienceDetailPanel = ({ experience, index }) => {
                   fontSize={{ base: "md", md: "lg" }}
                   fontWeight="700"
                   color="brand.500"
+                  wordBreak="break-word"
                 >
                   {experience.company}
                 </Text>
@@ -231,6 +241,7 @@ const ExperienceDetailPanel = ({ experience, index }) => {
                     px={3}
                     py={1}
                     borderRadius="full"
+                    flexShrink={0}
                   >
                     {experience.type}
                   </Badge>
@@ -362,7 +373,7 @@ const ExperienceDetailPanel = ({ experience, index }) => {
 };
 
 const ExperienceCard = ({ experiences }) => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(experiences.length - 1);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const borderColor = useColorModeValue("gray.200", "gray.700");
@@ -371,7 +382,7 @@ const ExperienceCard = ({ experiences }) => {
     <VStack spacing={12} w="100%">
       {/* Timeline Navigation */}
       <Box w="100%" position="relative" py={8}>
-        {/* Connection Line */}
+        {/* Connection Line - Hidden now */}
         <Box
           position="absolute"
           top="50%"
@@ -380,10 +391,10 @@ const ExperienceCard = ({ experiences }) => {
           h="2px"
           bg={borderColor}
           transform="translateY(-50%)"
-          display={{ base: "none", md: "block" }}
+          display="none"
         />
 
-        {/* Progress Line */}
+        {/* Progress Line - Hidden now */}
         <MotionBox
           position="absolute"
           top="50%"
@@ -396,15 +407,17 @@ const ExperienceCard = ({ experiences }) => {
             width: `${(selectedIndex / (experiences.length - 1)) * 100}%`,
           }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          display={{ base: "none", md: "block" }}
+          display="none"
         />
 
         {/* Timeline Nodes */}
         <Flex
-          justify="space-between"
+          justify="space-evenly"
           position="relative"
-          flexDirection={{ base: "column", md: "row" }}
-          gap={{ base: 8, md: 0 }}
+          flexDirection={{ base: "column-reverse", md: "row" }}
+          gap={{ base: 8, md: 6 }}
+          flexWrap={{ base: "nowrap", md: "wrap" }}
+          align="stretch"
         >
           {experiences.map((exp, idx) => (
             <TimelineNode

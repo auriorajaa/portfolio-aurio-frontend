@@ -136,18 +136,44 @@ const Experience = () => {
               My professional journey through impactful roles and projects
             </Text>
             {/* Navigation Hint */}
-            <HStack
-              spacing={2}
-              color={textSecondary}
-              fontSize="sm"
-              fontStyle="italic"
-              opacity={0.9}
+            <MotionBox
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              w="100%"
             >
-              <FiChevronDown size={16} />
-              <Text>
-                Click timeline nodes below to explore different experiences
-              </Text>
-            </HStack>
+              <HStack
+                spacing={2}
+                color={textSecondary}
+                fontSize={{ base: "xs", md: "sm" }}
+                justify="center"
+                bg={useColorModeValue("whiteAlpha.700", "blackAlpha.400")}
+                px={{ base: 4, md: 6 }}
+                py={{ base: 2.5, md: 3 }}
+                borderRadius="full"
+                backdropFilter="blur(10px)"
+                borderWidth="1px"
+                borderColor={useColorModeValue("gray.200", "gray.700")}
+                maxW="fit-content"
+                mx="auto"
+                shadow="sm"
+              >
+                <MotionBox
+                  animate={{ y: [0, 3, 0] }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <FiChevronDown size={16} />
+                </MotionBox>
+                <Text fontWeight="500" textAlign="center">
+                  Click timeline nodes to explore different experiences
+                </Text>
+              </HStack>
+            </MotionBox>
           </VStack>
 
           {/* Timeline Experience Component */}
