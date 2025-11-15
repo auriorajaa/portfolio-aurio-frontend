@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Container,
@@ -48,52 +48,12 @@ import {
   FiTool,
   FiServer,
   FiCpu,
-  FiCheckCircle,
 } from "react-icons/fi";
+import { skillDetails } from "../../data/portfolioData";
+import { skillsData } from "../../data/portfolioData";
+import SkillCard from "../ui/skill/SkillCard";
 
 const MotionBox = motion(Box);
-
-// portfolioData structure
-const skillsData = [
-  {
-    category: "Backend",
-    skills: [
-      "Spring Boot REST API",
-      "Django REST Framework",
-      "API Design",
-      "SQL & NoSQL Databases",
-      "Authentication & Security",
-      "Docker & Containerization",
-    ],
-  },
-  {
-    category: "Frontend",
-    skills: [
-      "React.js",
-      "Next.js",
-      "Bootstrap",
-      "Tailwind CSS",
-      "Responsive Design",
-    ],
-  },
-  {
-    category: "Java",
-    skills: [
-      "Core Java",
-      "Spring Framework",
-      "Java Swing",
-      "Native Android Java",
-    ],
-  },
-  {
-    category: "Tools",
-    skills: [
-      "Git & GitHub",
-      "Google Cloud Services",
-      "Technical Documentation",
-    ],
-  },
-];
 
 // Icon mapping
 const skillIconMap = {
@@ -123,112 +83,6 @@ const skillIconMap = {
   "Technical Documentation": SiMarkdown,
 };
 
-// Detailed skill descriptions based on experience and education
-const skillDetails = {
-  "Spring Boot REST API": {
-    level: "Advanced",
-    description:
-      "Built production RESTful APIs for Bank Indonesia's document management system",
-    context: "Primary backend framework for enterprise applications",
-  },
-  "Django REST Framework": {
-    level: "Advanced",
-    description:
-      "Developed multiple full-stack projects including e-commerce and social platforms",
-    context: "Experienced in DRF for rapid API development",
-  },
-  "API Design": {
-    level: "Proficient",
-    description:
-      "Designed scalable REST APIs with proper architecture and documentation",
-    context: "Focus on clean, maintainable API structures",
-  },
-  "SQL & NoSQL Databases": {
-    level: "Proficient",
-    description:
-      "Worked with PostgreSQL, MySQL, Microsoft SQL Server, MongoDB, and Firebase",
-    context: "Database design and optimization for various use cases",
-  },
-  "Authentication & Security": {
-    level: "Proficient",
-    description:
-      "Implemented JWT authentication and secure data handling practices",
-    context: "Security-first approach in backend development",
-  },
-  "Docker & Containerization": {
-    level: "Intermediate",
-    description:
-      "Learned containerization through Bangkit Cloud Computing program",
-    context: "Deployment and environment management",
-  },
-  "React.js": {
-    level: "Advanced",
-    description:
-      "Built multiple responsive frontends with React and modern hooks",
-    context: "Primary choice for interactive UI development",
-  },
-  "Next.js": {
-    level: "Advanced",
-    description:
-      "Created production apps including financial fraud detection platform for Lapis AI",
-    context: "Full-stack React framework with SSR capabilities",
-  },
-  Bootstrap: {
-    level: "Proficient",
-    description:
-      "Used in e-commerce and various web projects for rapid prototyping",
-    context: "Reliable framework for responsive layouts",
-  },
-  "Tailwind CSS": {
-    level: "Advanced",
-    description:
-      "Preferred utility-first CSS framework for modern web applications",
-    context: "Primary styling solution for recent projects",
-  },
-  "Responsive Design": {
-    level: "Advanced",
-    description: "All projects feature mobile-first, responsive interfaces",
-    context: "Essential skill for modern web development",
-  },
-  "Core Java": {
-    level: "Advanced",
-    description:
-      "Strong foundation from CCIT-FTUI and applied in Android and Spring projects",
-    context: "Primary programming language with 3+ years experience",
-  },
-  "Spring Framework": {
-    level: "Advanced",
-    description: "Deep experience with Spring Boot and Spring ecosystem",
-    context: "Go-to framework for enterprise Java applications",
-  },
-  "Java Swing": {
-    level: "Intermediate",
-    description: "Studied desktop application development at CCIT-FTUI",
-    context: "Foundation in Java GUI development",
-  },
-  "Native Android Java": {
-    level: "Proficient",
-    description: "Built Small Circle marketplace app with Firebase integration",
-    context: "Android development with Java and XML",
-  },
-  "Git & GitHub": {
-    level: "Advanced",
-    description:
-      "Version control for all projects with collaborative workflows",
-    context: "Essential tool for professional development",
-  },
-  "Google Cloud Services": {
-    level: "Proficient",
-    description: "Trained through Bangkit Academy program with ML integration",
-    context: "Cloud computing and deployment expertise",
-  },
-  "Technical Documentation": {
-    level: "Proficient",
-    description: "Created comprehensive documentation for APIs and projects",
-    context: "Clear communication of technical concepts",
-  },
-};
-
 const enhanceSkillsData = (data) => {
   const categoryConfig = {
     Backend: { icon: FiServer, color: "green" },
@@ -249,109 +103,6 @@ const enhanceSkillsData = (data) => {
 };
 
 const skillsDataEnhanced = enhanceSkillsData(skillsData);
-
-const SkillCard = ({ skill, categoryColor }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const cardBg = useColorModeValue("white", "gray.800");
-  const borderColor = useColorModeValue("gray.200", "gray.700");
-  const textPrimary = useColorModeValue("gray.800", "white");
-  const textSecondary = useColorModeValue("gray.600", "gray.400");
-  const hoverBg = useColorModeValue(
-    `${categoryColor}.50`,
-    `${categoryColor}.900`
-  );
-
-  const levelColors = {
-    Advanced: "green",
-    Proficient: "blue",
-    Intermediate: "orange",
-  };
-
-  return (
-    <MotionBox
-      initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.3 }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-    >
-      <Box
-        bg={cardBg}
-        borderWidth="2px"
-        borderColor={isHovered ? `${categoryColor}.400` : borderColor}
-        borderRadius="xl"
-        p={{ base: 4, md: 5 }}
-        h="100%"
-        transition="all 0.3s ease"
-        _hover={{
-          transform: "translateY(-4px)",
-          shadow: "xl",
-          bg: hoverBg,
-        }}
-        cursor="pointer"
-      >
-        <VStack spacing={3} align="stretch" h="100%">
-          <HStack spacing={3} justify="space-between">
-            <HStack spacing={3} flex={1}>
-              <Box
-                p={2}
-                bg={`${categoryColor}.100`}
-                borderRadius="lg"
-                color={`${categoryColor}.600`}
-              >
-                <Icon as={skill.icon} boxSize={{ base: 5, md: 6 }} />
-              </Box>
-              <Text
-                fontSize={{ base: "sm", md: "md" }}
-                fontWeight="700"
-                color={textPrimary}
-                noOfLines={1}
-              >
-                {skill.name}
-              </Text>
-            </HStack>
-            <Badge
-              colorScheme={levelColors[skill.level]}
-              fontSize="xs"
-              px={2}
-              py={1}
-              borderRadius="md"
-            >
-              {skill.level}
-            </Badge>
-          </HStack>
-
-          <VStack spacing={2} align="stretch" flex={1}>
-            <Text
-              fontSize={{ base: "xs", md: "sm" }}
-              color={textSecondary}
-              fontWeight="500"
-              lineHeight="tall"
-            >
-              {skill.description}
-            </Text>
-            <HStack spacing={2}>
-              <Icon
-                as={FiCheckCircle}
-                color={`${categoryColor}.500`}
-                boxSize={3}
-              />
-              <Text
-                fontSize="xs"
-                color={textSecondary}
-                fontStyle="italic"
-                fontWeight="500"
-              >
-                {skill.context}
-              </Text>
-            </HStack>
-          </VStack>
-        </VStack>
-      </Box>
-    </MotionBox>
-  );
-};
 
 const CategorySection = ({ category }) => {
   const textPrimary = useColorModeValue("gray.800", "white");

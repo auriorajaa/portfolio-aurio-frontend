@@ -33,8 +33,8 @@ const theme = extendTheme({
   },
   fonts: {
     heading:
-      "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-    body: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+      "'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    body: "'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
   },
   styles: {
     global: (props) => ({

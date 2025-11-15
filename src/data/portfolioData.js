@@ -1,3 +1,4 @@
+// src/data/portfolioData.js
 export const personalInfo = {
   name: "Aurio Rajaa",
   title: "Software Engineer",
@@ -5,19 +6,30 @@ export const personalInfo = {
   github: "https://github.com/auriorajaa",
   linkedin: "https://linkedin.com/in/auriorajaa",
   location: "Jakarta, Indonesia",
-  bio: "Java developer focused on building backend using Spring Boot. Experienced in creating modern and responsive user interfaces, using React or Next.js. Currently studying at Polytechnic State of Jakarta.",
+  bio: "Backend developer specializing in Spring Boot and Java ecosystem. Building robust RESTful APIs and microservices. Also experienced with Django and modern frontend technologies like React and Next.js.",
 };
 
+// Formal Education (Degree Programs)
 export const educationData = [
   {
     title: "Polytechnic State of Jakarta",
     period: "2022 - Present",
     gpa: "3.50/4.0",
     major: "Informatics Engineering",
+    degree: "Bachelor's Applied Science",
     status: "Current",
+    type: "formal",
     description:
-      "Studied the theoretical foundations of Informatics Engineering, including web programming and core computer science principles.",
+      "Pursuing a 4-year Applied Bachelor's degree focusing on practical software engineering. Studying advanced web programming, software architecture, database systems, and modern development practices.",
     achievements: [],
+    courses: [
+      "Web Programming",
+      "Data Structures & Algorithms",
+      "Database Management",
+      "Software Engineering",
+      "Mobile Development",
+      "Cloud Computing",
+    ],
     logo: "https://upload.wikimedia.org/wikipedia/id/1/16/Logo_Politeknik_Negeri_Jakarta.jpg",
     color: "blue",
   },
@@ -26,30 +38,82 @@ export const educationData = [
     period: "2022 - 2024",
     gpa: "3.40/4.0",
     major: "Software Engineering",
+    degree: "Diploma",
     status: "Completed",
+    type: "formal",
     description:
-      "Focused on Java programming, Android Java, web programming, data structures, databases, and other software development fundamentals.",
+      "Completed a 2-year intensive Diploma program specializing in software development fundamentals. Gained strong foundation in Java programming, Android development, and software engineering principles.",
     achievements: ["3rd Place, Huawei Cloud Computing National Competition"],
+    courses: [
+      "Java Programming",
+      "Android Development",
+      "Web Development",
+      "Data Structures",
+      "Database Systems",
+      "Object-Oriented Programming",
+    ],
     logo: "https://ugc.production.linktr.ee/kCHG0PVQMqOZi8NZ4cUi_xQINymaf0G7A8EAG",
     color: "purple",
   },
+];
+
+// Certifications & Bootcamps
+export const certificationsData = [
   {
     title: "Bangkit Academy - Studi Independen (MSIB)",
     period: "July 2024 - December 2024",
-    gpa: "89/100",
-    major: "Cloud Computing",
+    score: "89/100",
+    major: "Cloud Computing Learning Path",
     status: "Completed",
+    type: "bootcamp",
     description:
-      "Learned backend API development, integrating machine learning with Google Cloud Services, and various cloud computing practices.",
-    achievements: [],
+      "Intensive 6-month industry-led bootcamp by Google, Tokopedia, Gojek & Traveloka. Specialized in backend API development, machine learning integration with Google Cloud Platform, and production-grade cloud architecture.",
+    achievements: [
+      "Top Graduate Performance (89/100)",
+      "Capstone Project: SmartFit: AI-Powered Outfit Advisor & Personal Color Analysis",
+    ],
+    skills: [
+      "Google Cloud Platform",
+      "Backend API Development",
+      "ML Integration",
+      "Docker & Kubernetes",
+      "CI/CD Pipeline",
+      "Cloud Architecture",
+    ],
     logo: "https://files.klob.id/public/mig01/l32ovhf5/channels4_profile.jpg",
     color: "green",
   },
 ];
 
+// Combined for statistics
+export const allEducation = [...educationData, ...certificationsData];
+
 export const experienceData = [
   {
     id: 1,
+    company: "Lapis AI",
+    position: "Full-Stack Developer",
+    period: "March 2025 – June 2025",
+    location: "Remote",
+    type: "Project-based",
+    description: [
+      "Collaborated with Politeknik Negeri Jakarta on a semester-long case study project to build a financial fraud detection platform",
+      "Developed web interface using Next.js and TypeScript with responsive design and intuitive user experience",
+      "Built backend APIs for secure transaction data processing and real-time fraud detection",
+      "Integrated machine learning models to detect credit card fraud patterns and analyze financial news sentiment",
+    ],
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "Python",
+      "Machine Learning",
+      "REST API",
+      "PostgreSQL",
+    ],
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd8qo9qDztSBaKj3LILH_nASuBxJMXTowRfg&s",
+  },
+  {
+    id: 2,
     company: "Bank Indonesia",
     position: "Software Engineer Intern",
     period: "August 2025 – December 2025",
@@ -70,29 +134,6 @@ export const experienceData = [
       "Tailwind CSS",
     ],
     logo: "https://images.seeklogo.com/logo-png/62/1/bank-indonesia-logo-png_seeklogo-622136.png",
-  },
-  {
-    id: 2,
-    company: "Lapis AI",
-    position: "Full-Stack Developer",
-    period: "March 2025 – June 2025",
-    location: "Remote",
-    type: "Project-based",
-    description: [
-      "Collaborated with Politeknik Negeri Jakarta on a semester-long case study project to build a financial fraud detection platform",
-      "Developed web interface using Next.js and TypeScript with responsive design and intuitive user experience",
-      "Built backend APIs for secure transaction data processing and real-time fraud detection",
-      "Integrated machine learning models to detect credit card fraud patterns and analyze financial news sentiment",
-    ],
-    technologies: [
-      "Next.js",
-      "TypeScript",
-      "Python",
-      "Machine Learning",
-      "REST API",
-      "PostgreSQL",
-    ],
-    logo: "https://media.licdn.com/dms/image/v2/D560BAQH3FwcWS8ixYw/company-logo_200_200/company-logo_200_200/0/1692457716166?e=1764806400&v=beta&t=bdRHALfTrtAFg8fgomj6myVbivClbJVXw0QDKDWZ_AY",
   },
 ];
 
@@ -219,7 +260,7 @@ export const universityActivities = [
 
 export const skillsData = [
   {
-    category: "Backend Development",
+    category: "Backend",
     skills: [
       "Spring Boot REST API",
       "Django REST Framework",
@@ -230,7 +271,7 @@ export const skillsData = [
     ],
   },
   {
-    category: "Frontend Development",
+    category: "Frontend",
     skills: [
       "React.js",
       "Next.js",
@@ -240,7 +281,7 @@ export const skillsData = [
     ],
   },
   {
-    category: "Java Development",
+    category: "Java",
     skills: [
       "Core Java",
       "Spring Framework",
@@ -249,7 +290,7 @@ export const skillsData = [
     ],
   },
   {
-    category: "Tools & Workflow",
+    category: "Tools",
     skills: [
       "Git & GitHub",
       "Google Cloud Services",
@@ -257,6 +298,112 @@ export const skillsData = [
     ],
   },
 ];
+
+// Detailed skill descriptions based on experience and education
+export const skillDetails = {
+  "Spring Boot REST API": {
+    level: "Advanced",
+    description:
+      "Built production RESTful APIs for Bank Indonesia's document management system",
+    context: "Primary backend framework for enterprise applications",
+  },
+  "Django REST Framework": {
+    level: "Advanced",
+    description:
+      "Developed multiple full-stack projects including e-commerce and social platforms",
+    context: "Experienced in DRF for rapid API development",
+  },
+  "API Design": {
+    level: "Proficient",
+    description:
+      "Designed scalable REST APIs with proper architecture and documentation",
+    context: "Focus on clean, maintainable API structures",
+  },
+  "SQL & NoSQL Databases": {
+    level: "Proficient",
+    description:
+      "Worked with PostgreSQL, MySQL, Microsoft SQL Server, MongoDB, and Firebase",
+    context: "Database design and optimization for various use cases",
+  },
+  "Authentication & Security": {
+    level: "Proficient",
+    description:
+      "Implemented JWT authentication and secure data handling practices",
+    context: "Security-first approach in backend development",
+  },
+  "Docker & Containerization": {
+    level: "Intermediate",
+    description:
+      "Learned containerization through Bangkit Cloud Computing program",
+    context: "Deployment and environment management",
+  },
+  "React.js": {
+    level: "Advanced",
+    description:
+      "Built multiple responsive frontends with React and modern hooks",
+    context: "Primary choice for interactive UI development",
+  },
+  "Next.js": {
+    level: "Advanced",
+    description:
+      "Created production apps including financial fraud detection platform for Lapis AI",
+    context: "Full-stack React framework with SSR capabilities",
+  },
+  Bootstrap: {
+    level: "Proficient",
+    description:
+      "Used in e-commerce and various web projects for rapid prototyping",
+    context: "Reliable framework for responsive layouts",
+  },
+  "Tailwind CSS": {
+    level: "Advanced",
+    description:
+      "Preferred utility-first CSS framework for modern web applications",
+    context: "Primary styling solution for recent projects",
+  },
+  "Responsive Design": {
+    level: "Advanced",
+    description: "All projects feature mobile-first, responsive interfaces",
+    context: "Essential skill for modern web development",
+  },
+  "Core Java": {
+    level: "Advanced",
+    description:
+      "Strong foundation from CCIT-FTUI and applied in Android and Spring projects",
+    context: "Primary programming language with 3+ years experience",
+  },
+  "Spring Framework": {
+    level: "Advanced",
+    description: "Deep experience with Spring Boot and Spring ecosystem",
+    context: "Go-to framework for enterprise Java applications",
+  },
+  "Java Swing": {
+    level: "Intermediate",
+    description: "Studied desktop application development at CCIT-FTUI",
+    context: "Foundation in Java GUI development",
+  },
+  "Native Android Java": {
+    level: "Proficient",
+    description: "Built Small Circle marketplace app with Firebase integration",
+    context: "Android development with Java and XML",
+  },
+  "Git & GitHub": {
+    level: "Advanced",
+    description:
+      "Version control for all projects with collaborative workflows",
+    context: "Essential tool for professional development",
+  },
+  "Google Cloud Services": {
+    level: "Proficient",
+    description: "Trained through Bangkit Academy program with ML integration",
+    context: "Cloud computing and deployment expertise",
+  },
+  "Technical Documentation": {
+    level: "Proficient",
+    description: "Created comprehensive documentation for APIs and projects",
+    context: "Clear communication of technical concepts",
+  },
+};
 
 export const articlesData = [
   {

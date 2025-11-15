@@ -14,8 +14,8 @@ import {
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { categories, articlesData } from "../../data/articlesData";
-import RegularArticleCard from "../ui/RegularArticleCard";
-import TextOnlyArticleCard from "../ui/TextOnlyArticleCard";
+import RegularArticleCard from "../ui/article/RegularArticleCard";
+import TextOnlyArticleCard from "../ui/article/TextOnlyArticleCard";
 
 const MotionBox = motion(Box);
 

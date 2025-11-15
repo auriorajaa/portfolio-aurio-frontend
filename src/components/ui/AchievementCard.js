@@ -186,13 +186,7 @@ const AchievementCard = ({ achievement }) => {
               display="flex"
               alignItems="center"
               gap={1}
-              opacity={0}
-              transform="translateY(10px)"
-              transition="all 0.3s ease"
-              _groupHover={{
-                opacity: 1,
-                transform: "translateY(0)",
-              }}
+              opacity={1}
             >
               <Icon as={FiMaximize2} color="white" boxSize={3.5} />
               <Text
