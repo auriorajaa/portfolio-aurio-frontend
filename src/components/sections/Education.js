@@ -21,8 +21,6 @@ import EducationStats from "../ui/education/EducationStats";
 const MotionBox = motion(Box);
 
 const TimelineConnector = ({ isLast }) => {
-  const connectorColor = useColorModeValue("teal.300", "teal.600");
-
   const bgColor = useColorModeValue(
     "linear(to-b, teal.300, blue.300)",
     "linear(to-b, teal.600, blue.600)"
