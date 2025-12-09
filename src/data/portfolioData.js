@@ -116,7 +116,7 @@ export const experienceData = [
     id: 2,
     company: "Bank Indonesia",
     position: "Software Engineer Intern",
-    period: "August 2025 – December 2025",
+    period: "August 2025 – November 2025",
     location: "Jakarta",
     type: "Full-time",
     description: [
