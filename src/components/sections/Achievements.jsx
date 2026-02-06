@@ -40,7 +40,7 @@ const Achievements = () => {
 
       {/* Achievements Items */}
       <VStack spacing={0} align="stretch">
-        {achievements.map((achievement, idx) => (
+        {[...achievements].reverse().map((achievement, idx) => (
           <Box
             key={achievement.id}
             px={3}

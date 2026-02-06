@@ -31,12 +31,14 @@ const Experience = () => {
 
       {/* Experience Items */}
       <VStack spacing={0} align="stretch">
-        {experienceData.map((exp, idx) => (
+        {[...experienceData].reverse().map((exp, idx) => (
           <Box
             key={exp.id}
             px={3}
             py={3}
-            borderBottom={idx !== experienceData.length - 1 ? "1px solid" : "none"}
+            borderBottom={
+              idx !== experienceData.length - 1 ? "1px solid" : "none"
+            }
             borderColor="facebook.border"
           >
             <Flex gap={3}>
@@ -68,7 +70,12 @@ const Experience = () => {
                 <Text fontSize="11px" color="facebook.lightText" mb={2}>
                   {exp.period} · {exp.location}
                 </Text>
-                <Text fontSize="11px" color="facebook.text" lineHeight="1.4" mb={2}>
+                <Text
+                  fontSize="11px"
+                  color="facebook.text"
+                  lineHeight="1.4"
+                  mb={2}
+                >
                   {exp.description[0]}
                 </Text>
                 <Wrap spacing={1}>

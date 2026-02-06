@@ -1,9 +1,25 @@
-import React from "react";
-import { Box, Text, Flex, Image, VStack } from "@chakra-ui/react";
+import React, { useState } from "react";
+import {
+  Box,
+  Text,
+  Flex,
+  Image,
+  VStack,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { Activity } from "lucide-react";
 import { universityActivities } from "../../data/portfolioData";
+import ActivityModal from "../ui/ActivityModal";
 
 const Activities = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedActivity, setSelectedActivity] = useState(null);
+
+  const handleOpen = (activity) => {
+    setSelectedActivity(activity);
+    onOpen();
+  };
+
   return (
     <Box
       bg="white"
@@ -31,13 +47,18 @@ const Activities = () => {
 
       {/* Activities Items */}
       <VStack spacing={0} align="stretch">
-        {universityActivities.map((activity, idx) => (
+        {[...universityActivities].reverse().map((activity, idx) => (
           <Box
             key={idx}
             px={3}
             py={3}
-            borderBottom={idx !== universityActivities.length - 1 ? "1px solid" : "none"}
+            borderBottom={
+              idx !== universityActivities.length - 1 ? "1px solid" : "none"
+            }
             borderColor="facebook.border"
+            cursor="pointer"
+            _hover={{ bg: "facebook.gray" }}
+            onClick={() => handleOpen(activity)}
           >
             <Flex gap={3}>
               {activity.image && (
@@ -69,14 +90,30 @@ const Activities = () => {
                 <Text fontSize="11px" color="facebook.lightText" mb={1}>
                   {activity.period}
                 </Text>
-                <Text fontSize="11px" color="facebook.text" lineHeight="1.4">
+                <Text
+                  fontSize="11px"
+                  color="facebook.text"
+                  lineHeight="1.4"
+                  noOfLines={2}
+                >
                   {activity.description}
+                </Text>
+                <Text fontSize="10px" color="facebook.linkBlue" mt={1}>
+                  Click to view details
                 </Text>
               </Box>
             </Flex>
           </Box>
         ))}
       </VStack>
+
+      {selectedActivity && (
+        <ActivityModal
+          isOpen={isOpen}
+          onClose={onClose}
+          activity={selectedActivity}
+        />
+      )}
     </Box>
   );
 };

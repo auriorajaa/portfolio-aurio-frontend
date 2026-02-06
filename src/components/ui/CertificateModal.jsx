@@ -30,12 +30,15 @@ const CertificateModal = ({ isOpen, onClose, image, title }) => {
             {title}
           </Text>
           <IconButton
-            icon={<X size={16} />}
+            icon={<X size={14} />}
             onClick={onClose}
-            variant="ghost"
-            size="sm"
+            size="xs"
             aria-label="Close"
-            _hover={{ bg: "facebook.border" }}
+            bg="white"
+            color="facebook.blue"
+            border="1px solid"
+            borderColor="facebook.border"
+            _hover={{ bg: "facebook.gray" }}
           />
         </ModalHeader>
         <ModalBody p={0}>

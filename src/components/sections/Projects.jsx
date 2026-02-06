@@ -84,7 +84,7 @@ const Projects = () => {
               <Text fontSize="12px" fontWeight="bold" color="facebook.text">
                 {project.title}
               </Text>
-              <Text fontSize="11px" color="facebook.lightText" noOfLines={2} lineHeight="1.4">
+              <Text fontSize="11px" color="facebook.lightText" lineHeight="1.4">
                 {project.description}
               </Text>
               
