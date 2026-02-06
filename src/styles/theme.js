@@ -2,133 +2,103 @@ import { extendTheme } from "@chakra-ui/react";
 
 const theme = extendTheme({
   config: {
-    initialColorMode: "dark",
+    initialColorMode: "light",
     useSystemColorMode: false,
   },
   colors: {
-    brand: {
-      50: "#e3f5ff",
-      100: "#b3e0ff",
-      200: "#80cbff",
-      300: "#4db5ff",
-      400: "#26a5ff",
-      500: "#0891e0", // Deep Ocean Blue - Primary
-      600: "#0077b6", // Darker Ocean Blue
-      700: "#005f8f", // Navy Blue
-      800: "#004768", // Deep Navy
-      900: "#023047", // Darkest Navy
-    },
-    accent: {
-      50: "#fff5e6",
-      100: "#ffe0b3",
-      200: "#ffcb80",
-      300: "#ffb64d",
-      400: "#ffa726",
-      500: "#ff9800",
-      600: "#fb8c00",
-      700: "#f57c00",
-      800: "#ef6c00",
-      900: "#e65100",
+    // Classic Facebook Blue Theme (2008-2012)
+    facebook: {
+      blue: "#3b5998",      // Classic Facebook blue
+      darkBlue: "#2d4373",  // Darker blue for header
+      lightBlue: "#627aad", // Light blue for hover
+      paleBlue: "#d8dfea",  // Very pale blue for backgrounds
+      gray: "#f7f7f7",      // Light gray background
+      border: "#d3d6db",    // Border gray
+      text: "#333333",      // Dark text
+      lightText: "#90949c", // Light gray text
+      white: "#ffffff",
+      linkBlue: "#3b5998",
+      hoverBlue: "#8b9dc3",
     },
   },
   fonts: {
-    heading:
-      "'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-    body: "'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    heading: "'Tahoma', 'Lucida Grande', sans-serif",
+    body: "'Tahoma', 'Lucida Grande', sans-serif",
   },
   styles: {
-    global: (props) => ({
+    global: {
       body: {
-        bg: props.colorMode === "dark" ? "brand.900" : "#f8f9fa",
-        color: props.colorMode === "dark" ? "#e6f1ff" : "#1a202c",
-        overflowX: "hidden",
-        fontSize: { base: "14px", md: "16px" },
-        lineHeight: "1.6",
+        bg: "#e9ebee",
+        color: "facebook.text",
+        fontSize: "11px",
+        lineHeight: "1.28",
+        fontFamily: "'Tahoma', 'Lucida Grande', sans-serif",
       },
       html: {
         scrollBehavior: "smooth",
       },
-      "*::selection": {
-        bg: props.colorMode === "dark" ? "brand.600" : "brand.200",
-        color: props.colorMode === "dark" ? "white" : "gray.900",
+      "::-webkit-scrollbar": {
+        width: "12px",
       },
-    }),
+      "::-webkit-scrollbar-track": {
+        bg: "#f1f1f1",
+      },
+      "::-webkit-scrollbar-thumb": {
+        bg: "#888",
+        borderRadius: "6px",
+        _hover: {
+          bg: "#555",
+        },
+      },
+      a: {
+        color: "facebook.linkBlue",
+        textDecoration: "none",
+        _hover: {
+          textDecoration: "underline",
+        },
+      },
+    },
   },
   components: {
-    Box: {
-      baseStyle: (props) => ({
-        bg: props.colorMode === "dark" ? "brand.800" : "white",
-        color: props.colorMode === "dark" ? "#e6f1ff" : "gray.800",
-      }),
-    },
-    Input: {
-      baseStyle: (props) => ({
-        bg: props.colorMode === "dark" ? "#0b2742" : "gray.50",
-        borderColor: props.colorMode === "dark" ? "brand.700" : "gray.200",
-        color: props.colorMode === "dark" ? "white" : "gray.800",
-        _hover: {
-          borderColor: "brand.500",
-          bg: props.colorMode === "dark" ? "#10385f" : "white",
-        },
-        _focus: {
-          borderColor: "brand.500",
-          boxShadow: `0 0 0 1px var(--chakra-colors-brand-500)`,
-        },
-      }),
-    },
-    Textarea: {
-      baseStyle: (props) => ({
-        bg: props.colorMode === "dark" ? "#0b2742" : "gray.50",
-        borderColor: props.colorMode === "dark" ? "brand.700" : "gray.200",
-        color: props.colorMode === "dark" ? "white" : "gray.800",
-        _hover: {
-          borderColor: "brand.500",
-          bg: props.colorMode === "dark" ? "#10385f" : "white",
-        },
-        _focus: {
-          borderColor: "brand.500",
-          boxShadow: `0 0 0 1px var(--chakra-colors-brand-500)`,
-        },
-      }),
-    },
     Button: {
       baseStyle: {
-        fontWeight: "600",
-        borderRadius: "lg",
-        _focus: {
-          boxShadow: "none",
-        },
+        fontWeight: "bold",
+        fontSize: "11px",
+        fontFamily: "'Tahoma', 'Lucida Grande', sans-serif",
+        borderRadius: "2px",
       },
       variants: {
-        solid: (props) => ({
-          bg: props.colorMode === "dark" ? "brand.600" : "brand.500",
+        facebook: {
+          bg: "facebook.blue",
           color: "white",
+          border: "1px solid #29487d",
           _hover: {
-            bg: props.colorMode === "dark" ? "brand.500" : "brand.600",
+            bg: "facebook.lightBlue",
           },
-        }),
+          _active: {
+            bg: "facebook.darkBlue",
+          },
+        },
+        facebookGray: {
+          bg: "#f6f7f9",
+          color: "facebook.text",
+          border: "1px solid #ccd0d5",
+          _hover: {
+            bg: "#e4e6eb",
+          },
+        },
       },
     },
-  },
-  textStyles: {
-    h1: {
-      fontSize: { base: "2xl", sm: "3xl", md: "4xl", lg: "5xl" },
-      fontWeight: "bold",
-      lineHeight: "1.2",
+    Heading: {
+      baseStyle: {
+        fontFamily: "'Tahoma', 'Lucida Grande', sans-serif",
+        fontWeight: "bold",
+      },
     },
-    h2: {
-      fontSize: { base: "xl", sm: "2xl", md: "3xl", lg: "4xl" },
-      fontWeight: "bold",
-      lineHeight: "1.3",
-    },
-    h3: {
-      fontSize: { base: "lg", sm: "xl", md: "2xl" },
-      fontWeight: "semibold",
-      lineHeight: "1.4",
-    },
-    body: {
-      fontSize: { base: "sm", md: "md", lg: "lg" },
-      lineHeight: "1.7",
+    Text: {
+      baseStyle: {
+        fontFamily: "'Tahoma', 'Lucida Grande', sans-serif",
+      },
     },
   },
 });

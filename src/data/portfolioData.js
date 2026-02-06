@@ -266,7 +266,6 @@ export const skillsData = [
       "Django REST Framework",
       "API Design",
       "SQL & NoSQL Databases",
-      "Authentication & Security",
       "Docker & Containerization",
     ],
   },
@@ -275,9 +274,6 @@ export const skillsData = [
     skills: [
       "React.js",
       "Next.js",
-      "Bootstrap",
-      "Tailwind CSS",
-      "Responsive Design",
     ],
   },
   {
@@ -294,7 +290,6 @@ export const skillsData = [
     skills: [
       "Git & GitHub",
       "Google Cloud Services",
-      "Technical Documentation",
     ],
   },
 ];
