@@ -5,7 +5,6 @@ import {
   Heading,
   Text,
   Image,
-  Button,
   VStack,
   HStack,
   Link,

@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Text, Flex, Image, VStack, HStack, Wrap, Tag } from "@chakra-ui/react";
+import { Box, Text, Flex, Image, VStack, Wrap, Tag } from "@chakra-ui/react";
 import { Briefcase } from "lucide-react";
 import { experienceData } from "../../data/portfolioData";
 

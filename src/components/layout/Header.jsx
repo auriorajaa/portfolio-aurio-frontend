@@ -2,14 +2,9 @@ import React from "react";
 import {
   Box,
   Flex,
-  Input,
-  InputGroup,
-  InputLeftElement,
   Button,
   Text,
-  Image,
 } from "@chakra-ui/react";
-import { Search, Home, User, Mail, Bell } from "lucide-react";
 
 const Header = ({ isDownloading, handleDownload }) => {
   return (

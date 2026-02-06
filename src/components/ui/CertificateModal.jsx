@@ -7,7 +7,6 @@ import {
   ModalHeader,
   Image,
   IconButton,
-  Box,
   Text,
 } from "@chakra-ui/react";
 import { X } from "lucide-react";
