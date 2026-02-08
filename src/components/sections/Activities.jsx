@@ -22,7 +22,7 @@ const Activities = () => {
   const cardBg = useColorModeValue("white", "#242526");
   const borderColor = useColorModeValue("#d3d6db", "#3e4042");
   const headerBg = useColorModeValue("#f7f7f7", "#242526");
-  const hoverBg = useColorModeValue("#d8dfea", "#3a3b3c");
+  // const hoverBg = useColorModeValue("#d8dfea", "#3a3b3c");
   const iconColor = useColorModeValue("#3b5998", "#5b7ec8");
   const lightTextColor = useColorModeValue("#90949c", "#b0b3b8");
 
@@ -68,7 +68,6 @@ const Activities = () => {
             }
             borderColor={borderColor}
             cursor="pointer"
-            _hover={{ bg: hoverBg }}
             onClick={() => handleOpen(activity)}
           >
             <Flex gap={3}>

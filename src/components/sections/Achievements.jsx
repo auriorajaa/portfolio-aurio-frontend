@@ -66,7 +66,7 @@ const Achievements = () => {
             }
             borderColor={borderColor}
             cursor="pointer"
-            _hover={{ bg: grayBg }}
+            // _hover={{ bg: grayBg }}
             onClick={() => handleOpen(achievement)}
           >
             <Flex gap={3}>

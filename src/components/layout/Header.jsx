@@ -4,8 +4,8 @@ import {
   Flex,
   Button,
   Text,
-  // IconButton,
-  // useColorMode,
+  IconButton,
+  useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Moon, Sun } from "lucide-react";
