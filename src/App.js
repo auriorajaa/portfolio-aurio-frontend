@@ -1,22 +1,15 @@
 import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Box, useToast } from "@chakra-ui/react";
-import { Helmet } from "react-helmet-async";
+import { AuthProvider } from "./contexts/AuthContext";
+import { PortfolioProvider } from "./contexts/PortfolioContext";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
-// Layout
-import Layout from "./components/layout/Layout";
-
-// Sections
-import Hero from "./components/sections/Hero";
-import Experience from "./components/sections/Experience";
-import Projects from "./components/sections/Projects";
-import Skills from "./components/sections/Skills";
-import Education from "./components/sections/Education";
-import Activities from "./components/sections/Activities";
-import Achievements from "./components/sections/Achievements";
-import Contact from "./components/sections/Contact";
-
-// Data
-import { personalInfo } from "./data/portfolioData";
+// Pages
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import AdminDashboard from "./pages/AdminDashboard";
+import ArticlePage from "./pages/ArticlePage";
 
 const App = () => {
   const [isDownloading, setIsDownloading] = useState(false);
@@ -24,16 +17,16 @@ const App = () => {
 
   const handleDownload = () => {
     setIsDownloading(true);
-    
+
     const link = document.createElement("a");
     link.href = `${window.location.origin}/CV_AurioRajaa.pdf`;
     link.download = "CV_AurioRajaa.pdf";
     link.target = "_blank";
-    
+
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    
+
     setTimeout(() => {
       setIsDownloading(false);
       toast({
@@ -46,24 +39,35 @@ const App = () => {
   };
 
   return (
-    <Box>
-      <Helmet>
-        <title>{personalInfo.name} - {personalInfo.title}</title>
-        <meta name="description" content={personalInfo.bio} />
-      </Helmet>
-
-      <Layout isDownloading={isDownloading} handleDownload={handleDownload}>
-        {/* Retro Facebook Timeline Style Layout */}
-        <Hero />
-        <Experience />
-        <Projects />
-        <Skills />
-        <Education />
-        <Activities />
-        <Achievements />
-        <Contact />
-      </Layout>
-    </Box>
+    <Router>
+      <AuthProvider>
+        <PortfolioProvider>
+          <Box>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Home
+                    isDownloading={isDownloading}
+                    handleDownload={handleDownload}
+                  />
+                }
+              />
+              <Route path="/login" element={<Login />} />
+              <Route path="/article/:slug" element={<ArticlePage />} />
+              <Route
+                path="/dashboard-secure-panel"
+                element={
+                  <ProtectedRoute>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </Box>
+        </PortfolioProvider>
+      </AuthProvider>
+    </Router>
   );
 };
 

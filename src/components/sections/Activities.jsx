@@ -8,10 +8,12 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { Activity } from "lucide-react";
-import { universityActivities } from "../../data/portfolioData";
+import { usePortfolio } from "../../contexts/PortfolioContext";
 import ActivityModal from "../ui/ActivityModal";
 
 const Activities = () => {
+  const { portfolioData } = usePortfolio();
+  const universityActivities = portfolioData.activities || [];
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedActivity, setSelectedActivity] = useState(null);
 

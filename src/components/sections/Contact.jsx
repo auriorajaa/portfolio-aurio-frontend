@@ -10,9 +10,11 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { Mail, Github, Linkedin } from "lucide-react";
-import { personalInfo } from "../../data/portfolioData";
+import { usePortfolio } from "../../contexts/PortfolioContext";
 
 const Contact = () => {
+  const { portfolioData } = usePortfolio();
+  const personalInfo = portfolioData.personalInfo;
   return (
     <Box
       bg="white"

@@ -1,9 +1,11 @@
 import React from "react";
 import { Box, Text, Flex, Image, VStack, Wrap, Tag } from "@chakra-ui/react";
 import { Briefcase } from "lucide-react";
-import { experienceData } from "../../data/portfolioData";
+import { usePortfolio } from "../../contexts/PortfolioContext";
 
 const Experience = () => {
+  const { portfolioData } = usePortfolio();
+  const experienceData = portfolioData.experiences || [];
   return (
     <Box
       bg="white"
@@ -31,7 +33,7 @@ const Experience = () => {
 
       {/* Experience Items */}
       <VStack spacing={0} align="stretch">
-        {[...experienceData].reverse().map((exp, idx) => (
+        {[...experienceData].map((exp, idx) => (
           <Box
             key={exp.id}
             px={3}

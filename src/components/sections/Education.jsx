@@ -1,9 +1,12 @@
 import React from "react";
 import { Box, Text, Flex, Image, VStack } from "@chakra-ui/react";
 import { GraduationCap } from "lucide-react";
-import { educationData, certificationsData } from "../../data/portfolioData";
+import { usePortfolio } from "../../contexts/PortfolioContext";
 
 const Education = () => {
+  const { portfolioData } = usePortfolio();
+  const educationData = portfolioData.education || [];
+  const certificationsData = portfolioData.certifications || [];
   const allEducation = [...educationData, ...certificationsData];
 
   return (
@@ -38,7 +41,9 @@ const Education = () => {
             key={idx}
             px={3}
             py={3}
-            borderBottom={idx !== allEducation.length - 1 ? "1px solid" : "none"}
+            borderBottom={
+              idx !== allEducation.length - 1 ? "1px solid" : "none"
+            }
             borderColor="facebook.border"
           >
             <Flex gap={3}>
@@ -69,7 +74,12 @@ const Education = () => {
                 <Text fontSize="11px" color="facebook.lightText" mb={1}>
                   {edu.period} · GPA: {edu.gpa || edu.score}
                 </Text>
-                <Text fontSize="11px" color="facebook.text" lineHeight="1.4" noOfLines={2}>
+                <Text
+                  fontSize="11px"
+                  color="facebook.text"
+                  lineHeight="1.4"
+                  noOfLines={2}
+                >
                   {edu.description}
                 </Text>
               </Box>

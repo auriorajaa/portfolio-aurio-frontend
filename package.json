@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@chakra-ui/icons": "^2.2.4",
     "@chakra-ui/react": "^2.8.2",
     "@emailjs/browser": "^4.4.1",
     "@emotion/react": "^11.14.0",
@@ -11,6 +12,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^13.5.0",
+    "firebase": "^12.9.0",
     "framer-motion": "^12.33.0",
     "lucide-react": "^0.475.0",
     "react": "^18.2.0",
@@ -21,7 +23,10 @@
     "react-intersection-observer": "^10.0.0",
     "react-lazy-load-image-component": "^1.6.3",
     "react-loader-spinner": "^8.0.0",
+    "react-quill": "^2.0.0",
+    "react-router-dom": "^7.13.0",
     "react-scripts": "5.0.1",
+    "react-share": "^5.2.2",
     "react-tsparticles": "^2.12.2",
     "react-typed": "^2.0.12",
     "web-vitals": "^2.1.4"

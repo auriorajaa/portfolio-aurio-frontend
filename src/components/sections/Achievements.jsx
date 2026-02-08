@@ -1,10 +1,19 @@
 import React, { useState } from "react";
-import { Box, Text, Flex, Image, VStack, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Flex,
+  Image,
+  VStack,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { Award } from "lucide-react";
-import { achievements } from "../../data/portfolioData";
+import { usePortfolio } from "../../contexts/PortfolioContext";
 import CertificateModal from "../ui/CertificateModal";
 
 const Achievements = () => {
+  const { portfolioData } = usePortfolio();
+  const achievements = portfolioData.achievements || [];
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedCert, setSelectedCert] = useState(null);
 
@@ -45,7 +54,9 @@ const Achievements = () => {
             key={achievement.id}
             px={3}
             py={3}
-            borderBottom={idx !== achievements.length - 1 ? "1px solid" : "none"}
+            borderBottom={
+              idx !== achievements.length - 1 ? "1px solid" : "none"
+            }
             borderColor="facebook.border"
             cursor="pointer"
             _hover={{ bg: "facebook.gray" }}
@@ -72,11 +83,20 @@ const Achievements = () => {
               <Box flex="1">
                 <Flex align="center" gap={1} mb={1}>
                   <Award size={11} color="#3b5998" />
-                  <Text fontSize="10px" color="facebook.linkBlue" fontWeight="bold">
+                  <Text
+                    fontSize="10px"
+                    color="facebook.linkBlue"
+                    fontWeight="bold"
+                  >
                     CERTIFICATE
                   </Text>
                 </Flex>
-                <Text fontSize="12px" fontWeight="bold" color="facebook.text" lineHeight="1.3">
+                <Text
+                  fontSize="12px"
+                  fontWeight="bold"
+                  color="facebook.text"
+                  lineHeight="1.3"
+                >
                   {achievement.title}
                 </Text>
                 <Text fontSize="11px" color="facebook.lightText">

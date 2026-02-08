@@ -10,9 +10,11 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { MapPin, Mail, Briefcase } from "lucide-react";
-import { personalInfo } from "../../data/portfolioData";
+import { usePortfolio } from "../../contexts/PortfolioContext";
 
 const Hero = () => {
+  const { portfolioData } = usePortfolio();
+  const personalInfo = portfolioData.personalInfo;
   return (
     <Box
       bg="white"
@@ -25,7 +27,10 @@ const Hero = () => {
       {/* Cover Photo */}
       <Box
         h="200px"
-        bg="#3b5998"
+        bgImage="url('https://images.unsplash.com/photo-1704948079672-45dc21034083?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')"
+        bgPosition="center"
+        bgRepeat="no-repeat"
+        bgSize="fill"
         position="relative"
         zIndex={1}
         borderTopRadius="2px"
@@ -33,12 +38,7 @@ const Hero = () => {
 
       {/* Profile Content */}
       <Box px={4} pb={4} position="relative">
-        <Flex
-          justify="space-between"
-          align="flex-end"
-          mt="-90px"
-          mb={3}
-        >
+        <Flex justify="space-between" align="flex-end" mt="-90px" mb={3}>
           {/* Profile Picture */}
           <Link
             href="/profilepic.jpg"
