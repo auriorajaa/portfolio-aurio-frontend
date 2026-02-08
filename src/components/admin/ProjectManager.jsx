@@ -170,16 +170,14 @@ const ProjectManager = () => {
   return (
     <Box>
       <HStack justify="space-between" mb={3}>
-        <Text fontSize="11px" color="facebook.text">
-          Total: {projects.length} projects
-        </Text>
+        <Text fontSize="13px">Total: {projects.length} projects</Text>
         <Button
           leftIcon={<AddIcon boxSize={3} />}
-          size="xs"
+          size="sm"
           variant="facebook"
           onClick={handleCreate}
-          fontSize="10px"
-          h="22px"
+          fontSize="12px"
+          h="24px"
           px={2}
         >
           Add Project
@@ -190,12 +188,11 @@ const ProjectManager = () => {
         <Box
           p={6}
           textAlign="center"
-          bg="white"
           borderRadius="2px"
           border="1px solid"
           borderColor="facebook.border"
         >
-          <Text fontSize="11px" color="facebook.lightText">
+          <Text fontSize="13px" color="facebook.lightText">
             No projects yet. Add your first project!
           </Text>
         </Box>
@@ -207,7 +204,6 @@ const ProjectManager = () => {
                 key={project.id}
                 px={3}
                 py={2}
-                bg="white"
                 borderBottom={
                   idx !== currentProjects.length - 1 ? "1px solid" : "none"
                 }
@@ -234,13 +230,13 @@ const ProjectManager = () => {
                   )}
                   <VStack align="start" flex={1} spacing={1}>
                     <Text
-                      fontSize="12px"
+                      fontSize="14px"
                       fontWeight="bold"
                       color="facebook.blue"
                     >
                       {project.title}
                     </Text>
-                    <Text fontSize="11px" color="facebook.text" noOfLines={1}>
+                    <Text fontSize="13px" noOfLines={1}>
                       {project.description}
                     </Text>
                     <Wrap spacing={1}>
@@ -262,22 +258,22 @@ const ProjectManager = () => {
                   <HStack spacing={1}>
                     <IconButton
                       icon={<EditIcon boxSize={3} />}
-                      size="xs"
+                      size="sm"
                       variant="facebookGray"
                       onClick={() => handleEdit(project)}
                       aria-label="Edit"
-                      h="24px"
-                      minW="24px"
+                      h="32px"
+                      minW="32px"
                     />
                     <IconButton
                       icon={<DeleteIcon boxSize={3} />}
-                      size="xs"
+                      size="sm"
                       bg="#ffebee"
                       color="#d32f2f"
                       onClick={() => openDeleteDialog(project.id)}
                       aria-label="Delete"
-                      h="24px"
-                      minW="24px"
+                      h="32px"
+                      minW="32px"
                       _hover={{ bg: "#ffcdd2" }}
                     />
                   </HStack>
@@ -316,20 +312,32 @@ const ProjectManager = () => {
         onClose={onCloseDelete}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+          <AlertDialogContent borderRadius="2px">
+            <AlertDialogHeader fontSize="14px" fontWeight="bold">
               Delete Project
             </AlertDialogHeader>
 
-            <AlertDialogBody>
+            <AlertDialogBody fontSize="13px">
               Are you sure? This action cannot be undone.
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onCloseDelete}>
+              <Button
+                ref={cancelRef}
+                onClick={onCloseDelete}
+                variant="facebookGray"
+                fontSize="13px"
+              >
                 Cancel
               </Button>
-              <Button colorScheme="red" onClick={handleDelete} ml={3}>
+              <Button
+                variant="facebook"
+                bg="#d32f2f"
+                _hover={{ bg: "#b71c1c" }}
+                onClick={handleDelete}
+                ml={3}
+                fontSize="13px"
+              >
                 Delete
               </Button>
             </AlertDialogFooter>

@@ -150,16 +150,14 @@ const AchievementManager = () => {
   return (
     <Box>
       <HStack justify="space-between" mb={3}>
-        <Text fontSize="11px" color="facebook.text">
-          Total: {achievements.length} achievements
-        </Text>
+        <Text fontSize="13px">Total: {achievements.length} achievements</Text>
         <Button
           leftIcon={<AddIcon boxSize={3} />}
-          size="xs"
+          size="sm"
           variant="facebook"
           onClick={handleCreate}
-          fontSize="10px"
-          h="22px"
+          fontSize="12px"
+          h="24px"
           px={2}
         >
           Add Achievement
@@ -170,12 +168,11 @@ const AchievementManager = () => {
         <Box
           p={6}
           textAlign="center"
-          bg="white"
           borderRadius="2px"
           border="1px solid"
           borderColor="facebook.border"
         >
-          <Text fontSize="11px" color="facebook.lightText">
+          <Text fontSize="13px" color="facebook.lightText">
             No achievements yet. Add your first achievement!
           </Text>
         </Box>
@@ -187,7 +184,6 @@ const AchievementManager = () => {
                 key={achievement.id}
                 px={3}
                 py={2}
-                bg="white"
                 borderBottom={
                   idx !== currentAchievements.length - 1 ? "1px solid" : "none"
                 }
@@ -214,38 +210,36 @@ const AchievementManager = () => {
                   )}
                   <VStack align="start" flex={1} spacing={1}>
                     <Text
-                      fontSize="12px"
+                      fontSize="14px"
                       fontWeight="bold"
                       color="facebook.blue"
                     >
                       {achievement.title}
                     </Text>
-                    <Text fontSize="11px" color="facebook.text">
-                      {achievement.issuer}
-                    </Text>
-                    <Text fontSize="10px" color="facebook.lightText">
+                    <Text fontSize="13px">{achievement.issuer}</Text>
+                    <Text fontSize="12px" color="facebook.lightText">
                       {achievement.date}
                     </Text>
                   </VStack>
                   <HStack spacing={1}>
                     <IconButton
                       icon={<EditIcon boxSize={3} />}
-                      size="xs"
+                      size="sm"
                       variant="facebookGray"
                       onClick={() => handleEdit(achievement)}
                       aria-label="Edit"
-                      h="24px"
-                      minW="24px"
+                      h="32px"
+                      minW="32px"
                     />
                     <IconButton
                       icon={<DeleteIcon boxSize={3} />}
-                      size="xs"
+                      size="sm"
                       bg="#ffebee"
                       color="#d32f2f"
                       onClick={() => handleDelete(achievement.id)}
                       aria-label="Delete"
-                      h="24px"
-                      minW="24px"
+                      h="32px"
+                      minW="32px"
                       _hover={{ bg: "#ffcdd2" }}
                     />
                   </HStack>

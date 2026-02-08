@@ -98,7 +98,7 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
     <form onSubmit={handleSubmit}>
       <VStack spacing={3} align="stretch">
         <FormControl isRequired>
-          <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
             Achievement Title
           </FormLabel>
           <Input
@@ -106,15 +106,14 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
             value={formData.title}
             onChange={handleInputChange}
             placeholder="e.g. Best Paper Award"
-            size="sm"
-            fontSize="11px"
+            size="md"
+            fontSize="13px"
             borderRadius="2px"
-            borderColor="facebook.border"
           />
         </FormControl>
 
         <FormControl isRequired>
-          <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
             Issuer/Organization
           </FormLabel>
           <Input
@@ -122,15 +121,14 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
             value={formData.issuer}
             onChange={handleInputChange}
             placeholder="e.g. IEEE Conference"
-            size="sm"
-            fontSize="11px"
+            size="md"
+            fontSize="13px"
             borderRadius="2px"
-            borderColor="facebook.border"
           />
         </FormControl>
 
         <FormControl isRequired>
-          <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
             Date
           </FormLabel>
           <Input
@@ -138,15 +136,14 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
             value={formData.date}
             onChange={handleInputChange}
             placeholder="e.g. January 2024"
-            size="sm"
-            fontSize="11px"
+            size="md"
+            fontSize="13px"
             borderRadius="2px"
-            borderColor="facebook.border"
           />
         </FormControl>
 
         <FormControl>
-          <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
             Description
           </FormLabel>
           <Textarea
@@ -155,10 +152,9 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
             onChange={handleInputChange}
             placeholder="Brief description of the achievement"
             rows={3}
-            size="sm"
-            fontSize="11px"
+            size="md"
+            fontSize="13px"
             borderRadius="2px"
-            borderColor="facebook.border"
           />
         </FormControl>
 
@@ -172,9 +168,9 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
           <Button
             type="submit"
             variant="facebook"
-            size="sm"
-            h="28px"
-            fontSize="11px"
+            size="md"
+            h="36px"
+            fontSize="13px"
             flex={1}
             isLoading={loading}
           >
@@ -185,9 +181,9 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
               variant="outline"
               onClick={onCancel}
               flex={1}
-              size="sm"
-              h="28px"
-              fontSize="11px"
+              size="md"
+              h="36px"
+              fontSize="13px"
               borderColor="facebook.border"
               borderRadius="2px"
             >
@@ -204,18 +200,18 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
       >
         <AlertDialogOverlay>
           <AlertDialogContent borderRadius="2px">
-            <AlertDialogHeader fontSize="12px" fontWeight="bold">
+            <AlertDialogHeader fontSize="14px" fontWeight="bold">
               Confirm Save
             </AlertDialogHeader>
-            <AlertDialogBody fontSize="11px">
+            <AlertDialogBody fontSize="13px">
               Are you sure you want to save this achievement?
             </AlertDialogBody>
             <AlertDialogFooter>
               <Button
                 ref={cancelRef}
                 onClick={onClose}
-                size="sm"
-                fontSize="11px"
+                size="md"
+                fontSize="13px"
               >
                 Cancel
               </Button>
@@ -223,8 +219,8 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
                 colorScheme="blue"
                 onClick={confirmSave}
                 ml={2}
-                size="sm"
-                fontSize="11px"
+                size="md"
+                fontSize="13px"
                 isLoading={loading}
               >
                 Save

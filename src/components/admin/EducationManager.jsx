@@ -166,12 +166,11 @@ const EducationManager = () => {
         <Box
           p={6}
           textAlign="center"
-          bg="white"
           borderRadius="2px"
           border="1px solid"
           borderColor="facebook.border"
         >
-          <Text fontSize="11px" color="facebook.lightText">
+          <Text fontSize="13px" color="facebook.lightText">
             No {type === "education" ? "education" : "certifications"} yet. Add
             your first one!
           </Text>
@@ -192,18 +191,17 @@ const EducationManager = () => {
               key={index}
               px={3}
               py={2}
-              bg="white"
               borderRadius="2px"
               border="1px solid"
               borderColor="facebook.border"
             >
               <HStack justify="space-between" align="start">
                 <VStack align="start" flex={1} spacing={0.5}>
-                  <Text fontSize="12px" fontWeight="bold" color="facebook.blue">
+                  <Text fontSize="14px" fontWeight="bold" color="facebook.blue">
                     {item.title}
                   </Text>
-                  <Text fontSize="11px">{item.major || item.degree}</Text>
-                  <Text fontSize="10px" color="facebook.lightText">
+                  <Text fontSize="13px">{item.major || item.degree}</Text>
+                  <Text fontSize="12px" color="facebook.lightText">
                     {item.period}
                   </Text>
                   <HStack spacing={1.5} mt={1}>
@@ -234,25 +232,21 @@ const EducationManager = () => {
                 <HStack spacing={1}>
                   <IconButton
                     icon={<EditIcon boxSize={2.5} />}
-                    size="xs"
-                    h="22px"
-                    variant="outline"
-                    borderColor="facebook.border"
-                    color="facebook.blue"
+                    size="sm"
+                    h="24px"
+                    variant="facebookGray"
                     onClick={() => handleEdit(item, type)}
                     aria-label="Edit"
-                    _hover={{ bg: "facebook.paleBlue" }}
                   />
                   <IconButton
                     icon={<DeleteIcon boxSize={2.5} />}
-                    size="xs"
-                    h="22px"
-                    variant="outline"
-                    borderColor="facebook.border"
-                    color="red.600"
+                    size="sm"
+                    h="24px"
+                    bg="#ffebee"
+                    color="#d32f2f"
                     onClick={() => handleDelete(item.title, type)}
                     aria-label="Delete"
-                    _hover={{ bg: "red.50" }}
+                    _hover={{ bg: "#ffcdd2" }}
                   />
                 </HStack>
               </HStack>
@@ -283,14 +277,14 @@ const EducationManager = () => {
       <Tabs colorScheme="blue" size="sm">
         <TabList borderColor="facebook.border">
           <Tab
-            fontSize="11px"
+            fontSize="13px"
             fontWeight="bold"
             _selected={{ color: "facebook.blue", borderColor: "facebook.blue" }}
           >
             Formal Education ({educationList.length})
           </Tab>
           <Tab
-            fontSize="11px"
+            fontSize="13px"
             fontWeight="bold"
             _selected={{ color: "facebook.blue", borderColor: "facebook.blue" }}
           >
@@ -301,16 +295,16 @@ const EducationManager = () => {
         <TabPanels>
           <TabPanel px={0} py={3}>
             <HStack justify="space-between" mb={3}>
-              <Text fontSize="12px" fontWeight="bold">
+              <Text fontSize="14px" fontWeight="bold">
                 Formal Education
               </Text>
               <Button
                 leftIcon={<AddIcon boxSize={2.5} />}
                 variant="facebook"
                 onClick={() => handleCreate("education")}
-                size="xs"
-                h="24px"
-                fontSize="10px"
+                size="sm"
+                h="32px"
+                fontSize="12px"
               >
                 Add Education
               </Button>
@@ -325,16 +319,16 @@ const EducationManager = () => {
 
           <TabPanel px={0} py={3}>
             <HStack justify="space-between" mb={3}>
-              <Text fontSize="12px" fontWeight="bold">
+              <Text fontSize="14px" fontWeight="bold">
                 Certifications & Bootcamps
               </Text>
               <Button
                 leftIcon={<AddIcon boxSize={2.5} />}
                 variant="facebook"
                 onClick={() => handleCreate("certification")}
-                size="xs"
-                h="24px"
-                fontSize="10px"
+                size="sm"
+                h="32px"
+                fontSize="12px"
               >
                 Add Certification
               </Button>

@@ -1,5 +1,12 @@
 import React from "react";
-import { Box, VStack, Text, Link, Flex } from "@chakra-ui/react";
+import {
+  Box,
+  VStack,
+  Text,
+  Link,
+  Flex,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import {
   User,
   Briefcase,
@@ -11,6 +18,12 @@ import {
 } from "lucide-react";
 
 const Sidebar = () => {
+  const cardBg = useColorModeValue("white", "#242526");
+  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
+  const textColor = useColorModeValue("#333333", "#e4e6eb");
+  const hoverBg = useColorModeValue("#d8dfea", "#3a3b3c");
+  const iconColor = useColorModeValue("#3b5998", "#5b7ec8");
+
   const navItems = [
     { icon: User, label: "Profile", href: "#hero" },
     { icon: Briefcase, label: "Experience", href: "#experience" },
@@ -29,9 +42,9 @@ const Sidebar = () => {
     >
       {/* Navigation */}
       <Box
-        bg="white"
+        bg={cardBg}
         border="1px solid"
-        borderColor="facebook.border"
+        borderColor={borderColor}
         borderRadius="2px"
         mb={3}
       >
@@ -50,14 +63,14 @@ const Sidebar = () => {
                 borderBottom={
                   idx !== navItems.length - 1 ? "1px solid" : "none"
                 }
-                borderColor="facebook.border"
+                borderColor={borderColor}
                 _hover={{
-                  bg: "facebook.paleBlue",
+                  bg: hoverBg,
                 }}
                 cursor="pointer"
               >
-                <item.icon size={14} color="#3b5998" />
-                <Text fontSize="11px" fontWeight="bold" color="facebook.text">
+                <item.icon size={16} color={iconColor} />
+                <Text fontSize="13px" fontWeight="bold" color={textColor}>
                   {item.label}
                 </Text>
               </Flex>

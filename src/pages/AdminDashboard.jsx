@@ -15,6 +15,9 @@ import {
   ModalCloseButton,
   useToast,
   Collapse,
+  // IconButton,
+  // useColorMode,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { AddIcon, ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
@@ -57,6 +60,16 @@ const AdminDashboard = () => {
   } = useDisclosure();
   const navigate = useNavigate();
   const toast = useToast();
+  // const { colorMode, toggleColorMode } = useColorMode();
+
+  // Color mode values
+  const bgColor = useColorModeValue("#e9ebee", "#18191a");
+  const cardBg = useColorModeValue("white", "#242526");
+  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
+  const textColor = useColorModeValue("#333333", "#e4e6eb");
+  const headerBg = useColorModeValue("#f7f7f7", "#242526");
+  const hoverBg = useColorModeValue("#eeeeee", "#3a3b3c");
+  const iconColor = useColorModeValue("#3b5998", "#5b7ec8");
 
   const handleLogout = async () => {
     try {
@@ -116,28 +129,28 @@ const AdminDashboard = () => {
     actionButton,
   }) => (
     <Box
-      bg="white"
+      bg={cardBg}
       border="1px solid"
-      borderColor="facebook.border"
+      borderColor={borderColor}
       borderRadius="2px"
       mb={4}
     >
       {/* Section Header */}
       <Flex
         borderBottom={isOpen ? "1px solid" : "none"}
-        borderColor="facebook.border"
+        borderColor={borderColor}
         px={3}
         py={2}
         align="center"
         justify="space-between"
-        bg="facebook.gray"
+        bg={headerBg}
         cursor="pointer"
         onClick={onToggle}
-        _hover={{ bg: "#eeeeee" }}
+        _hover={{ bg: hoverBg }}
       >
         <HStack spacing={2}>
-          <Icon size={14} color="#3b5998" />
-          <Text fontSize="12px" fontWeight="bold" color="facebook.text">
+          <Icon size={16} color={iconColor} />
+          <Text fontSize="14px" fontWeight="bold" color={textColor}>
             {title}
           </Text>
         </HStack>
@@ -157,40 +170,51 @@ const AdminDashboard = () => {
   );
 
   return (
-    <Box minH="100vh" bg="#e9ebee" py={4}>
+    <Box minH="100vh" bg={bgColor} py={4}>
       <Box maxW="1000px" mx="auto" px={4}>
         {/* Header */}
         <Flex
           justify="space-between"
           align="center"
           mb={4}
-          bg="white"
+          bg={cardBg}
           border="1px solid"
-          borderColor="facebook.border"
+          borderColor={borderColor}
           borderRadius="2px"
           px={3}
           py={2}
         >
-          <Text fontSize="13px" fontWeight="bold" color="facebook.blue">
+          <Text fontSize="15px" fontWeight="bold" color={iconColor}>
             Admin Dashboard
           </Text>
           <HStack spacing={2}>
+            {/* <IconButton
+              icon={
+                colorMode === "light" ? <Moon size={14} /> : <Sun size={14} />
+              }
+              onClick={toggleColorMode}
+              aria-label="Toggle color mode"
+              variant="facebookGray"
+              size="sm"
+              h="32px"
+              title={`Switch to ${colorMode === "light" ? "dark" : "light"} mode`}
+            /> */}
             <Button
-              size="xs"
+              size="sm"
               variant="facebookGray"
               onClick={() => navigate("/")}
-              fontSize="11px"
-              h="24px"
+              fontSize="13px"
+              h="32px"
             >
               View Portfolio
             </Button>
             <Button
-              size="xs"
+              size="sm"
               bg="#dc3545"
               color="white"
               onClick={handleLogout}
-              fontSize="11px"
-              h="24px"
+              fontSize="13px"
+              h="32px"
               _hover={{ bg: "#c82333" }}
             >
               Logout

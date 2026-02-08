@@ -152,16 +152,16 @@ const ExperienceManager = () => {
   return (
     <Box>
       <HStack justify="space-between" mb={3}>
-        <Text fontSize="12px" fontWeight="bold">
+        <Text fontSize="14px" fontWeight="bold">
           Work Experience ({experiences.length})
         </Text>
         <Button
           leftIcon={<AddIcon boxSize={2.5} />}
           variant="facebook"
           onClick={handleCreate}
-          size="xs"
-          h="24px"
-          fontSize="10px"
+          size="sm"
+          h="32px"
+          fontSize="12px"
         >
           Add Experience
         </Button>
@@ -171,12 +171,11 @@ const ExperienceManager = () => {
         <Box
           p={6}
           textAlign="center"
-          bg="white"
           borderRadius="2px"
           border="1px solid"
           borderColor="facebook.border"
         >
-          <Text fontSize="11px" color="facebook.lightText">
+          <Text fontSize="13px" color="facebook.lightText">
             No experiences yet. Add your first experience!
           </Text>
         </Box>
@@ -188,7 +187,6 @@ const ExperienceManager = () => {
                 key={exp.id}
                 px={3}
                 py={2}
-                bg="white"
                 borderRadius="2px"
                 border="1px solid"
                 borderColor="facebook.border"
@@ -196,15 +194,15 @@ const ExperienceManager = () => {
                 <HStack justify="space-between" align="start">
                   <VStack align="start" flex={1} spacing={0.5}>
                     <Text
-                      fontSize="12px"
+                      fontSize="14px"
                       fontWeight="bold"
                       color="facebook.blue"
                     >
                       {exp.position}
                     </Text>
-                    <Text fontSize="11px">{exp.company}</Text>
+                    <Text fontSize="13px">{exp.company}</Text>
                     <HStack
-                      fontSize="10px"
+                      fontSize="12px"
                       color="facebook.lightText"
                       spacing={1.5}
                     >
@@ -227,25 +225,21 @@ const ExperienceManager = () => {
                   <HStack spacing={1}>
                     <IconButton
                       icon={<EditIcon boxSize={2.5} />}
-                      size="xs"
-                      h="22px"
-                      variant="outline"
-                      borderColor="facebook.border"
-                      color="facebook.blue"
+                      size="sm"
+                      h="24px"
+                      variant="facebookGray"
                       onClick={() => handleEdit(exp)}
                       aria-label="Edit"
-                      _hover={{ bg: "facebook.paleBlue" }}
                     />
                     <IconButton
                       icon={<DeleteIcon boxSize={2.5} />}
-                      size="xs"
-                      h="22px"
-                      variant="outline"
-                      borderColor="facebook.border"
-                      color="red.600"
+                      size="sm"
+                      h="24px"
+                      bg="#ffebee"
+                      color="#d32f2f"
                       onClick={() => handleDelete(exp.id)}
                       aria-label="Delete"
-                      _hover={{ bg: "red.50" }}
+                      _hover={{ bg: "#ffcdd2" }}
                     />
                   </HStack>
                 </HStack>

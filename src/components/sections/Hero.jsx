@@ -8,6 +8,7 @@ import {
   VStack,
   HStack,
   Link,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { MapPin, Mail, Briefcase } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
@@ -15,11 +16,20 @@ import { usePortfolio } from "../../contexts/PortfolioContext";
 const Hero = () => {
   const { portfolioData } = usePortfolio();
   const personalInfo = portfolioData.personalInfo;
+
+  // Use theme colors
+  const cardBg = useColorModeValue("white", "#242526");
+  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
+  const profileBorder = useColorModeValue("white", "#242526");
+  const iconColor = useColorModeValue("#90949c", "#8a8d91");
+  const lightIconColor = useColorModeValue("#4b4f56", "#b0b3b8");
+  const linkColor = useColorModeValue("#385898", "#5b7ec8");
+
   return (
     <Box
-      bg="white"
+      bg={cardBg}
       border="1px solid"
-      borderColor="#d3d6db"
+      borderColor={borderColor}
       borderRadius="2px"
       mb={4}
       id="hero"
@@ -30,7 +40,7 @@ const Hero = () => {
         bgImage="url('https://images.unsplash.com/photo-1704948079672-45dc21034083?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')"
         bgPosition="center"
         bgRepeat="no-repeat"
-        bgSize="fill"
+        bgSize="cover"
         position="relative"
         zIndex={1}
         borderTopRadius="2px"
@@ -48,11 +58,11 @@ const Hero = () => {
             <Box
               position="relative"
               zIndex={2}
-              border="4px solid white"
+              border={`4px solid ${profileBorder}`}
               borderRadius="2px"
               overflow="hidden"
               boxSize="168px"
-              bg="white"
+              bg={cardBg}
               boxShadow="0 2px 4px rgba(0,0,0,0.35)"
               cursor="pointer"
             >
@@ -67,68 +77,45 @@ const Hero = () => {
               />
             </Box>
           </Link>
-
-          {/* <Button variant="facebookGray" size="sm" mb={2}>
-            View Full Profile
-          </Button> */}
         </Flex>
 
         {/* Name */}
-        <Heading
-          as="h1"
-          fontSize="20px"
-          fontWeight="bold"
-          color="#1c1e21"
-          mb={1}
-        >
+        <Heading as="h1" fontSize="20px" fontWeight="bold" mb={1}>
           {personalInfo.name}
         </Heading>
 
         {/* Bio */}
-        <Text fontSize="11px" color="#1c1e21" mb={3} lineHeight="1.4">
+        <Text fontSize="13px" mb={3} lineHeight="1.4">
           {personalInfo.bio}
         </Text>
 
         {/* Info */}
         <VStack spacing={2} align="stretch" mb={3}>
           <HStack spacing={2}>
-            <Briefcase size={12} color="#90949c" />
-            <Text fontSize="11px" color="#4b4f56">
+            <Briefcase size={12} color={iconColor} />
+            <Text fontSize="13px" color={lightIconColor}>
               {personalInfo.title}
             </Text>
           </HStack>
 
           <HStack spacing={2}>
-            <MapPin size={12} color="#90949c" />
-            <Text fontSize="11px" color="#4b4f56">
-              Lives in{" "}
-              <strong style={{ color: "#1c1e21" }}>
-                {personalInfo.location}
-              </strong>
+            <MapPin size={12} color={iconColor} />
+            <Text fontSize="13px" color={lightIconColor}>
+              Lives in <strong>{personalInfo.location}</strong>
             </Text>
           </HStack>
 
           <HStack spacing={2}>
-            <Mail size={12} color="#90949c" />
+            <Mail size={12} color={iconColor} />
             <Link
               href={`mailto:${personalInfo.email}`}
-              fontSize="11px"
-              color="#385898"
+              fontSize="13px"
+              color={linkColor}
             >
               {personalInfo.email}
             </Link>
           </HStack>
         </VStack>
-
-        {/* Actions */}
-        {/* <Flex gap={2}>
-          <Button variant="facebook" size="sm" flex={1}>
-            Message
-          </Button>
-          <Button variant="facebookGray" size="sm" flex={1}>
-            Add Friend
-          </Button>
-        </Flex> */}
       </Box>
     </Box>
   );

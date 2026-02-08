@@ -1,5 +1,12 @@
 import React from "react";
-import { Box, Text, Flex, Image, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Flex,
+  Image,
+  VStack,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { GraduationCap } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
 
@@ -8,12 +15,18 @@ const Education = () => {
   const educationData = portfolioData.education || [];
   const certificationsData = portfolioData.certifications || [];
   const allEducation = [...educationData, ...certificationsData];
+  const cardBg = useColorModeValue("white", "#242526");
+  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
+  const textColor = useColorModeValue("#333333", "#e4e6eb");
+  const lightTextColor = useColorModeValue("#90949c", "#b0b3b8");
+  const grayBg = useColorModeValue("#f7f7f7", "#242526");
+  const iconColor = useColorModeValue("#3b5998", "#5b7ec8");
 
   return (
     <Box
-      bg="white"
+      bg={cardBg}
       border="1px solid"
-      borderColor="facebook.border"
+      borderColor={borderColor}
       borderRadius="2px"
       mb={4}
       id="education"
@@ -21,15 +34,15 @@ const Education = () => {
       {/* Section Header */}
       <Flex
         borderBottom="1px solid"
-        borderColor="facebook.border"
+        borderColor={borderColor}
         px={3}
         py={2}
         align="center"
         gap={2}
-        bg="facebook.gray"
+        bg={grayBg}
       >
-        <GraduationCap size={14} color="#3b5998" />
-        <Text fontSize="12px" fontWeight="bold" color="facebook.text">
+        <GraduationCap size={14} color={iconColor} />
+        <Text fontSize="14px" fontWeight="bold" color={textColor}>
           Education & Certifications
         </Text>
       </Flex>
@@ -44,7 +57,7 @@ const Education = () => {
             borderBottom={
               idx !== allEducation.length - 1 ? "1px solid" : "none"
             }
-            borderColor="facebook.border"
+            borderColor={borderColor}
           >
             <Flex gap={3}>
               <Box
@@ -52,7 +65,7 @@ const Education = () => {
                 w="50px"
                 h="50px"
                 border="1px solid"
-                borderColor="facebook.border"
+                borderColor={borderColor}
                 overflow="hidden"
               >
                 <Image
@@ -65,18 +78,18 @@ const Education = () => {
               </Box>
 
               <Box flex="1">
-                <Text fontSize="12px" fontWeight="bold" color="facebook.text">
+                <Text fontSize="14px" fontWeight="bold" color={textColor}>
                   {edu.title}
                 </Text>
-                <Text fontSize="11px" color="facebook.linkBlue" mb={1}>
+                <Text fontSize="13px" color={iconColor} mb={1}>
                   {edu.degree}
                 </Text>
-                <Text fontSize="11px" color="facebook.lightText" mb={1}>
+                <Text fontSize="13px" color={lightTextColor} mb={1}>
                   {edu.period} · GPA: {edu.gpa || edu.score}
                 </Text>
                 <Text
-                  fontSize="11px"
-                  color="facebook.text"
+                  fontSize="13px"
+                  color={textColor}
                   lineHeight="1.4"
                   noOfLines={2}
                 >

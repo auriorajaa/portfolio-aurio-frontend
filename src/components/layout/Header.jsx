@@ -4,14 +4,22 @@ import {
   Flex,
   Button,
   Text,
+  // IconButton,
+  // useColorMode,
+  useColorModeValue,
 } from "@chakra-ui/react";
+// import { Moon, Sun } from "lucide-react";
 
 const Header = ({ isDownloading, handleDownload }) => {
+  // const { colorMode, toggleColorMode } = useColorMode();
+  const headerBg = useColorModeValue("#3b5998", "#242526");
+  const headerBorder = useColorModeValue("#2d4373", "#3e4042");
+
   return (
     <Box
-      bg="facebook.blue"
+      bg={headerBg}
       borderBottom="1px solid"
-      borderColor="facebook.darkBlue"
+      borderColor={headerBorder}
       position="sticky"
       top="0"
       zIndex="1000"
@@ -37,30 +45,22 @@ const Header = ({ isDownloading, handleDownload }) => {
           </Text>
         </Flex>
 
-        {/* Search Bar */}
-        {/* <InputGroup maxW="400px" size="sm">
-          <InputLeftElement pointerEvents="none">
-            <Search size={14} color="#999" />
-          </InputLeftElement>
-          <Input
-            placeholder="Search"
-            bg="white"
-            border="1px solid #2d4373"
-            borderRadius="2px"
-            fontSize="11px"
-            _placeholder={{ color: "#999" }}
-            _focus={{
-              outline: "none",
-              borderColor: "#4e69a2",
-            }}
-          />
-        </InputGroup> */}
-
-        {/* Right Actions */}
+        {/* Actions */}
         <Flex align="center" gap={2}>
+          {/* <IconButton
+            icon={
+              colorMode === "light" ? <Moon size={16} /> : <Sun size={16} />
+            }
+            onClick={toggleColorMode}
+            aria-label="Toggle color mode"
+            variant="facebookGray"
+            size="sm"
+            title={`Switch to ${colorMode === "light" ? "dark" : "light"} mode`}
+          /> */}
           <Button
             variant="facebookGray"
             size="sm"
+            fontSize="13px"
             onClick={handleDownload}
             isLoading={isDownloading}
             loadingText="..."

@@ -229,7 +229,7 @@ const PortfolioDataManager = () => {
                 value={editedData}
                 onChange={(e) => setEditedData(e.target.value)}
                 fontFamily="monospace"
-                fontSize="xs"
+                fontSize="sm"
                 minH="500px"
                 placeholder="Portfolio data in JSON format"
                 bg="gray.50"
@@ -282,7 +282,7 @@ const PortfolioDataManager = () => {
               bg="gray.50"
               borderRadius="md"
               fontFamily="monospace"
-              fontSize="xs"
+              fontSize="sm"
               whiteSpace="pre-wrap"
             >
               {`{

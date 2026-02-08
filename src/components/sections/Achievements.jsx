@@ -6,6 +6,7 @@ import {
   Image,
   VStack,
   useDisclosure,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { Award } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
@@ -16,6 +17,12 @@ const Achievements = () => {
   const achievements = portfolioData.achievements || [];
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedCert, setSelectedCert] = useState(null);
+  const cardBg = useColorModeValue("white", "#242526");
+  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
+  const textColor = useColorModeValue("#333333", "#e4e6eb");
+  const lightTextColor = useColorModeValue("#90949c", "#b0b3b8");
+  const grayBg = useColorModeValue("#f7f7f7", "#242526");
+  const iconColor = useColorModeValue("#3b5998", "#5b7ec8");
 
   const handleOpen = (achievement) => {
     setSelectedCert(achievement);
@@ -24,9 +31,9 @@ const Achievements = () => {
 
   return (
     <Box
-      bg="white"
+      bg={cardBg}
       border="1px solid"
-      borderColor="facebook.border"
+      borderColor={borderColor}
       borderRadius="2px"
       mb={4}
       id="achievements"
@@ -34,15 +41,15 @@ const Achievements = () => {
       {/* Section Header */}
       <Flex
         borderBottom="1px solid"
-        borderColor="facebook.border"
+        borderColor={borderColor}
         px={3}
         py={2}
         align="center"
         gap={2}
-        bg="facebook.gray"
+        bg={grayBg}
       >
-        <Award size={14} color="#3b5998" />
-        <Text fontSize="12px" fontWeight="bold" color="facebook.text">
+        <Award size={14} color={iconColor} />
+        <Text fontSize="14px" fontWeight="bold" color={textColor}>
           Achievements & Certificates
         </Text>
       </Flex>
@@ -57,9 +64,9 @@ const Achievements = () => {
             borderBottom={
               idx !== achievements.length - 1 ? "1px solid" : "none"
             }
-            borderColor="facebook.border"
+            borderColor={borderColor}
             cursor="pointer"
-            _hover={{ bg: "facebook.gray" }}
+            _hover={{ bg: grayBg }}
             onClick={() => handleOpen(achievement)}
           >
             <Flex gap={3}>
@@ -68,7 +75,7 @@ const Achievements = () => {
                 w="60px"
                 h="60px"
                 border="1px solid"
-                borderColor="facebook.border"
+                borderColor={borderColor}
                 overflow="hidden"
               >
                 <Image
@@ -82,27 +89,23 @@ const Achievements = () => {
 
               <Box flex="1">
                 <Flex align="center" gap={1} mb={1}>
-                  <Award size={11} color="#3b5998" />
-                  <Text
-                    fontSize="10px"
-                    color="facebook.linkBlue"
-                    fontWeight="bold"
-                  >
+                  <Award size={11} color={iconColor} />
+                  <Text fontSize="12px" color={iconColor} fontWeight="bold">
                     CERTIFICATE
                   </Text>
                 </Flex>
                 <Text
-                  fontSize="12px"
+                  fontSize="14px"
                   fontWeight="bold"
-                  color="facebook.text"
+                  color={textColor}
                   lineHeight="1.3"
                 >
                   {achievement.title}
                 </Text>
-                <Text fontSize="11px" color="facebook.lightText">
+                <Text fontSize="13px" color={lightTextColor}>
                   {achievement.issuer} · {achievement.date}
                 </Text>
-                <Text fontSize="10px" color="facebook.linkBlue" mt={1}>
+                <Text fontSize="12px" color={iconColor} mt={1}>
                   Click to view certificate
                 </Text>
               </Box>

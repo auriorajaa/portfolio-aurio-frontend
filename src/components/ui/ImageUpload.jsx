@@ -13,6 +13,7 @@ import {
   FormControl,
   FormLabel,
   useToast,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
@@ -31,6 +32,8 @@ const ImageUpload = ({
   const [uploadProgress, setUploadProgress] = useState(0);
   const [imageUrl, setImageUrl] = useState(value || "");
   const fileInputRef = useRef(null);
+  const borderColor = useColorModeValue("gray.200", "gray.600");
+  const lightTextColor = useColorModeValue("gray.500", "gray.400");
   const toast = useToast();
 
   // Update local state when prop changes
@@ -128,7 +131,7 @@ const ImageUpload = ({
 
   return (
     <FormControl>
-      <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+      <FormLabel fontSize="13px" fontWeight="bold" mb={1}>
         {label}
       </FormLabel>
       <VStack align="stretch" spacing={2}>
@@ -141,21 +144,21 @@ const ImageUpload = ({
               objectFit="cover"
               borderRadius="2px"
               border="1px solid"
-              borderColor="facebook.border"
+              borderColor={borderColor}
             />
             <HStack position="absolute" top={2} right={2} spacing={1}>
               <IconButton
                 icon={<EditIcon boxSize={2.5} />}
-                size="xs"
-                h="22px"
+                size="sm"
+                h="24px"
                 colorScheme="blue"
                 onClick={() => fileInputRef.current?.click()}
                 aria-label="Replace image"
               />
               <IconButton
                 icon={<DeleteIcon boxSize={2.5} />}
-                size="xs"
-                h="22px"
+                size="sm"
+                h="24px"
                 colorScheme="red"
                 onClick={handleRemove}
                 aria-label="Remove image"
@@ -166,7 +169,7 @@ const ImageUpload = ({
 
         {uploading && (
           <Box>
-            <Text fontSize="10px" mb={1}>
+            <Text fontSize="12px" mb={1}>
               Uploading... {Math.round(uploadProgress)}%
             </Text>
             <Progress value={uploadProgress} size="sm" colorScheme="blue" />
@@ -188,9 +191,9 @@ const ImageUpload = ({
             loadingText="Uploading..."
             colorScheme="blue"
             variant="outline"
-            size="xs"
-            h="28px"
-            fontSize="10px"
+            size="sm"
+            h="36px"
+            fontSize="12px"
             borderRadius="2px"
           >
             Upload Image
@@ -203,12 +206,12 @@ const ImageUpload = ({
           onChange={handleUrlChange}
           onBlur={handleUrlBlur}
           size="sm"
-          fontSize="11px"
+          fontSize="13px"
           borderRadius="2px"
-          borderColor="facebook.border"
+          borderColor={borderColor}
         />
 
-        <Text fontSize="10px" color="facebook.lightText">
+        <Text fontSize="12px" color={lightTextColor}>
           {immediateUpload
             ? "Upload an image or paste a URL. Max 5MB."
             : "Select an image (uploaded on save) or paste a URL. Max 5MB."}

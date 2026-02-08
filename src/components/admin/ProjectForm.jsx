@@ -101,7 +101,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
     <form onSubmit={handleSubmit}>
       <VStack spacing={3} align="stretch">
         <FormControl isRequired>
-          <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
             Project Title
           </FormLabel>
           <Input
@@ -109,15 +109,14 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
             value={formData.title}
             onChange={handleInputChange}
             placeholder="Project name"
-            size="sm"
-            fontSize="11px"
+            size="md"
+            fontSize="13px"
             borderRadius="2px"
-            borderColor="facebook.border"
           />
         </FormControl>
 
         <FormControl isRequired>
-          <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
             Description
           </FormLabel>
           <Textarea
@@ -126,10 +125,9 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
             onChange={handleInputChange}
             placeholder="Brief description of the project"
             rows={4}
-            size="sm"
-            fontSize="11px"
+            size="md"
+            fontSize="13px"
             borderRadius="2px"
-            borderColor="facebook.border"
           />
         </FormControl>
 
@@ -141,7 +139,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
 
         <HStack spacing={3}>
           <FormControl flex={1}>
-            <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               GitHub URL
             </FormLabel>
             <Input
@@ -149,15 +147,14 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
               value={formData.github}
               onChange={handleInputChange}
               placeholder="https://github.com/..."
-              size="sm"
-              fontSize="11px"
+              size="md"
+              fontSize="13px"
               borderRadius="2px"
-              borderColor="facebook.border"
             />
           </FormControl>
 
           <FormControl flex={1}>
-            <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Live Website URL
             </FormLabel>
             <Input
@@ -165,10 +162,9 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
               value={formData.website}
               onChange={handleInputChange}
               placeholder="https://project.com"
-              size="sm"
-              fontSize="11px"
+              size="md"
+              fontSize="13px"
               borderRadius="2px"
-              borderColor="facebook.border"
             />
           </FormControl>
         </HStack>
@@ -184,9 +180,9 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
           <Button
             type="submit"
             variant="facebook"
-            size="sm"
-            h="28px"
-            fontSize="11px"
+            size="md"
+            h="36px"
+            fontSize="13px"
             flex={1}
             isLoading={loading}
           >
@@ -197,10 +193,9 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
               variant="outline"
               onClick={onCancel}
               flex={1}
-              size="sm"
-              h="28px"
-              fontSize="11px"
-              borderColor="facebook.border"
+              size="md"
+              h="36px"
+              fontSize="13px"
               borderRadius="2px"
             >
               Cancel
@@ -216,10 +211,10 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
       >
         <AlertDialogOverlay>
           <AlertDialogContent borderRadius="2px">
-            <AlertDialogHeader fontSize="12px" fontWeight="bold">
+            <AlertDialogHeader fontSize="14px" fontWeight="bold">
               Confirm Save
             </AlertDialogHeader>
-            <AlertDialogBody fontSize="11px">
+            <AlertDialogBody fontSize="13px">
               Are you sure you want to save this project?
             </AlertDialogBody>
             <AlertDialogFooter>
@@ -227,7 +222,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
                 ref={cancelRef}
                 onClick={onClose}
                 size="sm"
-                fontSize="11px"
+                fontSize="13px"
               >
                 Cancel
               </Button>
@@ -236,7 +231,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
                 onClick={confirmSave}
                 ml={2}
                 size="sm"
-                fontSize="11px"
+                fontSize="13px"
                 isLoading={loading}
               >
                 Save

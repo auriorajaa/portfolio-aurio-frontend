@@ -9,6 +9,7 @@ import {
   Text,
   FormControl,
   FormLabel,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { DeleteIcon, AddIcon } from "@chakra-ui/icons";
 
@@ -19,6 +20,10 @@ const ArrayInput = ({
   placeholder = "Add item",
 }) => {
   const [inputValue, setInputValue] = useState("");
+
+  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
+  const itemBg = useColorModeValue("#f7f7f7", "#3a3b3c");
+  const focusBorder = useColorModeValue("#3b5998", "#5b7ec8");
 
   const handleAdd = () => {
     if (inputValue.trim()) {
@@ -43,7 +48,7 @@ const ArrayInput = ({
   return (
     <FormControl>
       {label && (
-        <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+        <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
           {label}
         </FormLabel>
       )}
@@ -54,19 +59,22 @@ const ArrayInput = ({
             onChange={(e) => setInputValue(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder={placeholder}
-            size="sm"
-            fontSize="11px"
+            size="md"
+            fontSize="13px"
             borderRadius="2px"
-            borderColor="facebook.border"
+            _hover={{ borderColor: focusBorder }}
+            _focus={{
+              borderColor: focusBorder,
+              boxShadow: `0 0 0 1px ${focusBorder}`,
+            }}
           />
           <Button
             onClick={handleAdd}
-            leftIcon={<AddIcon boxSize={2.5} />}
-            size="xs"
-            h="28px"
-            fontSize="10px"
-            colorScheme="blue"
-            variant="outline"
+            leftIcon={<AddIcon boxSize={3} />}
+            size="sm"
+            h="36px"
+            fontSize="12px"
+            variant="facebook"
             borderRadius="2px"
           >
             Add
@@ -80,23 +88,25 @@ const ArrayInput = ({
                 key={index}
                 px={2}
                 py={1}
-                bg="gray.50"
+                bg={itemBg}
                 borderRadius="2px"
                 justify="space-between"
                 border="1px solid"
-                borderColor="facebook.border"
+                borderColor={borderColor}
               >
-                <Text fontSize="11px" flex={1}>
+                <Text fontSize="13px" flex={1}>
                   {item}
                 </Text>
                 <IconButton
-                  icon={<DeleteIcon boxSize={2.5} />}
-                  size="xs"
-                  h="20px"
-                  colorScheme="red"
+                  icon={<DeleteIcon boxSize={3} />}
+                  size="sm"
+                  h="24px"
+                  bg="#ffebee"
+                  color="#d32f2f"
                   variant="ghost"
                   onClick={() => handleRemove(index)}
                   aria-label="Remove item"
+                  _hover={{ bg: "#ffcdd2" }}
                 />
               </HStack>
             ))}

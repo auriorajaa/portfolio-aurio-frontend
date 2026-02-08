@@ -1,14 +1,28 @@
 import React from "react";
-import { Box, Text, Flex, VStack, Wrap, Tag } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Flex,
+  VStack,
+  Wrap,
+  Tag,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { Award } from "lucide-react";
 import { skillsData } from "../../data/portfolioData";
 
 const Skills = () => {
+  const cardBg = useColorModeValue("white", "#242526");
+  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
+  const textColor = useColorModeValue("#333333", "#e4e6eb");
+  // const lightTextColor = useColorModeValue("#90949c", "#b0b3b8");
+  const grayBg = useColorModeValue("#f7f7f7", "#242526");
+  const iconColor = useColorModeValue("#3b5998", "#5b7ec8");
   return (
     <Box
-      bg="white"
+      bg={cardBg}
       border="1px solid"
-      borderColor="facebook.border"
+      borderColor={borderColor}
       borderRadius="2px"
       mb={4}
       id="skills"
@@ -16,15 +30,15 @@ const Skills = () => {
       {/* Section Header */}
       <Flex
         borderBottom="1px solid"
-        borderColor="facebook.border"
+        borderColor={borderColor}
         px={3}
         py={2}
         align="center"
         gap={2}
-        bg="facebook.gray"
+        bg={grayBg}
       >
-        <Award size={14} color="#3b5998" />
-        <Text fontSize="12px" fontWeight="bold" color="facebook.text">
+        <Award size={14} color={iconColor} />
+        <Text fontSize="14px" fontWeight="bold" color={textColor}>
           Skills & Expertise
         </Text>
       </Flex>
@@ -34,22 +48,17 @@ const Skills = () => {
         <VStack spacing={3} align="stretch">
           {skillsData.map((category) => (
             <Box key={category.category}>
-              <Text
-                fontSize="11px"
-                fontWeight="bold"
-                color="facebook.text"
-                mb={2}
-              >
+              <Text fontSize="13px" fontWeight="bold" color={textColor} mb={2}>
                 {category.category}
               </Text>
               <Wrap spacing={1}>
                 {category.skills.map((skill) => (
                   <Tag
                     key={skill}
-                    size="sm"
+                    size="md"
                     bg="facebook.paleBlue"
-                    color="facebook.text"
-                    fontSize="10px"
+                    color="facebook.blue"
+                    fontSize="12px"
                     borderRadius="2px"
                     fontWeight="normal"
                   >

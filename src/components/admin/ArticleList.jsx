@@ -25,6 +25,7 @@ import {
   PopoverContent,
   PopoverBody,
   Portal,
+  Stack,
 } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 import { Share2 } from "lucide-react";
@@ -177,33 +178,35 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
 
   return (
     <Box>
-      <HStack mb={3} justify="space-between">
-        <Text fontSize="11px" color="facebook.text">
-          Total: {filteredArticles.length} articles
-        </Text>
+      <Stack
+        direction={{ base: "column", sm: "row" }}
+        mb={3}
+        justify="space-between"
+        spacing={2}
+      >
+        <Text fontSize="13px">Total: {filteredArticles.length} articles</Text>
         <Select
-          w="150px"
+          w={{ base: "full", sm: "150px" }}
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
-          size="xs"
-          fontSize="11px"
+          size="sm"
+          fontSize="13px"
         >
           <option value="date">Sort by Date</option>
           <option value="featured">Featured First</option>
           <option value="title">Sort by Title</option>
         </Select>
-      </HStack>
+      </Stack>
 
       {filteredArticles.length === 0 ? (
         <Box
           p={6}
           textAlign="center"
-          bg="white"
           borderRadius="2px"
           border="1px solid"
           borderColor="facebook.border"
         >
-          <Text fontSize="11px" color="facebook.lightText">
+          <Text fontSize="13px" color="facebook.lightText">
             No articles yet. Create your first article!
           </Text>
         </Box>
@@ -215,18 +218,21 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
                 key={article.id}
                 px={3}
                 py={2}
-                bg="white"
                 borderBottom={
                   idx !== currentArticles.length - 1 ? "1px solid" : "none"
                 }
                 borderColor="facebook.border"
               >
-                <HStack spacing={3} align="start">
+                <Stack
+                  direction={{ base: "column", md: "row" }}
+                  spacing={3}
+                  align={{ base: "start", md: "start" }}
+                >
                   {article.image && (
                     <Box
                       flexShrink={0}
-                      w="60px"
-                      h="60px"
+                      w={{ base: "100%", md: "80px" }}
+                      h="80px"
                       border="1px solid"
                       borderColor="facebook.border"
                       overflow="hidden"
@@ -240,10 +246,10 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
                       />
                     </Box>
                   )}
-                  <VStack flex={1} align="start" spacing={1}>
-                    <HStack>
+                  <VStack align="start" flex={1} spacing={1}>
+                    <HStack flexWrap="wrap">
                       <Text
-                        fontSize="12px"
+                        fontSize="14px"
                         fontWeight="bold"
                         color="facebook.blue"
                       >
@@ -255,13 +261,14 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
                         </Badge>
                       )}
                     </HStack>
-                    <Text fontSize="11px" color="facebook.text" noOfLines={1}>
+                    <Text fontSize="13px" noOfLines={1}>
                       {article.excerpt}
                     </Text>
                     <HStack
-                      fontSize="10px"
+                      fontSize="12px"
                       color="facebook.lightText"
                       spacing={1}
+                      flexWrap="wrap"
                     >
                       <Badge
                         bg="facebook.paleBlue"
@@ -276,9 +283,9 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
                       <Text>{article.readTime}</Text>
                     </HStack>
                     <Select
-                      size="xs"
+                      size="sm"
                       fontSize="9px"
-                      h="20px"
+                      h="24px"
                       w="70px"
                       value={article.visibility || "public"}
                       onChange={(e) =>
@@ -292,20 +299,6 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
                             ? "red.300"
                             : "green.300"
                       }
-                      bg={
-                        article.visibility === "draft"
-                          ? "orange.50"
-                          : article.visibility === "private"
-                            ? "red.50"
-                            : "green.50"
-                      }
-                      color={
-                        article.visibility === "draft"
-                          ? "orange.700"
-                          : article.visibility === "private"
-                            ? "red.700"
-                            : "green.700"
-                      }
                       _hover={{ cursor: "pointer" }}
                     >
                       <option value="public">Public</option>
@@ -313,24 +306,29 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
                       <option value="private">Private</option>
                     </Select>
                   </VStack>
-                  <Box>
-                    <HStack spacing={1}>
+                  <Box
+                    alignSelf={{ base: "flex-end", md: "flex-start" }}
+                    w={{ base: "full", md: "auto" }}
+                  >
+                    <HStack
+                      spacing={1}
+                      justify={{ base: "flex-end", md: "flex-start" }}
+                    >
                       {/* Share Popover with Portal to prevent clipping in Admin Modals */}
                       <Popover isLazy placement="bottom-end">
                         <PopoverTrigger>
                           <IconButton
                             icon={<Share2 size={12} />}
-                            size="xs"
+                            size="sm"
                             variant="facebookGray"
                             aria-label="Share"
-                            h="24px"
-                            minW="24px"
+                            h="32px"
+                            minW="32px"
                             title="Share article"
                           />
                         </PopoverTrigger>
                         <Portal>
                           <PopoverContent
-                            bg="white"
                             border="1px solid"
                             borderColor="facebook.border"
                             borderRadius="2px"
@@ -353,7 +351,7 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
                                     cursor="pointer"
                                   >
                                     <FacebookIcon size={20} round />
-                                    <Text fontSize="10px">Facebook</Text>
+                                    <Text fontSize="12px">Facebook</Text>
                                   </HStack>
                                 </FacebookShareButton>
                                 <TwitterShareButton
@@ -367,7 +365,7 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
                                     cursor="pointer"
                                   >
                                     <TwitterIcon size={20} round />
-                                    <Text fontSize="10px">Twitter</Text>
+                                    <Text fontSize="12px">Twitter</Text>
                                   </HStack>
                                 </TwitterShareButton>
                                 <LinkedinShareButton
@@ -382,7 +380,7 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
                                     cursor="pointer"
                                   >
                                     <LinkedinIcon size={20} round />
-                                    <Text fontSize="10px">LinkedIn</Text>
+                                    <Text fontSize="12px">LinkedIn</Text>
                                   </HStack>
                                 </LinkedinShareButton>
                                 <WhatsappShareButton
@@ -396,7 +394,7 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
                                     cursor="pointer"
                                   >
                                     <WhatsappIcon size={20} round />
-                                    <Text fontSize="10px">WhatsApp</Text>
+                                    <Text fontSize="12px">WhatsApp</Text>
                                   </HStack>
                                 </WhatsappShareButton>
                               </VStack>
@@ -407,37 +405,37 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
 
                       <IconButton
                         icon={<ExternalLinkIcon boxSize={3} />}
-                        size="xs"
+                        size="sm"
                         variant="facebookGray"
                         onClick={() => handleVisit(article.slug)}
                         aria-label="Visit"
-                        h="24px"
-                        minW="24px"
+                        h="32px"
+                        minW="32px"
                         title="Visit article page"
                       />
                       <IconButton
                         icon={<EditIcon boxSize={3} />}
-                        size="xs"
+                        size="sm"
                         variant="facebookGray"
                         onClick={() => onEdit(article)}
                         aria-label="Edit"
-                        h="24px"
-                        minW="24px"
+                        h="32px"
+                        minW="32px"
                       />
                       <IconButton
                         icon={<DeleteIcon boxSize={3} />}
-                        size="xs"
+                        size="sm"
                         bg="#ffebee"
                         color="#d32f2f"
                         onClick={() => openDeleteDialog(article.id)}
                         aria-label="Delete"
-                        h="24px"
-                        minW="24px"
+                        h="32px"
+                        minW="32px"
                         _hover={{ bg: "#ffcdd2" }}
                       />
                     </HStack>
                   </Box>
-                </HStack>
+                </Stack>
               </Box>
             ))}
           </VStack>
@@ -455,20 +453,32 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
         onClose={onClose}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+          <AlertDialogContent borderRadius="2px">
+            <AlertDialogHeader fontSize="14px" fontWeight="bold">
               Delete Article
             </AlertDialogHeader>
 
-            <AlertDialogBody>
+            <AlertDialogBody fontSize="13px">
               Are you sure? This action cannot be undone.
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
+              <Button
+                ref={cancelRef}
+                onClick={onClose}
+                variant="facebookGray"
+                fontSize="13px"
+              >
                 Cancel
               </Button>
-              <Button colorScheme="red" onClick={handleDelete} ml={3}>
+              <Button
+                variant="facebook"
+                bg="#d32f2f"
+                _hover={{ bg: "#b71c1c" }}
+                onClick={handleDelete}
+                ml={3}
+                fontSize="13px"
+              >
                 Delete
               </Button>
             </AlertDialogFooter>

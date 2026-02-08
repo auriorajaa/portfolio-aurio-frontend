@@ -59,7 +59,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
     <form onSubmit={handleSubmit}>
       <VStack spacing={3} align="stretch">
         <FormControl isRequired>
-          <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
             Company Name
           </FormLabel>
           <Input
@@ -67,15 +67,14 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
             value={formData.company}
             onChange={handleInputChange}
             placeholder="Company name"
-            size="sm"
-            fontSize="11px"
+            size="md"
+            fontSize="13px"
             borderRadius="2px"
-            borderColor="facebook.border"
           />
         </FormControl>
 
         <FormControl isRequired>
-          <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
             Position
           </FormLabel>
           <Input
@@ -83,16 +82,15 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
             value={formData.position}
             onChange={handleInputChange}
             placeholder="Job title"
-            size="sm"
-            fontSize="11px"
+            size="md"
+            fontSize="13px"
             borderRadius="2px"
-            borderColor="facebook.border"
           />
         </FormControl>
 
         <HStack spacing={3}>
           <FormControl isRequired flex={1}>
-            <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Period
             </FormLabel>
             <Input
@@ -100,15 +98,14 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
               value={formData.period}
               onChange={handleInputChange}
               placeholder="e.g. Jan 2023 – Present"
-              size="sm"
-              fontSize="11px"
+              size="md"
+              fontSize="13px"
               borderRadius="2px"
-              borderColor="facebook.border"
             />
           </FormControl>
 
           <FormControl isRequired flex={1}>
-            <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Location
             </FormLabel>
             <Input
@@ -116,27 +113,25 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
               value={formData.location}
               onChange={handleInputChange}
               placeholder="City or Remote"
-              size="sm"
-              fontSize="11px"
+              size="md"
+              fontSize="13px"
               borderRadius="2px"
-              borderColor="facebook.border"
             />
           </FormControl>
         </HStack>
 
         <HStack spacing={3}>
           <FormControl isRequired flex={1}>
-            <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Type
             </FormLabel>
             <Select
               name="type"
               value={formData.type}
               onChange={handleInputChange}
-              size="sm"
-              fontSize="11px"
+              size="md"
+              fontSize="13px"
               borderRadius="2px"
-              borderColor="facebook.border"
             >
               <option value="Full-time">Full-time</option>
               <option value="Part-time">Part-time</option>
@@ -147,7 +142,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
           </FormControl>
 
           <FormControl flex={1}>
-            <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Company Logo URL
             </FormLabel>
             <Input
@@ -155,10 +150,9 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
               value={formData.logo}
               onChange={handleInputChange}
               placeholder="https://example.com/logo.png"
-              size="sm"
-              fontSize="11px"
+              size="md"
+              fontSize="13px"
               borderRadius="2px"
-              borderColor="facebook.border"
             />
           </FormControl>
         </HStack>
@@ -185,9 +179,9 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
           <Button
             type="submit"
             variant="facebook"
-            size="sm"
-            h="28px"
-            fontSize="11px"
+            size="md"
+            h="36px"
+            fontSize="13px"
             flex={1}
             isLoading={loading}
           >
@@ -198,9 +192,9 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
               variant="outline"
               onClick={onCancel}
               flex={1}
-              size="sm"
-              h="28px"
-              fontSize="11px"
+              size="md"
+              h="36px"
+              fontSize="13px"
               borderColor="facebook.border"
               borderRadius="2px"
             >
@@ -217,18 +211,18 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
       >
         <AlertDialogOverlay>
           <AlertDialogContent borderRadius="2px">
-            <AlertDialogHeader fontSize="12px" fontWeight="bold">
+            <AlertDialogHeader fontSize="14px" fontWeight="bold">
               Confirm Save
             </AlertDialogHeader>
-            <AlertDialogBody fontSize="11px">
+            <AlertDialogBody fontSize="13px">
               Are you sure you want to save this experience?
             </AlertDialogBody>
             <AlertDialogFooter>
               <Button
                 ref={cancelRef}
                 onClick={onClose}
-                size="sm"
-                fontSize="11px"
+                size="md"
+                fontSize="13px"
               >
                 Cancel
               </Button>
@@ -236,8 +230,8 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
                 colorScheme="blue"
                 onClick={confirmSave}
                 ml={2}
-                size="sm"
-                fontSize="11px"
+                size="md"
+                fontSize="13px"
                 isLoading={loading}
               >
                 Save

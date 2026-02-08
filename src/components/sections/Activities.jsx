@@ -6,6 +6,7 @@ import {
   Image,
   VStack,
   useDisclosure,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { Activity } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
@@ -17,6 +18,14 @@ const Activities = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedActivity, setSelectedActivity] = useState(null);
 
+  // Use theme colors
+  const cardBg = useColorModeValue("white", "#242526");
+  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
+  const headerBg = useColorModeValue("#f7f7f7", "#242526");
+  const hoverBg = useColorModeValue("#d8dfea", "#3a3b3c");
+  const iconColor = useColorModeValue("#3b5998", "#5b7ec8");
+  const lightTextColor = useColorModeValue("#90949c", "#b0b3b8");
+
   const handleOpen = (activity) => {
     setSelectedActivity(activity);
     onOpen();
@@ -24,9 +33,9 @@ const Activities = () => {
 
   return (
     <Box
-      bg="white"
+      bg={cardBg}
       border="1px solid"
-      borderColor="facebook.border"
+      borderColor={borderColor}
       borderRadius="2px"
       mb={4}
       id="activities"
@@ -34,15 +43,15 @@ const Activities = () => {
       {/* Section Header */}
       <Flex
         borderBottom="1px solid"
-        borderColor="facebook.border"
+        borderColor={borderColor}
         px={3}
         py={2}
         align="center"
         gap={2}
-        bg="facebook.gray"
+        bg={headerBg}
       >
-        <Activity size={14} color="#3b5998" />
-        <Text fontSize="12px" fontWeight="bold" color="facebook.text">
+        <Activity size={14} color={iconColor} />
+        <Text fontSize="14px" fontWeight="bold">
           Activities & Organizations
         </Text>
       </Flex>
@@ -57,9 +66,9 @@ const Activities = () => {
             borderBottom={
               idx !== universityActivities.length - 1 ? "1px solid" : "none"
             }
-            borderColor="facebook.border"
+            borderColor={borderColor}
             cursor="pointer"
-            _hover={{ bg: "facebook.gray" }}
+            _hover={{ bg: hoverBg }}
             onClick={() => handleOpen(activity)}
           >
             <Flex gap={3}>
@@ -69,7 +78,7 @@ const Activities = () => {
                   w="50px"
                   h="50px"
                   border="1px solid"
-                  borderColor="facebook.border"
+                  borderColor={borderColor}
                   overflow="hidden"
                 >
                   <Image
@@ -83,24 +92,19 @@ const Activities = () => {
               )}
 
               <Box flex="1">
-                <Text fontSize="12px" fontWeight="bold" color="facebook.text">
+                <Text fontSize="14px" fontWeight="bold">
                   {activity.title}
                 </Text>
-                <Text fontSize="11px" color="facebook.linkBlue" mb={1}>
+                <Text fontSize="13px" color={iconColor} mb={1}>
                   {activity.role}
                 </Text>
-                <Text fontSize="11px" color="facebook.lightText" mb={1}>
+                <Text fontSize="13px" color={lightTextColor} mb={1}>
                   {activity.period}
                 </Text>
-                <Text
-                  fontSize="11px"
-                  color="facebook.text"
-                  lineHeight="1.4"
-                  noOfLines={2}
-                >
+                <Text fontSize="13px" lineHeight="1.4" noOfLines={2}>
                   {activity.description}
                 </Text>
-                <Text fontSize="10px" color="facebook.linkBlue" mt={1}>
+                <Text fontSize="12px" color={iconColor} mt={1}>
                   Click to view details
                 </Text>
               </Box>

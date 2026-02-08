@@ -112,7 +112,7 @@ const PersonalInfoEditor = () => {
       <form onSubmit={handleSubmit}>
         <VStack spacing={3} align="stretch">
           <FormControl isRequired>
-            <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Full Name
             </FormLabel>
             <Input
@@ -120,10 +120,9 @@ const PersonalInfoEditor = () => {
               value={formData.name}
               onChange={handleInputChange}
               placeholder="Your full name"
-              size="sm"
-              fontSize="11px"
+              size="md"
+              fontSize="13px"
               borderRadius="2px"
-              borderColor="facebook.border"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
                 borderColor: "facebook.blue",
@@ -133,7 +132,7 @@ const PersonalInfoEditor = () => {
           </FormControl>
 
           <FormControl isRequired>
-            <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Professional Title
             </FormLabel>
             <Input
@@ -141,10 +140,9 @@ const PersonalInfoEditor = () => {
               value={formData.title}
               onChange={handleInputChange}
               placeholder="e.g. Software Engineer"
-              size="sm"
-              fontSize="11px"
+              size="md"
+              fontSize="13px"
               borderRadius="2px"
-              borderColor="facebook.border"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
                 borderColor: "facebook.blue",
@@ -154,7 +152,7 @@ const PersonalInfoEditor = () => {
           </FormControl>
 
           <FormControl isRequired>
-            <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Email
             </FormLabel>
             <Input
@@ -163,10 +161,9 @@ const PersonalInfoEditor = () => {
               value={formData.email}
               onChange={handleInputChange}
               placeholder="your.email@example.com"
-              size="sm"
-              fontSize="11px"
+              size="md"
+              fontSize="13px"
               borderRadius="2px"
-              borderColor="facebook.border"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
                 borderColor: "facebook.blue",
@@ -176,7 +173,7 @@ const PersonalInfoEditor = () => {
           </FormControl>
 
           <FormControl>
-            <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               GitHub URL
             </FormLabel>
             <Input
@@ -184,10 +181,9 @@ const PersonalInfoEditor = () => {
               value={formData.github}
               onChange={handleInputChange}
               placeholder="https://github.com/username"
-              size="sm"
-              fontSize="11px"
+              size="md"
+              fontSize="13px"
               borderRadius="2px"
-              borderColor="facebook.border"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
                 borderColor: "facebook.blue",
@@ -197,7 +193,7 @@ const PersonalInfoEditor = () => {
           </FormControl>
 
           <FormControl>
-            <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               LinkedIn URL
             </FormLabel>
             <Input
@@ -205,10 +201,9 @@ const PersonalInfoEditor = () => {
               value={formData.linkedin}
               onChange={handleInputChange}
               placeholder="https://linkedin.com/in/username"
-              size="sm"
-              fontSize="11px"
+              size="md"
+              fontSize="13px"
               borderRadius="2px"
-              borderColor="facebook.border"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
                 borderColor: "facebook.blue",
@@ -218,7 +213,7 @@ const PersonalInfoEditor = () => {
           </FormControl>
 
           <FormControl>
-            <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Location
             </FormLabel>
             <Input
@@ -226,10 +221,9 @@ const PersonalInfoEditor = () => {
               value={formData.location}
               onChange={handleInputChange}
               placeholder="City, Country"
-              size="sm"
-              fontSize="11px"
+              size="md"
+              fontSize="13px"
               borderRadius="2px"
-              borderColor="facebook.border"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
                 borderColor: "facebook.blue",
@@ -239,7 +233,7 @@ const PersonalInfoEditor = () => {
           </FormControl>
 
           <FormControl isRequired>
-            <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Bio
             </FormLabel>
             <Textarea
@@ -248,9 +242,8 @@ const PersonalInfoEditor = () => {
               onChange={handleInputChange}
               placeholder="Brief professional summary"
               rows={4}
-              fontSize="11px"
+              fontSize="13px"
               borderRadius="2px"
-              borderColor="facebook.border"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
                 borderColor: "facebook.blue",
@@ -264,8 +257,8 @@ const PersonalInfoEditor = () => {
             variant="facebook"
             isLoading={loading}
             loadingText="Saving..."
-            size="sm"
-            fontSize="11px"
+            size="md"
+            fontSize="13px"
             mt={2}
           >
             Save Changes

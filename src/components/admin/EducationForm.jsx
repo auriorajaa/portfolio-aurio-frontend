@@ -66,7 +66,7 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
     <form onSubmit={handleSubmit}>
       <VStack spacing={3} align="stretch">
         <FormControl isRequired>
-          <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
             Institution/Program Name
           </FormLabel>
           <Input
@@ -74,16 +74,15 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
             value={formData.title}
             onChange={handleInputChange}
             placeholder="University or Program name"
-            size="sm"
-            fontSize="11px"
+            size="md"
+            fontSize="13px"
             borderRadius="2px"
-            borderColor="facebook.border"
           />
         </FormControl>
 
         <HStack spacing={3}>
           <FormControl isRequired flex={1}>
-            <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Period
             </FormLabel>
             <Input
@@ -91,15 +90,14 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
               value={formData.period}
               onChange={handleInputChange}
               placeholder="e.g. 2020 - 2024"
-              size="sm"
-              fontSize="11px"
+              size="md"
+              fontSize="13px"
               borderRadius="2px"
-              borderColor="facebook.border"
             />
           </FormControl>
 
           <FormControl flex={1}>
-            <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               {type === "education" ? "GPA" : "Score"}
             </FormLabel>
             <Input
@@ -107,17 +105,16 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
               value={type === "education" ? formData.gpa : formData.score}
               onChange={handleInputChange}
               placeholder={type === "education" ? "3.50/4.0" : "85/100"}
-              size="sm"
-              fontSize="11px"
+              size="md"
+              fontSize="13px"
               borderRadius="2px"
-              borderColor="facebook.border"
             />
           </FormControl>
         </HStack>
 
         <HStack spacing={3}>
           <FormControl isRequired flex={1}>
-            <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Major/Field
             </FormLabel>
             <Input
@@ -125,15 +122,14 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
               value={formData.major}
               onChange={handleInputChange}
               placeholder="Field of study"
-              size="sm"
-              fontSize="11px"
+              size="md"
+              fontSize="13px"
               borderRadius="2px"
-              borderColor="facebook.border"
             />
           </FormControl>
 
           <FormControl flex={1}>
-            <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Degree/Certificate
             </FormLabel>
             <Input
@@ -141,27 +137,25 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
               value={formData.degree}
               onChange={handleInputChange}
               placeholder="e.g. Bachelor's"
-              size="sm"
-              fontSize="11px"
+              size="md"
+              fontSize="13px"
               borderRadius="2px"
-              borderColor="facebook.border"
             />
           </FormControl>
         </HStack>
 
         <HStack spacing={3}>
           <FormControl isRequired flex={1}>
-            <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Status
             </FormLabel>
             <Select
               name="status"
               value={formData.status}
               onChange={handleInputChange}
-              size="sm"
-              fontSize="11px"
+              size="md"
+              fontSize="13px"
               borderRadius="2px"
-              borderColor="facebook.border"
             >
               <option value="Current">Current</option>
               <option value="Completed">Completed</option>
@@ -170,17 +164,16 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
           </FormControl>
 
           <FormControl isRequired flex={1}>
-            <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Type
             </FormLabel>
             <Select
               name="type"
               value={formData.type}
               onChange={handleInputChange}
-              size="sm"
-              fontSize="11px"
+              size="md"
+              fontSize="13px"
               borderRadius="2px"
-              borderColor="facebook.border"
             >
               <option value="formal">Formal Education</option>
               <option value="bootcamp">Bootcamp/Certification</option>
@@ -189,7 +182,7 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
         </HStack>
 
         <FormControl>
-          <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
             Logo URL
           </FormLabel>
           <Input
@@ -197,15 +190,14 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
             value={formData.logo}
             onChange={handleInputChange}
             placeholder="https://example.com/logo.png"
-            size="sm"
-            fontSize="11px"
+            size="md"
+            fontSize="13px"
             borderRadius="2px"
-            borderColor="facebook.border"
           />
         </FormControl>
 
         <FormControl isRequired>
-          <FormLabel fontSize="11px" fontWeight="bold" mb={1}>
+          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
             Description
           </FormLabel>
           <Textarea
@@ -214,10 +206,9 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
             onChange={handleInputChange}
             placeholder="Brief description"
             rows={3}
-            size="sm"
-            fontSize="11px"
+            size="md"
+            fontSize="13px"
             borderRadius="2px"
-            borderColor="facebook.border"
           />
         </FormControl>
 
@@ -246,9 +237,9 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
           <Button
             type="submit"
             variant="facebook"
-            size="sm"
-            h="28px"
-            fontSize="11px"
+            size="md"
+            h="36px"
+            fontSize="13px"
             flex={1}
             isLoading={loading}
           >
@@ -259,9 +250,9 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
               variant="outline"
               onClick={onCancel}
               flex={1}
-              size="sm"
-              h="28px"
-              fontSize="11px"
+              size="md"
+              h="36px"
+              fontSize="13px"
               borderColor="facebook.border"
               borderRadius="2px"
             >
@@ -278,10 +269,10 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
       >
         <AlertDialogOverlay>
           <AlertDialogContent borderRadius="2px">
-            <AlertDialogHeader fontSize="12px" fontWeight="bold">
+            <AlertDialogHeader fontSize="14px" fontWeight="bold">
               Confirm Save
             </AlertDialogHeader>
-            <AlertDialogBody fontSize="11px">
+            <AlertDialogBody fontSize="13px">
               Are you sure you want to save this
               {type === "education" ? " education" : " certification"}?
             </AlertDialogBody>
@@ -289,8 +280,8 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
               <Button
                 ref={cancelRef}
                 onClick={onClose}
-                size="sm"
-                fontSize="11px"
+                size="md"
+                fontSize="13px"
               >
                 Cancel
               </Button>
@@ -298,8 +289,8 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
                 colorScheme="blue"
                 onClick={confirmSave}
                 ml={2}
-                size="sm"
-                fontSize="11px"
+                size="md"
+                fontSize="13px"
                 isLoading={loading}
               >
                 Save

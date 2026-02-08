@@ -14,6 +14,7 @@ import {
   HStack,
   Flex,
   Tooltip,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import {
   ArrowLeft,
@@ -34,15 +35,26 @@ import {
   LinkedinIcon,
   WhatsappIcon,
 } from "react-share";
+import Header from "../components/layout/Header";
 import { getArticleBySlug, getAllArticles } from "../services/articleService";
 
-const ArticlePage = () => {
+const ArticlePage = ({ isDownloading, handleDownload }) => {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [article, setArticle] = useState(null);
   const [relatedArticles, setRelatedArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showShareButtons, setShowShareButtons] = useState(false);
+
+  // Admin-style colors
+  const bgColor = useColorModeValue("#e9ebee", "#18191a");
+  const cardBg = useColorModeValue("white", "#242526");
+  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
+  const textColor = useColorModeValue("#333333", "#e4e6eb");
+  const lightTextColor = useColorModeValue("#90949c", "#b0b3b8");
+  const paleBg = useColorModeValue("#d8dfea", "#3a3b3c");
+  const linkBlue = useColorModeValue("#3b5998", "#5b7ec8");
+  const spinnerColor = useColorModeValue("#3b5998", "#5b7ec8");
 
   const shareUrl = typeof window !== "undefined" ? window.location.href : "";
 
@@ -101,9 +113,9 @@ const ArticlePage = () => {
 
   if (loading) {
     return (
-      <Box minH="100vh" bg="#e9ebee" py={20}>
+      <Box minH="100vh" bg={bgColor}>
         <Center>
-          <Spinner size="xl" color="facebook.blue" thickness="3px" />
+          <Spinner size="xl" color={spinnerColor} thickness="3px" />
         </Center>
       </Box>
     );
@@ -111,21 +123,21 @@ const ArticlePage = () => {
 
   if (!article) {
     return (
-      <Box minH="100vh" bg="#e9ebee" py={20}>
+      <Box minH="100vh" bg={bgColor}>
         <Container maxW="1000px" px={{ base: 4, md: 6 }}>
           <Box
-            bg="white"
+            bg={cardBg}
             border="1px solid"
-            borderColor="facebook.border"
+            borderColor={borderColor}
             borderRadius="2px"
             p={8}
             textAlign="center"
           >
             <VStack spacing={4}>
-              <Text fontSize="16px" fontWeight="bold" color="facebook.text">
+              <Text fontSize="16px" fontWeight="bold" color={textColor}>
                 Article Not Found
               </Text>
-              <Text fontSize="12px" color="facebook.lightText">
+              <Text fontSize="12px" color={lightTextColor}>
                 The article you're looking for doesn't exist or has been
                 removed.
               </Text>
@@ -148,7 +160,9 @@ const ArticlePage = () => {
   }
 
   return (
-    <Box minH="100vh" bg="#e9ebee" py={{ base: 4, md: 8 }}>
+    <Box minH="100vh" bg={bgColor} pb={2}>
+      <Header isDownloading={isDownloading} handleDownload={handleDownload} />
+      <br />
       {/* SEO Meta Tags */}
       {article && (
         <Helmet>
@@ -185,8 +199,8 @@ const ArticlePage = () => {
           variant="facebookGray"
           onClick={() => navigate("/")}
           leftIcon={<ArrowLeft size={12} />}
-          fontSize="10px"
-          h="22px"
+          fontSize="12px"
+          h="32px"
           px={3}
           mb={4}
         >
@@ -201,9 +215,9 @@ const ArticlePage = () => {
             <VStack spacing={0} align="stretch">
               {/* Header Box */}
               <Box
-                bg="white"
+                bg={cardBg}
                 border="1px solid"
-                borderColor="facebook.border"
+                borderColor={borderColor}
                 borderTopRadius="2px"
                 px={{ base: 4, md: 5 }}
                 py={3}
@@ -211,18 +225,14 @@ const ArticlePage = () => {
                 {/* Category and Featured Badge */}
                 <HStack spacing={2} mb={2} flexWrap="wrap">
                   <Box
-                    bg="facebook.paleBlue"
+                    bg={paleBg}
                     px={2}
                     py={1}
                     borderRadius="2px"
                     border="1px solid"
-                    borderColor="facebook.border"
+                    borderColor={borderColor}
                   >
-                    <Text
-                      fontSize="10px"
-                      color="facebook.blue"
-                      fontWeight="bold"
-                    >
+                    <Text fontSize="10px" color={linkBlue} fontWeight="bold">
                       {article.categoryLabel}
                     </Text>
                   </Box>
@@ -247,7 +257,7 @@ const ArticlePage = () => {
                 <Text
                   fontSize={{ base: "16px", md: "20px" }}
                   fontWeight="bold"
-                  color="facebook.text"
+                  color={textColor}
                   lineHeight="1.3"
                   mb={3}
                 >
@@ -259,7 +269,7 @@ const ArticlePage = () => {
                   direction={{ base: "column", sm: "row" }}
                   gap={{ base: 1.5, sm: 3 }}
                   fontSize="11px"
-                  color="facebook.lightText"
+                  color={lightTextColor}
                   flexWrap="wrap"
                 >
                   <HStack spacing={1}>
@@ -282,8 +292,8 @@ const ArticlePage = () => {
                     variant="facebookGray"
                     leftIcon={<Share2 size={12} />}
                     onClick={() => setShowShareButtons(!showShareButtons)}
-                    fontSize="10px"
-                    h="24px"
+                    fontSize="12px"
+                    h="32px"
                     px={3}
                   >
                     Share Article
@@ -296,9 +306,9 @@ const ArticlePage = () => {
                       top="100%"
                       left={0}
                       mt={1}
-                      bg="white"
+                      bg={cardBg}
                       border="1px solid"
-                      borderColor="facebook.border"
+                      borderColor={borderColor}
                       borderRadius="2px"
                       p={2}
                       boxShadow="0 2px 4px rgba(0,0,0,0.1)"
@@ -347,10 +357,10 @@ const ArticlePage = () => {
               {/* Image Box */}
               {article.image && (
                 <Box
-                  bg="white"
+                  bg={cardBg}
                   borderLeft="1px solid"
                   borderRight="1px solid"
-                  borderColor="facebook.border"
+                  borderColor={borderColor}
                 >
                   <Image
                     src={article.image}
@@ -365,16 +375,16 @@ const ArticlePage = () => {
               {/* Excerpt Box */}
               {article.excerpt && (
                 <Box
-                  bg="facebook.paleBlue"
+                  bg={paleBg}
                   borderLeft="1px solid"
                   borderRight="1px solid"
-                  borderColor="facebook.border"
+                  borderColor={borderColor}
                   px={{ base: 4, md: 5 }}
                   py={3}
                 >
                   <Text
                     fontSize="12px"
-                    color="facebook.text"
+                    color={textColor}
                     fontStyle="italic"
                     lineHeight="1.6"
                   >
@@ -386,10 +396,10 @@ const ArticlePage = () => {
               {/* Tags Box */}
               {article.tags && article.tags.length > 0 && (
                 <Box
-                  bg="white"
+                  bg={cardBg}
                   borderLeft="1px solid"
                   borderRight="1px solid"
-                  borderColor="facebook.border"
+                  borderColor={borderColor}
                   px={{ base: 4, md: 5 }}
                   py={2}
                 >
@@ -397,7 +407,7 @@ const ArticlePage = () => {
                     {article.tags.map((tag) => (
                       <HStack key={tag} spacing={1}>
                         <Tag size={9} color="#90949c" />
-                        <Text fontSize="10px" color="facebook.lightText">
+                        <Text fontSize="10px" color={lightTextColor}>
                           {tag}
                         </Text>
                       </HStack>
@@ -408,9 +418,9 @@ const ArticlePage = () => {
 
               {/* Content Box */}
               <Box
-                bg="white"
+                bg={cardBg}
                 border="1px solid"
-                borderColor="facebook.border"
+                borderColor={borderColor}
                 borderBottomRadius="2px"
                 px={{ base: 4, md: 5 }}
                 py={{ base: 4, md: 5 }}
@@ -421,13 +431,13 @@ const ArticlePage = () => {
                     mb: 3,
                     lineHeight: "1.65",
                     fontSize: { base: "13px", md: "14px" },
-                    color: "facebook.text",
+                    color: textColor,
                   },
 
                   // Headings
                   "& h1, & h2, & h3, & h4, & h5, & h6": {
                     fontWeight: "bold",
-                    color: "facebook.text",
+                    color: textColor,
                     mb: 2,
                     mt: 4,
                     lineHeight: "1.3",
@@ -450,23 +460,23 @@ const ArticlePage = () => {
 
                   // Links
                   "& a": {
-                    color: "facebook.linkBlue",
+                    color: linkBlue,
                     textDecoration: "underline",
                     _hover: {
-                      color: "facebook.darkBlue",
+                      color: linkBlue,
                     },
                   },
 
                   // Blockquotes
                   "& blockquote": {
                     borderLeft: "3px solid",
-                    borderColor: "facebook.blue",
+                    borderColor: linkBlue,
                     pl: 3,
                     py: 2,
                     my: 3,
                     ml: 0,
                     fontStyle: "italic",
-                    bg: "facebook.paleBlue",
+                    bg: paleBg,
                     fontSize: { base: "12px", md: "13px" },
                   },
 
@@ -475,7 +485,7 @@ const ArticlePage = () => {
                     maxW: "100%",
                     h: "auto",
                     border: "1px solid",
-                    borderColor: "facebook.border",
+                    borderColor: borderColor,
                     my: 3,
                   },
 
@@ -497,7 +507,7 @@ const ArticlePage = () => {
                     overflowX: "auto",
                     mb: 3,
                     border: "1px solid",
-                    borderColor: "facebook.border",
+                    borderColor: borderColor,
                     fontSize: { base: "11px", md: "12px" },
                     "& code": {
                       bg: "transparent",
@@ -517,8 +527,8 @@ const ArticlePage = () => {
                 variant="facebook"
                 onClick={() => navigate("/")}
                 leftIcon={<ArrowLeft size={14} />}
-                fontSize="11px"
-                h="26px"
+                fontSize="13px"
+                h="32px"
                 px={4}
                 w={{ base: "100%", sm: "auto" }}
               >
@@ -530,22 +540,22 @@ const ArticlePage = () => {
           {/* Sidebar - Related Articles */}
           <Box w={{ base: "100%", lg: "280px" }} flexShrink={0}>
             <Box
-              bg="white"
+              bg={cardBg}
               border="1px solid"
-              borderColor="facebook.border"
+              borderColor={borderColor}
               borderRadius="2px"
               position={{ lg: "sticky" }}
-              top={{ lg: "20px" }}
+              top={{ lg: "60px" }}
             >
               {/* Sidebar Header */}
               <Box
                 borderBottom="1px solid"
-                borderColor="facebook.border"
+                borderColor={borderColor}
                 px={3}
                 py={2}
-                bg="facebook.gray"
+                bg={paleBg}
               >
-                <Text fontSize="12px" fontWeight="bold" color="facebook.text">
+                <Text fontSize="12px" fontWeight="bold" color={textColor}>
                   Related Articles
                 </Text>
               </Box>
@@ -563,10 +573,10 @@ const ArticlePage = () => {
                           ? "1px solid"
                           : "none"
                       }
-                      borderColor="facebook.border"
+                      borderColor={borderColor}
                       cursor="pointer"
                       transition="background 0.2s"
-                      _hover={{ bg: "facebook.paleBlue" }}
+                      _hover={{ bg: paleBg }}
                       onClick={() => navigate(`/article/${related.slug}`)}
                     >
                       <HStack spacing={2} align="start">
@@ -576,7 +586,7 @@ const ArticlePage = () => {
                             h="50px"
                             flexShrink={0}
                             border="1px solid"
-                            borderColor="facebook.border"
+                            borderColor={borderColor}
                             overflow="hidden"
                           >
                             <Image
@@ -592,7 +602,7 @@ const ArticlePage = () => {
                           <Text
                             fontSize="11px"
                             fontWeight="bold"
-                            color="facebook.blue"
+                            color={linkBlue}
                             noOfLines={2}
                             lineHeight="1.3"
                           >
@@ -601,7 +611,7 @@ const ArticlePage = () => {
                           <HStack
                             spacing={1}
                             fontSize="9px"
-                            color="facebook.lightText"
+                            color={lightTextColor}
                           >
                             <Text>
                               {new Date(related.date).toLocaleDateString()}
@@ -615,7 +625,7 @@ const ArticlePage = () => {
                   ))
                 ) : (
                   <Box px={3} py={4} textAlign="center">
-                    <Text fontSize="11px" color="facebook.lightText">
+                    <Text fontSize="11px" color={lightTextColor}>
                       No related articles found
                     </Text>
                   </Box>

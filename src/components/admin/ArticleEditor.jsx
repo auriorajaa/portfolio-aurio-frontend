@@ -21,6 +21,7 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   useDisclosure,
+  Stack,
 } from "@chakra-ui/react";
 import { X } from "lucide-react";
 import ReactQuill from "react-quill";
@@ -107,6 +108,10 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
       ...prev,
       tags: prev.tags.filter((tag) => tag !== tagToRemove),
     }));
+  };
+
+  const handleImageChange = (imageUrl) => {
+    setFormData((prev) => ({ ...prev, image: imageUrl }));
   };
 
   const handleSubmit = (e) => {
@@ -210,7 +215,6 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
     <Box
       as="form"
       onSubmit={handleSubmit}
-      bg="white"
       border="1px solid"
       borderColor="facebook.border"
       borderRadius="2px"
@@ -219,26 +223,20 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
       <Box
         borderBottom="1px solid"
         borderColor="facebook.border"
-        px={4}
+        px={{ base: 3, md: 4 }}
         py={3}
-        bg="facebook.gray"
       >
-        <Text fontSize="13px" fontWeight="bold" color="facebook.text">
+        <Text fontSize="13px" fontWeight="bold">
           {article ? "Edit Article" : "Create New Article"}
         </Text>
       </Box>
 
       {/* Form Content */}
-      <Box px={4} py={4}>
+      <Box px={{ base: 3, md: 4 }} py={4}>
         <VStack spacing={4} align="stretch">
           {/* Title Field */}
           <FormControl isRequired>
-            <FormLabel
-              fontSize="11px"
-              fontWeight="bold"
-              color="facebook.text"
-              mb={1}
-            >
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Title
             </FormLabel>
             <Input
@@ -246,22 +244,19 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
               value={formData.title}
               onChange={handleInputChange}
               placeholder="Enter article title"
-              fontSize="12px"
-              size="sm"
-              borderColor="facebook.border"
+              fontSize="14px"
+              size="md"
               _hover={{ borderColor: "facebook.blue" }}
-              _focus={{ borderColor: "facebook.blue", boxShadow: "none" }}
+              _focus={{
+                borderColor: "facebook.blue",
+                boxShadow: "0 0 0 1px #3b5998",
+              }}
             />
           </FormControl>
 
           {/* Excerpt Field */}
           <FormControl isRequired>
-            <FormLabel
-              fontSize="11px"
-              fontWeight="bold"
-              color="facebook.text"
-              mb={1}
-            >
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Excerpt
             </FormLabel>
             <Textarea
@@ -270,32 +265,31 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
               onChange={handleInputChange}
               placeholder="Brief summary of the article"
               rows={3}
-              fontSize="12px"
-              size="sm"
-              borderColor="facebook.border"
+              fontSize="14px"
               _hover={{ borderColor: "facebook.blue" }}
-              _focus={{ borderColor: "facebook.blue", boxShadow: "none" }}
+              _focus={{
+                borderColor: "facebook.blue",
+                boxShadow: "0 0 0 1px #3b5998",
+              }}
             />
           </FormControl>
 
           {/* Category Field */}
           <FormControl isRequired>
-            <FormLabel
-              fontSize="11px"
-              fontWeight="bold"
-              color="facebook.text"
-              mb={1}
-            >
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Category
             </FormLabel>
             <Select
               value={formData.category}
               onChange={handleCategoryChange}
-              fontSize="12px"
-              size="sm"
-              borderColor="facebook.border"
+              fontSize="13px"
+              size="md"
+              borderRadius="2px"
               _hover={{ borderColor: "facebook.blue" }}
-              _focus={{ borderColor: "facebook.blue", boxShadow: "none" }}
+              _focus={{
+                borderColor: "facebook.blue",
+                boxShadow: "0 0 0 1px #3b5998",
+              }}
             >
               {CATEGORIES.map((cat) => (
                 <option key={cat.value} value={cat.value}>
@@ -305,36 +299,31 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
             </Select>
           </FormControl>
 
-          {/* Image Upload Field */}
+          {/* Image Upload */}
           <ImageUpload
             label="Featured Image"
             value={formData.image}
-            onChange={(imageUrl) =>
-              setFormData((prev) => ({ ...prev, image: imageUrl }))
-            }
-            previewHeight="200px"
+            onChange={handleImageChange}
           />
 
           {/* Tags Field */}
           <FormControl>
-            <FormLabel
-              fontSize="11px"
-              fontWeight="bold"
-              color="facebook.text"
-              mb={1}
-            >
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Tags
             </FormLabel>
-            <HStack spacing={2}>
+            <Stack direction={{ base: "column", sm: "row" }} spacing={2}>
               <Input
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
                 placeholder="Add a tag"
-                fontSize="12px"
-                size="sm"
-                borderColor="facebook.border"
+                fontSize="14px"
+                size="md"
+                flex={1}
                 _hover={{ borderColor: "facebook.blue" }}
-                _focus={{ borderColor: "facebook.blue", boxShadow: "none" }}
+                _focus={{
+                  borderColor: "facebook.blue",
+                  boxShadow: "0 0 0 1px #3b5998",
+                }}
                 onKeyPress={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();
@@ -345,13 +334,14 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
               <Button
                 onClick={handleAddTag}
                 variant="facebookGray"
-                fontSize="10px"
-                h="28px"
+                fontSize="12px"
+                h="36px"
                 px={3}
+                w={{ base: "full", sm: "auto" }}
               >
                 Add
               </Button>
-            </HStack>
+            </Stack>
 
             {/* Tags Display */}
             {formData.tags.length > 0 && (
@@ -367,9 +357,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
                     borderColor="facebook.border"
                     spacing={1}
                   >
-                    <Text fontSize="10px" color="facebook.text">
-                      {tag}
-                    </Text>
+                    <Text fontSize="12px">{tag}</Text>
                     <Box
                       as="button"
                       type="button"
@@ -379,7 +367,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
                       alignItems="center"
                       _hover={{ opacity: 0.7 }}
                     >
-                      <X size={12} color="#90949c" />
+                      <X size={14} color="#90949c" />
                     </Box>
                   </HStack>
                 ))}
@@ -387,16 +375,15 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
             )}
           </FormControl>
 
-          {/* Featured Switch */}
-          <HStack spacing={4}>
+          {/* Featured Switch & Visibility */}
+          <Stack direction={{ base: "column", md: "row" }} spacing={4}>
             <FormControl flex={1}>
               <HStack justify="space-between" align="center">
                 <FormLabel
                   htmlFor="featured"
                   mb={0}
-                  fontSize="11px"
+                  fontSize="13px"
                   fontWeight="bold"
-                  color="facebook.text"
                 >
                   Mark as Featured
                 </FormLabel>
@@ -417,12 +404,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
 
             {/* Visibility Status */}
             <FormControl flex={1}>
-              <FormLabel
-                fontSize="11px"
-                fontWeight="bold"
-                color="facebook.text"
-                mb={1}
-              >
+              <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
                 Visibility
               </FormLabel>
               <Select
@@ -433,26 +415,25 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
                     visibility: e.target.value,
                   }))
                 }
-                fontSize="11px"
-                size="sm"
+                fontSize="13px"
+                size="md"
                 borderRadius="2px"
-                borderColor="facebook.border"
+                _hover={{ borderColor: "facebook.blue" }}
+                _focus={{
+                  borderColor: "facebook.blue",
+                  boxShadow: "0 0 0 1px #3b5998",
+                }}
               >
                 <option value="draft">Draft</option>
                 <option value="public">Public</option>
                 <option value="private">Private</option>
               </Select>
             </FormControl>
-          </HStack>
+          </Stack>
 
           {/* Content Editor */}
           <FormControl isRequired>
-            <FormLabel
-              fontSize="11px"
-              fontWeight="bold"
-              color="facebook.text"
-              mb={1}
-            >
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Content
             </FormLabel>
             <Box
@@ -461,12 +442,10 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
               borderRadius="2px"
               sx={{
                 ".quill": {
-                  bg: "white",
                   fontFamily: "'Tahoma', 'Lucida Grande', sans-serif",
                 },
                 ".ql-toolbar": {
                   borderColor: "facebook.border",
-                  bg: "facebook.gray",
                   borderTopLeftRadius: "2px",
                   borderTopRightRadius: "2px",
                 },
@@ -482,7 +461,6 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
                   minHeight: "300px",
                   fontSize: "13px",
                   lineHeight: "1.6",
-                  color: "facebook.text",
                 },
                 ".ql-editor.ql-blank::before": {
                   fontSize: "13px",
@@ -506,18 +484,22 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
       <Box
         borderTop="1px solid"
         borderColor="facebook.border"
-        px={4}
+        px={{ base: 3, md: 4 }}
         py={3}
-        bg="facebook.gray"
       >
-        <HStack spacing={2} justify="flex-end">
+        <Stack
+          direction={{ base: "column", sm: "row" }}
+          spacing={2}
+          justify="flex-end"
+        >
           {onCancel && (
             <Button
               variant="facebookGray"
               onClick={onCancel}
-              fontSize="11px"
-              h="26px"
+              fontSize="13px"
+              h="32px"
               px={4}
+              w={{ base: "full", sm: "auto" }}
             >
               Cancel
             </Button>
@@ -527,13 +509,14 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
             variant="facebook"
             isLoading={loading}
             loadingText="Saving..."
-            fontSize="11px"
-            h="26px"
+            fontSize="13px"
+            h="32px"
             px={4}
+            w={{ base: "full", sm: "auto" }}
           >
             {article ? "Update Article" : "Create Article"}
           </Button>
-        </HStack>
+        </Stack>
       </Box>
 
       {/* Confirmation Dialog */}
@@ -543,12 +526,12 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
         onClose={onClose}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent borderRadius="2px">
-            <AlertDialogHeader fontSize="12px" fontWeight="bold">
+          <AlertDialogContent borderRadius="2px" mx={4}>
+            <AlertDialogHeader fontSize="14px" fontWeight="bold">
               Confirm {article ? "Update" : "Create"}
             </AlertDialogHeader>
 
-            <AlertDialogBody fontSize="11px">
+            <AlertDialogBody fontSize="13px">
               Are you sure you want to {article ? "update" : "create"} this
               article?
               {formData.image &&
@@ -560,18 +543,18 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
               <Button
                 ref={cancelRef}
                 onClick={onClose}
-                size="sm"
-                fontSize="11px"
+                size="md"
+                fontSize="13px"
                 variant="facebookGray"
               >
                 Cancel
               </Button>
               <Button
-                colorScheme="blue"
+                variant="facebook"
                 onClick={confirmSave}
                 ml={2}
-                size="sm"
-                fontSize="11px"
+                size="md"
+                fontSize="13px"
                 isLoading={loading}
               >
                 {article ? "Update" : "Create"}

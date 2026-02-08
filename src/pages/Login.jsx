@@ -16,6 +16,7 @@ import {
   IconButton,
   HStack,
   Divider,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { Eye, EyeOff, Lock, Mail, Shield, Home } from "lucide-react";
 import { loginAdmin } from "../services/authService";
@@ -29,6 +30,15 @@ const Login = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const { currentUser, isAdminUser } = useAuth();
+
+  // Color mode values
+  const bgColor = useColorModeValue("#e9ebee", "#18191a");
+  const cardBg = useColorModeValue("white", "#242526");
+  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
+  const textColor = useColorModeValue("#333333", "#e4e6eb");
+  const lightTextColor = useColorModeValue("#90949c", "#b0b3b8");
+  const paleBg = useColorModeValue("#d8dfea", "#3a3b3c");
+  const grayBg = useColorModeValue("#f7f7f7", "#242526");
 
   useEffect(() => {
     if (currentUser && isAdminUser) {
@@ -76,7 +86,7 @@ const Login = () => {
   };
 
   return (
-    <Box minH="100vh" bg="#e9ebee" py={{ base: 8, md: 20 }}>
+    <Box minH="100vh" bg={bgColor} py={{ base: 8, md: 20 }}>
       <Container maxW="900px" px={4}>
         {/* Main Content */}
         <HStack
@@ -88,21 +98,21 @@ const Login = () => {
           {/* Left Side - Branding */}
           <Box flex="1" display={{ base: "none", md: "block" }}>
             <VStack align="start" spacing={4} pt={8}>
-              <Text fontSize="14px" color="facebook.text" lineHeight="1.6">
+              <Text fontSize="16px" color={textColor} lineHeight="1.6">
                 Manage your portfolio content, articles, and projects from this
                 secure administrative dashboard.
               </Text>
 
               <Box
-                bg="white"
+                bg={cardBg}
                 border="1px solid"
-                borderColor="facebook.border"
+                borderColor={borderColor}
                 borderRadius="2px"
                 p={4}
                 w="100%"
               >
                 <VStack align="start" spacing={3}>
-                  <Text fontSize="12px" fontWeight="bold" color="facebook.text">
+                  <Text fontSize="14px" fontWeight="bold" color={textColor}>
                     Portal Features:
                   </Text>
 
@@ -114,7 +124,7 @@ const Login = () => {
                         bg="facebook.blue"
                         borderRadius="full"
                       />
-                      <Text fontSize="11px" color="facebook.text">
+                      <Text fontSize="13px" color={textColor}>
                         Create and edit articles
                       </Text>
                     </HStack>
@@ -125,7 +135,7 @@ const Login = () => {
                         bg="facebook.blue"
                         borderRadius="full"
                       />
-                      <Text fontSize="11px" color="facebook.text">
+                      <Text fontSize="13px" color={textColor}>
                         Manage project portfolio
                       </Text>
                     </HStack>
@@ -136,7 +146,7 @@ const Login = () => {
                         bg="facebook.blue"
                         borderRadius="full"
                       />
-                      <Text fontSize="11px" color="facebook.text">
+                      <Text fontSize="13px" color={textColor}>
                         Update profile information
                       </Text>
                     </HStack>
@@ -147,7 +157,7 @@ const Login = () => {
                         bg="facebook.blue"
                         borderRadius="full"
                       />
-                      <Text fontSize="11px" color="facebook.text">
+                      <Text fontSize="13px" color={textColor}>
                         Content analytics & stats
                       </Text>
                     </HStack>
@@ -156,20 +166,19 @@ const Login = () => {
               </Box>
 
               <Box
-                bg="facebook.paleBlue"
+                bg={paleBg}
                 border="1px solid"
-                borderColor="facebook.border"
+                borderColor={borderColor}
                 borderRadius="2px"
                 p={3}
                 w="100%"
               >
                 <HStack spacing={2}>
-                  <Lock size={14} color="#3b5998" />
-                  <Text
-                    fontSize="10px"
-                    color="facebook.text"
-                    fontStyle="italic"
-                  >
+                  <Lock
+                    size={14}
+                    color={useColorModeValue("#3b5998", "#5b7ec8")}
+                  />
+                  <Text fontSize="12px" color={textColor} fontStyle="italic">
                     This area is protected and accessible only to authorized
                     administrators.
                   </Text>
@@ -181,21 +190,21 @@ const Login = () => {
           {/* Right Side - Login Form */}
           <Box flex="1" maxW={{ base: "100%", md: "400px" }}>
             <Box
-              bg="white"
+              bg={cardBg}
               border="1px solid"
-              borderColor="facebook.border"
+              borderColor={borderColor}
               borderRadius="2px"
             >
               {/* Header */}
               <Box
                 borderBottom="1px solid"
-                borderColor="facebook.border"
+                borderColor={borderColor}
                 px={4}
                 py={3}
-                bg="facebook.gray"
+                bg={grayBg}
               >
                 <VStack spacing={1} align="start">
-                  <Text fontSize="10px" color="facebook.lightText">
+                  <Text fontSize="12px" color={lightTextColor}>
                     Enter your credentials to continue
                   </Text>
                 </VStack>
@@ -207,29 +216,21 @@ const Login = () => {
                   <VStack spacing={3}>
                     <FormControl isRequired>
                       <FormLabel
-                        fontSize="11px"
+                        fontSize="13px"
                         fontWeight="bold"
-                        mb={1}
-                        color="facebook.text"
+                        mb={2}
+                        color={textColor}
                       >
                         Email Address
                       </FormLabel>
-                      <InputGroup size="sm">
+                      <InputGroup size="md">
                         <Input
                           type="email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="admin@example.com"
-                          fontSize="12px"
-                          bg="white"
-                          borderColor="facebook.border"
-                          borderRadius="2px"
+                          fontSize="13px"
                           pl={8}
-                          _hover={{ borderColor: "facebook.blue" }}
-                          _focus={{
-                            borderColor: "facebook.blue",
-                            boxShadow: "0 0 0 1px #3b5998",
-                          }}
                         />
                         <Box
                           position="absolute"
@@ -239,36 +240,28 @@ const Login = () => {
                           zIndex={1}
                           pointerEvents="none"
                         >
-                          <Mail size={14} color="#90949c" />
+                          <Mail size={16} color={lightTextColor} />
                         </Box>
                       </InputGroup>
                     </FormControl>
 
                     <FormControl isRequired>
                       <FormLabel
-                        fontSize="11px"
+                        fontSize="13px"
                         fontWeight="bold"
-                        mb={1}
-                        color="facebook.text"
+                        mb={2}
+                        color={textColor}
                       >
                         Password
                       </FormLabel>
-                      <InputGroup size="sm">
+                      <InputGroup size="md">
                         <Input
                           type={showPassword ? "text" : "password"}
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           placeholder="Enter your password"
-                          fontSize="12px"
-                          bg="white"
-                          borderColor="facebook.border"
-                          borderRadius="2px"
+                          fontSize="13px"
                           pl={8}
-                          _hover={{ borderColor: "facebook.blue" }}
-                          _focus={{
-                            borderColor: "facebook.blue",
-                            boxShadow: "0 0 0 1px #3b5998",
-                          }}
                         />
                         <Box
                           position="absolute"
@@ -278,24 +271,24 @@ const Login = () => {
                           zIndex={1}
                           pointerEvents="none"
                         >
-                          <Lock size={14} color="#90949c" />
+                          <Lock size={16} color={lightTextColor} />
                         </Box>
                         <InputRightElement>
                           <IconButton
-                            size="xs"
+                            size="sm"
                             variant="ghost"
                             icon={
                               showPassword ? (
-                                <EyeOff size={14} color="#90949c" />
+                                <EyeOff size={16} color={lightTextColor} />
                               ) : (
-                                <Eye size={14} color="#90949c" />
+                                <Eye size={16} color={lightTextColor} />
                               )
                             }
                             onClick={() => setShowPassword(!showPassword)}
                             aria-label={
                               showPassword ? "Hide password" : "Show password"
                             }
-                            _hover={{ bg: "facebook.paleBlue" }}
+                            _hover={{ bg: paleBg }}
                           />
                         </InputRightElement>
                       </InputGroup>
@@ -305,12 +298,12 @@ const Login = () => {
                       type="submit"
                       w="full"
                       variant="facebook"
-                      fontSize="11px"
+                      fontSize="13px"
                       fontWeight="bold"
                       isLoading={loading}
                       loadingText="Signing in..."
                       mt={2}
-                      h="32px"
+                      h="38px"
                     >
                       Sign In
                     </Button>
@@ -321,29 +314,25 @@ const Login = () => {
               {/* Footer */}
               <Box
                 borderTop="1px solid"
-                borderColor="facebook.border"
+                borderColor={borderColor}
                 px={4}
                 py={3}
-                bg="facebook.gray"
+                bg={grayBg}
               >
                 <VStack spacing={2}>
-                  <HStack
-                    spacing={2}
-                    fontSize="10px"
-                    color="facebook.lightText"
-                  >
-                    <Lock size={10} />
+                  <HStack spacing={2} fontSize="12px" color={lightTextColor}>
+                    <Lock size={12} />
                     <Text>Secure encrypted connection</Text>
                   </HStack>
 
-                  <Divider borderColor="facebook.border" />
+                  <Divider borderColor={borderColor} />
 
                   <Button
                     variant="facebookGray"
                     size="sm"
-                    fontSize="10px"
-                    h="24px"
-                    leftIcon={<Home size={12} />}
+                    fontSize="12px"
+                    h="32px"
+                    leftIcon={<Home size={14} />}
                     onClick={() => navigate("/")}
                     w="full"
                   >
@@ -357,24 +346,23 @@ const Login = () => {
             <Box
               display={{ base: "block", md: "none" }}
               mt={4}
-              bg="white"
+              bg={cardBg}
               border="1px solid"
-              borderColor="facebook.border"
+              borderColor={borderColor}
               borderRadius="2px"
               p={3}
             >
               <VStack align="start" spacing={2}>
                 <HStack spacing={2}>
-                  <Shield size={14} color="#3b5998" />
-                  <Text fontSize="11px" fontWeight="bold" color="facebook.text">
+                  <Shield
+                    size={16}
+                    color={useColorModeValue("#3b5998", "#5b7ec8")}
+                  />
+                  <Text fontSize="13px" fontWeight="bold" color={textColor}>
                     About Admin Portal
                   </Text>
                 </HStack>
-                <Text
-                  fontSize="10px"
-                  color="facebook.lightText"
-                  lineHeight="1.5"
-                >
+                <Text fontSize="12px" color={lightTextColor} lineHeight="1.5">
                   Manage articles, projects, and portfolio content. Protected
                   access for administrators only.
                 </Text>

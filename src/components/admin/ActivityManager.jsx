@@ -19,6 +19,7 @@ import {
   Spinner,
   Center,
   Badge,
+  Stack,
 } from "@chakra-ui/react";
 import { AddIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import {
@@ -151,16 +152,14 @@ const ActivityManager = () => {
   return (
     <Box>
       <HStack justify="space-between" mb={3}>
-        <Text fontSize="11px" color="facebook.text">
-          Total: {activities.length} activities
-        </Text>
+        <Text fontSize="13px">Total: {activities.length} activities</Text>
         <Button
           leftIcon={<AddIcon boxSize={3} />}
-          size="xs"
+          size="sm"
           variant="facebook"
           onClick={handleCreate}
-          fontSize="10px"
-          h="22px"
+          fontSize="12px"
+          h="24px"
           px={2}
         >
           Add Activity
@@ -171,12 +170,11 @@ const ActivityManager = () => {
         <Box
           p={6}
           textAlign="center"
-          bg="white"
           borderRadius="2px"
           border="1px solid"
           borderColor="facebook.border"
         >
-          <Text fontSize="11px" color="facebook.lightText">
+          <Text fontSize="13px" color="facebook.lightText">
             No activities yet. Add your first activity!
           </Text>
         </Box>
@@ -188,17 +186,20 @@ const ActivityManager = () => {
                 key={activity.id}
                 px={3}
                 py={2}
-                bg="white"
                 borderBottom={
                   idx !== currentActivities.length - 1 ? "1px solid" : "none"
                 }
                 borderColor="facebook.border"
               >
-                <HStack spacing={3} align="start">
+                <Stack
+                  direction={{ base: "column", md: "row" }}
+                  spacing={3}
+                  align={{ base: "start", md: "start" }}
+                >
                   {activity.image && (
                     <Box
                       flexShrink={0}
-                      w="60px"
+                      w={{ base: "100%", md: "60px" }}
                       h="60px"
                       border="1px solid"
                       borderColor="facebook.border"
@@ -214,9 +215,9 @@ const ActivityManager = () => {
                     </Box>
                   )}
                   <VStack align="start" flex={1} spacing={1}>
-                    <HStack>
+                    <HStack flexWrap="wrap">
                       <Text
-                        fontSize="12px"
+                        fontSize="14px"
                         fontWeight="bold"
                         color="facebook.blue"
                       >
@@ -233,37 +234,38 @@ const ActivityManager = () => {
                       )}
                     </HStack>
                     {activity.organization && (
-                      <Text fontSize="11px" color="facebook.text">
-                        {activity.organization}
-                      </Text>
+                      <Text fontSize="13px">{activity.organization}</Text>
                     )}
-                    <Text fontSize="10px" color="facebook.lightText">
+                    <Text fontSize="12px" color="facebook.lightText">
                       {activity.period}
                     </Text>
                   </VStack>
-                  <HStack spacing={1}>
+                  <HStack
+                    spacing={1}
+                    alignSelf={{ base: "flex-end", md: "flex-start" }}
+                  >
                     <IconButton
                       icon={<EditIcon boxSize={3} />}
-                      size="xs"
+                      size="sm"
                       variant="facebookGray"
                       onClick={() => handleEdit(activity)}
                       aria-label="Edit"
-                      h="24px"
-                      minW="24px"
+                      h="32px"
+                      minW="32px"
                     />
                     <IconButton
                       icon={<DeleteIcon boxSize={3} />}
-                      size="xs"
+                      size="sm"
                       bg="#ffebee"
                       color="#d32f2f"
                       onClick={() => handleDelete(activity.id)}
                       aria-label="Delete"
-                      h="24px"
-                      minW="24px"
+                      h="32px"
+                      minW="32px"
                       _hover={{ bg: "#ffcdd2" }}
                     />
                   </HStack>
-                </HStack>
+                </Stack>
               </Box>
             ))}
           </VStack>
