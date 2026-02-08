@@ -1,6 +1,14 @@
 import React from "react";
 import { Box, VStack, Text, Link, Flex } from "@chakra-ui/react";
-import { User, Briefcase, GraduationCap, Award, Activity, Mail, FolderOpen } from "lucide-react";
+import {
+  User,
+  Briefcase,
+  GraduationCap,
+  Award,
+  Activity,
+  Mail,
+  FolderOpen,
+} from "lucide-react";
 
 const Sidebar = () => {
   const navItems = [
@@ -15,7 +23,10 @@ const Sidebar = () => {
   ];
 
   return (
-    <Box>
+    <Box
+      position="sticky"
+      top="60px" // Adjust this based on your Header's height
+    >
       {/* Navigation */}
       <Box
         bg="white"
@@ -36,7 +47,9 @@ const Sidebar = () => {
                 gap={2}
                 px={3}
                 py={2}
-                borderBottom={idx !== navItems.length - 1 ? "1px solid" : "none"}
+                borderBottom={
+                  idx !== navItems.length - 1 ? "1px solid" : "none"
+                }
                 borderColor="facebook.border"
                 _hover={{
                   bg: "facebook.paleBlue",
@@ -50,33 +63,6 @@ const Sidebar = () => {
               </Flex>
             </Link>
           ))}
-        </VStack>
-      </Box>
-
-      {/* Stats Box */}
-      <Box
-        bg="white"
-        border="1px solid"
-        borderColor="facebook.border"
-        borderRadius="2px"
-        p={3}
-      >
-        <Text fontSize="11px" fontWeight="bold" color="facebook.text" mb={2}>
-          Profile Stats
-        </Text>
-        <VStack spacing={1} align="stretch">
-          <Flex justify="space-between">
-            <Text fontSize="11px" color="facebook.lightText">Projects</Text>
-            <Text fontSize="11px" fontWeight="bold" color="facebook.text">6</Text>
-          </Flex>
-          <Flex justify="space-between">
-            <Text fontSize="11px" color="facebook.lightText">Experience</Text>
-            <Text fontSize="11px" fontWeight="bold" color="facebook.text">2 Years</Text>
-          </Flex>
-          <Flex justify="space-between">
-            <Text fontSize="11px" color="facebook.lightText">Certificates</Text>
-            <Text fontSize="11px" fontWeight="bold" color="facebook.text">4</Text>
-          </Flex>
         </VStack>
       </Box>
     </Box>
