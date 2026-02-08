@@ -15,8 +15,8 @@ import {
   ModalCloseButton,
   useToast,
   Collapse,
-  // IconButton,
-  // useColorMode,
+  IconButton,
+  useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
@@ -60,7 +60,7 @@ const AdminDashboard = () => {
   } = useDisclosure();
   const navigate = useNavigate();
   const toast = useToast();
-  // const { colorMode, toggleColorMode } = useColorMode();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   // Color mode values
   const bgColor = useColorModeValue("#e9ebee", "#18191a");
@@ -188,7 +188,7 @@ const AdminDashboard = () => {
             Admin Dashboard
           </Text>
           <HStack spacing={2}>
-            {/* <IconButton
+            <IconButton
               icon={
                 colorMode === "light" ? <Moon size={14} /> : <Sun size={14} />
               }
@@ -198,7 +198,7 @@ const AdminDashboard = () => {
               size="sm"
               h="32px"
               title={`Switch to ${colorMode === "light" ? "dark" : "light"} mode`}
-            /> */}
+            />
             <Button
               size="sm"
               variant="facebookGray"

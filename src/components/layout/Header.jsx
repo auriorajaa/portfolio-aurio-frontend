@@ -8,10 +8,10 @@ import {
   // useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-// import { Moon, Sun } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 
 const Header = ({ isDownloading, handleDownload }) => {
-  // const { colorMode, toggleColorMode } = useColorMode();
+  const { colorMode, toggleColorMode } = useColorMode();
   const headerBg = useColorModeValue("#3b5998", "#242526");
   const headerBorder = useColorModeValue("#2d4373", "#3e4042");
 
@@ -47,7 +47,7 @@ const Header = ({ isDownloading, handleDownload }) => {
 
         {/* Actions */}
         <Flex align="center" gap={2}>
-          {/* <IconButton
+          <IconButton
             icon={
               colorMode === "light" ? <Moon size={16} /> : <Sun size={16} />
             }
@@ -56,7 +56,7 @@ const Header = ({ isDownloading, handleDownload }) => {
             variant="facebookGray"
             size="sm"
             title={`Switch to ${colorMode === "light" ? "dark" : "light"} mode`}
-          /> */}
+          />
           <Button
             variant="facebookGray"
             size="sm"

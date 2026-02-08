@@ -383,7 +383,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                   py={3}
                 >
                   <Text
-                    fontSize="12px"
+                    fontSize="13px"
                     color={textColor}
                     fontStyle="italic"
                     lineHeight="1.6"
@@ -407,7 +407,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                     {article.tags.map((tag) => (
                       <HStack key={tag} spacing={1}>
                         <Tag size={9} color="#90949c" />
-                        <Text fontSize="10px" color={lightTextColor}>
+                        <Text fontSize="12px" color={lightTextColor}>
                           {tag}
                         </Text>
                       </HStack>
@@ -430,7 +430,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                   "& p": {
                     mb: 3,
                     lineHeight: "1.65",
-                    fontSize: { base: "13px", md: "14px" },
+                    fontSize: { base: "14px", md: "15px" },
                     color: textColor,
                   },
 

@@ -179,11 +179,11 @@ const Articles = () => {
             }}
             borderBottom="1px solid"
             borderColor={borderColor}
-            cursor="pointer"
-            transition="background 0.2s"
+            transition="all 0.15s ease"
             _hover={{
-              bg: "facebook.paleBlue",
+              transform: "translateX(-2px)",
             }}
+            cursor="pointer"
             onClick={() => handleArticleClick(article.slug)}
           >
             {/* Article Image */}
