@@ -58,10 +58,10 @@ const Sidebar = () => {
             />
           </Box>
           <Box>
-            <Text fontSize="13px" fontWeight="bold" color={colors.text}>
+            <Text fontSize="16px" fontWeight="bold" color={colors.text}>
               {personalInfo.name || "Aurio Rajaa"}
             </Text>
-            <Text fontSize="11px" color={colors.muted} lineHeight="1.35">
+            <Text fontSize="14px" color={colors.muted} lineHeight="1.35">
               {personalInfo.title || "Software Engineer"}
             </Text>
           </Box>
@@ -94,7 +94,7 @@ const Sidebar = () => {
                 cursor="pointer"
               >
                 <item.icon size={14} color={colors.link} />
-                <Text fontSize="12px" fontWeight="bold" color={colors.text}>
+                <Text fontSize="15px" fontWeight="bold" color={colors.text}>
                   {item.label}
                 </Text>
               </Flex>

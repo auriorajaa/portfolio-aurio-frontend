@@ -98,7 +98,7 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
     <form onSubmit={handleSubmit}>
       <VStack spacing={3} align="stretch">
         <FormControl isRequired>
-          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+          <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
             Achievement Title
           </FormLabel>
           <Input
@@ -107,13 +107,13 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
             onChange={handleInputChange}
             placeholder="e.g. Best Paper Award"
             size="md"
-            fontSize="13px"
+            fontSize="16px"
             borderRadius="2px"
           />
         </FormControl>
 
         <FormControl isRequired>
-          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+          <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
             Issuer/Organization
           </FormLabel>
           <Input
@@ -122,13 +122,13 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
             onChange={handleInputChange}
             placeholder="e.g. IEEE Conference"
             size="md"
-            fontSize="13px"
+            fontSize="16px"
             borderRadius="2px"
           />
         </FormControl>
 
         <FormControl isRequired>
-          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+          <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
             Date
           </FormLabel>
           <Input
@@ -137,13 +137,13 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
             onChange={handleInputChange}
             placeholder="e.g. January 2024"
             size="md"
-            fontSize="13px"
+            fontSize="16px"
             borderRadius="2px"
           />
         </FormControl>
 
         <FormControl>
-          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+          <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
             Description
           </FormLabel>
           <Textarea
@@ -153,7 +153,7 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
             placeholder="Brief description of the achievement"
             rows={3}
             size="md"
-            fontSize="13px"
+            fontSize="16px"
             borderRadius="2px"
           />
         </FormControl>
@@ -170,7 +170,7 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
             variant="facebook"
             size="md"
             h="36px"
-            fontSize="13px"
+            fontSize="16px"
             flex={1}
             isLoading={loading}
           >
@@ -183,7 +183,7 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
               flex={1}
               size="md"
               h="36px"
-              fontSize="13px"
+              fontSize="16px"
               borderColor="facebook.border"
               borderRadius="2px"
             >
@@ -200,10 +200,10 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
       >
         <AlertDialogOverlay>
           <AlertDialogContent borderRadius="2px">
-            <AlertDialogHeader fontSize="14px" fontWeight="bold">
+            <AlertDialogHeader fontSize="17px" fontWeight="bold">
               Confirm Save
             </AlertDialogHeader>
-            <AlertDialogBody fontSize="13px">
+            <AlertDialogBody fontSize="16px">
               Are you sure you want to save this achievement?
             </AlertDialogBody>
             <AlertDialogFooter>
@@ -211,7 +211,7 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
                 ref={cancelRef}
                 onClick={onClose}
                 size="md"
-                fontSize="13px"
+                fontSize="16px"
               >
                 Cancel
               </Button>
@@ -220,7 +220,7 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
                 onClick={confirmSave}
                 ml={2}
                 size="md"
-                fontSize="13px"
+                fontSize="16px"
                 isLoading={loading}
               >
                 Save

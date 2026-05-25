@@ -208,13 +208,13 @@ const ArticleList = ({
         justify="space-between"
         spacing={2}
       >
-        <Text fontSize="13px">Total: {filteredArticles.length} articles</Text>
+        <Text fontSize="16px">Total: {filteredArticles.length} articles</Text>
         <Select
           w={{ base: "full", sm: "150px" }}
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
           size="sm"
-          fontSize="13px"
+          fontSize="16px"
         >
           <option value="date">Sort by Date</option>
           <option value="featured">Featured First</option>
@@ -230,7 +230,7 @@ const ArticleList = ({
           border="1px solid"
           borderColor="facebook.border"
         >
-          <Text fontSize="13px" color="facebook.lightText">
+          <Text fontSize="16px" color="facebook.lightText">
             No articles yet. Create your first article!
           </Text>
         </Box>
@@ -273,23 +273,23 @@ const ArticleList = ({
                   <VStack align="start" flex={1} spacing={1}>
                     <HStack flexWrap="wrap">
                       <Text
-                        fontSize="14px"
+                        fontSize="17px"
                         fontWeight="bold"
                         color="facebook.blue"
                       >
                         {article.title}
                       </Text>
                       {article.featured && (
-                        <Badge bg="#f7f7a3" color="#333" fontSize="9px" px={1}>
+                        <Badge bg="#f7f7a3" color="#333" fontSize="12px" px={1}>
                           Featured
                         </Badge>
                       )}
                     </HStack>
-                    <Text fontSize="13px" noOfLines={1}>
+                    <Text fontSize="16px" noOfLines={1}>
                       {article.excerpt}
                     </Text>
                     <HStack
-                      fontSize="12px"
+                      fontSize="15px"
                       color="facebook.lightText"
                       spacing={1}
                       flexWrap="wrap"
@@ -297,7 +297,7 @@ const ArticleList = ({
                       <Badge
                         bg="facebook.paleBlue"
                         color="facebook.text"
-                        fontSize="9px"
+                        fontSize="12px"
                       >
                         {article.categoryLabel}
                       </Badge>
@@ -308,7 +308,7 @@ const ArticleList = ({
                     </HStack>
                     <Select
                       size="sm"
-                      fontSize="9px"
+                      fontSize="12px"
                       h="24px"
                       w="70px"
                       value={article.visibility || "public"}
@@ -375,7 +375,7 @@ const ArticleList = ({
                                     cursor="pointer"
                                   >
                                     <FacebookIcon size={20} round={false} />
-                                    <Text fontSize="12px">Facebook</Text>
+                                    <Text fontSize="15px">Facebook</Text>
                                   </HStack>
                                 </FacebookShareButton>
                                 <TwitterShareButton
@@ -389,7 +389,7 @@ const ArticleList = ({
                                     cursor="pointer"
                                   >
                                     <TwitterIcon size={20} round={false} />
-                                    <Text fontSize="12px">Twitter</Text>
+                                    <Text fontSize="15px">Twitter</Text>
                                   </HStack>
                                 </TwitterShareButton>
                                 <LinkedinShareButton
@@ -404,7 +404,7 @@ const ArticleList = ({
                                     cursor="pointer"
                                   >
                                     <LinkedinIcon size={20} round={false} />
-                                    <Text fontSize="12px">LinkedIn</Text>
+                                    <Text fontSize="15px">LinkedIn</Text>
                                   </HStack>
                                 </LinkedinShareButton>
                                 <WhatsappShareButton
@@ -418,7 +418,7 @@ const ArticleList = ({
                                     cursor="pointer"
                                   >
                                     <WhatsappIcon size={20} round={false} />
-                                    <Text fontSize="12px">WhatsApp</Text>
+                                    <Text fontSize="15px">WhatsApp</Text>
                                   </HStack>
                                 </WhatsappShareButton>
                               </VStack>
@@ -478,11 +478,11 @@ const ArticleList = ({
       >
         <AlertDialogOverlay>
           <AlertDialogContent borderRadius="2px">
-            <AlertDialogHeader fontSize="14px" fontWeight="bold">
+            <AlertDialogHeader fontSize="17px" fontWeight="bold">
               Delete Article
             </AlertDialogHeader>
 
-            <AlertDialogBody fontSize="13px">
+            <AlertDialogBody fontSize="16px">
               Are you sure? This action cannot be undone.
             </AlertDialogBody>
 
@@ -491,7 +491,7 @@ const ArticleList = ({
                 ref={cancelRef}
                 onClick={onClose}
                 variant="facebookGray"
-                fontSize="13px"
+                fontSize="16px"
               >
                 Cancel
               </Button>
@@ -501,7 +501,7 @@ const ArticleList = ({
                 _hover={{ bg: "#b71c1c" }}
                 onClick={handleDelete}
                 ml={3}
-                fontSize="13px"
+                fontSize="16px"
               >
                 Delete
               </Button>

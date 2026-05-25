@@ -221,7 +221,7 @@ const PortfolioDataManager = ({ onDataChange }) => {
             borderColor={colors.border}
             bg={colors.headerBg}
           >
-            <Text fontSize="13px" fontWeight="bold">
+            <Text fontSize="16px" fontWeight="bold">
               Edit Portfolio Data (JSON)
             </Text>
           </Box>
@@ -276,7 +276,7 @@ const PortfolioDataManager = ({ onDataChange }) => {
             borderColor={colors.border}
             bg={colors.headerBg}
           >
-            <Text fontSize="13px" fontWeight="bold">
+            <Text fontSize="16px" fontWeight="bold">
               Data Structure Reference
             </Text>
           </Box>

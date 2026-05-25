@@ -154,13 +154,13 @@ const ActivityManager = ({ onDataChange }) => {
   return (
     <Box>
       <HStack justify="space-between" mb={3}>
-        <Text fontSize="13px">Total: {activities.length} activities</Text>
+        <Text fontSize="16px">Total: {activities.length} activities</Text>
         <Button
           leftIcon={<AddIcon boxSize={3} />}
           size="sm"
           variant="facebook"
           onClick={handleCreate}
-          fontSize="12px"
+          fontSize="15px"
           h="24px"
           px={2}
         >
@@ -176,7 +176,7 @@ const ActivityManager = ({ onDataChange }) => {
           border="1px solid"
           borderColor="facebook.border"
         >
-          <Text fontSize="13px" color="facebook.lightText">
+          <Text fontSize="16px" color="facebook.lightText">
             No activities yet. Add your first activity!
           </Text>
         </Box>
@@ -219,7 +219,7 @@ const ActivityManager = ({ onDataChange }) => {
                   <VStack align="start" flex={1} spacing={1}>
                     <HStack flexWrap="wrap">
                       <Text
-                        fontSize="14px"
+                        fontSize="17px"
                         fontWeight="bold"
                         color="facebook.blue"
                       >
@@ -229,16 +229,16 @@ const ActivityManager = ({ onDataChange }) => {
                         <Badge
                           bg="facebook.paleBlue"
                           color="facebook.text"
-                          fontSize="9px"
+                          fontSize="12px"
                         >
                           {activity.role}
                         </Badge>
                       )}
                     </HStack>
                     {activity.organization && (
-                      <Text fontSize="13px">{activity.organization}</Text>
+                      <Text fontSize="16px">{activity.organization}</Text>
                     )}
-                    <Text fontSize="12px" color="facebook.lightText">
+                    <Text fontSize="15px" color="facebook.lightText">
                       {activity.period}
                     </Text>
                   </VStack>

@@ -152,13 +152,13 @@ const AchievementManager = ({ onDataChange }) => {
   return (
     <Box>
       <HStack justify="space-between" mb={3}>
-        <Text fontSize="13px">Total: {achievements.length} achievements</Text>
+        <Text fontSize="16px">Total: {achievements.length} achievements</Text>
         <Button
           leftIcon={<AddIcon boxSize={3} />}
           size="sm"
           variant="facebook"
           onClick={handleCreate}
-          fontSize="12px"
+          fontSize="15px"
           h="24px"
           px={2}
         >
@@ -174,7 +174,7 @@ const AchievementManager = ({ onDataChange }) => {
           border="1px solid"
           borderColor="facebook.border"
         >
-          <Text fontSize="13px" color="facebook.lightText">
+          <Text fontSize="16px" color="facebook.lightText">
             No achievements yet. Add your first achievement!
           </Text>
         </Box>
@@ -212,14 +212,14 @@ const AchievementManager = ({ onDataChange }) => {
                   )}
                   <VStack align="start" flex={1} spacing={1}>
                     <Text
-                      fontSize="14px"
+                      fontSize="17px"
                       fontWeight="bold"
                       color="facebook.blue"
                     >
                       {achievement.title}
                     </Text>
-                    <Text fontSize="13px">{achievement.issuer}</Text>
-                    <Text fontSize="12px" color="facebook.lightText">
+                    <Text fontSize="16px">{achievement.issuer}</Text>
+                    <Text fontSize="15px" color="facebook.lightText">
                       {achievement.date}
                     </Text>
                   </VStack>

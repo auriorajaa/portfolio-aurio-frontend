@@ -9,16 +9,14 @@ import {
   Image,
   Input,
   Progress,
-  Select,
   SimpleGrid,
   Text,
   Textarea,
   VStack,
   useToast,
 } from "@chakra-ui/react";
-import { ArrowDown, ArrowUp, FileText, Image as ImageIcon, Plus, Trash2, Upload } from "lucide-react";
+import { ArrowDown, ArrowUp, Image as ImageIcon, Plus, Trash2, Upload } from "lucide-react";
 import { validateMediaFile } from "../../services/cloudinaryService";
-import { isPdfUrl } from "../../utils/projectMedia";
 import { RetroBadge, useRetroColors } from "../ui/retro";
 
 const createEmptyItem = (order) => ({
@@ -41,7 +39,7 @@ const ProjectGalleryInput = ({ value = [], onChange }) => {
   const items = Array.isArray(value)
     ? value.map((item, index) => ({
         id: item.id || `media-${index}`,
-        type: item.type || (isPdfUrl(item.url) ? "pdf" : "image"),
+        type: "image",
         url: item.url || "",
         title: item.title || "",
         caption: item.caption || "",
@@ -100,12 +98,11 @@ const ProjectGalleryInput = ({ value = [], onChange }) => {
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      const isPdf = file.type === "application/pdf";
       emit([
         ...items,
         {
           id: `media-${Date.now()}`,
-          type: isPdf ? "pdf" : "image",
+          type: "image",
           url: reader.result,
           title: file.name.replace(/\.[^/.]+$/, ""),
           caption: "",
@@ -115,8 +112,8 @@ const ProjectGalleryInput = ({ value = [], onChange }) => {
         },
       ]);
       toast({
-        title: "Media selected",
-        description: "The file will upload to Cloudinary when you save.",
+        title: "Image selected",
+        description: "The image will upload to Cloudinary when you save.",
         status: "info",
         duration: 2200,
         isClosable: true,
@@ -152,7 +149,7 @@ const ProjectGalleryInput = ({ value = [], onChange }) => {
           <Input
             ref={fileInputRef}
             type="file"
-            accept="image/*,application/pdf"
+            accept="image/*"
             display="none"
             onChange={handleFileSelect}
           />
@@ -164,8 +161,8 @@ const ProjectGalleryInput = ({ value = [], onChange }) => {
 
         {items.length === 0 ? (
           <Box border="1px solid" borderColor={colors.borderSoft} p={3} bg={colors.panelAlt}>
-            <Text fontSize="12px" color={colors.muted}>
-              No showcase media yet. Existing project thumbnail will still be used as fallback.
+            <Text fontSize="15px" color={colors.muted}>
+              No showcase images yet. Existing project thumbnail will still be used as fallback.
             </Text>
           </Box>
         ) : (
@@ -190,12 +187,10 @@ const ProjectGalleryInput = ({ value = [], onChange }) => {
                     flexShrink={0}
                     overflow="hidden"
                   >
-                    {item.type === "image" && item.url ? (
+                    {item.url ? (
                       <Image src={item.url} alt={item.alt || item.title} w="100%" h="100%" objectFit="cover" />
                     ) : item.thumbnail ? (
                       <Image src={item.thumbnail} alt={item.title} w="100%" h="100%" objectFit="cover" />
-                    ) : item.type === "pdf" ? (
-                      <FileText size={28} color={colors.link} />
                     ) : (
                       <ImageIcon size={28} color={colors.link} />
                     )}
@@ -204,10 +199,8 @@ const ProjectGalleryInput = ({ value = [], onChange }) => {
                   <VStack spacing={2} align="stretch" flex={1} minW={0}>
                     <HStack spacing={2} justify="space-between">
                       <HStack spacing={2}>
-                        <RetroBadge tone={item.type === "pdf" ? "amber" : "blue"}>
-                          {item.type}
-                        </RetroBadge>
-                        <Text fontSize="11px" color={colors.muted}>
+                        <RetroBadge tone="blue">image</RetroBadge>
+                        <Text fontSize="14px" color={colors.muted}>
                           Slot {index + 1}
                         </Text>
                       </HStack>
@@ -246,37 +239,24 @@ const ProjectGalleryInput = ({ value = [], onChange }) => {
                     </HStack>
 
                     <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2}>
-                      <Select
-                        value={item.type}
-                        onChange={(e) => updateItem(item.id, { type: e.target.value })}
-                        size="sm"
-                      >
-                        <option value="image">Image</option>
-                        <option value="pdf">PDF</option>
-                      </Select>
                       <Input
                         value={item.title}
                         onChange={(e) => updateItem(item.id, { title: e.target.value })}
-                        placeholder="Media title"
+                        placeholder="Image title"
+                        size="sm"
+                      />
+                      <Input
+                        value={item.url}
+                        onChange={(e) => updateItem(item.id, { url: e.target.value, type: "image" })}
+                        placeholder="Image URL"
                         size="sm"
                       />
                     </SimpleGrid>
-                    <Input
-                      value={item.url}
-                      onChange={(e) =>
-                        updateItem(item.id, {
-                          url: e.target.value,
-                          type: isPdfUrl(e.target.value) ? "pdf" : item.type,
-                        })
-                      }
-                      placeholder="Image or PDF URL"
-                      size="sm"
-                    />
                     <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2}>
                       <Input
                         value={item.thumbnail}
                         onChange={(e) => updateItem(item.id, { thumbnail: e.target.value })}
-                        placeholder="PDF thumbnail URL (optional)"
+                        placeholder="Thumbnail URL (optional)"
                         size="sm"
                       />
                       <Input

@@ -44,23 +44,23 @@ const Hero = () => {
           position="relative"
           zIndex={1}
           h="100%"
-          minH={{ base: "132px", md: "150px" }}
+          minH={{ base: "132px", md: "140px" }}
           align="end"
           p={{ base: 3, md: 4 }}
         >
           <Box color="white" maxW="780px">
-            <HStack spacing={2} mb={2} flexWrap="wrap">
+            {/* <HStack spacing={2} mb={2} flexWrap="wrap">
               <RetroBadge tone="green">Available for Collaboration</RetroBadge>
-            </HStack>
+            </HStack> */}
             <Heading
               as="h1"
-              fontSize={{ base: "24px", md: "34px" }}
+              fontSize={{ base: "27px", md: "37px" }}
               lineHeight="1.08"
             >
               {personalInfo.name || "Aurio Rajaa"}
             </Heading>
             <Text
-              fontSize={{ base: "13px", md: "15px" }}
+              fontSize={{ base: "16px", md: "18px" }}
               mt={1}
               color="rgba(255,255,255,.84)"
             >
@@ -106,7 +106,7 @@ const Hero = () => {
 
         <VStack align="stretch" spacing={3} flex={1} minW={0}>
           <Text
-            fontSize="13px"
+            fontSize="16px"
             color={colors.text}
             lineHeight="1.6"
             overflowWrap="anywhere"
@@ -122,7 +122,7 @@ const Hero = () => {
               p={2}
             >
               <Briefcase size={14} color={colors.link} />
-              <Text fontSize="12px" color={colors.text} noOfLines={1}>
+              <Text fontSize="15px" color={colors.text} noOfLines={1}>
                 {personalInfo.title}
               </Text>
             </HStack>
@@ -133,7 +133,7 @@ const Hero = () => {
               p={2}
             >
               <MapPin size={14} color={colors.link} />
-              <Text fontSize="12px" color={colors.text} noOfLines={1}>
+              <Text fontSize="15px" color={colors.text} noOfLines={1}>
                 {personalInfo.location}
               </Text>
             </HStack>
@@ -146,7 +146,7 @@ const Hero = () => {
               <Mail size={14} color={colors.link} />
               <Link
                 href={`mailto:${personalInfo.email}`}
-                fontSize="12px"
+                fontSize="15px"
                 fontWeight="bold"
                 noOfLines={1}
               >

@@ -21,7 +21,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         minW="32px"
       />
 
-      <Text fontSize="13px" color={textColor} px={2}>
+      <Text fontSize="16px" color={textColor} px={2}>
         {currentPage} / {totalPages}
       </Text>
 

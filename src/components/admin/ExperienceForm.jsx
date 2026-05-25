@@ -59,7 +59,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
     <form onSubmit={handleSubmit}>
       <VStack spacing={3} align="stretch">
         <FormControl isRequired>
-          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+          <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
             Company Name
           </FormLabel>
           <Input
@@ -68,13 +68,13 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
             onChange={handleInputChange}
             placeholder="Company name"
             size="md"
-            fontSize="13px"
+            fontSize="16px"
             borderRadius="2px"
           />
         </FormControl>
 
         <FormControl isRequired>
-          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+          <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
             Position
           </FormLabel>
           <Input
@@ -83,14 +83,14 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
             onChange={handleInputChange}
             placeholder="Job title"
             size="md"
-            fontSize="13px"
+            fontSize="16px"
             borderRadius="2px"
           />
         </FormControl>
 
         <HStack spacing={3}>
           <FormControl isRequired flex={1}>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Period
             </FormLabel>
             <Input
@@ -99,13 +99,13 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
               onChange={handleInputChange}
               placeholder="e.g. Jan 2023 – Present"
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="2px"
             />
           </FormControl>
 
           <FormControl isRequired flex={1}>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Location
             </FormLabel>
             <Input
@@ -114,7 +114,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
               onChange={handleInputChange}
               placeholder="City or Remote"
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="2px"
             />
           </FormControl>
@@ -122,7 +122,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
 
         <HStack spacing={3}>
           <FormControl isRequired flex={1}>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Type
             </FormLabel>
             <Select
@@ -130,7 +130,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
               value={formData.type}
               onChange={handleInputChange}
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="2px"
             >
               <option value="Full-time">Full-time</option>
@@ -142,7 +142,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
           </FormControl>
 
           <FormControl flex={1}>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Company Logo URL
             </FormLabel>
             <Input
@@ -151,7 +151,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
               onChange={handleInputChange}
               placeholder="https://example.com/logo.png"
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="2px"
             />
           </FormControl>
@@ -181,7 +181,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
             variant="facebook"
             size="md"
             h="36px"
-            fontSize="13px"
+            fontSize="16px"
             flex={1}
             isLoading={loading}
           >
@@ -194,7 +194,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
               flex={1}
               size="md"
               h="36px"
-              fontSize="13px"
+              fontSize="16px"
               borderColor="facebook.border"
               borderRadius="2px"
             >
@@ -211,10 +211,10 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
       >
         <AlertDialogOverlay>
           <AlertDialogContent borderRadius="2px">
-            <AlertDialogHeader fontSize="14px" fontWeight="bold">
+            <AlertDialogHeader fontSize="17px" fontWeight="bold">
               Confirm Save
             </AlertDialogHeader>
-            <AlertDialogBody fontSize="13px">
+            <AlertDialogBody fontSize="16px">
               Are you sure you want to save this experience?
             </AlertDialogBody>
             <AlertDialogFooter>
@@ -222,7 +222,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
                 ref={cancelRef}
                 onClick={onClose}
                 size="md"
-                fontSize="13px"
+                fontSize="16px"
               >
                 Cancel
               </Button>
@@ -231,7 +231,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
                 onClick={confirmSave}
                 ml={2}
                 size="md"
-                fontSize="13px"
+                fontSize="16px"
                 isLoading={loading}
               >
                 Save

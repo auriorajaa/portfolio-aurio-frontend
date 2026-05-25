@@ -180,21 +180,21 @@ const AdminMetric = ({ label, value, hint, tone = "blue" }) => {
       <HStack justify="space-between" align="start" spacing={2}>
         <Box minW={0}>
           <Text
-            fontSize="10px"
+            fontSize="13px"
             color={colors.muted}
             fontWeight="bold"
             textTransform="uppercase"
           >
             {label}
           </Text>
-          <Text fontSize="22px" fontWeight="bold" color={colors.text}>
+          <Text fontSize="25px" fontWeight="bold" color={colors.text}>
             {value}
           </Text>
         </Box>
         <RetroBadge tone={tone}>Live</RetroBadge>
       </HStack>
       {hint && (
-        <Text fontSize="11px" color={colors.muted} noOfLines={1}>
+        <Text fontSize="14px" color={colors.muted} noOfLines={1}>
           {hint}
         </Text>
       )}
@@ -214,14 +214,14 @@ const ModuleNavButton = ({ module, isActive, onClick }) => {
       h="34px"
       w="100%"
       px={2}
-      fontSize="12px"
+      fontSize="15px"
       leftIcon={<Icon size={14} />}
       borderColor={isActive ? colors.linkDark : colors.border}
       title={module.description}
     >
       <HStack w="100%" justify="space-between" spacing={2}>
         <Text noOfLines={1}>{module.label}</Text>
-        <Text fontSize="9px" opacity={0.72}>
+        <Text fontSize="12px" opacity={0.72}>
           {module.code}
         </Text>
       </HStack>
@@ -243,7 +243,7 @@ const StatusLine = ({ icon: Icon, label, value, tone = "blue" }) => {
     >
       <HStack spacing={2} minW={0}>
         <Icon size={13} color={colors.link} />
-        <Text fontSize="12px" color={colors.text} noOfLines={1}>
+        <Text fontSize="15px" color={colors.text} noOfLines={1}>
           {label}
         </Text>
       </HStack>
@@ -280,10 +280,10 @@ const WorkbenchIntro = ({ module, actions, children }) => {
             <Icon size={18} color={colors.link} />
           </Box>
           <Box>
-            <Text fontSize="15px" fontWeight="bold" color={colors.text}>
+            <Text fontSize="18px" fontWeight="bold" color={colors.text}>
               {module.title}
             </Text>
-            <Text fontSize="12px" color={colors.muted}>
+            <Text fontSize="15px" color={colors.muted}>
               {module.description}
             </Text>
           </Box>
@@ -353,7 +353,7 @@ const OverviewWorkbench = ({
           >
             <HStack spacing={2}>
               <SearchCheck size={14} color={colors.link} />
-              <Text fontSize="13px" fontWeight="bold">
+              <Text fontSize="16px" fontWeight="bold">
                 Site Health
               </Text>
             </HStack>
@@ -378,7 +378,7 @@ const OverviewWorkbench = ({
                   ) : (
                     <CheckCircle2 size={13} color={colors.green} />
                   )}
-                  <Text fontSize="12px" color={colors.text}>
+                  <Text fontSize="15px" color={colors.text}>
                     {warning}
                   </Text>
                 </HStack>
@@ -398,7 +398,7 @@ const OverviewWorkbench = ({
           >
             <HStack spacing={2}>
               <Terminal size={14} color={colors.link} />
-              <Text fontSize="13px" fontWeight="bold">
+              <Text fontSize="16px" fontWeight="bold">
                 Quick Commands
               </Text>
             </HStack>
@@ -452,7 +452,7 @@ const OverviewWorkbench = ({
             bg={colors.headerBg}
           >
             <FileText size={14} color={colors.link} />
-            <Text fontSize="13px" fontWeight="bold">
+            <Text fontSize="16px" fontWeight="bold">
               Recent Articles
             </Text>
           </HStack>
@@ -469,10 +469,10 @@ const OverviewWorkbench = ({
                   _last={{ borderBottom: "0" }}
                 >
                   <Box minW={0}>
-                    <Text fontSize="12px" fontWeight="bold" noOfLines={1}>
+                    <Text fontSize="15px" fontWeight="bold" noOfLines={1}>
                       {article.title}
                     </Text>
-                    <Text fontSize="11px" color={colors.muted}>
+                    <Text fontSize="14px" color={colors.muted}>
                       {formatDate(article.date)}
                     </Text>
                   </Box>
@@ -498,7 +498,7 @@ const OverviewWorkbench = ({
             bg={colors.headerBg}
           >
             <FolderOpen size={14} color={colors.link} />
-            <Text fontSize="13px" fontWeight="bold">
+            <Text fontSize="16px" fontWeight="bold">
               Recent Projects
             </Text>
           </HStack>
@@ -515,10 +515,10 @@ const OverviewWorkbench = ({
                   _last={{ borderBottom: "0" }}
                 >
                   <Box minW={0}>
-                    <Text fontSize="12px" fontWeight="bold" noOfLines={1}>
+                    <Text fontSize="15px" fontWeight="bold" noOfLines={1}>
                       {project.title}
                     </Text>
-                    <Text fontSize="11px" color={colors.muted} noOfLines={1}>
+                    <Text fontSize="14px" color={colors.muted} noOfLines={1}>
                       {project.role || project.period || "Showcase item"}
                     </Text>
                   </Box>
@@ -896,10 +896,10 @@ const AdminDashboard = () => {
           <HStack spacing={2} align="start">
             <ShieldCheck size={18} color={colors.link} />
             <Box minW={0}>
-              <Text fontSize="15px" fontWeight="bold" color={colors.link}>
+              <Text fontSize="18px" fontWeight="bold" color={colors.link}>
                 Site Control Center
               </Text>
-              <Text fontSize="11px" color={colors.muted}>
+              <Text fontSize="14px" color={colors.muted}>
                 Firebase-authenticated portfolio command deck
               </Text>
             </Box>
@@ -1098,12 +1098,12 @@ const AdminDashboard = () => {
             <RetroPanel title="Analytics" icon={BarChart3} bodyProps={{ p: 3 }}>
               <VStack align="stretch" spacing={2}>
                 <HStack justify="space-between">
-                  <Text fontSize="12px" color={colors.text}>
+                  <Text fontSize="15px" color={colors.text}>
                     Vercel Web Analytics
                   </Text>
                   <RetroBadge tone="green">Enabled</RetroBadge>
                 </HStack>
-                <Text fontSize="11px" color={colors.muted}>
+                <Text fontSize="14px" color={colors.muted}>
                   Tracking is mounted globally. Real traffic reports stay inside
                   Vercel so no private token is exposed in this client.
                 </Text>
@@ -1127,7 +1127,7 @@ const AdminDashboard = () => {
                 bg={useColorModeValue("#10151b", "#090d12")}
                 color="#d6f5d6"
                 fontFamily="'Lucida Console', 'Courier New', monospace"
-                fontSize="11px"
+                fontSize="14px"
                 minH="188px"
                 px={3}
                 py={2}

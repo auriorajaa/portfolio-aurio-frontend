@@ -2,7 +2,7 @@ import React from "react";
 import { Box, HStack, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { Award, Cpu } from "lucide-react";
 import { skillDetails, skillsData } from "../../data/portfolioData";
-import { RetroBadge, RetroPanel, useRetroColors } from "../ui/retro";
+import { RetroPanel, useRetroColors } from "../ui/retro";
 
 const Skills = () => {
   const colors = useRetroColors();
@@ -26,7 +26,7 @@ const Skills = () => {
           >
             <HStack spacing={2} mb={2}>
               <Cpu size={14} color={colors.link} />
-              <Text fontSize="13px" fontWeight="bold" color={colors.text}>
+              <Text fontSize="16px" fontWeight="bold" color={colors.text}>
                 {category.category}
               </Text>
             </HStack>
@@ -43,13 +43,13 @@ const Skills = () => {
                     p={2}
                   >
                     <HStack spacing={2} justify="space-between" align="start">
-                      <Text fontSize="12px" fontWeight="bold" color={colors.link}>
+                      <Text fontSize="15px" fontWeight="bold" color={colors.link}>
                         {skill}
                       </Text>
-                      {detail?.level && <RetroBadge tone="green">{detail.level}</RetroBadge>}
+                      {/* {detail?.level && <RetroBadge tone="green">{detail.level}</RetroBadge>} */}
                     </HStack>
                     {detail?.description && (
-                      <Text fontSize="11px" color={colors.muted} mt={1} lineHeight="1.4">
+                      <Text fontSize="14px" color={colors.muted} mt={1} lineHeight="1.4">
                         {detail.description}
                       </Text>
                     )}

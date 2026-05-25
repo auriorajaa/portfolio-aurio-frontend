@@ -69,7 +69,7 @@ export const RetroPanel = ({
           <HStack spacing={2} minW={0}>
             {Icon && <Icon size={14} color={colors.link} />}
             <Text
-              fontSize="13px"
+              fontSize="16px"
               fontWeight="bold"
               color={colors.text}
               noOfLines={1}
@@ -123,7 +123,7 @@ export const RetroBadge = ({ children, tone = "blue", ...props }) => {
       bg={selected.bg}
       color={selected.color}
       borderColor={selected.border}
-      fontSize="10px"
+      fontSize="13px"
       fontWeight="bold"
       lineHeight="16px"
       textTransform="uppercase"

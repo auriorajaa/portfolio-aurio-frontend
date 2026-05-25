@@ -99,7 +99,7 @@ const ActivityForm = ({ data, onSave, onCancel }) => {
     <form onSubmit={handleSubmit}>
       <VStack spacing={3} align="stretch">
         <FormControl isRequired>
-          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+          <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
             Activity Title
           </FormLabel>
           <Input
@@ -108,14 +108,14 @@ const ActivityForm = ({ data, onSave, onCancel }) => {
             onChange={handleInputChange}
             placeholder="e.g. Student Council President"
             size="md"
-            fontSize="13px"
+            fontSize="16px"
             borderRadius="2px"
           />
         </FormControl>
 
         <HStack spacing={3}>
           <FormControl flex={1}>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Role/Position
             </FormLabel>
             <Input
@@ -124,13 +124,13 @@ const ActivityForm = ({ data, onSave, onCancel }) => {
               onChange={handleInputChange}
               placeholder="e.g. President"
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="2px"
             />
           </FormControl>
 
           <FormControl flex={1}>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Organization
             </FormLabel>
             <Input
@@ -139,14 +139,14 @@ const ActivityForm = ({ data, onSave, onCancel }) => {
               onChange={handleInputChange}
               placeholder="e.g. Student Council"
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="2px"
             />
           </FormControl>
         </HStack>
 
         <FormControl isRequired>
-          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+          <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
             Period
           </FormLabel>
           <Input
@@ -155,13 +155,13 @@ const ActivityForm = ({ data, onSave, onCancel }) => {
             onChange={handleInputChange}
             placeholder="e.g. Jan 2023 - Dec 2023"
             size="md"
-            fontSize="13px"
+            fontSize="16px"
             borderRadius="2px"
           />
         </FormControl>
 
         <FormControl>
-          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+          <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
             Description
           </FormLabel>
           <Textarea
@@ -171,7 +171,7 @@ const ActivityForm = ({ data, onSave, onCancel }) => {
             placeholder="Describe your role and achievements"
             rows={4}
             size="md"
-            fontSize="13px"
+            fontSize="16px"
             borderRadius="2px"
           />
         </FormControl>
@@ -188,7 +188,7 @@ const ActivityForm = ({ data, onSave, onCancel }) => {
             variant="facebook"
             size="md"
             h="36px"
-            fontSize="13px"
+            fontSize="16px"
             flex={1}
             isLoading={loading}
           >
@@ -201,7 +201,7 @@ const ActivityForm = ({ data, onSave, onCancel }) => {
               flex={1}
               size="md"
               h="36px"
-              fontSize="13px"
+              fontSize="16px"
               borderColor="facebook.border"
               borderRadius="2px"
             >
@@ -218,10 +218,10 @@ const ActivityForm = ({ data, onSave, onCancel }) => {
       >
         <AlertDialogOverlay>
           <AlertDialogContent borderRadius="2px">
-            <AlertDialogHeader fontSize="14px" fontWeight="bold">
+            <AlertDialogHeader fontSize="17px" fontWeight="bold">
               Confirm Save
             </AlertDialogHeader>
-            <AlertDialogBody fontSize="13px">
+            <AlertDialogBody fontSize="16px">
               Are you sure you want to save this activity?
             </AlertDialogBody>
             <AlertDialogFooter>
@@ -229,7 +229,7 @@ const ActivityForm = ({ data, onSave, onCancel }) => {
                 ref={cancelRef}
                 onClick={onClose}
                 size="md"
-                fontSize="13px"
+                fontSize="16px"
               >
                 Cancel
               </Button>
@@ -238,7 +238,7 @@ const ActivityForm = ({ data, onSave, onCancel }) => {
                 onClick={confirmSave}
                 ml={2}
                 size="md"
-                fontSize="13px"
+                fontSize="16px"
                 isLoading={loading}
               >
                 Save

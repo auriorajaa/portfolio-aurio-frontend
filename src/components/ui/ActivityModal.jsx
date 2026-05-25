@@ -38,7 +38,7 @@ const ActivityModal = ({ isOpen, onClose, activity }) => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Text fontSize="14px" fontWeight="bold" color={textColor}>
+          <Text fontSize="17px" fontWeight="bold" color={textColor}>
             Activity Details
           </Text>
           <IconButton
@@ -75,13 +75,13 @@ const ActivityModal = ({ isOpen, onClose, activity }) => {
 
             {/* Activity Title */}
             <Box>
-              <Text fontSize="16px" fontWeight="bold" color={textColor} mb={1}>
+              <Text fontSize="19px" fontWeight="bold" color={textColor} mb={1}>
                 {activity.title}
               </Text>
-              <Text fontSize="14px" color={linkBlue} mb={1}>
+              <Text fontSize="17px" color={linkBlue} mb={1}>
                 {activity.role}
               </Text>
-              <Text fontSize="13px" color={lightTextColor}>
+              <Text fontSize="16px" color={lightTextColor}>
                 {activity.period}
               </Text>
             </Box>
@@ -94,10 +94,10 @@ const ActivityModal = ({ isOpen, onClose, activity }) => {
               border="1px solid"
               borderColor={borderColor}
             >
-              <Text fontSize="14px" fontWeight="bold" color={textColor} mb={2}>
+              <Text fontSize="17px" fontWeight="bold" color={textColor} mb={2}>
                 Description
               </Text>
-              <Text fontSize="13px" color={textColor} lineHeight="1.6">
+              <Text fontSize="16px" color={textColor} lineHeight="1.6">
                 {activity.description}
               </Text>
             </Box>

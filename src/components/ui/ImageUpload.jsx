@@ -131,7 +131,7 @@ const ImageUpload = ({
 
   return (
     <FormControl>
-      <FormLabel fontSize="13px" fontWeight="bold" mb={1}>
+      <FormLabel fontSize="16px" fontWeight="bold" mb={1}>
         {label}
       </FormLabel>
       <VStack align="stretch" spacing={2}>
@@ -169,7 +169,7 @@ const ImageUpload = ({
 
         {uploading && (
           <Box>
-            <Text fontSize="12px" mb={1}>
+            <Text fontSize="15px" mb={1}>
               Uploading... {Math.round(uploadProgress)}%
             </Text>
             <Progress value={uploadProgress} size="sm" colorScheme="blue" />
@@ -193,7 +193,7 @@ const ImageUpload = ({
             variant="outline"
             size="sm"
             h="36px"
-            fontSize="12px"
+            fontSize="15px"
             borderRadius="2px"
           >
             Upload Image
@@ -206,12 +206,12 @@ const ImageUpload = ({
           onChange={handleUrlChange}
           onBlur={handleUrlBlur}
           size="sm"
-          fontSize="13px"
+          fontSize="16px"
           borderRadius="2px"
           borderColor={borderColor}
         />
 
-        <Text fontSize="12px" color={lightTextColor}>
+        <Text fontSize="15px" color={lightTextColor}>
           {immediateUpload
             ? "Upload an image or paste a URL. Max 5MB."
             : "Select an image (uploaded on save) or paste a URL. Max 5MB."}
