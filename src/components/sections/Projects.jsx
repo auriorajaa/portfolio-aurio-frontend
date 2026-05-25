@@ -72,7 +72,7 @@ const Projects = () => {
       <SimpleGrid columns={{ base: 1, md:2, lg: 2 }} spacing={0}>
         {filteredProjects.map((project, idx) => {
           const firstMedia = project.gallery?.[0];
-          const hasPdf = project.gallery?.some((item) => item.type === "pdf");
+          // const hasPdf = project.gallery?.some((item) => item.type === "pdf");
 
           return (
             <Box

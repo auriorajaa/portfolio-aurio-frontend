@@ -12,7 +12,7 @@ import {
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { usePortfolio } from "../../contexts/PortfolioContext";
-import { RetroBadge, RetroPanel, useRetroColors } from "../ui/retro";
+import { RetroPanel, useRetroColors } from "../ui/retro";
 
 const MobileNav = () => {
   const colors = useRetroColors();

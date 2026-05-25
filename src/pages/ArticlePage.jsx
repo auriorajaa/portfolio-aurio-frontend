@@ -22,7 +22,6 @@ import {
   Clock,
   User,
   Tag,
-  Sparkles,
   Share2,
 } from "lucide-react";
 import {

@@ -12,7 +12,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { BookOpen, Calendar, Clock, Sparkles } from "lucide-react";
+import { BookOpen, Calendar, Clock } from "lucide-react";
 import { getAllArticles } from "../../services/articleService";
 import { RetroBadge, RetroPanel, useRetroColors } from "../ui/retro";
 

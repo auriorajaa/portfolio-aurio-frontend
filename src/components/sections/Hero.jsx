@@ -10,7 +10,7 @@ import {
   Link,
   SimpleGrid,
 } from "@chakra-ui/react";
-import { Briefcase, Code2, MapPin, Mail, Server, ShieldCheck } from "lucide-react";
+import { Briefcase, MapPin, Mail } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
 import { RetroBadge, RetroPanel, useRetroColors } from "../ui/retro";
 
