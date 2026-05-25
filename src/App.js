@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Box, useToast } from "@chakra-ui/react";
+import { Analytics } from "@vercel/analytics/react";
 import { AuthProvider } from "./contexts/AuthContext";
 import { PortfolioProvider } from "./contexts/PortfolioContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -72,6 +73,7 @@ const App = () => {
                 }
               />
             </Routes>
+            <Analytics />
           </Box>
         </PortfolioProvider>
       </AuthProvider>

@@ -47,7 +47,14 @@ import {
 import { useNavigate } from "react-router-dom";
 import Pagination from "../ui/Pagination";
 
-const ArticleList = ({ onEdit, onView, refresh }) => {
+const ArticleList = ({
+  onEdit,
+  onView,
+  refresh,
+  articlesData,
+  externalLoading = false,
+  onDataChange,
+}) => {
   const [articles, setArticles] = useState([]);
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -80,9 +87,16 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
   };
 
   useEffect(() => {
+    if (Array.isArray(articlesData)) {
+      setArticles(articlesData);
+      setFilteredArticles(articlesData);
+      setLoading(externalLoading);
+      return;
+    }
+
     loadArticles();
     // eslint-disable-next-line
-  }, [refresh]);
+  }, [refresh, articlesData, externalLoading]);
 
   useEffect(() => {
     let sorted = [...articles];
@@ -115,7 +129,12 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
         duration: 3000,
         isClosable: true,
       });
-      loadArticles();
+      if (Array.isArray(articlesData)) {
+        onDataChange?.();
+      } else {
+        await loadArticles();
+        onDataChange?.();
+      }
     } catch (error) {
       toast({
         title: "Error",
@@ -144,7 +163,12 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
         duration: 3000,
         isClosable: true,
       });
-      loadArticles();
+      if (Array.isArray(articlesData)) {
+        onDataChange?.();
+      } else {
+        await loadArticles();
+        onDataChange?.();
+      }
     } catch (error) {
       toast({
         title: "Error",

@@ -37,7 +37,7 @@ import Pagination from "../ui/Pagination";
 import { normalizeProjects } from "../../utils/projectMedia";
 import { RetroBadge, useRetroColors } from "../ui/retro";
 
-const ProjectManager = () => {
+const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
@@ -82,6 +82,13 @@ const ProjectManager = () => {
     onOpen();
   };
 
+  useEffect(() => {
+    if (openCreateSignal > 0) {
+      handleCreate();
+    }
+    // eslint-disable-next-line
+  }, [openCreateSignal]);
+
   const handleEdit = (project) => {
     setSelectedProject(project);
     onOpen();
@@ -97,6 +104,7 @@ const ProjectManager = () => {
       const updated = projects.filter((p) => p.id !== deleteId);
       await updateProjects(updated);
       setProjects(updated);
+      onDataChange?.();
       toast({
         title: "Success",
         description: "Project deleted successfully",
@@ -132,6 +140,7 @@ const ProjectManager = () => {
 
       await updateProjects(updated);
       setProjects(updated);
+      onDataChange?.();
       onClose();
       toast({
         title: "Success",

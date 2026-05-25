@@ -27,7 +27,7 @@ import {
 import AchievementForm from "./AchievementForm";
 import Pagination from "../ui/Pagination";
 
-const AchievementManager = () => {
+const AchievementManager = ({ onDataChange }) => {
   const [achievements, setAchievements] = useState([]);
   const [selectedAchievement, setSelectedAchievement] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -78,6 +78,7 @@ const AchievementManager = () => {
       const updated = achievements.filter((a) => a.id !== id);
       await updateAchievements(updated);
       setAchievements(updated);
+      onDataChange?.();
       toast({
         title: "Success",
         description: "Achievement deleted successfully",
@@ -112,6 +113,7 @@ const AchievementManager = () => {
 
       await updateAchievements(updated);
       setAchievements(updated);
+      onDataChange?.();
       onClose();
       toast({
         title: "Success",

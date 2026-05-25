@@ -33,7 +33,7 @@ import {
 import EducationForm from "./EducationForm";
 import Pagination from "../ui/Pagination";
 
-const EducationManager = () => {
+const EducationManager = ({ onDataChange }) => {
   const [educationList, setEducationList] = useState([]);
   const [certificationsList, setCertificationsList] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -96,6 +96,7 @@ const EducationManager = () => {
         await updateCertifications(updated);
         setCertificationsList(updated);
       }
+      onDataChange?.();
       toast({
         title: "Success",
         description: `${type === "education" ? "Education" : "Certification"} deleted successfully`,
@@ -139,6 +140,7 @@ const EducationManager = () => {
         setCertificationsList(updated);
       }
 
+      onDataChange?.();
       onClose();
       toast({
         title: "Success",
