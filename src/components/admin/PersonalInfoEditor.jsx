@@ -17,7 +17,7 @@ import {
   updatePersonalInfo,
 } from "../../services/portfolioService";
 
-const PersonalInfoEditor = () => {
+const PersonalInfoEditor = ({ onDataChange }) => {
   const [formData, setFormData] = useState({
     name: "",
     title: "",
@@ -83,6 +83,7 @@ const PersonalInfoEditor = () => {
 
     try {
       await updatePersonalInfo(formData);
+      onDataChange?.();
       toast({
         title: "Success",
         description: "Personal information updated successfully",

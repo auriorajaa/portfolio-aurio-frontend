@@ -1,9 +1,8 @@
 // src/components/admin/PortfolioDataManager.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Box,
   VStack,
-  HStack,
   Button,
   Textarea,
   useToast,
@@ -11,12 +10,10 @@ import {
   Text,
   Spinner,
   Center,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
+  SimpleGrid,
+  Stack,
 } from "@chakra-ui/react";
+import { useRetroColors } from "../ui/retro";
 import {
   getPortfolioData,
   updatePortfolioData,
@@ -32,18 +29,15 @@ import {
   universityActivities,
 } from "../../data/portfolioData";
 
-const PortfolioDataManager = () => {
+const PortfolioDataManager = ({ onDataChange }) => {
   const [portfolioData, setPortfolioData] = useState(null);
   const [editedData, setEditedData] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const toast = useToast();
+  const colors = useRetroColors();
 
-  useEffect(() => {
-    loadPortfolioData();
-  }, []);
-
-  const loadPortfolioData = async () => {
+  const loadPortfolioData = useCallback(async () => {
     try {
       setLoading(true);
       const data = await getPortfolioData();
@@ -76,7 +70,11 @@ const PortfolioDataManager = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    loadPortfolioData();
+  }, [loadPortfolioData]);
 
   const handleInitialize = async () => {
     try {
@@ -92,6 +90,7 @@ const PortfolioDataManager = () => {
       };
 
       await initializePortfolioData(defaultData);
+      onDataChange?.();
 
       toast({
         title: "Success",
@@ -120,6 +119,7 @@ const PortfolioDataManager = () => {
       setSaving(true);
       const parsedData = JSON.parse(editedData);
       await updatePortfolioData(parsedData);
+      onDataChange?.();
 
       toast({
         title: "Success",
@@ -169,10 +169,10 @@ const PortfolioDataManager = () => {
   return (
     <VStack spacing={6} align="stretch">
       <Box>
-        <Heading size="md" mb={2} color="facebook.blue">
+        <Heading size="md" mb={2} color={colors.link}>
           Portfolio Data Management
         </Heading>
-        <Text fontSize="sm" color="gray.600">
+        <Text fontSize="sm" color={colors.muted}>
           Manage your portfolio information. This data will be displayed on your
           public portfolio page.
         </Text>
@@ -181,16 +181,15 @@ const PortfolioDataManager = () => {
       {!portfolioData && (
         <Box
           p={6}
-          bg="blue.50"
-          borderRadius="md"
+          bg={colors.panelAlt}
           border="1px solid"
-          borderColor="blue.200"
+          borderColor={colors.border}
         >
           <VStack spacing={3}>
-            <Text fontWeight="bold" color="blue.700">
+            <Text fontWeight="bold" color={colors.link}>
               Portfolio data not initialized
             </Text>
-            <Text fontSize="sm" color="gray.600">
+            <Text fontSize="sm" color={colors.muted}>
               Click the button below to initialize portfolio data from your
               local portfolio file.
             </Text>
@@ -208,84 +207,88 @@ const PortfolioDataManager = () => {
         </Box>
       )}
 
-      <Accordion allowToggle defaultIndex={[0]}>
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box flex="1" textAlign="left" fontWeight="bold">
-                Edit Portfolio Data (JSON)
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel pb={4}>
-            <VStack spacing={4} align="stretch">
-              <Text fontSize="sm" color="gray.600">
-                Edit the JSON data below. Make sure to maintain valid JSON
-                format.
-              </Text>
+      <SimpleGrid columns={{ base: 1, xl: 3 }} spacing={4}>
+        <Box
+          gridColumn={{ base: "auto", xl: "span 2" }}
+          border="1px solid"
+          borderColor={colors.border}
+          bg={colors.panelBg}
+        >
+          <Box
+            px={3}
+            py={2}
+            borderBottom="1px solid"
+            borderColor={colors.border}
+            bg={colors.headerBg}
+          >
+            <Text fontSize="13px" fontWeight="bold">
+              Edit Portfolio Data (JSON)
+            </Text>
+          </Box>
+          <VStack spacing={4} align="stretch" p={3}>
+            <Text fontSize="sm" color={colors.muted}>
+              Edit the JSON data below. Make sure to maintain valid JSON format.
+            </Text>
 
-              <Textarea
-                value={editedData}
-                onChange={(e) => setEditedData(e.target.value)}
-                fontFamily="monospace"
-                fontSize="sm"
-                minH="500px"
-                placeholder="Portfolio data in JSON format"
-                bg="gray.50"
-              />
-
-              <HStack>
-                <Button
-                  bg="facebook.blue"
-                  color="white"
-                  onClick={handleSave}
-                  isLoading={saving}
-                  loadingText="Saving..."
-                  _hover={{ bg: "facebook.darkBlue" }}
-                >
-                  Save Changes
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={handleReset}
-                  borderColor="facebook.border"
-                >
-                  Reset
-                </Button>
-                <Button
-                  variant="outline"
-                  colorScheme="blue"
-                  onClick={handleInitialize}
-                  isLoading={saving}
-                  loadingText="Reinitializing..."
-                >
-                  Reinitialize from Local
-                </Button>
-              </HStack>
-            </VStack>
-          </AccordionPanel>
-        </AccordionItem>
-
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box flex="1" textAlign="left" fontWeight="bold">
-                Data Structure Reference
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel pb={4}>
-            <Box
-              p={4}
-              bg="gray.50"
-              borderRadius="md"
+            <Textarea
+              value={editedData}
+              onChange={(e) => setEditedData(e.target.value)}
               fontFamily="monospace"
               fontSize="sm"
-              whiteSpace="pre-wrap"
-            >
-              {`{
+              minH="520px"
+              placeholder="Portfolio data in JSON format"
+              bg={colors.panelAlt}
+            />
+
+            <Stack direction={{ base: "column", md: "row" }} spacing={2}>
+              <Button
+                variant="facebook"
+                onClick={handleSave}
+                isLoading={saving}
+                loadingText="Saving..."
+              >
+                Save Changes
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handleReset}
+                borderColor={colors.border}
+              >
+                Reset
+              </Button>
+              <Button
+                variant="facebookGray"
+                onClick={handleInitialize}
+                isLoading={saving}
+                loadingText="Reinitializing..."
+              >
+                Reinitialize from Local
+              </Button>
+            </Stack>
+          </VStack>
+        </Box>
+
+        <Box border="1px solid" borderColor={colors.border} bg={colors.panelBg}>
+          <Box
+            px={3}
+            py={2}
+            borderBottom="1px solid"
+            borderColor={colors.border}
+            bg={colors.headerBg}
+          >
+            <Text fontSize="13px" fontWeight="bold">
+              Data Structure Reference
+            </Text>
+          </Box>
+          <Box
+            p={4}
+            bg={colors.panelAlt}
+            fontFamily="monospace"
+            fontSize="sm"
+            whiteSpace="pre-wrap"
+            minH="520px"
+          >
+            {`{
   "personalInfo": {
     "name": "string",
     "title": "string",
@@ -302,10 +305,9 @@ const PortfolioDataManager = () => {
   "achievements": [array of achievement objects],
   "activities": [array of activity objects]
 }`}
-            </Box>
-          </AccordionPanel>
-        </AccordionItem>
-      </Accordion>
+          </Box>
+        </Box>
+      </SimpleGrid>
     </VStack>
   );
 };

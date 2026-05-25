@@ -27,7 +27,7 @@ import {
 import ExperienceForm from "./ExperienceForm";
 import Pagination from "../ui/Pagination";
 
-const ExperienceManager = () => {
+const ExperienceManager = ({ onDataChange }) => {
   const [experiences, setExperiences] = useState([]);
   const [selectedExp, setSelectedExp] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -78,6 +78,7 @@ const ExperienceManager = () => {
       const updated = experiences.filter((exp) => exp.id !== id);
       await updateExperiences(updated);
       setExperiences(updated);
+      onDataChange?.();
       toast({
         title: "Success",
         description: "Experience deleted successfully",
@@ -112,6 +113,7 @@ const ExperienceManager = () => {
 
       await updateExperiences(updated);
       setExperiences(updated);
+      onDataChange?.();
       onClose();
       toast({
         title: "Success",

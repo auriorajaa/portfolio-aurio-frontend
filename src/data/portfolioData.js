@@ -406,8 +406,6 @@ export const skillsData = [
     skills: [
       "Core Java",
       "Spring Framework",
-      "Java Swing",
-      "Native Android Java",
     ],
   },
   {
@@ -489,23 +487,13 @@ export const skillDetails = {
   "Core Java": {
     level: "Advanced",
     description:
-      "Strong foundation from CCIT-FTUI and applied in Android and Spring projects",
+      "Strong foundation from CCIT-FTUI and applied in Android",
     context: "Primary programming language with 3+ years experience",
   },
   "Spring Framework": {
     level: "Advanced",
     description: "Deep experience with Spring Boot and Spring ecosystem",
     context: "Go-to framework for enterprise Java applications",
-  },
-  "Java Swing": {
-    level: "Intermediate",
-    description: "Studied desktop application development at CCIT-FTUI",
-    context: "Foundation in Java GUI development",
-  },
-  "Native Android Java": {
-    level: "Proficient",
-    description: "Built Small Circle marketplace app with Firebase integration",
-    context: "Android development with Java and XML",
   },
   "Git & GitHub": {
     level: "Advanced",

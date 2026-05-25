@@ -29,7 +29,7 @@ import {
 import ActivityForm from "./ActivityForm";
 import Pagination from "../ui/Pagination";
 
-const ActivityManager = () => {
+const ActivityManager = ({ onDataChange }) => {
   const [activities, setActivities] = useState([]);
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -80,6 +80,7 @@ const ActivityManager = () => {
       const updated = activities.filter((a) => a.id !== id);
       await updateActivities(updated);
       setActivities(updated);
+      onDataChange?.();
       toast({
         title: "Success",
         description: "Activity deleted successfully",
@@ -114,6 +115,7 @@ const ActivityManager = () => {
 
       await updateActivities(updated);
       setActivities(updated);
+      onDataChange?.();
       onClose();
       toast({
         title: "Success",
