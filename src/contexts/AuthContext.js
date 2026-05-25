@@ -18,13 +18,26 @@ export const AuthProvider = ({ children }) => {
   const [isAdminUser, setIsAdminUser] = useState(false);
 
   useEffect(() => {
+    let settled = false;
+    const fallbackTimer = setTimeout(() => {
+      if (!settled) {
+        setLoading(false);
+      }
+    }, 4500);
+
     const unsubscribe = checkAuthState((user) => {
+      settled = true;
+      clearTimeout(fallbackTimer);
       setCurrentUser(user);
       setIsAdminUser(isAdmin(user));
       setLoading(false);
     });
 
-    return unsubscribe;
+    return () => {
+      settled = true;
+      clearTimeout(fallbackTimer);
+      unsubscribe();
+    };
   }, []);
 
   const value = {
@@ -35,7 +48,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 };

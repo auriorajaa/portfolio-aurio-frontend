@@ -1,119 +1,90 @@
 import React from "react";
-import {
-  Box,
-  Text,
-  Flex,
-  Image,
-  VStack,
-  Wrap,
-  Tag,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Flex, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import { Briefcase } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
+import { RetroBadge, RetroPanel, useRetroColors } from "../ui/retro";
 
 const Experience = () => {
   const { portfolioData } = usePortfolio();
   const experienceData = portfolioData.experiences || [];
-
-  // Use admin-style colors
-  const cardBg = useColorModeValue("white", "#242526");
-  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
-  const textColor = useColorModeValue("#333333", "#e4e6eb");
-  const lightTextColor = useColorModeValue("#90949c", "#b0b3b8");
-  const grayBg = useColorModeValue("#f7f7f7", "#242526");
-  const iconColor = useColorModeValue("#3b5998", "#5b7ec8");
+  const colors = useRetroColors();
 
   return (
-    <Box
-      bg={cardBg}
-      border="1px solid"
-      borderColor={borderColor}
-      borderRadius="2px"
-      mb={4}
+    <RetroPanel
       id="experience"
+      title="Work Experience Timeline"
+      icon={Briefcase}
+      headerRight={<RetroBadge>{experienceData.length} entries</RetroBadge>}
+      bodyProps={{ p: 0 }}
     >
-      {/* Section Header */}
-      <Flex
-        borderBottom="1px solid"
-        borderColor={borderColor}
-        px={3}
-        py={2}
-        align="center"
-        gap={2}
-        bg={grayBg}
-      >
-        <Briefcase size={14} color={iconColor} />
-        <Text fontSize="14px" fontWeight="bold" color={textColor}>
-          Work Experience
-        </Text>
-      </Flex>
-
-      {/* Experience Items */}
       <VStack spacing={0} align="stretch">
-        {[...experienceData].map((exp, idx) => (
+        {experienceData.map((exp, idx) => (
           <Box
-            key={exp.id}
+            key={exp.id || `${exp.company}-${idx}`}
             px={3}
             py={3}
-            borderBottom={
-              idx !== experienceData.length - 1 ? "1px solid" : "none"
-            }
-            borderColor={borderColor}
+            borderBottom={idx !== experienceData.length - 1 ? "1px solid" : "none"}
+            borderColor={colors.borderSoft}
+            bg={idx % 2 === 0 ? colors.panelBg : colors.panelAlt}
           >
-            <Flex gap={3}>
-              {/* Company Logo */}
+            <Flex gap={3} align="start">
               <Box
                 flexShrink={0}
-                w="50px"
-                h="50px"
+                w="54px"
+                h="54px"
                 border="1px solid"
-                borderColor={borderColor}
+                borderColor={colors.border}
+                bg={colors.panelBg}
                 overflow="hidden"
+                display="grid"
+                placeItems="center"
               >
-                <Image
-                  src={exp.logo}
-                  alt={exp.company}
-                  w="100%"
-                  h="100%"
-                  objectFit="contain"
-                />
+                {exp.logo && (
+                  <Image src={exp.logo} alt={exp.company} w="100%" h="100%" objectFit="contain" />
+                )}
               </Box>
 
-              <Box flex="1">
-                <Text fontSize="14px" fontWeight="bold" color={textColor}>
-                  {exp.position}
+              <Box flex="1" minW={0}>
+                <HStack spacing={2} justify="space-between" align="start" mb={1}>
+                  <Box minW={0}>
+                    <Text fontSize="14px" fontWeight="bold" color={colors.text} noOfLines={1}>
+                      {exp.position}
+                    </Text>
+                    <Text fontSize="12px" color={colors.link} fontWeight="bold">
+                      {exp.company}
+                    </Text>
+                  </Box>
+                  {exp.type && <RetroBadge tone="green">{exp.type}</RetroBadge>}
+                </HStack>
+
+                <Text fontSize="11px" color={colors.muted} mb={2}>
+                  {exp.period} {exp.location ? `/ ${exp.location}` : ""}
                 </Text>
-                <Text fontSize="13px" color={iconColor} mb={1}>
-                  {exp.company}
-                </Text>
-                <Text fontSize="13px" color={lightTextColor} mb={2}>
-                  {exp.period} · {exp.location}
-                </Text>
-                <Text fontSize="13px" color={textColor} lineHeight="1.4" mb={2}>
-                  {exp.description[0]}
-                </Text>
-                <Wrap spacing={1}>
-                  {exp.technologies.slice(0, 5).map((tech) => (
-                    <Tag
-                      key={tech}
-                      size="md"
-                      bg="facebook.paleBlue"
-                      color="facebook.blue"
-                      fontSize="12px"
-                      borderRadius="2px"
-                      fontWeight="normal"
-                    >
-                      {tech}
-                    </Tag>
+
+                <VStack spacing={1} align="stretch" mb={2}>
+                  {(Array.isArray(exp.description) ? exp.description.slice(0, 3) : [exp.description]).map(
+                    (line) =>
+                      line && (
+                        <HStack key={line} align="start" spacing={2}>
+                          <Text fontSize="12px" color={colors.text} lineHeight="1.45">
+                            {line}
+                          </Text>
+                        </HStack>
+                      ),
+                  )}
+                </VStack>
+
+                <HStack spacing={1} flexWrap="wrap">
+                  {(exp.technologies || []).slice(0, 7).map((tech) => (
+                    <RetroBadge key={tech}>{tech}</RetroBadge>
                   ))}
-                </Wrap>
+                </HStack>
               </Box>
             </Flex>
           </Box>
         ))}
       </VStack>
-    </Box>
+    </RetroPanel>
   );
 };
 

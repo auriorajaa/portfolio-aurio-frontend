@@ -34,6 +34,8 @@ import {
 } from "../../services/portfolioService";
 import ProjectForm from "./ProjectForm";
 import Pagination from "../ui/Pagination";
+import { normalizeProjects } from "../../utils/projectMedia";
+import { RetroBadge, useRetroColors } from "../ui/retro";
 
 const ProjectManager = () => {
   const [projects, setProjects] = useState([]);
@@ -50,6 +52,7 @@ const ProjectManager = () => {
   } = useDisclosure();
   const cancelRef = React.useRef();
   const toast = useToast();
+  const colors = useRetroColors();
 
   useEffect(() => {
     loadProjects();
@@ -60,7 +63,7 @@ const ProjectManager = () => {
     try {
       setLoading(true);
       const data = await getPortfolioData();
-      setProjects(data?.projects || []);
+      setProjects(normalizeProjects(data?.projects || []));
     } catch (error) {
       toast({
         title: "Error",
@@ -207,7 +210,8 @@ const ProjectManager = () => {
                 borderBottom={
                   idx !== currentProjects.length - 1 ? "1px solid" : "none"
                 }
-                borderColor="facebook.border"
+                borderColor={colors.borderSoft}
+                bg={idx % 2 === 0 ? colors.panelBg : colors.panelAlt}
               >
                 <HStack spacing={3} align="start">
                   {project.image && (
@@ -253,6 +257,14 @@ const ProjectManager = () => {
                           {tag}
                         </Tag>
                       ))}
+                      {project.gallery?.length > 0 && (
+                        <RetroBadge tone="amber">
+                          {project.gallery.length} media
+                        </RetroBadge>
+                      )}
+                      {project.status && (
+                        <RetroBadge tone="green">{project.status}</RetroBadge>
+                      )}
                     </Wrap>
                   </VStack>
                   <HStack spacing={1}>

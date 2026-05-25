@@ -8,116 +8,161 @@ import {
   VStack,
   HStack,
   Link,
-  useColorModeValue,
+  SimpleGrid,
 } from "@chakra-ui/react";
-import { MapPin, Mail, Briefcase } from "lucide-react";
+import { Briefcase, MapPin, Mail } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
+import { RetroBadge, RetroPanel, useRetroColors } from "../ui/retro";
 
 const Hero = () => {
   const { portfolioData } = usePortfolio();
-  const personalInfo = portfolioData.personalInfo;
-
-  // Use theme colors
-  const cardBg = useColorModeValue("white", "#242526");
-  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
-  const profileBorder = useColorModeValue("white", "#242526");
-  const iconColor = useColorModeValue("#90949c", "#8a8d91");
-  const lightIconColor = useColorModeValue("#4b4f56", "#b0b3b8");
-  const linkColor = useColorModeValue("#385898", "#5b7ec8");
+  const personalInfo = portfolioData.personalInfo || {};
+  const colors = useRetroColors();
+  const topSkills = ["Spring Boot", "Django REST", "React", "Next.js", "GCP"];
 
   return (
-    <Box
-      bg={cardBg}
-      border="1px solid"
-      borderColor={borderColor}
-      borderRadius="2px"
-      mb={4}
-      id="hero"
-    >
-      {/* Cover Photo */}
+    <RetroPanel id="hero" bodyProps={{ p: 0 }}>
       <Box
-        h="200px"
-        bgImage="url('https://images.unsplash.com/photo-1704948079672-45dc21034083?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')"
-        bgPosition="center"
-        bgRepeat="no-repeat"
-        bgSize="cover"
+        minH={{ base: "132px", md: "170px" }}
+        borderBottom="1px solid"
+        borderColor={colors.border}
+        bg={colors.headerBg}
         position="relative"
-        zIndex={1}
-        borderTopRadius="2px"
-      />
+        overflow="hidden"
+      >
+        <Box
+          position="absolute"
+          inset={0}
+          opacity={0.9}
+          bgImage="
+            linear-gradient(90deg, rgba(18,63,108,.90), rgba(29,95,159,.72)),
+            repeating-linear-gradient(0deg, rgba(255,255,255,.16) 0, rgba(255,255,255,.16) 1px, transparent 1px, transparent 7px),
+            repeating-linear-gradient(90deg, rgba(255,255,255,.10) 0, rgba(255,255,255,.10) 1px, transparent 1px, transparent 9px)
+          "
+        />
+        <Flex
+          position="relative"
+          zIndex={1}
+          h="100%"
+          minH={{ base: "132px", md: "150px" }}
+          align="end"
+          p={{ base: 3, md: 4 }}
+        >
+          <Box color="white" maxW="780px">
+            <HStack spacing={2} mb={2} flexWrap="wrap">
+              <RetroBadge tone="green">Available for Collaboration</RetroBadge>
+            </HStack>
+            <Heading
+              as="h1"
+              fontSize={{ base: "24px", md: "34px" }}
+              lineHeight="1.08"
+            >
+              {personalInfo.name || "Aurio Rajaa"}
+            </Heading>
+            <Text
+              fontSize={{ base: "13px", md: "15px" }}
+              mt={1}
+              color="rgba(255,255,255,.84)"
+            >
+              {personalInfo.title || "Software Engineer"} / Backend, cloud, and
+              full-stack systems
+            </Text>
+          </Box>
+        </Flex>
+      </Box>
 
-      {/* Profile Content */}
-      <Box px={4} pb={4} position="relative">
-        <Flex justify="space-between" align="flex-end" mt="-90px" mb={3}>
-          {/* Profile Picture */}
+      <Flex
+        p={{ base: 3, md: 4 }}
+        gap={4}
+        direction={{ base: "column", md: "row" }}
+        align="stretch"
+      >
+        <Box
+          display={{ base: "block", lg: "none" }}
+          w={{ base: "188px", md: "168px" }}
+          h={{ base: "188px", md: "168px" }}
+          flexShrink={0}
+          border="1px solid"
+          borderColor={colors.border}
+          bg={colors.panelAlt}
+          p={1}
+          alignSelf={{ base: "center", md: "flex-start" }}
+        >
           <Link
-            href="/profilepic.jpg"
+            href="/profilepic.png"
             isExternal
             _hover={{ textDecoration: "none" }}
           >
-            <Box
-              position="relative"
-              zIndex={2}
-              border={`4px solid ${profileBorder}`}
-              borderRadius="2px"
-              overflow="hidden"
-              boxSize="168px"
-              bg={cardBg}
-              boxShadow="0 2px 4px rgba(0,0,0,0.35)"
-              cursor="pointer"
-            >
-              <Image
-                src="/profilepic.jpg"
-                alt={personalInfo.name}
-                w="100%"
-                h="100%"
-                objectFit="cover"
-                transform="scale(2.30)"
-                imageRendering="auto"
-              />
-            </Box>
+            <Image
+              src="/profilepic.png"
+              alt={personalInfo.name || "Aurio Rajaa"}
+              w="100%"
+              h="100%"
+              objectFit="cover"
+              objectPosition="center"
+            />
           </Link>
-        </Flex>
+        </Box>
 
-        {/* Name */}
-        <Heading as="h1" fontSize="20px" fontWeight="bold" mb={1}>
-          {personalInfo.name}
-        </Heading>
+        <VStack align="stretch" spacing={3} flex={1} minW={0}>
+          <Text
+            fontSize="13px"
+            color={colors.text}
+            lineHeight="1.6"
+            overflowWrap="anywhere"
+          >
+            {personalInfo.bio}
+          </Text>
 
-        {/* Bio */}
-        <Text fontSize="13px" mb={3} lineHeight="1.4">
-          {personalInfo.bio}
-        </Text>
-
-        {/* Info */}
-        <VStack spacing={2} align="stretch" mb={3}>
-          <HStack spacing={2}>
-            <Briefcase size={12} color={iconColor} />
-            <Text fontSize="13px" color={lightIconColor}>
-              {personalInfo.title}
-            </Text>
-          </HStack>
-
-          <HStack spacing={2}>
-            <MapPin size={12} color={iconColor} />
-            <Text fontSize="13px" color={lightIconColor}>
-              Lives in <strong>{personalInfo.location}</strong>
-            </Text>
-          </HStack>
-
-          <HStack spacing={2}>
-            <Mail size={12} color={iconColor} />
-            <Link
-              href={`mailto:${personalInfo.email}`}
-              fontSize="13px"
-              color={linkColor}
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={2}>
+            <HStack
+              border="1px solid"
+              borderColor={colors.borderSoft}
+              bg={colors.panelAlt}
+              p={2}
             >
-              {personalInfo.email}
-            </Link>
+              <Briefcase size={14} color={colors.link} />
+              <Text fontSize="12px" color={colors.text} noOfLines={1}>
+                {personalInfo.title}
+              </Text>
+            </HStack>
+            <HStack
+              border="1px solid"
+              borderColor={colors.borderSoft}
+              bg={colors.panelAlt}
+              p={2}
+            >
+              <MapPin size={14} color={colors.link} />
+              <Text fontSize="12px" color={colors.text} noOfLines={1}>
+                {personalInfo.location}
+              </Text>
+            </HStack>
+            <HStack
+              border="1px solid"
+              borderColor={colors.borderSoft}
+              bg={colors.panelAlt}
+              p={2}
+            >
+              <Mail size={14} color={colors.link} />
+              <Link
+                href={`mailto:${personalInfo.email}`}
+                fontSize="12px"
+                fontWeight="bold"
+                noOfLines={1}
+              >
+                {personalInfo.email}
+              </Link>
+            </HStack>
+          </SimpleGrid>
+
+          <HStack spacing={1} flexWrap="wrap">
+            {topSkills.map((skill) => (
+              <RetroBadge key={skill}>{skill}</RetroBadge>
+            ))}
           </HStack>
         </VStack>
-      </Box>
-    </Box>
+      </Flex>
+    </RetroPanel>
   );
 };
 

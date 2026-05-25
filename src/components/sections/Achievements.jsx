@@ -1,28 +1,25 @@
 import React, { useState } from "react";
 import {
   Box,
-  Text,
   Flex,
+  HStack,
   Image,
+  SimpleGrid,
+  Text,
   VStack,
   useDisclosure,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import { Award } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
 import CertificateModal from "../ui/CertificateModal";
+import { RetroBadge, RetroPanel, useRetroColors } from "../ui/retro";
 
 const Achievements = () => {
   const { portfolioData } = usePortfolio();
   const achievements = portfolioData.achievements || [];
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedCert, setSelectedCert] = useState(null);
-  const cardBg = useColorModeValue("white", "#242526");
-  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
-  const textColor = useColorModeValue("#333333", "#e4e6eb");
-  const lightTextColor = useColorModeValue("#90949c", "#b0b3b8");
-  const grayBg = useColorModeValue("#f7f7f7", "#242526");
-  const iconColor = useColorModeValue("#3b5998", "#5b7ec8");
+  const colors = useRetroColors();
 
   const handleOpen = (achievement) => {
     setSelectedCert(achievement);
@@ -30,89 +27,57 @@ const Achievements = () => {
   };
 
   return (
-    <Box
-      bg={cardBg}
-      border="1px solid"
-      borderColor={borderColor}
-      borderRadius="2px"
-      mb={4}
+    <RetroPanel
       id="achievements"
+      title="Achievements & Certificates"
+      icon={Award}
+      headerRight={<RetroBadge tone="amber">{achievements.length} awards</RetroBadge>}
+      bodyProps={{ p: 0 }}
     >
-      {/* Section Header */}
-      <Flex
-        borderBottom="1px solid"
-        borderColor={borderColor}
-        px={3}
-        py={2}
-        align="center"
-        gap={2}
-        bg={grayBg}
-      >
-        <Award size={14} color={iconColor} />
-        <Text fontSize="14px" fontWeight="bold" color={textColor}>
-          Achievements & Certificates
-        </Text>
-      </Flex>
-
-      {/* Achievements Items */}
-      <VStack spacing={0} align="stretch">
+      <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={0}>
         {[...achievements].reverse().map((achievement, idx) => (
           <Box
-            key={achievement.id}
-            px={3}
-            py={3}
-            borderBottom={
-              idx !== achievements.length - 1 ? "1px solid" : "none"
-            }
-            borderColor={borderColor}
+            key={achievement.id || `${achievement.title}-${idx}`}
+            p={3}
+            borderRight={{ base: "none", lg: idx % 2 === 0 ? "1px solid" : "none" }}
+            borderBottom="1px solid"
+            borderColor={colors.borderSoft}
+            bg={idx % 2 === 0 ? colors.panelBg : colors.panelAlt}
             cursor="pointer"
-            // _hover={{ bg: grayBg }}
+            _hover={{ bg: colors.paleBlue }}
             onClick={() => handleOpen(achievement)}
           >
             <Flex gap={3}>
               <Box
                 flexShrink={0}
-                w="60px"
-                h="60px"
+                w="78px"
+                h="64px"
                 border="1px solid"
-                borderColor={borderColor}
+                borderColor={colors.border}
                 overflow="hidden"
+                bg={colors.panelBg}
               >
-                <Image
-                  src={achievement.image}
-                  alt={achievement.title}
-                  w="100%"
-                  h="100%"
-                  objectFit="cover"
-                />
+                <Image src={achievement.image} alt={achievement.title} w="100%" h="100%" objectFit="cover" />
               </Box>
 
-              <Box flex="1">
-                <Flex align="center" gap={1} mb={1}>
-                  <Award size={11} color={iconColor} />
-                  <Text fontSize="12px" color={iconColor} fontWeight="bold">
-                    CERTIFICATE
-                  </Text>
-                </Flex>
-                <Text
-                  fontSize="14px"
-                  fontWeight="bold"
-                  color={textColor}
-                  lineHeight="1.3"
-                >
+              <VStack align="stretch" spacing={1} minW={0} flex={1}>
+                <HStack spacing={1}>
+                  <RetroBadge tone="amber">Certificate</RetroBadge>
+                </HStack>
+                <Text fontSize="13px" fontWeight="bold" color={colors.text} noOfLines={2}>
                   {achievement.title}
                 </Text>
-                <Text fontSize="13px" color={lightTextColor}>
-                  {achievement.issuer} · {achievement.date}
+                <Text fontSize="12px" color={colors.link} fontWeight="bold">
+                  {achievement.issuer}
                 </Text>
-                <Text fontSize="12px" color={iconColor} mt={1}>
-                  Click to view certificate
+                <Text fontSize="11px" color={colors.muted}>
+                  {achievement.date}
                 </Text>
-              </Box>
+              </VStack>
             </Flex>
           </Box>
         ))}
-      </VStack>
+      </SimpleGrid>
 
       {selectedCert && (
         <CertificateModal
@@ -122,7 +87,7 @@ const Achievements = () => {
           title={selectedCert.title}
         />
       )}
-    </Box>
+    </RetroPanel>
   );
 };
 

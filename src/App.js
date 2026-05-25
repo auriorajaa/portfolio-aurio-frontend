@@ -54,7 +54,15 @@ const App = () => {
                 }
               />
               <Route path="/login" element={<Login />} />
-              <Route path="/article/:slug" element={<ArticlePage />} />
+              <Route
+                path="/article/:slug"
+                element={
+                  <ArticlePage
+                    isDownloading={isDownloading}
+                    handleDownload={handleDownload}
+                  />
+                }
+              />
               <Route
                 path="/dashboard-secure-panel"
                 element={

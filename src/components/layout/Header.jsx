@@ -5,69 +5,114 @@ import {
   Button,
   Text,
   IconButton,
+  HStack,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { Moon, Sun } from "lucide-react";
+import { Download, Home, Moon, Sun, TerminalSquare } from "lucide-react";
+import { usePortfolio } from "../../contexts/PortfolioContext";
 
 const Header = ({ isDownloading, handleDownload }) => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const headerBg = useColorModeValue("#3b5998", "#242526");
-  const headerBorder = useColorModeValue("#2d4373", "#3e4042");
+  const { portfolioData } = usePortfolio();
+  const personalInfo = portfolioData.personalInfo || {};
+  const headerBg = useColorModeValue("#123f6c", "#111821");
+  const headerHi = useColorModeValue("#2a6faf", "#27313d");
+  const borderColor = useColorModeValue("#082947", "#465568");
+  const statusBg = useColorModeValue("#dce8f5", "#26394d");
+  const statusText = useColorModeValue("#123f6c", "#d8e9fb");
 
   return (
     <Box
-      bg={headerBg}
+      bg={`linear-gradient(180deg, ${headerHi}, ${headerBg})`}
       borderBottom="1px solid"
-      borderColor={headerBorder}
+      borderColor={borderColor}
       position="sticky"
       top="0"
       zIndex="1000"
+      boxShadow="0 1px 0 rgba(255,255,255,.22)"
     >
       <Flex
-        maxW="1000px"
+        maxW="1280px"
         mx="auto"
-        px={4}
+        px={{ base: 2, md: 4 }}
         py={2}
         justify="space-between"
         align="center"
+        gap={3}
       >
-        {/* Logo */}
-        <Flex align="center" gap={3}>
-          <Text
-            fontSize="24px"
-            fontWeight="bold"
-            color="white"
-            fontFamily="'Klavika', 'Helvetica', sans-serif"
-            letterSpacing="-0.5px"
+        <HStack spacing={2} minW={0}>
+          <Box
+            display="grid"
+            placeItems="center"
+            w="26px"
+            h="24px"
+            border="1px solid rgba(255,255,255,.55)"
+            bg="rgba(255,255,255,.12)"
           >
-            portfolio
-          </Text>
-        </Flex>
+            <TerminalSquare size={15} color="#ffffff" />
+          </Box>
+          <Box minW={0}>
+            <Text
+              color="white"
+              fontSize={{ base: "14px", md: "16px" }}
+              fontWeight="bold"
+              lineHeight="1.1"
+              noOfLines={1}
+            >
+              aurio.work
+            </Text>
+            <Text
+              color="rgba(255,255,255,.78)"
+              fontSize="10px"
+              lineHeight="1.1"
+              noOfLines={1}
+              display={{ base: "none", sm: "block" }}
+            >
+              {personalInfo.name || "Aurio Rajaa"} / {personalInfo.title || "Software Engineer"}
+            </Text>
+          </Box>
+        </HStack>
 
-        {/* Actions */}
-        <Flex align="center" gap={2}>
+        <HStack spacing={2} flexShrink={0}>
+          <HStack
+            spacing={1}
+            bg={statusBg}
+            color={statusText}
+            border="1px solid"
+            borderColor="rgba(255,255,255,.35)"
+            px={2}
+            h="28px"
+            display={{ base: "none", md: "flex" }}
+          >
+            <Home size={12} />
+            <Text fontSize="11px" fontWeight="bold">
+              Public Portfolio
+            </Text>
+          </HStack>
           <IconButton
-            icon={
-              colorMode === "light" ? <Moon size={16} /> : <Sun size={16} />
-            }
+            icon={colorMode === "light" ? <Moon size={15} /> : <Sun size={15} />}
             onClick={toggleColorMode}
             aria-label="Toggle color mode"
             variant="facebookGray"
             size="sm"
+            h="28px"
+            minW="30px"
             title={`Switch to ${colorMode === "light" ? "dark" : "light"} mode`}
           />
           <Button
             variant="facebookGray"
             size="sm"
-            fontSize="13px"
+            h="28px"
+            fontSize="12px"
+            leftIcon={<Download size={13} />}
             onClick={handleDownload}
             isLoading={isDownloading}
             loadingText="..."
           >
-            Download CV
+            CV
           </Button>
-        </Flex>
+        </HStack>
       </Flex>
     </Box>
   );

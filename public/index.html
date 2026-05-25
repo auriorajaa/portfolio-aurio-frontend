@@ -3,161 +3,73 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" href="%PUBLIC_URL%/portfolio.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#000000" />
+  <meta name="theme-color" content="#123f6c" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-  <link rel="dns-prefetch" href="https://www.google-analytics.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Primary Meta Tags -->
-  <title>Aurio Rajaa | Aurio Hendrianoko Rajaa | Software Engineer Portfolio</title>
-  <meta name="title" content="Aurio Rajaa | Aurio Hendrianoko Rajaa | Software Engineer Portfolio">
+  <title>Aurio Rajaa | Software Engineer Portfolio</title>
+  <meta name="title" content="Aurio Rajaa | Software Engineer Portfolio" />
   <meta name="description"
-    content="Aurio Rajaa (Aurio Hendrianoko Rajaa) - Software Engineer from Jakarta, Indonesia. 3rd Place Huawei Cloud Competition winner. Full-Stack Developer specializing in Spring Boot, Next.js, Django REST, React.js, Java, TypeScript & Google Cloud Platform. Experience at Bank Indonesia & Lapis AI. University of Indonesia & Politeknik Negeri Jakarta student.">
-  <meta name="author" content="Aurio Hendrianoko Rajaa">
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    content="Aurio Rajaa is a software engineer from Jakarta, Indonesia focused on backend systems, cloud workflows, React interfaces, Spring Boot, Django REST Framework, Next.js, Java, TypeScript, and Google Cloud Platform." />
+  <meta name="author" content="Aurio Rajaa" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <meta name="keywords"
-    content="Aurio Rajaa, Aurio, Aurio Hendrianoko Rajaa, Aurio Hendrianoko, auriorajaa, Software Engineer Aurio Rajaa, Aurio Rajaa Jakarta, Aurio Rajaa Indonesia, Aurio Rajaa Portfolio, Aurio Rajaa Software Engineer, Software Engineer Jakarta, Full-Stack Developer Aurio, Spring Boot Developer, Next.js Developer, Django Developer, React Developer, Java Developer, TypeScript Developer, Backend Engineer, Frontend Engineer, Cloud Computing Indonesia, Google Cloud Platform, GCP, Lapis AI Developer, Bank Indonesia, Machine Learning Integration, Financial Fraud Detection, Document Management System, University of Indonesia, CCIT FTUI, Politeknik Negeri Jakarta, PNJ, Bangkit Academy Cloud Computing, Huawei AI Competition Winner, Huawei Cloud Competition, Web Developer Jakarta, Mobile Developer, REST API, RESTFUL API, PostgreSQL, Microsoft SQL Server, MSSQL, Docker, Kubernetes, Git, CI/CD, Tailwind CSS, Small Circle, Flick Share">
+    content="Aurio Rajaa, aurio.work, Software Engineer, Backend Engineer, Full-Stack Developer, Spring Boot, Django REST Framework, React, Next.js, Java, TypeScript, Google Cloud Platform, Jakarta, Indonesia" />
 
-  <!-- Geo Tags -->
+  <link rel="canonical" href="https://aurio.work/" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <link rel="icon" href="%PUBLIC_URL%/portfolio.png" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/portfolio.png" />
+  <link rel="preload" as="image" href="%PUBLIC_URL%/profilepic.png" />
+  <link rel="preload" as="image" href="%PUBLIC_URL%/portfolio.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
   <meta name="geo.region" content="ID-JK" />
   <meta name="geo.placename" content="Jakarta" />
   <meta name="geo.position" content="-6.200000;106.816666" />
   <meta name="ICBM" content="-6.200000, 106.816666" />
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://auriorajaa.com/">
-  <meta property="og:site_name" content="Aurio Rajaa Portfolio">
-  <meta property="og:title" content="Aurio Rajaa | Aurio Hendrianoko Rajaa | Software Engineer">
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://aurio.work/" />
+  <meta property="og:site_name" content="aurio.work" />
+  <meta property="og:title" content="Aurio Rajaa | Software Engineer Portfolio" />
   <meta property="og:description"
-    content="Aurio Rajaa (Aurio Hendrianoko Rajaa) - Software Engineer from Jakarta. 3rd Place Huawei Cloud Competition winner. Full-Stack Developer: Spring Boot, Next.js, Django, React, Java, TypeScript & Google Cloud Platform.">
-  <meta property="og:image" content="https://auriorajaa.com/portfolio-og-image.png">
-  <meta property="og:image:secure_url" content="https://auriorajaa.com/portfolio-og-image.png">
-  <meta property="og:image:type" content="image/png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Aurio Rajaa - Full-Stack Software Engineer Portfolio">
-  <meta property="og:locale" content="en_US">
-  <meta property="og:locale:alternate" content="id_ID">
+    content="Portfolio of Aurio Rajaa, a software engineer from Jakarta focused on backend systems, cloud workflows, and full-stack product interfaces." />
+  <meta property="og:image" content="https://aurio.work/profilepic.png" />
+  <meta property="og:image:secure_url" content="https://aurio.work/profilepic.png" />
+  <meta property="og:image:alt" content="Aurio Rajaa profile photo" />
+  <meta property="og:locale" content="en_US" />
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@auriorajaa">
-  <meta name="twitter:creator" content="@auriorajaa">
-  <meta name="twitter:url" content="https://auriorajaa.com/">
-  <meta name="twitter:title" content="Aurio Rajaa | Aurio Hendrianoko Rajaa | Software Engineer">
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@auriorajaa" />
+  <meta name="twitter:creator" content="@auriorajaa" />
+  <meta name="twitter:url" content="https://aurio.work/" />
+  <meta name="twitter:title" content="Aurio Rajaa | Software Engineer Portfolio" />
   <meta name="twitter:description"
-    content="Aurio Rajaa - Software Engineer from Jakarta. 3rd Place Huawei Cloud Competition. Full-Stack: Spring Boot, Next.js, Django, React, Java, TypeScript & GCP.">
-  <meta name="twitter:image" content="https://auriorajaa.com/portfolio-og-image.png">
-  <meta name="twitter:image:alt" content="Aurio Rajaa - Full-Stack Software Engineer Portfolio">
+    content="Software engineer portfolio covering Spring Boot, Django REST Framework, React, Next.js, Java, TypeScript, and Google Cloud." />
+  <meta name="twitter:image" content="https://aurio.work/profilepic.png" />
+  <meta name="twitter:image:alt" content="Aurio Rajaa profile photo" />
 
-  <!-- WhatsApp Preview -->
-  <meta property="og:title" content="Aurio Rajaa | Aurio Hendrianoko Rajaa - Software Engineer">
-  <meta property="og:description"
-    content="Software Engineer | Spring Boot, Next.js, Java & Cloud Computing | 3rd Place Huawei Cloud Competition Winner">
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="format-detection" content="date=no" />
+  <meta name="format-detection" content="address=no" />
+  <meta name="format-detection" content="email=no" />
 
-  <!-- LinkedIn Preview -->
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="627" />
-
-  <!-- Canonical URL -->
-  <link rel="canonical" href="https://auriorajaa.com/">
-
-  <!-- Alternate Language Versions -->
-  <link rel="alternate" hreflang="en" href="https://auriorajaa.com/" />
-  <link rel="alternate" hreflang="id" href="https://auriorajaa.com/id" />
-  <link rel="alternate" hreflang="x-default" href="https://auriorajaa.com/" />
-
-  <!-- Apple Touch Icons -->
-  <link rel="apple-touch-icon" href="%PUBLIC_URL%/portfolio.png" />
-  <link rel="apple-touch-icon" sizes="152x152" href="%PUBLIC_URL%/apple-touch-icon-152x152.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon-180x180.png" />
-
-  <!-- Mobile Web App Capable -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Aurio Rajaa">
-  <meta name="mobile-web-app-capable" content="yes">
-
-  <!-- Manifest file -->
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-
-  <!-- Favicon variations -->
-  <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png">
-  <link rel="mask-icon" href="%PUBLIC_URL%/safari-pinned-tab.svg" color="#5bbad5">
-  <link rel="shortcut icon" href="%PUBLIC_URL%/portfolio.png">
-  <meta name="msapplication-TileColor" content="#000000">
-  <meta name="msapplication-TileImage" content="%PUBLIC_URL%/mstile-144x144.png">
-  <meta name="msapplication-config" content="%PUBLIC_URL%/browserconfig.xml">
-
-  <!-- Preload critical resources -->
-  <link rel="preload" href="%PUBLIC_URL%/fonts/main-font.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" as="image" href="%PUBLIC_URL%/profilepic.jpg" />
-  <link rel="preload" as="image" href="%PUBLIC_URL%/portfolio-og-image.png" />
-  <link rel="preload" as="image" href="%PUBLIC_URL%/sertif-msib-stupen.jpeg" />
-  <link rel="preload" as="image" href="%PUBLIC_URL%/EXPECTIK-2023.png" />
-  <link rel="preload" as="image" href="%PUBLIC_URL%/EXPECTIK-2024.png" />
-  <link rel="preload" as="image" href="%PUBLIC_URL%/OP-2024.png" />
-  <link rel="preload" as="image" href="%PUBLIC_URL%/portfolio.png" />
-  <link rel="preload" as="image" href="%PUBLIC_URL%/sertif-applied-ml.png" />
-  <link rel="preload" as="image" href="%PUBLIC_URL%/sertif-becoming-cloud-engineer.jpeg" />
-  <link rel="preload" as="image" href="%PUBLIC_URL%/sertif-huawei.png" />
-  <link rel="preload" as="image" href="%PUBLIC_URL%/favicon-32x32.png" />
-  <link rel="preload" as="image" href="%PUBLIC_URL%/favicon-16x16.png" />
-  <link rel="preload" as="image" href="%PUBLIC_URL%/apple-touch-icon-152x152.png" />
-  <link rel="preload" as="image" href="%PUBLIC_URL%/apple-touch-icon-180x180.png" />
-
-  <!-- DNS Prefetch for external resources -->
-  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-  <link rel="dns-prefetch" href="https://www.google-analytics.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-
-  <!-- Structured Data / JSON-LD for Person -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Person",
-    "name": "Aurio Hendrianoko Rajaa",
-    "givenName": "Aurio",
-    "familyName": "Rajaa",
-    "alternateName": ["Aurio Rajaa", "Aurio", "Aurio Hendrianoko", "auriorajaa"],
-    "url": "https://auriorajaa.com",
-    "image": {
-      "@type": "ImageObject",
-      "url": "https://auriorajaa.com/profilepic.jpg",
-      "width": 800,
-      "height": 800
-    },
+    "name": "Aurio Rajaa",
+    "alternateName": ["Aurio Hendrianoko Rajaa", "auriorajaa"],
+    "url": "https://aurio.work/",
+    "image": "https://aurio.work/profilepic.png",
+    "jobTitle": "Software Engineer",
+    "description": "Aurio Rajaa is a software engineer from Jakarta, Indonesia focused on backend systems, cloud workflows, and full-stack product interfaces.",
     "sameAs": [
       "https://github.com/auriorajaa",
       "https://www.linkedin.com/in/auriorajaa",
       "https://twitter.com/auriorajaa"
-    ],
-    "jobTitle": "Software Engineer",
-    "description": "Aurio Rajaa (Aurio Hendrianoko Rajaa) is a Software Engineer from Jakarta, Indonesia with expertise in Spring Boot, Next.js, Django REST Framework, React.js, Java, TypeScript, and Google Cloud Platform. 3rd Place Huawei Cloud Computing Competition winner with experience at Bank Indonesia and Lapis AI.",
-    "worksFor": [
-      {
-        "@type": "Organization",
-        "name": "Bank Indonesia",
-        "alternateName": "BI",
-        "url": "https://www.bi.go.id",
-        "department": {
-          "@type": "Organization",
-          "name": "Innovation and Data Digitalization Department",
-          "alternateName": "DIDD"
-        }
-      },
-      {
-        "@type": "Organization",
-        "name": "Lapis AI"
-      }
     ],
     "address": {
       "@type": "PostalAddress",
@@ -165,271 +77,41 @@
       "addressRegion": "DKI Jakarta",
       "addressCountry": "ID"
     },
-    "alumniOf": [
-      {
-        "@type": "EducationalOrganization",
-        "name": "University of Indonesia IT Program (CCIT-FTUI)",
-        "alternateName": ["Universitas Indonesia", "UI", "CCIT FTUI"],
-        "sameAs": "https://ccit.eng.ui.ac.id/",
-        "description": "Completed Software Engineering program (2022-2024) with GPA 3.40/4.0"
-      },
-      {
-        "@type": "EducationalOrganization",
-        "name": "Bangkit Academy - Studi Independen Bersertifikat (MSIB)",
-        "alternateName": ["Bangkit Academy", "Bangkit by Google, GoTo, Tokopedia & Traveloka"],
-        "sameAs": "https://grow.google/intl/id_id/bangkit/",
-        "description": "Completed Cloud Computing path (July-December 2024) with GPA 89/100"
-      }
-    ],
-    "memberOf": [
-      {
-        "@type": "EducationalOrganization",
-        "name": "Politeknik Negeri Jakarta",
-        "alternateName": ["PNJ", "Politeknik Jakarta"],
-        "sameAs": "https://pnj.ac.id/",
-        "description": "Currently studying Informatics Engineering (2022-Present) with GPA 3.50/4.0"
-      }
-    ],
-    "hasOccupation": [
-      {
-        "@type": "Occupation",
-        "name": "Software Engineer",
-        "occupationLocation": {
-          "@type": "City",
-          "name": "Jakarta"
-        },
-        "skills": "Spring Boot, Next.js, Django REST Framework, React.js, TypeScript, Java, Python, PostgreSQL, Microsoft SQL Server, Google Cloud Platform, Docker, Kubernetes, Git, CI/CD"
-      },
-      {
-        "@type": "Occupation",
-        "name": "Full-Stack Developer",
-        "occupationLocation": {
-          "@type": "City",
-          "name": "Remote"
-        },
-        "skills": "Next.js, TypeScript, Python, Machine Learning, REST API, PostgreSQL, Financial Technology"
-      }
-    ],
-    "workExample": [
-      {
-        "@type": "CreativeWork",
-        "name": "Work Inspection Report Generator",
-        "author": "Aurio Rajaa",
-        "description": "Web application to digitalize Berita Acara Pemeriksaan Pekerjaan document creation for Bank Indonesia Innovation and Data Digitalization Department (DIDD)",
-        "keywords": "Spring Boot, Next.js, Microsoft SQL Server, Document Management, Bank Indonesia"
-      },
-      {
-        "@type": "CreativeWork",
-        "name": "Financial Fraud Detection Platform",
-        "author": "Aurio Rajaa",
-        "description": "Machine Learning-powered platform for credit card fraud detection and financial news sentiment analysis developed for Lapis AI",
-        "keywords": "Next.js, TypeScript, Python, Machine Learning, PostgreSQL, Financial Technology"
-      },
-      {
-        "@type": "SoftwareApplication",
-        "name": "Small Circle",
-        "author": "Aurio Rajaa",
-        "description": "Native Android marketplace application connecting local buyers and sellers",
-        "applicationCategory": "MobileApplication",
-        "operatingSystem": "Android"
-      }
-    ],
     "knowsAbout": [
       "Software Engineering",
       "Spring Boot",
-      "Next.js",
-      "TypeScript",
       "Django REST Framework",
-      "React.js",
+      "React",
+      "Next.js",
       "Java",
-      "Python",
-      "Cloud Computing",
+      "TypeScript",
       "Google Cloud Platform",
-      "API Development",
-      "RESTFUL API",
-      "Docker",
-      "Kubernetes",
-      "Containerization",
+      "REST APIs",
       "PostgreSQL",
-      "Microsoft SQL Server",
-      "MySQL",
-      "Git",
-      "CI/CD",
-      "Tailwind CSS",
-      "Machine Learning Integration",
-      "Document Management Systems",
-      "Financial Technology",
-      "Native Android Java",
-      "Frontend Development",
-      "Backend Development",
-      "Full-Stack Development"
-    ],
-    "knowsLanguage": ["English", "Indonesian"],
-    "award": [
-      {
-        "@type": "Award",
-        "name": "3rd Place - Huawei AI Cloud Computing National Competition",
-        "description": "National competition winner in AI and Cloud Computing by Huawei",
-        "datePublished": "2023"
-      }
-    ],
-    "hasCredential": [
-      {
-        "@type": "EducationalOccupationalCredential",
-        "name": "Applied Machine Learning Certificate",
-        "credentialCategory": "certificate",
-        "recognizedBy": {
-          "@type": "Organization",
-          "name": "Bangkit Academy"
-        }
-      },
-      {
-        "@type": "EducationalOccupationalCredential",
-        "name": "Becoming a Cloud Engineer Certificate",
-        "credentialCategory": "certificate",
-        "recognizedBy": {
-          "@type": "Organization",
-          "name": "Bangkit Academy"
-        }
-      }
+      "Microsoft SQL Server"
     ]
   }
   </script>
 
-  <!-- Structured Data for WebSite -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "url": "https://auriorajaa.com/",
-    "name": "Aurio Rajaa - Software Engineer Portfolio",
-    "alternateName": "Aurio Hendrianoko Rajaa Portfolio",
-    "description": "Portfolio of Aurio Rajaa - Software Engineer Intern at Bank Indonesia. Full-Stack expertise in Spring Boot, Next.js, Django REST, React.js, Java, TypeScript, and Google Cloud Platform. Former Full-Stack Developer at Lapis AI.",
+    "url": "https://aurio.work/",
+    "name": "aurio.work",
+    "description": "Aurio Rajaa's software engineering portfolio.",
     "inLanguage": "en-US",
     "publisher": {
       "@type": "Person",
-      "name": "Aurio Hendrianoko Rajaa",
-      "url": "https://auriorajaa.com"
-    },
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": {
-        "@type": "EntryPoint",
-        "urlTemplate": "https://auriorajaa.com/search?q={search_term_string}"
-      },
-      "query-input": "required name=search_term_string"
-    }
-  }
-  </script>
-
-  <!-- Structured Data for Professional Service -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "Aurio Rajaa - Software Engineering Services",
-    "image": "https://auriorajaa.com/profilepic.jpg",
-    "url": "https://auriorajaa.com",
-    "telephone": "+62-xxx-xxxx-xxxx",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Jakarta",
-      "addressCountry": "ID"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": -6.200000,
-      "longitude": 106.816666
-    },
-    "priceRange": "$$",
-    "openingHoursSpecification": {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday"
-      ],
-      "opens": "09:00",
-      "closes": "18:00"
-    }
-  }
-  </script>
-
-  <!-- Structured Data for BreadcrumbList -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [{
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://auriorajaa.com/"
-    }]
-  }
-  </script>
-
-  <!-- Structured Data for SoftwareApplication - Small Circle -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Small Circle",
-    "applicationCategory": "MobileApplication",
-    "operatingSystem": "Android",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "author": {
-      "@type": "Person",
       "name": "Aurio Rajaa",
-      "url": "https://auriorajaa.com"
-    },
-    "description": "Small Circle is a native Android marketplace application that connects local buyers and sellers. Users can discover items based on location, chat with sellers, manage listings, and more.",
-    "url": "https://github.com/auriorajaa/Small_Circle",
-    "image": "https://repository-images.githubusercontent.com/876764928/95dd8a08-3549-47ac-8a7a-f432e21c4a9c",
-    "softwareVersion": "1.0",
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.5",
-      "ratingCount": "1"
+      "url": "https://aurio.work/"
     }
   }
   </script>
-
-  <!-- Security Headers -->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-
-  <!-- Google Search Console Verification -->
-  <meta name="google-site-verification" content="your-verification-code-here" />
-
-  <!-- Bing Webmaster Tools Verification -->
-  <meta name="msvalidate.01" content="your-bing-verification-code-here" />
-
-  <!-- Yandex Verification -->
-  <meta name="yandex-verification" content="your-yandex-verification-code-here" />
-
-  <!-- Pinterest Verification -->
-  <meta name="p:domain_verify" content="your-pinterest-verification-code-here" />
-
-  <!-- Prevent automatic translation -->
-  <meta name="google" content="notranslate">
-
-  <!-- Format Detection -->
-  <meta name="format-detection" content="telephone=no">
-  <meta name="format-detection" content="date=no">
-  <meta name="format-detection" content="address=no">
-  <meta name="format-detection" content="email=no">
-
 </head>
 
 <body>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <noscript>You need to enable JavaScript to run this portfolio.</noscript>
   <div id="root"></div>
 </body>
 

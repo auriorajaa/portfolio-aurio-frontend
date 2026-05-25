@@ -1,106 +1,74 @@
 import React from "react";
-import {
-  Box,
-  Text,
-  Flex,
-  Image,
-  VStack,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Flex, HStack, Image, SimpleGrid, Text } from "@chakra-ui/react";
 import { GraduationCap } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
+import { RetroBadge, RetroPanel, useRetroColors } from "../ui/retro";
 
 const Education = () => {
   const { portfolioData } = usePortfolio();
   const educationData = portfolioData.education || [];
   const certificationsData = portfolioData.certifications || [];
   const allEducation = [...educationData, ...certificationsData];
-  const cardBg = useColorModeValue("white", "#242526");
-  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
-  const textColor = useColorModeValue("#333333", "#e4e6eb");
-  const lightTextColor = useColorModeValue("#90949c", "#b0b3b8");
-  const grayBg = useColorModeValue("#f7f7f7", "#242526");
-  const iconColor = useColorModeValue("#3b5998", "#5b7ec8");
+  const colors = useRetroColors();
 
   return (
-    <Box
-      bg={cardBg}
-      border="1px solid"
-      borderColor={borderColor}
-      borderRadius="2px"
-      mb={4}
+    <RetroPanel
       id="education"
+      title="Education & Certifications"
+      icon={GraduationCap}
+      headerRight={<RetroBadge>{allEducation.length} records</RetroBadge>}
+      bodyProps={{ p: 0 }}
     >
-      {/* Section Header */}
-      <Flex
-        borderBottom="1px solid"
-        borderColor={borderColor}
-        px={3}
-        py={2}
-        align="center"
-        gap={2}
-        bg={grayBg}
-      >
-        <GraduationCap size={14} color={iconColor} />
-        <Text fontSize="14px" fontWeight="bold" color={textColor}>
-          Education & Certifications
-        </Text>
-      </Flex>
-
-      {/* Education Items */}
-      <VStack spacing={0} align="stretch">
+      <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={0}>
         {allEducation.map((edu, idx) => (
           <Box
-            key={idx}
+            key={`${edu.title}-${idx}`}
             px={3}
             py={3}
-            borderBottom={
-              idx !== allEducation.length - 1 ? "1px solid" : "none"
-            }
-            borderColor={borderColor}
+            borderRight={{ base: "none", lg: idx % 2 === 0 ? "1px solid" : "none" }}
+            borderBottom="1px solid"
+            borderColor={colors.borderSoft}
+            bg={idx % 2 === 0 ? colors.panelBg : colors.panelAlt}
           >
-            <Flex gap={3}>
+            <Flex gap={3} align="start">
               <Box
                 flexShrink={0}
-                w="50px"
-                h="50px"
+                w="54px"
+                h="54px"
                 border="1px solid"
-                borderColor={borderColor}
+                borderColor={colors.border}
+                bg={colors.panelBg}
                 overflow="hidden"
               >
-                <Image
-                  src={edu.logo}
-                  alt={edu.title}
-                  w="100%"
-                  h="100%"
-                  objectFit="cover"
-                />
+                {edu.logo && (
+                  <Image src={edu.logo} alt={edu.title} w="100%" h="100%" objectFit="cover" />
+                )}
               </Box>
 
-              <Box flex="1">
-                <Text fontSize="14px" fontWeight="bold" color={textColor}>
-                  {edu.title}
+              <Box flex="1" minW={0}>
+                <HStack spacing={2} justify="space-between" align="start" mb={1}>
+                  <Text fontSize="13px" fontWeight="bold" color={colors.text} noOfLines={2}>
+                    {edu.title}
+                  </Text>
+                  <RetroBadge tone={edu.status === "Completed" ? "green" : "amber"}>
+                    {edu.status || edu.type}
+                  </RetroBadge>
+                </HStack>
+                <Text fontSize="12px" color={colors.link} fontWeight="bold" noOfLines={1}>
+                  {edu.degree || edu.major}
                 </Text>
-                <Text fontSize="13px" color={iconColor} mb={1}>
-                  {edu.degree}
+                <Text fontSize="11px" color={colors.muted} mb={2}>
+                  {edu.period} {edu.gpa || edu.score ? `/ GPA ${edu.gpa || edu.score}` : ""}
                 </Text>
-                <Text fontSize="13px" color={lightTextColor} mb={1}>
-                  {edu.period} · GPA: {edu.gpa || edu.score}
-                </Text>
-                <Text
-                  fontSize="13px"
-                  color={textColor}
-                  lineHeight="1.4"
-                  noOfLines={2}
-                >
+                <Text fontSize="12px" color={colors.text} lineHeight="1.45" noOfLines={3}>
                   {edu.description}
                 </Text>
               </Box>
             </Flex>
           </Box>
         ))}
-      </VStack>
-    </Box>
+      </SimpleGrid>
+    </RetroPanel>
   );
 };
 

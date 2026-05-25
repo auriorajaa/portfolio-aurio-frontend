@@ -8,6 +8,8 @@ import {
   Textarea,
   Button,
   HStack,
+  SimpleGrid,
+  Select,
   useToast,
   AlertDialog,
   AlertDialogBody,
@@ -19,14 +21,26 @@ import {
 } from "@chakra-ui/react";
 import ArrayInput from "../ui/ArrayInput";
 import ImageUpload from "../ui/ImageUpload";
-import { uploadImageWithProgress } from "../../services/cloudinaryService";
+import {
+  uploadImageWithProgress,
+  uploadMediaWithProgress,
+} from "../../services/cloudinaryService";
+import ProjectGalleryInput from "./ProjectGalleryInput";
+import { normalizeProject } from "../../utils/projectMedia";
+import { generateSlug } from "../../utils/slugify";
 
 const ProjectForm = ({ data, onSave, onCancel }) => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
+    slug: "",
+    role: "",
+    period: "",
+    status: "Published",
     tags: [],
     image: "",
+    highlights: [],
+    gallery: [],
     github: "",
     website: "",
   });
@@ -37,13 +51,17 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
 
   useEffect(() => {
     if (data) {
-      setFormData(data);
+      setFormData(normalizeProject(data));
     }
   }, [data]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === "title" && !prev.slug ? { slug: generateSlug(value) } : {}),
+    }));
   };
 
   const handleImageChange = (imageUrl) => {
@@ -82,6 +100,30 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
         const uploadedUrl = await uploadImageWithProgress(file);
         finalFormData.image = uploadedUrl;
       }
+
+      if (Array.isArray(formData.gallery) && formData.gallery.length > 0) {
+        finalFormData.gallery = await Promise.all(
+          formData.gallery.map(async (item, index) => {
+            if (!item.url || !item.url.startsWith("data:")) {
+              return { ...item, order: index };
+            }
+
+            const response = await fetch(item.url);
+            const blob = await response.blob();
+            const extension = item.type === "pdf" ? "pdf" : "jpg";
+            const file = new File([blob], `project-media-${index}.${extension}`, {
+              type: item.type === "pdf" ? "application/pdf" : blob.type || "image/jpeg",
+            });
+            const uploadedUrl = await uploadMediaWithProgress(file);
+            return { ...item, url: uploadedUrl, order: index };
+          }),
+        );
+      }
+
+      finalFormData.slug =
+        finalFormData.slug || generateSlug(finalFormData.title || "project");
+      finalFormData.role = finalFormData.role || "Full-stack Developer";
+      finalFormData.status = finalFormData.status || "Published";
 
       onSave(finalFormData);
     } catch (error) {
@@ -131,8 +173,74 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
           />
         </FormControl>
 
+        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={3}>
+          <FormControl>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+              URL Slug
+            </FormLabel>
+            <Input
+              name="slug"
+              value={formData.slug}
+              onChange={handleInputChange}
+              placeholder="small-circle"
+              size="md"
+              fontSize="13px"
+              borderRadius="0"
+            />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+              Role
+            </FormLabel>
+            <Input
+              name="role"
+              value={formData.role}
+              onChange={handleInputChange}
+              placeholder="Full-stack Developer"
+              size="md"
+              fontSize="13px"
+              borderRadius="0"
+            />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+              Status
+            </FormLabel>
+            <Select
+              name="status"
+              value={formData.status}
+              onChange={handleInputChange}
+              size="md"
+              fontSize="13px"
+              borderRadius="0"
+            >
+              <option value="Published">Published</option>
+              <option value="Featured">Featured</option>
+              <option value="Archived">Archived</option>
+              <option value="In Progress">In Progress</option>
+            </Select>
+          </FormControl>
+        </SimpleGrid>
+
+        <FormControl>
+          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            Period
+          </FormLabel>
+          <Input
+            name="period"
+            value={formData.period}
+            onChange={handleInputChange}
+            placeholder="2024 - 2025"
+            size="md"
+            fontSize="13px"
+            borderRadius="0"
+          />
+        </FormControl>
+
         <ImageUpload
-          label="Project Image"
+          label="Project Cover Image"
           value={formData.image}
           onChange={handleImageChange}
         />
@@ -174,6 +282,20 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
           value={formData.tags}
           onChange={(val) => setFormData((prev) => ({ ...prev, tags: val }))}
           placeholder="Add a tag"
+        />
+
+        <ArrayInput
+          label="Project Highlights"
+          value={formData.highlights}
+          onChange={(val) =>
+            setFormData((prev) => ({ ...prev, highlights: val }))
+          }
+          placeholder="Add a highlight"
+        />
+
+        <ProjectGalleryInput
+          value={formData.gallery}
+          onChange={(val) => setFormData((prev) => ({ ...prev, gallery: val }))}
         />
 
         <HStack spacing={3} pt={3}>

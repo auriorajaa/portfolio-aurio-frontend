@@ -6,6 +6,7 @@ import {
   Text,
   Button,
   HStack,
+  SimpleGrid,
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -29,6 +30,7 @@ import {
   Award,
   Activity,
   FileText,
+  ShieldCheck,
 } from "lucide-react";
 import { Moon, Sun } from "lucide-react";
 import { logoutAdmin } from "../services/authService";
@@ -40,6 +42,8 @@ import ProjectManager from "../components/admin/ProjectManager";
 import EducationManager from "../components/admin/EducationManager";
 import AchievementManager from "../components/admin/AchievementManager";
 import ActivityManager from "../components/admin/ActivityManager";
+import { usePortfolio } from "../contexts/PortfolioContext";
+import { RetroBadge, useRetroColors } from "../components/ui/retro";
 
 const AdminDashboard = () => {
   const [selectedArticle, setSelectedArticle] = useState(null);
@@ -62,15 +66,25 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const toast = useToast();
   const { colorMode, toggleColorMode } = useColorMode();
+  const { portfolioData } = usePortfolio();
+  const colors = useRetroColors();
 
   // Color mode values
-  const bgColor = useColorModeValue("#e9ebee", "#18191a");
-  const cardBg = useColorModeValue("white", "#242526");
-  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
-  const textColor = useColorModeValue("#333333", "#e4e6eb");
-  const headerBg = useColorModeValue("#f7f7f7", "#242526");
-  const hoverBg = useColorModeValue("#eeeeee", "#3a3b3c");
-  const iconColor = useColorModeValue("#3b5998", "#5b7ec8");
+  const bgColor = useColorModeValue("#cfd7e2", "#0f151d");
+  const cardBg = colors.panelBg;
+  const borderColor = colors.border;
+  const textColor = colors.text;
+  const headerBg = colors.headerBg;
+  const hoverBg = colors.paleBlue;
+  const iconColor = colors.link;
+
+  const dashboardStats = [
+    ["Projects", portfolioData.projects?.length || 0],
+    ["Experience", portfolioData.experiences?.length || 0],
+    ["Education", (portfolioData.education?.length || 0) + (portfolioData.certifications?.length || 0)],
+    ["Awards", portfolioData.achievements?.length || 0],
+    ["Activities", portfolioData.activities?.length || 0],
+  ];
 
   const handleLogout = async () => {
     try {
@@ -133,8 +147,9 @@ const AdminDashboard = () => {
       bg={cardBg}
       border="1px solid"
       borderColor={borderColor}
-      borderRadius="2px"
+      borderRadius="0"
       mb={4}
+      boxShadow={colors.shadow}
     >
       {/* Section Header */}
       <Flex
@@ -148,6 +163,7 @@ const AdminDashboard = () => {
         cursor="pointer"
         onClick={onToggle}
         _hover={{ bg: hoverBg }}
+        boxShadow="inset 0 1px 0 rgba(255,255,255,.45)"
       >
         <HStack spacing={2}>
           <Icon size={16} color={iconColor} />
@@ -172,22 +188,33 @@ const AdminDashboard = () => {
 
   return (
     <Box minH="100vh" bg={bgColor} py={4}>
-      <Box maxW="1000px" mx="auto" px={4}>
+      <Box maxW="1280px" mx="auto" px={{ base: 2, md: 4 }}>
         {/* Header */}
         <Flex
           justify="space-between"
-          align="center"
+          align={{ base: "stretch", md: "center" }}
+          direction={{ base: "column", md: "row" }}
+          gap={3}
           mb={4}
           bg={cardBg}
           border="1px solid"
           borderColor={borderColor}
-          borderRadius="2px"
+          borderRadius="0"
           px={3}
-          py={2}
+          py={3}
+          boxShadow={colors.shadow}
         >
-          <Text fontSize="15px" fontWeight="bold" color={iconColor}>
-            Admin Dashboard
-          </Text>
+          <HStack spacing={2}>
+            <ShieldCheck size={18} color={iconColor} />
+            <Box>
+              <Text fontSize="15px" fontWeight="bold" color={iconColor}>
+                Site Control Panel
+              </Text>
+              <Text fontSize="11px" color={colors.muted}>
+                Firebase-authenticated portfolio management console
+              </Text>
+            </Box>
+          </HStack>
           <HStack spacing={2}>
             <IconButton
               icon={
@@ -222,6 +249,29 @@ const AdminDashboard = () => {
             </Button>
           </HStack>
         </Flex>
+
+        <SimpleGrid columns={{ base: 2, md: 5 }} spacing={2} mb={4}>
+          {dashboardStats.map(([label, value]) => (
+            <Box
+              key={label}
+              border="1px solid"
+              borderColor={borderColor}
+              bg={cardBg}
+              p={2}
+              boxShadow={colors.shadow}
+            >
+              <Text fontSize="10px" color={colors.muted} textTransform="uppercase">
+                {label}
+              </Text>
+              <HStack spacing={2} justify="space-between">
+                <Text fontSize="18px" fontWeight="bold" color={textColor}>
+                  {value}
+                </Text>
+                <RetroBadge tone="green">Live</RetroBadge>
+              </HStack>
+            </Box>
+          ))}
+        </SimpleGrid>
 
         {/* Personal Info Section */}
         <SectionBox

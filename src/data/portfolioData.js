@@ -5,7 +5,12 @@ export const personalInfo = {
   email: "mr.auriorajaa@gmail.com",
   github: "https://github.com/auriorajaa",
   linkedin: "https://linkedin.com/in/auriorajaa",
+  website: "https://aurio.work",
+  twitter: "https://twitter.com/auriorajaa",
   location: "Jakarta, Indonesia",
+  seoTitle: "Aurio Rajaa | Software Engineer Portfolio",
+  seoDescription:
+    "Aurio Rajaa is a software engineer from Jakarta focused on backend systems, cloud workflows, and full-stack product interfaces.",
   bio: "Backend developer specializing in Spring Boot and Java ecosystem. Building robust RESTful APIs and microservices. Also experienced with Django and modern frontend technologies like React and Next.js.",
 };
 
@@ -144,8 +149,28 @@ export const projects = [
     description:
       "Small Circle is a native Android marketplace application that connects local buyers and sellers. Users can discover items based on location, chat with sellers, manage listings, and more.",
     tags: ["java", "firebase", "xml"],
+    role: "Android Developer",
+    period: "2024",
+    status: "Published",
+    highlights: [
+      "Native Android marketplace experience with Firebase-backed listings",
+      "Location-aware discovery, listing management, and seller chat flow",
+    ],
     image:
       "https://repository-images.githubusercontent.com/876764928/95dd8a08-3549-47ac-8a7a-f432e21c4a9c",
+    gallery: [
+      {
+        id: "small-circle-cover",
+        type: "image",
+        url: "https://repository-images.githubusercontent.com/876764928/95dd8a08-3549-47ac-8a7a-f432e21c4a9c",
+        title: "Small Circle preview",
+        caption: "Repository showcase image for the Android marketplace.",
+        alt: "Small Circle Android marketplace preview",
+        thumbnail:
+          "https://repository-images.githubusercontent.com/876764928/95dd8a08-3549-47ac-8a7a-f432e21c4a9c",
+        order: 0,
+      },
+    ],
     github: "https://github.com/auriorajaa/Small_Circle",
   },
   {
@@ -153,8 +178,28 @@ export const projects = [
     title: "Flick Share",
     description: "Modern Django web app for seamless Flickr content sharing",
     tags: ["django", "htmx", "postgres"],
+    role: "Backend Developer",
+    period: "2024",
+    status: "Published",
+    highlights: [
+      "Django application for sharing Flickr content with a simple server-rendered flow",
+      "Uses HTMX patterns to keep the interface lightweight and fast",
+    ],
     image:
       "https://repository-images.githubusercontent.com/916445698/7e074c95-7957-44ba-92a4-02111b197d63",
+    gallery: [
+      {
+        id: "flick-share-cover",
+        type: "image",
+        url: "https://repository-images.githubusercontent.com/916445698/7e074c95-7957-44ba-92a4-02111b197d63",
+        title: "Flick Share preview",
+        caption: "Repository showcase image for the Django sharing app.",
+        alt: "Flick Share Django app preview",
+        thumbnail:
+          "https://repository-images.githubusercontent.com/916445698/7e074c95-7957-44ba-92a4-02111b197d63",
+        order: 0,
+      },
+    ],
     github: "https://github.com/auriorajaa/flick_share",
   },
   {
@@ -163,8 +208,28 @@ export const projects = [
     description:
       "Upfront - a modern multi-vendor e-commerce platform with responsive design and seamless payment integration.",
     tags: ["django", "drf", "react", "restful-api", "bootstrap"],
+    role: "Full-stack Developer",
+    period: "2024",
+    status: "Published",
+    highlights: [
+      "Multi-vendor e-commerce architecture with Django REST and React",
+      "Responsive storefront and API-driven product workflow",
+    ],
     image:
       "https://repository-images.githubusercontent.com/924773634/84a90724-017a-49b7-b13a-68dce9cb92a9",
+    gallery: [
+      {
+        id: "upfront-cover",
+        type: "image",
+        url: "https://repository-images.githubusercontent.com/924773634/84a90724-017a-49b7-b13a-68dce9cb92a9",
+        title: "Upfront preview",
+        caption: "Repository showcase image for the e-commerce platform.",
+        alt: "Upfront e-commerce platform preview",
+        thumbnail:
+          "https://repository-images.githubusercontent.com/924773634/84a90724-017a-49b7-b13a-68dce9cb92a9",
+        order: 0,
+      },
+    ],
     github: "https://github.com/auriorajaa/django_react_ecommerce_frontend",
   },
   {
@@ -173,8 +238,28 @@ export const projects = [
     description:
       "A modern web application for shortening URLs built with Django REST Framework and React.js.",
     tags: ["django", "drf", "react", "chakra-ui", "restful-api"],
+    role: "Full-stack Developer",
+    period: "2024",
+    status: "Published",
+    highlights: [
+      "Django REST and React implementation for compact URL management",
+      "Chakra UI interface for fast link creation and lookup",
+    ],
     image:
       "https://repository-images.githubusercontent.com/916945905/d54e97aa-e9a2-4c6f-b481-6695aa2cd4ea",
+    gallery: [
+      {
+        id: "link-shortener-cover",
+        type: "image",
+        url: "https://repository-images.githubusercontent.com/916945905/d54e97aa-e9a2-4c6f-b481-6695aa2cd4ea",
+        title: "Link Shortener preview",
+        caption: "Repository showcase image for the URL shortener.",
+        alt: "Link Shortener web app preview",
+        thumbnail:
+          "https://repository-images.githubusercontent.com/916945905/d54e97aa-e9a2-4c6f-b481-6695aa2cd4ea",
+        order: 0,
+      },
+    ],
     github: "https://github.com/auriorajaa/link_shortener",
   },
   {
@@ -183,8 +268,28 @@ export const projects = [
     description:
       "Social Lib is a small-scale social media project inspired by Twitter. It allows users to follow and unfollow other users, create text-only posts, edit their profiles, and search for other users.",
     tags: ["django", "drf", "react", "restful-api", "chakra-ui"],
+    role: "Full-stack Developer",
+    period: "2024",
+    status: "Published",
+    highlights: [
+      "Small social platform with profiles, follow system, posts, and search",
+      "API-backed interface inspired by compact social timelines",
+    ],
     image:
       "https://repository-images.githubusercontent.com/915189640/7faab232-d2fa-4377-9dd6-fc0cc4f23ea2",
+    gallery: [
+      {
+        id: "social-lib-cover",
+        type: "image",
+        url: "https://repository-images.githubusercontent.com/915189640/7faab232-d2fa-4377-9dd6-fc0cc4f23ea2",
+        title: "Social Lib preview",
+        caption: "Repository showcase image for the social media project.",
+        alt: "Social Lib social app preview",
+        thumbnail:
+          "https://repository-images.githubusercontent.com/915189640/7faab232-d2fa-4377-9dd6-fc0cc4f23ea2",
+        order: 0,
+      },
+    ],
     github: "https://github.com/auriorajaa/social_lib",
   },
   {
@@ -193,8 +298,28 @@ export const projects = [
     description:
       "Smart Investment App Finder is a user-friendly web platform designed to help individuals—especially beginner investors—make smarter and more informed investment decisions.",
     tags: ["html", "tailwind-css", "javascript"],
+    role: "Frontend Developer",
+    period: "2024",
+    status: "Published",
+    highlights: [
+      "Decision-support interface for beginner investment app comparison",
+      "Static frontend deployed to Vercel with responsive flows",
+    ],
     image:
       "https://repository-images.githubusercontent.com/829793467/a9390949-beef-4285-b7ce-6c536a91c4a8",
+    gallery: [
+      {
+        id: "investment-finder-cover",
+        type: "image",
+        url: "https://repository-images.githubusercontent.com/829793467/a9390949-beef-4285-b7ce-6c536a91c4a8",
+        title: "Investment Finder preview",
+        caption: "Repository showcase image for the investment app finder.",
+        alt: "Smart Investment App Finder preview",
+        thumbnail:
+          "https://repository-images.githubusercontent.com/829793467/a9390949-beef-4285-b7ce-6c536a91c4a8",
+        order: 0,
+      },
+    ],
     github: "https://github.com/auriorajaa/web-penentuan-app-invest",
     website: "https://web-penentuan-app-invest.vercel.app/",
   },
@@ -264,9 +389,9 @@ export const skillsData = [
     skills: [
       "Spring Boot REST API",
       "Django REST Framework",
-      "API Design",
-      "SQL & NoSQL Databases",
-      "Docker & Containerization",
+      // "API Design",
+      // "SQL & NoSQL Databases",
+      // "Docker & Containerization",
     ],
   },
   {
@@ -308,34 +433,34 @@ export const skillDetails = {
       "Developed multiple full-stack projects including e-commerce and social platforms",
     context: "Experienced in DRF for rapid API development",
   },
-  "API Design": {
-    level: "Proficient",
-    description:
-      "Designed scalable REST APIs with proper architecture and documentation",
-    context: "Focus on clean, maintainable API structures",
-  },
-  "SQL & NoSQL Databases": {
-    level: "Proficient",
-    description:
-      "Worked with PostgreSQL, MySQL, Microsoft SQL Server, MongoDB, and Firebase",
-    context: "Database design and optimization for various use cases",
-  },
-  "Authentication & Security": {
-    level: "Proficient",
-    description:
-      "Implemented JWT authentication and secure data handling practices",
-    context: "Security-first approach in backend development",
-  },
-  "Docker & Containerization": {
-    level: "Intermediate",
-    description:
-      "Learned containerization through Bangkit Cloud Computing program",
-    context: "Deployment and environment management",
-  },
+  // "API Design": {
+  //   level: "Proficient",
+  //   description:
+  //     "Designed scalable REST APIs with proper architecture and documentation",
+  //   context: "Focus on clean, maintainable API structures",
+  // },
+  // "SQL & NoSQL Databases": {
+  //   level: "Proficient",
+  //   description:
+  //     "Worked with PostgreSQL, MySQL, Microsoft SQL Server, MongoDB, and Firebase",
+  //   context: "Database design and optimization for various use cases",
+  // },
+  // "Authentication & Security": {
+  //   level: "Proficient",
+  //   description:
+  //     "Implemented JWT authentication and secure data handling practices",
+  //   context: "Security-first approach in backend development",
+  // },
+  // "Docker & Containerization": {
+  //   level: "Intermediate",
+  //   description:
+  //     "Learned containerization through Bangkit Cloud Computing program",
+  //   context: "Deployment and environment management",
+  // },
   "React.js": {
     level: "Advanced",
     description:
-      "Built multiple responsive frontends with React and modern hooks",
+      "Built multiple responsive frontends with React with modern hooks and component",
     context: "Primary choice for interactive UI development",
   },
   "Next.js": {
