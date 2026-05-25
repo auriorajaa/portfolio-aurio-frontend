@@ -138,7 +138,7 @@ const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
 
   const handleMouseMove = (e) => {
     if (!dragRef.current || !containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
+    // const rect = containerRef.current.getBoundingClientRect();
     setZoom(
       constrainZoom(
         zoom.scale,
@@ -193,7 +193,7 @@ const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
     } else if (dragRef.current && e.touches.length === 1) {
       e.preventDefault();
       if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
+      // const rect = containerRef.current.getBoundingClientRect();
       setZoom(
         constrainZoom(
           zoom.scale,
