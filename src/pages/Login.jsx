@@ -98,7 +98,7 @@ const Login = () => {
           {/* Left Side - Branding */}
           <Box flex="1" display={{ base: "none", md: "block" }}>
             <VStack align="start" spacing={4} pt={8}>
-              <Text fontSize="16px" color={textColor} lineHeight="1.6">
+              <Text fontSize="19px" color={textColor} lineHeight="1.6">
                 Manage your portfolio content, articles, and projects from this
                 secure administrative dashboard.
               </Text>
@@ -112,7 +112,7 @@ const Login = () => {
                 w="100%"
               >
                 <VStack align="start" spacing={3}>
-                  <Text fontSize="14px" fontWeight="bold" color={textColor}>
+                  <Text fontSize="17px" fontWeight="bold" color={textColor}>
                     Portal Features:
                   </Text>
 
@@ -124,7 +124,7 @@ const Login = () => {
                         bg="facebook.blue"
                         borderRadius="full"
                       />
-                      <Text fontSize="13px" color={textColor}>
+                      <Text fontSize="16px" color={textColor}>
                         Create and edit articles
                       </Text>
                     </HStack>
@@ -135,7 +135,7 @@ const Login = () => {
                         bg="facebook.blue"
                         borderRadius="full"
                       />
-                      <Text fontSize="13px" color={textColor}>
+                      <Text fontSize="16px" color={textColor}>
                         Manage project portfolio
                       </Text>
                     </HStack>
@@ -146,7 +146,7 @@ const Login = () => {
                         bg="facebook.blue"
                         borderRadius="full"
                       />
-                      <Text fontSize="13px" color={textColor}>
+                      <Text fontSize="16px" color={textColor}>
                         Update profile information
                       </Text>
                     </HStack>
@@ -157,7 +157,7 @@ const Login = () => {
                         bg="facebook.blue"
                         borderRadius="full"
                       />
-                      <Text fontSize="13px" color={textColor}>
+                      <Text fontSize="16px" color={textColor}>
                         Content analytics & stats
                       </Text>
                     </HStack>
@@ -178,7 +178,7 @@ const Login = () => {
                     size={14}
                     color={useColorModeValue("#3b5998", "#5b7ec8")}
                   />
-                  <Text fontSize="12px" color={textColor} fontStyle="italic">
+                  <Text fontSize="15px" color={textColor} fontStyle="italic">
                     This area is protected and accessible only to authorized
                     administrators.
                   </Text>
@@ -204,7 +204,7 @@ const Login = () => {
                 bg={grayBg}
               >
                 <VStack spacing={1} align="start">
-                  <Text fontSize="12px" color={lightTextColor}>
+                  <Text fontSize="15px" color={lightTextColor}>
                     Enter your credentials to continue
                   </Text>
                 </VStack>
@@ -216,7 +216,7 @@ const Login = () => {
                   <VStack spacing={3}>
                     <FormControl isRequired>
                       <FormLabel
-                        fontSize="13px"
+                        fontSize="16px"
                         fontWeight="bold"
                         mb={2}
                         color={textColor}
@@ -229,7 +229,7 @@ const Login = () => {
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="admin@example.com"
-                          fontSize="13px"
+                          fontSize="16px"
                           pl={8}
                         />
                         <Box
@@ -247,7 +247,7 @@ const Login = () => {
 
                     <FormControl isRequired>
                       <FormLabel
-                        fontSize="13px"
+                        fontSize="16px"
                         fontWeight="bold"
                         mb={2}
                         color={textColor}
@@ -260,7 +260,7 @@ const Login = () => {
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           placeholder="Enter your password"
-                          fontSize="13px"
+                          fontSize="16px"
                           pl={8}
                         />
                         <Box
@@ -298,7 +298,7 @@ const Login = () => {
                       type="submit"
                       w="full"
                       variant="facebook"
-                      fontSize="13px"
+                      fontSize="16px"
                       fontWeight="bold"
                       isLoading={loading}
                       loadingText="Signing in..."
@@ -320,7 +320,7 @@ const Login = () => {
                 bg={grayBg}
               >
                 <VStack spacing={2}>
-                  <HStack spacing={2} fontSize="12px" color={lightTextColor}>
+                  <HStack spacing={2} fontSize="15px" color={lightTextColor}>
                     <Lock size={12} />
                     <Text>Secure encrypted connection</Text>
                   </HStack>
@@ -330,7 +330,7 @@ const Login = () => {
                   <Button
                     variant="facebookGray"
                     size="sm"
-                    fontSize="12px"
+                    fontSize="15px"
                     h="32px"
                     leftIcon={<Home size={14} />}
                     onClick={() => navigate("/")}
@@ -358,11 +358,11 @@ const Login = () => {
                     size={16}
                     color={useColorModeValue("#3b5998", "#5b7ec8")}
                   />
-                  <Text fontSize="13px" fontWeight="bold" color={textColor}>
+                  <Text fontSize="16px" fontWeight="bold" color={textColor}>
                     About Admin Portal
                   </Text>
                 </HStack>
-                <Text fontSize="12px" color={lightTextColor} lineHeight="1.5">
+                <Text fontSize="15px" color={lightTextColor} lineHeight="1.5">
                   Manage articles, projects, and portfolio content. Protected
                   access for administrators only.
                 </Text>

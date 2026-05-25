@@ -44,8 +44,8 @@ export const uploadImage = async (file, folder = "portfolio") => {
 };
 
 /**
- * Upload image/PDF media to Cloudinary using the auto resource endpoint.
- * @param {File} file - Image or PDF file
+ * Upload media to Cloudinary using the auto resource endpoint.
+ * @param {File} file - Image file
  * @param {Function} onProgress - Progress callback
  * @returns {Promise<string>} - Secure media URL
  */
@@ -198,13 +198,12 @@ export const validateMediaFile = (file, maxSizeMB = 12) => {
     "image/png",
     "image/gif",
     "image/webp",
-    "application/pdf",
   ];
 
   if (!validTypes.includes(file.type)) {
     return {
       valid: false,
-      error: "Please select a JPG, PNG, GIF, WebP, or PDF file",
+      error: "Please select a JPG, PNG, GIF, or WebP image",
     };
   }
 

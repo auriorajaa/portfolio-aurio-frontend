@@ -29,7 +29,7 @@ const Contact = () => {
     >
       <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={3}>
         <VStack align="stretch" spacing={2}>
-          <Text fontSize="13px" color={colors.text} lineHeight="1.5">
+          <Text fontSize="16px" color={colors.text} lineHeight="1.5">
             Open for software engineering opportunities, collaborations, and
             technical conversations around backend systems, cloud, and product
             interfaces.
@@ -39,25 +39,25 @@ const Contact = () => {
             <VStack spacing={2} align="stretch">
               <HStack spacing={2}>
                 <Mail size={14} color={colors.link} />
-                <Link href={`mailto:${personalInfo.email}`} fontSize="12px" fontWeight="bold">
+                <Link href={`mailto:${personalInfo.email}`} fontSize="15px" fontWeight="bold">
                   {personalInfo.email}
                 </Link>
               </HStack>
               <HStack spacing={2}>
                 <Github size={14} color={colors.link} />
-                <Link href={personalInfo.github} isExternal fontSize="12px" fontWeight="bold">
+                <Link href={personalInfo.github} isExternal fontSize="15px" fontWeight="bold">
                   github.com/auriorajaa
                 </Link>
               </HStack>
               <HStack spacing={2}>
                 <Linkedin size={14} color={colors.link} />
-                <Link href={personalInfo.linkedin} isExternal fontSize="12px" fontWeight="bold">
+                <Link href={personalInfo.linkedin} isExternal fontSize="15px" fontWeight="bold">
                   linkedin.com/in/auriorajaa
                 </Link>
               </HStack>
               <HStack spacing={2}>
                 <MapPin size={14} color={colors.link} />
-                <Text fontSize="12px" color={colors.text}>
+                <Text fontSize="15px" color={colors.text}>
                   {personalInfo.location || "Jakarta, Indonesia"}
                 </Text>
               </HStack>
@@ -66,7 +66,7 @@ const Contact = () => {
         </VStack>
 
         <Box border="1px solid" borderColor={colors.border} bg={colors.panelAlt} p={3}>
-          <Text fontSize="12px" fontWeight="bold" color={colors.text} mb={2}>
+          <Text fontSize="15px" fontWeight="bold" color={colors.text} mb={2}>
             Quick Message Draft
           </Text>
           <VStack spacing={2} align="stretch">

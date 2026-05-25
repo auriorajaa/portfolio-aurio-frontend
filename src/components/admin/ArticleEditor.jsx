@@ -226,7 +226,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
         px={{ base: 3, md: 4 }}
         py={3}
       >
-        <Text fontSize="13px" fontWeight="bold">
+        <Text fontSize="16px" fontWeight="bold">
           {article ? "Edit Article" : "Create New Article"}
         </Text>
       </Box>
@@ -236,7 +236,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
         <VStack spacing={4} align="stretch">
           {/* Title Field */}
           <FormControl isRequired>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Title
             </FormLabel>
             <Input
@@ -244,7 +244,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
               value={formData.title}
               onChange={handleInputChange}
               placeholder="Enter article title"
-              fontSize="14px"
+              fontSize="17px"
               size="md"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
@@ -256,7 +256,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
 
           {/* Excerpt Field */}
           <FormControl isRequired>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Excerpt
             </FormLabel>
             <Textarea
@@ -265,7 +265,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
               onChange={handleInputChange}
               placeholder="Brief summary of the article"
               rows={3}
-              fontSize="14px"
+              fontSize="17px"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
                 borderColor: "facebook.blue",
@@ -276,13 +276,13 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
 
           {/* Category Field */}
           <FormControl isRequired>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Category
             </FormLabel>
             <Select
               value={formData.category}
               onChange={handleCategoryChange}
-              fontSize="13px"
+              fontSize="16px"
               size="md"
               borderRadius="2px"
               _hover={{ borderColor: "facebook.blue" }}
@@ -308,7 +308,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
 
           {/* Tags Field */}
           <FormControl>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Tags
             </FormLabel>
             <Stack direction={{ base: "column", sm: "row" }} spacing={2}>
@@ -316,7 +316,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
                 placeholder="Add a tag"
-                fontSize="14px"
+                fontSize="17px"
                 size="md"
                 flex={1}
                 _hover={{ borderColor: "facebook.blue" }}
@@ -334,7 +334,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
               <Button
                 onClick={handleAddTag}
                 variant="facebookGray"
-                fontSize="12px"
+                fontSize="15px"
                 h="36px"
                 px={3}
                 w={{ base: "full", sm: "auto" }}
@@ -357,7 +357,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
                     borderColor="facebook.border"
                     spacing={1}
                   >
-                    <Text fontSize="12px">{tag}</Text>
+                    <Text fontSize="15px">{tag}</Text>
                     <Box
                       as="button"
                       type="button"
@@ -382,7 +382,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
                 <FormLabel
                   htmlFor="featured"
                   mb={0}
-                  fontSize="13px"
+                  fontSize="16px"
                   fontWeight="bold"
                 >
                   Mark as Featured
@@ -404,7 +404,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
 
             {/* Visibility Status */}
             <FormControl flex={1}>
-              <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+              <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
                 Visibility
               </FormLabel>
               <Select
@@ -415,7 +415,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
                     visibility: e.target.value,
                   }))
                 }
-                fontSize="13px"
+                fontSize="16px"
                 size="md"
                 borderRadius="2px"
                 _hover={{ borderColor: "facebook.blue" }}
@@ -433,7 +433,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
 
           {/* Content Editor */}
           <FormControl isRequired>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Content
             </FormLabel>
             <Box
@@ -451,7 +451,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
                 },
                 ".ql-container": {
                   minHeight: "300px",
-                  fontSize: "13px",
+                  fontSize: "16px",
                   borderColor: "facebook.border",
                   borderBottomLeftRadius: "2px",
                   borderBottomRightRadius: "2px",
@@ -459,11 +459,11 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
                 },
                 ".ql-editor": {
                   minHeight: "300px",
-                  fontSize: "13px",
+                  fontSize: "16px",
                   lineHeight: "1.6",
                 },
                 ".ql-editor.ql-blank::before": {
-                  fontSize: "13px",
+                  fontSize: "16px",
                   color: "facebook.lightText",
                   fontStyle: "italic",
                 },
@@ -496,7 +496,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
             <Button
               variant="facebookGray"
               onClick={onCancel}
-              fontSize="13px"
+              fontSize="16px"
               h="32px"
               px={4}
               w={{ base: "full", sm: "auto" }}
@@ -509,7 +509,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
             variant="facebook"
             isLoading={loading}
             loadingText="Saving..."
-            fontSize="13px"
+            fontSize="16px"
             h="32px"
             px={4}
             w={{ base: "full", sm: "auto" }}
@@ -527,11 +527,11 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
       >
         <AlertDialogOverlay>
           <AlertDialogContent borderRadius="2px" mx={4}>
-            <AlertDialogHeader fontSize="14px" fontWeight="bold">
+            <AlertDialogHeader fontSize="17px" fontWeight="bold">
               Confirm {article ? "Update" : "Create"}
             </AlertDialogHeader>
 
-            <AlertDialogBody fontSize="13px">
+            <AlertDialogBody fontSize="16px">
               Are you sure you want to {article ? "update" : "create"} this
               article?
               {formData.image &&
@@ -544,7 +544,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
                 ref={cancelRef}
                 onClick={onClose}
                 size="md"
-                fontSize="13px"
+                fontSize="16px"
                 variant="facebookGray"
               >
                 Cancel
@@ -554,7 +554,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
                 onClick={confirmSave}
                 ml={2}
                 size="md"
-                fontSize="13px"
+                fontSize="16px"
                 isLoading={loading}
               >
                 {article ? "Update" : "Create"}

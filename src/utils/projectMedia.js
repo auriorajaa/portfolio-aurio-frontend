@@ -21,12 +21,12 @@ export const normalizeProject = (project = {}) => {
         .filter((item) => item?.url)
         .map((item, index) => ({
           id: item.id || `${project.id || project.title || "project"}-${index}`,
-          type: item.type === "pdf" ? "pdf" : "image",
+          type: "image",
           url: item.url,
-          title: item.title || (item.type === "pdf" ? "PDF Showcase" : `Screen ${index + 1}`),
+          title: item.title || `Screen ${index + 1}`,
           caption: item.caption || "",
           alt: item.alt || `${project.title || "Project"} showcase ${index + 1}`,
-          thumbnail: item.thumbnail || (item.type === "pdf" ? project.image || "" : item.url),
+          thumbnail: item.thumbnail || item.url,
           order: Number.isFinite(Number(item.order)) ? Number(item.order) : index,
         }))
         .sort((a, b) => a.order - b.order)
@@ -47,4 +47,4 @@ export const normalizeProject = (project = {}) => {
 
 export const normalizeProjects = (projects = []) => projects.map(normalizeProject);
 
-export const isPdfUrl = (url = "") => /\.pdf($|\?)/i.test(url);
+export const isPdfUrl = () => false;

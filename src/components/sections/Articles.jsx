@@ -72,7 +72,7 @@ const Articles = () => {
       id="articles"
       title="Articles & Field Notes"
       icon={BookOpen}
-      headerRight={<RetroBadge tone="green">{articles.length} public</RetroBadge>}
+      // headerRight={<RetroBadge tone="green">{articles.length} public</RetroBadge>}
       bodyProps={{ p: 0 }}
     >
       <Box px={3} py={2} borderBottom="1px solid" borderColor={colors.border}>
@@ -83,7 +83,7 @@ const Articles = () => {
               size="sm"
               variant={filter === category ? "facebook" : "facebookGray"}
               onClick={() => setFilter(category)}
-              fontSize="11px"
+              fontSize="14px"
               h="24px"
               px={3}
             >
@@ -131,20 +131,20 @@ const Articles = () => {
                     </RetroBadge>
                   )}
                 </HStack>
-                <Text fontSize="13px" fontWeight="bold" color={colors.link} noOfLines={2}>
+                <Text fontSize="16px" fontWeight="bold" color={colors.link} noOfLines={2}>
                   {article.title}
                 </Text>
-                <Text fontSize="12px" color={colors.text} lineHeight="1.45" noOfLines={2}>
+                <Text fontSize="15px" color={colors.text} lineHeight="1.45" noOfLines={2}>
                   {article.excerpt}
                 </Text>
                 <HStack spacing={3} color={colors.muted}>
                   <HStack spacing={1}>
                     <Calendar size={10} />
-                    <Text fontSize="10px">{new Date(article.date).toLocaleDateString()}</Text>
+                    <Text fontSize="13px">{new Date(article.date).toLocaleDateString()}</Text>
                   </HStack>
                   <HStack spacing={1}>
                     <Clock size={10} />
-                    <Text fontSize="10px">{article.readTime}</Text>
+                    <Text fontSize="13px">{article.readTime}</Text>
                   </HStack>
                 </HStack>
               </VStack>

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   Box,
   Flex,
-  HStack,
   Image,
   SimpleGrid,
   Text,
@@ -12,7 +11,7 @@ import {
 import { Award } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
 import CertificateModal from "../ui/CertificateModal";
-import { RetroBadge, RetroPanel, useRetroColors } from "../ui/retro";
+import { RetroPanel, useRetroColors } from "../ui/retro";
 
 const Achievements = () => {
   const { portfolioData } = usePortfolio();
@@ -31,7 +30,7 @@ const Achievements = () => {
       id="achievements"
       title="Achievements & Certificates"
       icon={Award}
-      headerRight={<RetroBadge tone="amber">{achievements.length} awards</RetroBadge>}
+      // headerRight={<RetroBadge tone="amber">{achievements.length} awards</RetroBadge>}
       bodyProps={{ p: 0 }}
     >
       <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={0}>
@@ -61,16 +60,16 @@ const Achievements = () => {
               </Box>
 
               <VStack align="stretch" spacing={1} minW={0} flex={1}>
-                <HStack spacing={1}>
+                {/* <HStack spacing={1}>
                   <RetroBadge tone="amber">Certificate</RetroBadge>
-                </HStack>
-                <Text fontSize="13px" fontWeight="bold" color={colors.text} noOfLines={2}>
+                </HStack> */}
+                <Text fontSize="16px" fontWeight="bold" color={colors.text} noOfLines={2}>
                   {achievement.title}
                 </Text>
-                <Text fontSize="12px" color={colors.link} fontWeight="bold">
+                <Text fontSize="15px" color={colors.link} fontWeight="bold">
                   {achievement.issuer}
                 </Text>
-                <Text fontSize="11px" color={colors.muted}>
+                <Text fontSize="14px" color={colors.muted}>
                   {achievement.date}
                 </Text>
               </VStack>

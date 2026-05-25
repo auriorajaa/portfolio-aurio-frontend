@@ -33,7 +33,7 @@ const CertificateModal = ({ isOpen, onClose, image, title }) => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Text fontSize="14px" fontWeight="bold" color={textColor}>
+          <Text fontSize="17px" fontWeight="bold" color={textColor}>
             {title}
           </Text>
           <IconButton

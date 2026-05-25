@@ -182,13 +182,13 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
   return (
     <Box>
       <HStack justify="space-between" mb={3}>
-        <Text fontSize="13px">Total: {projects.length} projects</Text>
+        <Text fontSize="16px">Total: {projects.length} projects</Text>
         <Button
           leftIcon={<AddIcon boxSize={3} />}
           size="sm"
           variant="facebook"
           onClick={handleCreate}
-          fontSize="12px"
+          fontSize="15px"
           h="24px"
           px={2}
         >
@@ -204,7 +204,7 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
           border="1px solid"
           borderColor="facebook.border"
         >
-          <Text fontSize="13px" color="facebook.lightText">
+          <Text fontSize="16px" color="facebook.lightText">
             No projects yet. Add your first project!
           </Text>
         </Box>
@@ -243,13 +243,13 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
                   )}
                   <VStack align="start" flex={1} spacing={1}>
                     <Text
-                      fontSize="14px"
+                      fontSize="17px"
                       fontWeight="bold"
                       color="facebook.blue"
                     >
                       {project.title}
                     </Text>
-                    <Text fontSize="13px" noOfLines={1}>
+                    <Text fontSize="16px" noOfLines={1}>
                       {project.description}
                     </Text>
                     <Wrap spacing={1}>
@@ -259,7 +259,7 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
                           size="sm"
                           bg="facebook.paleBlue"
                           color="facebook.text"
-                          fontSize="9px"
+                          fontSize="12px"
                           borderRadius="2px"
                           fontWeight="normal"
                         >
@@ -334,11 +334,11 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
       >
         <AlertDialogOverlay>
           <AlertDialogContent borderRadius="2px">
-            <AlertDialogHeader fontSize="14px" fontWeight="bold">
+            <AlertDialogHeader fontSize="17px" fontWeight="bold">
               Delete Project
             </AlertDialogHeader>
 
-            <AlertDialogBody fontSize="13px">
+            <AlertDialogBody fontSize="16px">
               Are you sure? This action cannot be undone.
             </AlertDialogBody>
 
@@ -347,7 +347,7 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
                 ref={cancelRef}
                 onClick={onCloseDelete}
                 variant="facebookGray"
-                fontSize="13px"
+                fontSize="16px"
               >
                 Cancel
               </Button>
@@ -357,7 +357,7 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
                 _hover={{ bg: "#b71c1c" }}
                 onClick={handleDelete}
                 ml={3}
-                fontSize="13px"
+                fontSize="16px"
               >
                 Delete
               </Button>

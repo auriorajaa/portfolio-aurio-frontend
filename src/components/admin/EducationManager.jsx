@@ -172,7 +172,7 @@ const EducationManager = ({ onDataChange }) => {
           border="1px solid"
           borderColor="facebook.border"
         >
-          <Text fontSize="13px" color="facebook.lightText">
+          <Text fontSize="16px" color="facebook.lightText">
             No {type === "education" ? "education" : "certifications"} yet. Add
             your first one!
           </Text>
@@ -199,11 +199,11 @@ const EducationManager = ({ onDataChange }) => {
             >
               <HStack justify="space-between" align="start">
                 <VStack align="start" flex={1} spacing={0.5}>
-                  <Text fontSize="14px" fontWeight="bold" color="facebook.blue">
+                  <Text fontSize="17px" fontWeight="bold" color="facebook.blue">
                     {item.title}
                   </Text>
-                  <Text fontSize="13px">{item.major || item.degree}</Text>
-                  <Text fontSize="12px" color="facebook.lightText">
+                  <Text fontSize="16px">{item.major || item.degree}</Text>
+                  <Text fontSize="15px" color="facebook.lightText">
                     {item.period}
                   </Text>
                   <HStack spacing={1.5} mt={1}>
@@ -212,7 +212,7 @@ const EducationManager = ({ onDataChange }) => {
                       color={
                         item.type === "formal" ? "purple.700" : "green.700"
                       }
-                      fontSize="9px"
+                      fontSize="12px"
                       px={2}
                       py={0.5}
                       borderRadius="2px"
@@ -222,7 +222,7 @@ const EducationManager = ({ onDataChange }) => {
                     <Badge
                       bg="facebook.paleBlue"
                       color="facebook.blue"
-                      fontSize="9px"
+                      fontSize="12px"
                       px={2}
                       py={0.5}
                       borderRadius="2px"
@@ -279,14 +279,14 @@ const EducationManager = ({ onDataChange }) => {
       <Tabs colorScheme="blue" size="sm">
         <TabList borderColor="facebook.border">
           <Tab
-            fontSize="13px"
+            fontSize="16px"
             fontWeight="bold"
             _selected={{ color: "facebook.blue", borderColor: "facebook.blue" }}
           >
             Formal Education ({educationList.length})
           </Tab>
           <Tab
-            fontSize="13px"
+            fontSize="16px"
             fontWeight="bold"
             _selected={{ color: "facebook.blue", borderColor: "facebook.blue" }}
           >
@@ -297,7 +297,7 @@ const EducationManager = ({ onDataChange }) => {
         <TabPanels>
           <TabPanel px={0} py={3}>
             <HStack justify="space-between" mb={3}>
-              <Text fontSize="14px" fontWeight="bold">
+              <Text fontSize="17px" fontWeight="bold">
                 Formal Education
               </Text>
               <Button
@@ -306,7 +306,7 @@ const EducationManager = ({ onDataChange }) => {
                 onClick={() => handleCreate("education")}
                 size="sm"
                 h="32px"
-                fontSize="12px"
+                fontSize="15px"
               >
                 Add Education
               </Button>
@@ -321,7 +321,7 @@ const EducationManager = ({ onDataChange }) => {
 
           <TabPanel px={0} py={3}>
             <HStack justify="space-between" mb={3}>
-              <Text fontSize="14px" fontWeight="bold">
+              <Text fontSize="17px" fontWeight="bold">
                 Certifications & Bootcamps
               </Text>
               <Button
@@ -330,7 +330,7 @@ const EducationManager = ({ onDataChange }) => {
                 onClick={() => handleCreate("certification")}
                 size="sm"
                 h="32px"
-                fontSize="12px"
+                fontSize="15px"
               >
                 Add Certification
               </Button>

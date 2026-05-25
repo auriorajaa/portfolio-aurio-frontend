@@ -117,7 +117,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
       <form onSubmit={handleSubmit}>
         <VStack spacing={3} align="stretch">
           <FormControl isRequired>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Full Name
             </FormLabel>
             <Input
@@ -126,7 +126,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               onChange={handleInputChange}
               placeholder="Your full name"
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="2px"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
@@ -137,7 +137,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
           </FormControl>
 
           <FormControl isRequired>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Professional Title
             </FormLabel>
             <Input
@@ -146,7 +146,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               onChange={handleInputChange}
               placeholder="e.g. Software Engineer"
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="2px"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
@@ -157,7 +157,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
           </FormControl>
 
           <FormControl isRequired>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Email
             </FormLabel>
             <Input
@@ -167,7 +167,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               onChange={handleInputChange}
               placeholder="your.email@example.com"
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="2px"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
@@ -178,7 +178,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
           </FormControl>
 
           <FormControl>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               GitHub URL
             </FormLabel>
             <Input
@@ -187,7 +187,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               onChange={handleInputChange}
               placeholder="https://github.com/username"
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="2px"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
@@ -198,7 +198,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
           </FormControl>
 
           <FormControl>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               LinkedIn URL
             </FormLabel>
             <Input
@@ -207,7 +207,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               onChange={handleInputChange}
               placeholder="https://linkedin.com/in/username"
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="2px"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
@@ -218,7 +218,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
           </FormControl>
 
           <FormControl>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Website URL
             </FormLabel>
             <Input
@@ -227,7 +227,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               onChange={handleInputChange}
               placeholder="https://aurio.work"
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="0"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
@@ -238,7 +238,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
           </FormControl>
 
           <FormControl>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Twitter/X URL
             </FormLabel>
             <Input
@@ -247,7 +247,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               onChange={handleInputChange}
               placeholder="https://twitter.com/username"
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="0"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
@@ -258,7 +258,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
           </FormControl>
 
           <FormControl>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Location
             </FormLabel>
             <Input
@@ -267,7 +267,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               onChange={handleInputChange}
               placeholder="City, Country"
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="2px"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
@@ -278,7 +278,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
           </FormControl>
 
           <FormControl isRequired>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Bio
             </FormLabel>
             <Textarea
@@ -287,7 +287,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               onChange={handleInputChange}
               placeholder="Brief professional summary"
               rows={4}
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="2px"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
@@ -298,7 +298,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
           </FormControl>
 
           <FormControl>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               SEO Title
             </FormLabel>
             <Input
@@ -307,7 +307,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               onChange={handleInputChange}
               placeholder="Aurio Rajaa | Software Engineer Portfolio"
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="0"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
@@ -318,7 +318,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
           </FormControl>
 
           <FormControl>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               SEO Description
             </FormLabel>
             <Textarea
@@ -327,7 +327,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               onChange={handleInputChange}
               placeholder="Short search/social preview description"
               rows={3}
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="0"
               _hover={{ borderColor: "facebook.blue" }}
               _focus={{
@@ -343,7 +343,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
             isLoading={loading}
             loadingText="Saving..."
             size="md"
-            fontSize="13px"
+            fontSize="16px"
             mt={2}
           >
             Save Changes

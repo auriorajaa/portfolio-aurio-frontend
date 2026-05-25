@@ -11,7 +11,7 @@ import {
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { ExternalLink, FileText, FolderOpen, Github, Images } from "lucide-react";
+import { ExternalLink, FolderOpen, Github, Images } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
 import { normalizeProjects } from "../../utils/projectMedia";
 import ProjectShowcaseModal from "../ui/ProjectShowcaseModal";
@@ -48,7 +48,7 @@ const Projects = () => {
       id="projects"
       title="Project Showcase"
       icon={FolderOpen}
-      headerRight={<RetroBadge tone="amber">{filteredProjects.length} records</RetroBadge>}
+      headerRight={<RetroBadge tone="amber">{filteredProjects.length} projects</RetroBadge>}
       bodyProps={{ p: 0 }}
     >
       <Box px={3} py={2} borderBottom="1px solid" borderColor={colors.border}>
@@ -59,7 +59,7 @@ const Projects = () => {
               size="sm"
               variant={filter === tag ? "facebook" : "facebookGray"}
               onClick={() => setFilter(tag)}
-              fontSize="11px"
+              fontSize="14px"
               h="24px"
               px={3}
             >
@@ -71,9 +71,6 @@ const Projects = () => {
 
       <SimpleGrid columns={{ base: 1, md:2, lg: 2 }} spacing={0}>
         {filteredProjects.map((project, idx) => {
-          const firstMedia = project.gallery?.[0];
-          // const hasPdf = project.gallery?.some((item) => item.type === "pdf");
-
           return (
             <Box
               key={project.id || project.slug}
@@ -94,6 +91,7 @@ const Projects = () => {
               >
                 <Box
                   w={{ base: "100%", sm: "100%" }}
+                  aspectRatio="2 / 1"
                   flexShrink={0}
                   cursor="pointer"
                   onClick={() => openProject(project)}
@@ -105,11 +103,11 @@ const Projects = () => {
                       src={project.image}
                       alt={project.title}
                       w="100%"
-                      h={{ base: "170px", sm: "132px" }}
+                      h="100%"
                       objectFit="cover"
                     />
                   ) : (
-                    <Flex h="132px" align="center" justify="center">
+                    <Flex h="100%" align="center" justify="center">
                       <Images size={30} color="#8bb8e8" />
                     </Flex>
                   )}
@@ -120,29 +118,29 @@ const Projects = () => {
                   <HStack justify="space-between" align="start" spacing={2}>
                     <Box minW={0}>
                       <Text
-                        fontSize="14px"
+                        fontSize="17px"
                         fontWeight="bold"
                         color={colors.link}
                         noOfLines={1}
                       >
                         {project.title}
                       </Text>
-                      <Text fontSize="11px" color={colors.muted} noOfLines={1}>
+                      <Text fontSize="14px" color={colors.muted} noOfLines={1}>
                         {project.role}{" "}
                         {project.period ? `/ ${project.period}` : ""}
                       </Text>
                     </Box>
-                    <RetroBadge
+                    {/* <RetroBadge
                       tone={project.status === "Archived" ? "gray" : "green"}
                     >
                       {project.status}
-                    </RetroBadge>
+                    </RetroBadge> */}
                   </HStack>
 
                   {/* 1. ONLY THE DESCRIPTION AREA GROWS */}
                   <Box flex={1}>
                     <Text
-                      fontSize="12px"
+                      fontSize="15px"
                       color={colors.text}
                       lineHeight="1.45"
                       noOfLines={3}
@@ -152,7 +150,7 @@ const Projects = () => {
 
                     {project.highlights?.length > 0 && (
                       <Text
-                        fontSize="11px"
+                        fontSize="14px"
                         color={colors.muted}
                         noOfLines={2}
                         mt={1}
@@ -176,13 +174,7 @@ const Projects = () => {
                         size="sm"
                         h="26px"
                         variant="facebook"
-                        leftIcon={
-                          firstMedia?.type === "pdf" ? (
-                            <FileText size={13} />
-                          ) : (
-                            <Images size={13} />
-                          )
-                        }
+                        leftIcon={<Images size={13} />}
                         onClick={() => openProject(project)}
                       >
                         View Case

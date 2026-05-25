@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   Box,
   Flex,
-  HStack,
   Image,
   SimpleGrid,
   Text,
@@ -12,7 +11,7 @@ import {
 import { Activity } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
 import ActivityModal from "../ui/ActivityModal";
-import { RetroBadge, RetroPanel, useRetroColors } from "../ui/retro";
+import { RetroPanel, useRetroColors } from "../ui/retro";
 
 const Activities = () => {
   const { portfolioData } = usePortfolio();
@@ -31,7 +30,7 @@ const Activities = () => {
       id="activities"
       title="Activities & Organizations"
       icon={Activity}
-      headerRight={<RetroBadge>{universityActivities.length} logs</RetroBadge>}
+      // headerRight={<RetroBadge>{universityActivities.length} logs</RetroBadge>}
       bodyProps={{ p: 0 }}
     >
       <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={0}>
@@ -63,19 +62,19 @@ const Activities = () => {
               )}
 
               <VStack align="stretch" spacing={1} minW={0} flex={1}>
-                <HStack spacing={1}>
+                {/* <HStack spacing={1}>
                   <RetroBadge tone="green">Organization</RetroBadge>
-                </HStack>
-                <Text fontSize="13px" fontWeight="bold" color={colors.text} noOfLines={2}>
+                </HStack> */}
+                <Text fontSize="16px" fontWeight="bold" color={colors.text} noOfLines={2}>
                   {activity.title}
                 </Text>
-                <Text fontSize="12px" color={colors.link} fontWeight="bold" noOfLines={1}>
+                <Text fontSize="15px" color={colors.link} fontWeight="bold" noOfLines={1}>
                   {activity.role}
                 </Text>
-                <Text fontSize="11px" color={colors.muted}>
+                <Text fontSize="14px" color={colors.muted}>
                   {activity.period}
                 </Text>
-                <Text fontSize="12px" color={colors.text} lineHeight="1.4" noOfLines={2}>
+                <Text fontSize="15px" color={colors.text} lineHeight="1.4" noOfLines={2}>
                   {activity.description}
                 </Text>
               </VStack>

@@ -140,10 +140,10 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
             textAlign="center"
           >
             <VStack spacing={4}>
-              <Text fontSize="16px" fontWeight="bold" color={textColor}>
+              <Text fontSize="19px" fontWeight="bold" color={textColor}>
                 Article Not Found
               </Text>
-              <Text fontSize="12px" color={lightTextColor}>
+              <Text fontSize="15px" color={lightTextColor}>
                 The article you're looking for doesn't exist or has been
                 removed.
               </Text>
@@ -151,7 +151,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                 variant="facebook"
                 onClick={() => navigate("/")}
                 leftIcon={<ArrowLeft size={14} />}
-                fontSize="11px"
+                fontSize="14px"
                 h="26px"
                 px={4}
                 mt={2}
@@ -206,7 +206,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
           variant="facebookGray"
           onClick={() => navigate("/")}
           leftIcon={<ArrowLeft size={12} />}
-          fontSize="12px"
+          fontSize="15px"
           h="32px"
           px={3}
           mb={4}
@@ -239,7 +239,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                     border="1px solid"
                     borderColor={borderColor}
                   >
-                    <Text fontSize="10px" color={linkBlue} fontWeight="bold">
+                    <Text fontSize="13px" color={linkBlue} fontWeight="bold">
                       {article.categoryLabel}
                     </Text>
                   </Box>
@@ -253,7 +253,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                       border="1px solid #ffc107"
                     >
                       {/* <Sparkles size={10} color="#856404" /> */}
-                      <Text fontSize="10px" color="#856404" fontWeight="bold">
+                      <Text fontSize="13px" color="#856404" fontWeight="bold">
                         FEATURED
                       </Text>
                     </HStack>
@@ -262,7 +262,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
 
                 {/* Article Title */}
                 <Text
-                  fontSize={{ base: "16px", md: "20px" }}
+                  fontSize={{ base: "19px", md: "23px" }}
                   fontWeight="bold"
                   color={textColor}
                   lineHeight="1.3"
@@ -275,7 +275,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                 <Flex
                   direction={{ base: "column", sm: "row" }}
                   gap={{ base: 1.5, sm: 3 }}
-                  fontSize="11px"
+                  fontSize="14px"
                   color={lightTextColor}
                   flexWrap="wrap"
                 >
@@ -299,7 +299,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                     variant="facebookGray"
                     leftIcon={<Share2 size={12} />}
                     onClick={() => setShowShareButtons(!showShareButtons)}
-                    fontSize="12px"
+                    fontSize="15px"
                     h="32px"
                     px={3}
                   >
@@ -322,7 +322,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                       zIndex={10}
                     >
                       <HStack spacing={2}>
-                        <Tooltip label="Share on Facebook" fontSize="10px">
+                        <Tooltip label="Share on Facebook" fontSize="13px">
                           <FacebookShareButton
                             url={shareUrl}
                             quote={article.title}
@@ -330,7 +330,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                             <FacebookIcon size={28} round={false} />
                           </FacebookShareButton>
                         </Tooltip>
-                        <Tooltip label="Share on Twitter" fontSize="10px">
+                        <Tooltip label="Share on Twitter" fontSize="13px">
                           <TwitterShareButton
                             url={shareUrl}
                             title={article.title}
@@ -338,7 +338,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                             <TwitterIcon size={28} round={false} />
                           </TwitterShareButton>
                         </Tooltip>
-                        <Tooltip label="Share on LinkedIn" fontSize="10px">
+                        <Tooltip label="Share on LinkedIn" fontSize="13px">
                           <LinkedinShareButton
                             url={shareUrl}
                             title={article.title}
@@ -347,7 +347,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                             <LinkedinIcon size={28} round={false} />
                           </LinkedinShareButton>
                         </Tooltip>
-                        <Tooltip label="Share on WhatsApp" fontSize="10px">
+                        <Tooltip label="Share on WhatsApp" fontSize="13px">
                           <WhatsappShareButton
                             url={shareUrl}
                             title={article.title}
@@ -390,7 +390,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                   py={3}
                 >
                   <Text
-                    fontSize="13px"
+                    fontSize="16px"
                     color={textColor}
                     fontStyle="italic"
                     lineHeight="1.6"
@@ -414,7 +414,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                     {article.tags.map((tag) => (
                       <HStack key={tag} spacing={1}>
                         <Tag size={9} color="#90949c" />
-                        <Text fontSize="12px" color={lightTextColor}>
+                        <Text fontSize="15px" color={lightTextColor}>
                           {tag}
                         </Text>
                       </HStack>
@@ -437,7 +437,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                   "& p": {
                     mb: 3,
                     lineHeight: "1.65",
-                    fontSize: { base: "14px", md: "15px" },
+                    fontSize: { base: "17px", md: "18px" },
                     color: textColor,
                   },
 
@@ -449,10 +449,10 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                     mt: 4,
                     lineHeight: "1.3",
                   },
-                  "& h1": { fontSize: { base: "18px", md: "22px" } },
-                  "& h2": { fontSize: { base: "16px", md: "18px" } },
-                  "& h3": { fontSize: { base: "15px", md: "16px" } },
-                  "& h4": { fontSize: { base: "14px", md: "15px" } },
+                  "& h1": { fontSize: { base: "21px", md: "25px" } },
+                  "& h2": { fontSize: { base: "19px", md: "21px" } },
+                  "& h3": { fontSize: { base: "18px", md: "19px" } },
+                  "& h4": { fontSize: { base: "17px", md: "18px" } },
 
                   // Lists
                   "& ul, & ol": {
@@ -462,7 +462,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                   "& li": {
                     mb: 1.5,
                     lineHeight: "1.6",
-                    fontSize: { base: "13px", md: "14px" },
+                    fontSize: { base: "16px", md: "17px" },
                   },
 
                   // Links
@@ -484,7 +484,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                     ml: 0,
                     fontStyle: "italic",
                     bg: paleBg,
-                    fontSize: { base: "12px", md: "13px" },
+                    fontSize: { base: "15px", md: "16px" },
                   },
 
                   // Images
@@ -515,7 +515,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                     mb: 3,
                     border: "1px solid",
                     borderColor: borderColor,
-                    fontSize: { base: "11px", md: "12px" },
+                    fontSize: { base: "14px", md: "15px" },
                     "& code": {
                       bg: "transparent",
                       color: "inherit",
@@ -534,7 +534,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                 variant="facebook"
                 onClick={() => navigate("/")}
                 leftIcon={<ArrowLeft size={14} />}
-                fontSize="13px"
+                fontSize="16px"
                 h="32px"
                 px={4}
                 w={{ base: "100%", sm: "auto" }}
@@ -562,7 +562,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                 py={2}
                 bg={paleBg}
               >
-                <Text fontSize="12px" fontWeight="bold" color={textColor}>
+                <Text fontSize="15px" fontWeight="bold" color={textColor}>
                   Related Articles
                 </Text>
               </Box>
@@ -607,7 +607,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                         )}
                         <VStack spacing={0.5} align="start" flex="1" minW="0">
                           <Text
-                            fontSize="11px"
+                            fontSize="14px"
                             fontWeight="bold"
                             color={linkBlue}
                             noOfLines={2}
@@ -617,7 +617,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                           </Text>
                           <HStack
                             spacing={1}
-                            fontSize="9px"
+                            fontSize="12px"
                             color={lightTextColor}
                           >
                             <Text>
@@ -632,7 +632,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                   ))
                 ) : (
                   <Box px={3} py={4} textAlign="center">
-                    <Text fontSize="11px" color={lightTextColor}>
+                    <Text fontSize="14px" color={lightTextColor}>
                       No related articles found
                     </Text>
                   </Box>

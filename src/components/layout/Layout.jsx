@@ -48,7 +48,7 @@ const MobileNav = () => {
               _hover={{ bg: colors.paleBlue }}
             >
               <item.icon size={12} color={colors.link} />
-              <Text fontSize="11px" fontWeight="bold">
+              <Text fontSize="14px" fontWeight="bold">
                 {item.label}
               </Text>
             </HStack>
@@ -87,10 +87,10 @@ const StatusRail = () => {
                 bg={colors.panelAlt}
                 p={2}
               >
-                <Text fontSize="10px" color={colors.muted} textTransform="uppercase">
+                <Text fontSize="13px" color={colors.muted} textTransform="uppercase">
                   {label}
                 </Text>
-                <Text fontSize="15px" fontWeight="bold" color={colors.text}>
+                <Text fontSize="18px" fontWeight="bold" color={colors.text}>
                   {value}
                 </Text>
               </Box>
@@ -102,18 +102,18 @@ const StatusRail = () => {
       <RetroPanel title="Contact Port" bodyProps={{ p: 3 }}>
         <VStack spacing={2} align="stretch">
           <Box>
-            <Text fontSize="10px" color={colors.muted} textTransform="uppercase">
+            <Text fontSize="13px" color={colors.muted} textTransform="uppercase">
               Email
             </Text>
-            <Link href={`mailto:${personalInfo.email}`} fontSize="12px" fontWeight="bold">
+            <Link href={`mailto:${personalInfo.email}`} fontSize="15px" fontWeight="bold">
               {personalInfo.email}
             </Link>
           </Box>
           <Box>
-            <Text fontSize="10px" color={colors.muted} textTransform="uppercase">
+            <Text fontSize="13px" color={colors.muted} textTransform="uppercase">
               Location
             </Text>
-            <Text fontSize="12px" color={colors.text}>
+            <Text fontSize="15px" color={colors.text}>
               {personalInfo.location || "Jakarta, Indonesia"}
             </Text>
           </Box>

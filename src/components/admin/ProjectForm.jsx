@@ -21,10 +21,7 @@ import {
 } from "@chakra-ui/react";
 import ArrayInput from "../ui/ArrayInput";
 import ImageUpload from "../ui/ImageUpload";
-import {
-  uploadImageWithProgress,
-  uploadMediaWithProgress,
-} from "../../services/cloudinaryService";
+import { uploadImageWithProgress } from "../../services/cloudinaryService";
 import ProjectGalleryInput from "./ProjectGalleryInput";
 import { normalizeProject } from "../../utils/projectMedia";
 import { generateSlug } from "../../utils/slugify";
@@ -110,12 +107,11 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
 
             const response = await fetch(item.url);
             const blob = await response.blob();
-            const extension = item.type === "pdf" ? "pdf" : "jpg";
-            const file = new File([blob], `project-media-${index}.${extension}`, {
-              type: item.type === "pdf" ? "application/pdf" : blob.type || "image/jpeg",
+            const file = new File([blob], `project-media-${index}.jpg`, {
+              type: blob.type || "image/jpeg",
             });
-            const uploadedUrl = await uploadMediaWithProgress(file);
-            return { ...item, url: uploadedUrl, order: index };
+            const uploadedUrl = await uploadImageWithProgress(file);
+            return { ...item, type: "image", url: uploadedUrl, order: index };
           }),
         );
       }
@@ -143,7 +139,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
     <form onSubmit={handleSubmit}>
       <VStack spacing={3} align="stretch">
         <FormControl isRequired>
-          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+          <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
             Project Title
           </FormLabel>
           <Input
@@ -152,13 +148,13 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
             onChange={handleInputChange}
             placeholder="Project name"
             size="md"
-            fontSize="13px"
+            fontSize="16px"
             borderRadius="2px"
           />
         </FormControl>
 
         <FormControl isRequired>
-          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+          <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
             Description
           </FormLabel>
           <Textarea
@@ -168,14 +164,14 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
             placeholder="Brief description of the project"
             rows={4}
             size="md"
-            fontSize="13px"
+            fontSize="16px"
             borderRadius="2px"
           />
         </FormControl>
 
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={3}>
           <FormControl>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               URL Slug
             </FormLabel>
             <Input
@@ -184,13 +180,13 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
               onChange={handleInputChange}
               placeholder="small-circle"
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="0"
             />
           </FormControl>
 
           <FormControl>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Role
             </FormLabel>
             <Input
@@ -199,13 +195,13 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
               onChange={handleInputChange}
               placeholder="Full-stack Developer"
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="0"
             />
           </FormControl>
 
           <FormControl>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Status
             </FormLabel>
             <Select
@@ -213,7 +209,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
               value={formData.status}
               onChange={handleInputChange}
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="0"
             >
               <option value="Published">Published</option>
@@ -225,7 +221,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
         </SimpleGrid>
 
         <FormControl>
-          <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+          <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
             Period
           </FormLabel>
           <Input
@@ -234,7 +230,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
             onChange={handleInputChange}
             placeholder="2024 - 2025"
             size="md"
-            fontSize="13px"
+            fontSize="16px"
             borderRadius="0"
           />
         </FormControl>
@@ -247,7 +243,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
 
         <HStack spacing={3}>
           <FormControl flex={1}>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               GitHub URL
             </FormLabel>
             <Input
@@ -256,13 +252,13 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
               onChange={handleInputChange}
               placeholder="https://github.com/..."
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="2px"
             />
           </FormControl>
 
           <FormControl flex={1}>
-            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+            <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
               Live Website URL
             </FormLabel>
             <Input
@@ -271,7 +267,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
               onChange={handleInputChange}
               placeholder="https://project.com"
               size="md"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="2px"
             />
           </FormControl>
@@ -304,7 +300,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
             variant="facebook"
             size="md"
             h="36px"
-            fontSize="13px"
+            fontSize="16px"
             flex={1}
             isLoading={loading}
           >
@@ -317,7 +313,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
               flex={1}
               size="md"
               h="36px"
-              fontSize="13px"
+              fontSize="16px"
               borderRadius="2px"
             >
               Cancel
@@ -333,10 +329,10 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
       >
         <AlertDialogOverlay>
           <AlertDialogContent borderRadius="2px">
-            <AlertDialogHeader fontSize="14px" fontWeight="bold">
+            <AlertDialogHeader fontSize="17px" fontWeight="bold">
               Confirm Save
             </AlertDialogHeader>
-            <AlertDialogBody fontSize="13px">
+            <AlertDialogBody fontSize="16px">
               Are you sure you want to save this project?
             </AlertDialogBody>
             <AlertDialogFooter>
@@ -344,7 +340,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
                 ref={cancelRef}
                 onClick={onClose}
                 size="sm"
-                fontSize="13px"
+                fontSize="16px"
               >
                 Cancel
               </Button>
@@ -353,7 +349,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
                 onClick={confirmSave}
                 ml={2}
                 size="sm"
-                fontSize="13px"
+                fontSize="16px"
                 isLoading={loading}
               >
                 Save

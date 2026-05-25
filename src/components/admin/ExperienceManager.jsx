@@ -154,7 +154,7 @@ const ExperienceManager = ({ onDataChange }) => {
   return (
     <Box>
       <HStack justify="space-between" mb={3}>
-        <Text fontSize="14px" fontWeight="bold">
+        <Text fontSize="17px" fontWeight="bold">
           Work Experience ({experiences.length})
         </Text>
         <Button
@@ -163,7 +163,7 @@ const ExperienceManager = ({ onDataChange }) => {
           onClick={handleCreate}
           size="sm"
           h="32px"
-          fontSize="12px"
+          fontSize="15px"
         >
           Add Experience
         </Button>
@@ -177,7 +177,7 @@ const ExperienceManager = ({ onDataChange }) => {
           border="1px solid"
           borderColor="facebook.border"
         >
-          <Text fontSize="13px" color="facebook.lightText">
+          <Text fontSize="16px" color="facebook.lightText">
             No experiences yet. Add your first experience!
           </Text>
         </Box>
@@ -196,15 +196,15 @@ const ExperienceManager = ({ onDataChange }) => {
                 <HStack justify="space-between" align="start">
                   <VStack align="start" flex={1} spacing={0.5}>
                     <Text
-                      fontSize="14px"
+                      fontSize="17px"
                       fontWeight="bold"
                       color="facebook.blue"
                     >
                       {exp.position}
                     </Text>
-                    <Text fontSize="13px">{exp.company}</Text>
+                    <Text fontSize="16px">{exp.company}</Text>
                     <HStack
-                      fontSize="12px"
+                      fontSize="15px"
                       color="facebook.lightText"
                       spacing={1.5}
                     >
@@ -215,7 +215,7 @@ const ExperienceManager = ({ onDataChange }) => {
                     <Badge
                       bg="facebook.paleBlue"
                       color="facebook.blue"
-                      fontSize="9px"
+                      fontSize="12px"
                       px={2}
                       py={0.5}
                       borderRadius="2px"

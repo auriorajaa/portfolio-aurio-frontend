@@ -100,7 +100,7 @@ const theme = extendTheme({
       body: {
         bg: mode("#cfd7e2", "#0f151d")(props),
         color: mode("#1f2833", "#e6edf5")(props),
-        fontSize: "13px",
+        fontSize: "16px",
         lineHeight: "1.42",
         fontFamily:
           "'Plus Jakarta Sans', 'Tahoma', 'Verdana', 'Geneva', sans-serif",
@@ -161,7 +161,7 @@ const theme = extendTheme({
     Button: {
       baseStyle: {
         fontWeight: "bold",
-        fontSize: "13px",
+        fontSize: "16px",
         fontFamily:
           "'Plus Jakarta Sans', 'Tahoma', 'Verdana', 'Geneva', sans-serif",
         borderRadius: "0",
@@ -211,7 +211,7 @@ const theme = extendTheme({
             borderColor: mode("#9aa8ba", "#465568")(props),
             color: mode("#1f2833", "#e6edf5")(props),
             borderRadius: "0",
-            fontSize: "13px",
+            fontSize: "16px",
             boxShadow: mode(
               "inset 1px 1px 0 #e3e7ed",
               "inset 1px 1px 0 #090d12"
@@ -241,7 +241,7 @@ const theme = extendTheme({
           borderColor: mode("#9aa8ba", "#465568")(props),
           color: mode("#1f2833", "#e6edf5")(props),
           borderRadius: "0",
-          fontSize: "13px",
+          fontSize: "16px",
           boxShadow: mode(
             "inset 1px 1px 0 #e3e7ed",
             "inset 1px 1px 0 #090d12"
@@ -271,7 +271,7 @@ const theme = extendTheme({
             borderColor: mode("#9aa8ba", "#465568")(props),
             color: mode("#1f2833", "#e6edf5")(props),
             borderRadius: "0",
-            fontSize: "13px",
+            fontSize: "16px",
             _hover: {
               borderColor: mode("#1d5f9f", "#8bb8e8")(props),
             },
@@ -289,7 +289,7 @@ const theme = extendTheme({
 
     FormLabel: {
       baseStyle: (props) => ({
-        fontSize: "12px",
+        fontSize: "15px",
         fontWeight: "bold",
         color: mode("#1f2833", "#e6edf5")(props),
         fontFamily:
@@ -306,7 +306,7 @@ const theme = extendTheme({
           border: mode("1px solid #6c7988", "1px solid #465568")(props),
         },
         header: {
-          fontSize: "14px",
+          fontSize: "17px",
           fontWeight: "bold",
           color: mode("#1f2833", "#e6edf5")(props),
           borderBottom: mode("1px solid #9aa8ba", "1px solid #465568")(props),

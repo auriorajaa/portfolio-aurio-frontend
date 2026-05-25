@@ -48,7 +48,7 @@ const ArrayInput = ({
   return (
     <FormControl>
       {label && (
-        <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+        <FormLabel fontSize="16px" fontWeight="bold" mb={2}>
           {label}
         </FormLabel>
       )}
@@ -60,7 +60,7 @@ const ArrayInput = ({
             onKeyPress={handleKeyPress}
             placeholder={placeholder}
             size="md"
-            fontSize="13px"
+            fontSize="16px"
             borderRadius="2px"
             _hover={{ borderColor: focusBorder }}
             _focus={{
@@ -73,7 +73,7 @@ const ArrayInput = ({
             leftIcon={<AddIcon boxSize={3} />}
             size="sm"
             h="36px"
-            fontSize="12px"
+            fontSize="15px"
             variant="facebook"
             borderRadius="2px"
           >
@@ -94,7 +94,7 @@ const ArrayInput = ({
                 border="1px solid"
                 borderColor={borderColor}
               >
-                <Text fontSize="13px" flex={1}>
+                <Text fontSize="16px" flex={1}>
                   {item}
                 </Text>
                 <IconButton

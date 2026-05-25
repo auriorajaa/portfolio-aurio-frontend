@@ -55,7 +55,7 @@ const Header = ({ isDownloading, handleDownload }) => {
           <Box minW={0}>
             <Text
               color="white"
-              fontSize={{ base: "14px", md: "16px" }}
+              fontSize={{ base: "17px", md: "19px" }}
               fontWeight="bold"
               lineHeight="1.1"
               noOfLines={1}
@@ -64,7 +64,7 @@ const Header = ({ isDownloading, handleDownload }) => {
             </Text>
             <Text
               color="rgba(255,255,255,.78)"
-              fontSize="10px"
+              fontSize="13px"
               lineHeight="1.1"
               noOfLines={1}
               display={{ base: "none", sm: "block" }}
@@ -86,7 +86,7 @@ const Header = ({ isDownloading, handleDownload }) => {
             display={{ base: "none", md: "flex" }}
           >
             <Home size={12} />
-            <Text fontSize="11px" fontWeight="bold">
+            <Text fontSize="14px" fontWeight="bold">
               Public Portfolio
             </Text>
           </HStack>
@@ -104,7 +104,7 @@ const Header = ({ isDownloading, handleDownload }) => {
             variant="facebookGray"
             size="sm"
             h="28px"
-            fontSize="12px"
+            fontSize="15px"
             leftIcon={<Download size={13} />}
             onClick={handleDownload}
             isLoading={isDownloading}

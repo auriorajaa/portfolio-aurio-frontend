@@ -47,17 +47,17 @@ const Experience = () => {
               <Box flex="1" minW={0}>
                 <HStack spacing={2} justify="space-between" align="start" mb={1}>
                   <Box minW={0}>
-                    <Text fontSize="14px" fontWeight="bold" color={colors.text} noOfLines={1}>
+                    <Text fontSize="17px" fontWeight="bold" color={colors.text} noOfLines={1}>
                       {exp.position}
                     </Text>
-                    <Text fontSize="12px" color={colors.link} fontWeight="bold">
+                    <Text fontSize="15px" color={colors.link} fontWeight="bold">
                       {exp.company}
                     </Text>
                   </Box>
                   {exp.type && <RetroBadge tone="green">{exp.type}</RetroBadge>}
                 </HStack>
 
-                <Text fontSize="11px" color={colors.muted} mb={2}>
+                <Text fontSize="14px" color={colors.muted} mb={2}>
                   {exp.period} {exp.location ? `/ ${exp.location}` : ""}
                 </Text>
 
@@ -66,7 +66,7 @@ const Experience = () => {
                     (line) =>
                       line && (
                         <HStack key={line} align="start" spacing={2}>
-                          <Text fontSize="12px" color={colors.text} lineHeight="1.45">
+                          <Text fontSize="15px" color={colors.text} lineHeight="1.45">
                             {line}
                           </Text>
                         </HStack>
