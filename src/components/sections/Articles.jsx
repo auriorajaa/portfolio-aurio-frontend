@@ -1,42 +1,35 @@
-// src/components/Articles.jsx
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
-  Text,
+  Button,
+  Center,
   Flex,
+  HStack,
   Image,
   SimpleGrid,
-  Button,
-  HStack,
-  VStack,
   Spinner,
-  Center,
-  useColorModeValue,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import {
-  BookOpen,
-  ChevronLeft,
-  ChevronRight,
-  Calendar,
-  Clock,
-  Sparkles,
-} from "lucide-react";
+import { BookOpen, Calendar, Clock, Sparkles } from "lucide-react";
 import { getAllArticles } from "../../services/articleService";
+import { RetroBadge, RetroPanel, useRetroColors } from "../ui/retro";
+
+const withTimeout = (promise, timeoutMs = 4500) =>
+  Promise.race([
+    promise,
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Article load timed out")), timeoutMs),
+    ),
+  ]);
 
 const Articles = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("ALL");
-  const [currentPage, setCurrentPage] = useState(1);
-  const articlesPerPage = 4;
   const navigate = useNavigate();
-  const cardBg = useColorModeValue("white", "#242526");
-  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
-  const textColor = useColorModeValue("#333333", "#e4e6eb");
-  const lightTextColor = useColorModeValue("#90949c", "#b0b3b8");
-  const grayBg = useColorModeValue("#f7f7f7", "#242526");
-  const iconColor = useColorModeValue("#3b5998", "#5b7ec8");
+  const colors = useRetroColors();
 
   useEffect(() => {
     loadArticles();
@@ -45,14 +38,10 @@ const Articles = () => {
   const loadArticles = async () => {
     try {
       setLoading(true);
-      const allArticles = await getAllArticles();
-
-      // ✅ Hanya tampilkan artikel dengan visibility = "public"
-      // (draft & private tidak muncul di halaman publik)
-      const publicArticles = allArticles.filter(
-        (article) => article.visibility === "public",
-      );
-
+      const allArticles = await withTimeout(getAllArticles());
+      const publicArticles = allArticles
+        .filter((article) => article.visibility === "public")
+        .sort((a, b) => new Date(b.date) - new Date(a.date));
       setArticles(publicArticles);
     } catch (error) {
       console.error("Error loading articles:", error);
@@ -61,104 +50,41 @@ const Articles = () => {
     }
   };
 
-  // Get unique categories dynamically (hanya dari public articles)
-  const allCategories = [...new Set(articles.map((a) => a.categoryLabel))];
-  const categories = ["ALL", ...allCategories];
-  const essentialCategories = categories.slice(0, 4); // max 4 filter tabs
-
+  const categories = ["ALL", ...new Set(articles.map((a) => a.categoryLabel).filter(Boolean))].slice(0, 6);
   const filteredArticles =
-    filter === "ALL"
-      ? articles
-      : articles.filter((a) => a.categoryLabel === filter);
-
-  // Calculate pagination
-  const totalPages = Math.ceil(filteredArticles.length / articlesPerPage);
-  const indexOfLastArticle = currentPage * articlesPerPage;
-  const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
-  const currentArticles = filteredArticles.slice(
-    indexOfFirstArticle,
-    indexOfLastArticle,
-  );
-
-  // Reset ke halaman 1 saat filter berubah
-  const handleFilterChange = (category) => {
-    setFilter(category);
-    setCurrentPage(1);
-  };
-
-  const handleArticleClick = (slug) => {
-    navigate(`/article/${slug}`);
-  };
+    filter === "ALL" ? articles : articles.filter((article) => article.categoryLabel === filter);
+  const visibleArticles = filteredArticles.slice(0, 6);
 
   if (loading) {
     return (
-      <Box
-        bg={cardBg}
-        border="1px solid"
-        borderColor={borderColor}
-        borderRadius="2px"
-        mb={4}
-        id="articles"
-      >
-        <Box
-          borderBottom="1px solid"
-          borderColor={borderColor}
-          px={3}
-          py={2}
-          bg={grayBg}
-        >
-          <Flex align="center" gap={2}>
-            <BookOpen size={14} color={iconColor} />
-            <Text fontSize="14px" fontWeight="bold" color={textColor}>
-              Articles
-            </Text>
-          </Flex>
-        </Box>
-        <Center py={10}>
-          <Spinner size="md" color="facebook.blue" thickness="2px" />
+      <RetroPanel id="articles" title="Articles" icon={BookOpen} bodyProps={{ p: 8 }}>
+        <Center>
+          <Spinner size="md" color="retro.blue" thickness="2px" />
         </Center>
-      </Box>
+      </RetroPanel>
     );
   }
 
-  if (articles.length === 0) {
-    return null; // tidak ada artikel public → tidak tampilkan section
-  }
+  if (articles.length === 0) return null;
 
   return (
-    <Box
-      bg={cardBg}
-      border="1px solid"
-      borderColor={borderColor}
-      borderRadius="2px"
-      mb={4}
+    <RetroPanel
       id="articles"
+      title="Articles & Field Notes"
+      icon={BookOpen}
+      headerRight={<RetroBadge tone="green">{articles.length} public</RetroBadge>}
+      bodyProps={{ p: 0 }}
     >
-      {/* Section Header */}
-      <Box
-        borderBottom="1px solid"
-        borderColor={borderColor}
-        px={3}
-        py={2}
-        bg={grayBg}
-      >
-        <Flex align="center" gap={2} mb={2}>
-          <BookOpen size={14} color={iconColor} />
-          <Text fontSize="14px" fontWeight="bold" color={textColor}>
-            Articles
-          </Text>
-        </Flex>
-
-        {/* Filter Tabs */}
+      <Box px={3} py={2} borderBottom="1px solid" borderColor={colors.border}>
         <HStack spacing={2} flexWrap="wrap">
-          {essentialCategories.map((category) => (
+          {categories.map((category) => (
             <Button
               key={category}
               size="sm"
               variant={filter === category ? "facebook" : "facebookGray"}
-              onClick={() => handleFilterChange(category)}
-              fontSize="12px"
-              h="22px"
+              onClick={() => setFilter(category)}
+              fontSize="11px"
+              h="24px"
               px={3}
             >
               {category.toUpperCase()}
@@ -167,162 +93,66 @@ const Articles = () => {
         </HStack>
       </Box>
 
-      {/* Articles Grid */}
-      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={0}>
-        {currentArticles.map((article, idx) => (
+      <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={0}>
+        {visibleArticles.map((article, idx) => (
           <Box
             key={article.id}
             p={3}
-            borderRight={{
-              base: "none",
-              md: idx % 2 === 0 ? "1px solid lightgray" : "none",
-            }}
+            borderRight={{ base: "none", lg: idx % 2 === 0 ? "1px solid" : "none" }}
             borderBottom="1px solid"
-            borderColor={borderColor}
-            transition="all 0.15s ease"
-            _hover={{
-              transform: "translateX(-2px)",
-            }}
+            borderColor={colors.borderSoft}
+            bg={idx % 2 === 0 ? colors.panelBg : colors.panelAlt}
             cursor="pointer"
-            onClick={() => handleArticleClick(article.slug)}
+            _hover={{ bg: colors.paleBlue }}
+            onClick={() => navigate(`/article/${article.slug}`)}
           >
-            {/* Article Image */}
-            {article.image && (
-              <Box
-                border="1px solid"
-                borderColor={borderColor}
-                mb={2}
-                overflow="hidden"
-              >
-                <Image
-                  src={article.image}
-                  alt={article.title}
-                  w="100%"
-                  h="150px"
-                  objectFit="cover"
-                />
-              </Box>
-            )}
-
-            {/* Article Info */}
-            <VStack spacing={1} align="stretch">
-              {/* Category Badge */}
-              <HStack spacing={2}>
+            <Flex gap={3} align="start">
+              {article.image && (
                 <Box
-                  bg="facebook.paleBlue"
-                  px={2}
-                  py={0.5}
-                  borderRadius="2px"
+                  w="88px"
+                  h="68px"
+                  flexShrink={0}
                   border="1px solid"
-                  borderColor={borderColor}
+                  borderColor={colors.border}
+                  overflow="hidden"
+                  bg={colors.panelBg}
                 >
-                  <Text fontSize="12px" color="facebook.blue" fontWeight="bold">
-                    {article.categoryLabel}
-                  </Text>
+                  <Image src={article.image} alt={article.title} w="100%" h="100%" objectFit="cover" />
                 </Box>
-                {article.featured && (
-                  <HStack
-                    spacing={0.5}
-                    bg="#fff3cd"
-                    px={2}
-                    py={0.5}
-                    borderRadius="2px"
-                    border="1px solid #ffc107"
-                  >
-                    <Sparkles size={9} color="#856404" />
-                    <Text fontSize="12px" color="#856404" fontWeight="bold">
-                      FEATURED
-                    </Text>
-                  </HStack>
-                )}
-              </HStack>
-
-              <Text fontSize="14px" fontWeight="bold" color={textColor}>
-                {article.title}
-              </Text>
-              <Text
-                fontSize="13px"
-                color={lightTextColor}
-                lineHeight="1.4"
-                noOfLines={2}
-              >
-                {article.excerpt}
-              </Text>
-
-              {/* Meta Info */}
-              <HStack spacing={3} pt={1}>
-                <HStack spacing={1}>
-                  <Calendar size={10} color="#90949c" />
-                  <Text fontSize="12px" color={lightTextColor}>
-                    {new Date(article.date).toLocaleDateString()}
-                  </Text>
-                </HStack>
-                <HStack spacing={1}>
-                  <Clock size={10} color="#90949c" />
-                  <Text fontSize="12px" color={lightTextColor}>
-                    {article.readTime}
-                  </Text>
-                </HStack>
-              </HStack>
-
-              {/* Tags */}
-              {article.tags && article.tags.length > 0 && (
-                <HStack spacing={1} pt={1}>
-                  {article.tags.slice(0, 3).map((tag) => (
-                    <Text key={tag} fontSize="9px" color="facebook.lightText">
-                      #{tag}
-                    </Text>
-                  ))}
-                </HStack>
               )}
-            </VStack>
+              <VStack spacing={1} align="stretch" minW={0} flex={1}>
+                <HStack spacing={1} flexWrap="wrap">
+                  <RetroBadge>{article.categoryLabel}</RetroBadge>
+                  {article.featured && (
+                    <RetroBadge tone="amber">
+                      <HStack spacing={1}>
+                        <Text as="span">Featured</Text>
+                      </HStack>
+                    </RetroBadge>
+                  )}
+                </HStack>
+                <Text fontSize="13px" fontWeight="bold" color={colors.link} noOfLines={2}>
+                  {article.title}
+                </Text>
+                <Text fontSize="12px" color={colors.text} lineHeight="1.45" noOfLines={2}>
+                  {article.excerpt}
+                </Text>
+                <HStack spacing={3} color={colors.muted}>
+                  <HStack spacing={1}>
+                    <Calendar size={10} />
+                    <Text fontSize="10px">{new Date(article.date).toLocaleDateString()}</Text>
+                  </HStack>
+                  <HStack spacing={1}>
+                    <Clock size={10} />
+                    <Text fontSize="10px">{article.readTime}</Text>
+                  </HStack>
+                </HStack>
+              </VStack>
+            </Flex>
           </Box>
         ))}
       </SimpleGrid>
-
-      {/* Pagination Controls */}
-      {totalPages > 1 && (
-        <Box
-          borderTop="1px solid"
-          borderColor={borderColor}
-          px={3}
-          py={2}
-          bg={grayBg}
-        >
-          <Flex justify="center" align="center" gap={3}>
-            <Button
-              size="sm"
-              variant="facebookGray"
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              isDisabled={currentPage === 1}
-              fontSize="12px"
-              h="22px"
-              px={2}
-            >
-              <ChevronLeft size={12} />
-            </Button>
-
-            <Text fontSize="13px" color={textColor}>
-              Page {currentPage} of {totalPages}
-            </Text>
-
-            <Button
-              size="sm"
-              variant="facebookGray"
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-              isDisabled={currentPage === totalPages}
-              fontSize="12px"
-              h="22px"
-              px={2}
-            >
-              <ChevronRight size={12} />
-            </Button>
-          </Flex>
-        </Box>
-      )}
-    </Box>
+    </RetroPanel>
   );
 };
 

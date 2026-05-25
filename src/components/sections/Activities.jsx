@@ -1,30 +1,25 @@
 import React, { useState } from "react";
 import {
   Box,
-  Text,
   Flex,
+  HStack,
   Image,
+  SimpleGrid,
+  Text,
   VStack,
   useDisclosure,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import { Activity } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
 import ActivityModal from "../ui/ActivityModal";
+import { RetroBadge, RetroPanel, useRetroColors } from "../ui/retro";
 
 const Activities = () => {
   const { portfolioData } = usePortfolio();
   const universityActivities = portfolioData.activities || [];
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedActivity, setSelectedActivity] = useState(null);
-
-  // Use theme colors
-  const cardBg = useColorModeValue("white", "#242526");
-  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
-  const headerBg = useColorModeValue("#f7f7f7", "#242526");
-  // const hoverBg = useColorModeValue("#d8dfea", "#3a3b3c");
-  const iconColor = useColorModeValue("#3b5998", "#5b7ec8");
-  const lightTextColor = useColorModeValue("#90949c", "#b0b3b8");
+  const colors = useRetroColors();
 
   const handleOpen = (activity) => {
     setSelectedActivity(activity);
@@ -32,94 +27,67 @@ const Activities = () => {
   };
 
   return (
-    <Box
-      bg={cardBg}
-      border="1px solid"
-      borderColor={borderColor}
-      borderRadius="2px"
-      mb={4}
+    <RetroPanel
       id="activities"
+      title="Activities & Organizations"
+      icon={Activity}
+      headerRight={<RetroBadge>{universityActivities.length} logs</RetroBadge>}
+      bodyProps={{ p: 0 }}
     >
-      {/* Section Header */}
-      <Flex
-        borderBottom="1px solid"
-        borderColor={borderColor}
-        px={3}
-        py={2}
-        align="center"
-        gap={2}
-        bg={headerBg}
-      >
-        <Activity size={14} color={iconColor} />
-        <Text fontSize="14px" fontWeight="bold">
-          Activities & Organizations
-        </Text>
-      </Flex>
-
-      {/* Activities Items */}
-      <VStack spacing={0} align="stretch">
+      <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={0}>
         {[...universityActivities].reverse().map((activity, idx) => (
           <Box
-            key={idx}
-            px={3}
-            py={3}
-            borderBottom={
-              idx !== universityActivities.length - 1 ? "1px solid" : "none"
-            }
-            borderColor={borderColor}
+            key={`${activity.title}-${idx}`}
+            p={3}
+            borderRight={{ base: "none", lg: idx % 2 === 0 ? "1px solid" : "none" }}
+            borderBottom="1px solid"
+            borderColor={colors.borderSoft}
+            bg={idx % 2 === 0 ? colors.panelBg : colors.panelAlt}
             cursor="pointer"
+            _hover={{ bg: colors.paleBlue }}
             onClick={() => handleOpen(activity)}
           >
             <Flex gap={3}>
               {activity.image && (
                 <Box
                   flexShrink={0}
-                  w="50px"
-                  h="50px"
+                  w="78px"
+                  h="64px"
                   border="1px solid"
-                  borderColor={borderColor}
+                  borderColor={colors.border}
                   overflow="hidden"
+                  bg={colors.panelBg}
                 >
-                  <Image
-                    src={activity.image}
-                    alt={activity.title}
-                    w="100%"
-                    h="100%"
-                    objectFit="cover"
-                  />
+                  <Image src={activity.image} alt={activity.title} w="100%" h="100%" objectFit="cover" />
                 </Box>
               )}
 
-              <Box flex="1">
-                <Text fontSize="14px" fontWeight="bold">
+              <VStack align="stretch" spacing={1} minW={0} flex={1}>
+                <HStack spacing={1}>
+                  <RetroBadge tone="green">Organization</RetroBadge>
+                </HStack>
+                <Text fontSize="13px" fontWeight="bold" color={colors.text} noOfLines={2}>
                   {activity.title}
                 </Text>
-                <Text fontSize="13px" color={iconColor} mb={1}>
+                <Text fontSize="12px" color={colors.link} fontWeight="bold" noOfLines={1}>
                   {activity.role}
                 </Text>
-                <Text fontSize="13px" color={lightTextColor} mb={1}>
+                <Text fontSize="11px" color={colors.muted}>
                   {activity.period}
                 </Text>
-                <Text fontSize="13px" lineHeight="1.4" noOfLines={2}>
+                <Text fontSize="12px" color={colors.text} lineHeight="1.4" noOfLines={2}>
                   {activity.description}
                 </Text>
-                <Text fontSize="12px" color={iconColor} mt={1}>
-                  Click to view details
-                </Text>
-              </Box>
+              </VStack>
             </Flex>
           </Box>
         ))}
-      </VStack>
+      </SimpleGrid>
 
       {selectedActivity && (
-        <ActivityModal
-          isOpen={isOpen}
-          onClose={onClose}
-          activity={selectedActivity}
-        />
+        <ActivityModal isOpen={isOpen} onClose={onClose} activity={selectedActivity} />
       )}
-    </Box>
+    </RetroPanel>
   );
 };
 

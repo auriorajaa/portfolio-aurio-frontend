@@ -5,49 +5,74 @@ import {
   Text,
   Link,
   Flex,
-  useColorModeValue,
+  HStack,
+  Image,
 } from "@chakra-ui/react";
 import {
-  User,
-  Briefcase,
-  GraduationCap,
-  Award,
   Activity,
-  Mail,
+  Award,
+  BookOpen,
+  Briefcase,
   FolderOpen,
+  GraduationCap,
+  Mail,
+  User,
 } from "lucide-react";
+import { usePortfolio } from "../../contexts/PortfolioContext";
+import { RetroBadge, RetroPanel, useRetroColors } from "../ui/retro";
 
 const Sidebar = () => {
-  const cardBg = useColorModeValue("white", "#242526");
-  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
-  const textColor = useColorModeValue("#333333", "#e4e6eb");
-  const hoverBg = useColorModeValue("#d8dfea", "#3a3b3c");
-  const iconColor = useColorModeValue("#3b5998", "#5b7ec8");
+  const { portfolioData } = usePortfolio();
+  const personalInfo = portfolioData.personalInfo || {};
+  const colors = useRetroColors();
 
   const navItems = [
     { icon: User, label: "Profile", href: "#hero" },
+    { icon: BookOpen, label: "Articles", href: "#articles" },
     { icon: Briefcase, label: "Experience", href: "#experience" },
     { icon: FolderOpen, label: "Projects", href: "#projects" },
     { icon: Award, label: "Skills", href: "#skills" },
     { icon: GraduationCap, label: "Education", href: "#education" },
     { icon: Activity, label: "Activities", href: "#activities" },
-    { icon: Award, label: "Achievements", href: "#achievements" },
+    { icon: Award, label: "Awards", href: "#achievements" },
     { icon: Mail, label: "Contact", href: "#contact" },
   ];
 
   return (
-    <Box
-      position="sticky"
-      top="60px" // Adjust this based on your Header's height
-    >
-      {/* Navigation */}
-      <Box
-        bg={cardBg}
-        border="1px solid"
-        borderColor={borderColor}
-        borderRadius="2px"
-        mb={3}
-      >
+    <Box position="sticky" top="54px">
+      <RetroPanel title="User Card" bodyProps={{ p: 3 }} mb={3}>
+        <VStack spacing={2} align="stretch">
+          <Box
+            border="1px solid"
+            borderColor={colors.border}
+            bg={colors.panelAlt}
+            p={1}
+          >
+            <Image
+              src="/profilepic.png"
+              alt={personalInfo.name || "Aurio Rajaa"}
+              w="100%"
+              aspectRatio="1"
+              objectFit="cover"
+              objectPosition="center"
+            />
+          </Box>
+          <Box>
+            <Text fontSize="13px" fontWeight="bold" color={colors.text}>
+              {personalInfo.name || "Aurio Rajaa"}
+            </Text>
+            <Text fontSize="11px" color={colors.muted} lineHeight="1.35">
+              {personalInfo.title || "Software Engineer"}
+            </Text>
+          </Box>
+          <HStack spacing={1} flexWrap="wrap">
+            <RetroBadge>Jakarta</RetroBadge>
+            <RetroBadge tone="green">Open</RetroBadge>
+          </HStack>
+        </VStack>
+      </RetroPanel>
+
+      <RetroPanel title="Directory">
         <VStack spacing={0} align="stretch">
           {navItems.map((item, idx) => (
             <Link
@@ -60,24 +85,23 @@ const Sidebar = () => {
                 gap={2}
                 px={3}
                 py={2}
-                borderBottom={
-                  idx !== navItems.length - 1 ? "1px solid" : "none"
-                }
-                borderColor={borderColor}
+                borderBottom={idx !== navItems.length - 1 ? "1px solid" : "none"}
+                borderColor={colors.borderSoft}
+                bg={idx % 2 === 0 ? "transparent" : colors.panelAlt}
                 _hover={{
-                  bg: hoverBg,
+                  bg: colors.paleBlue,
                 }}
                 cursor="pointer"
               >
-                <item.icon size={16} color={iconColor} />
-                <Text fontSize="13px" fontWeight="bold" color={textColor}>
+                <item.icon size={14} color={colors.link} />
+                <Text fontSize="12px" fontWeight="bold" color={colors.text}>
                   {item.label}
                 </Text>
               </Flex>
             </Link>
           ))}
         </VStack>
-      </Box>
+      </RetroPanel>
     </Box>
   );
 };

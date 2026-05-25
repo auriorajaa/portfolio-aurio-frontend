@@ -13,7 +13,7 @@ const SectionTitle = ({ children, id }) => {
         pb={2}
         display="inline-block"
         fontWeight="bold"
-        letterSpacing="0.05em"
+        letterSpacing="0"
       >
         {children}
       </Heading>

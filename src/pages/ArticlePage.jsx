@@ -38,6 +38,14 @@ import {
 import Header from "../components/layout/Header";
 import { getArticleBySlug, getAllArticles } from "../services/articleService";
 
+const withTimeout = (promise, timeoutMs = 4500) =>
+  Promise.race([
+    promise,
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Article load timed out")), timeoutMs),
+    ),
+  ]);
+
 const ArticlePage = ({ isDownloading, handleDownload }) => {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -56,7 +64,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
   const linkBlue = useColorModeValue("#3b5998", "#5b7ec8");
   const spinnerColor = useColorModeValue("#3b5998", "#5b7ec8");
 
-  const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+  const shareUrl = `https://aurio.work/article/${slug}`;
 
   useEffect(() => {
     loadArticle();
@@ -66,10 +74,9 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
   const loadArticle = async () => {
     try {
       setLoading(true);
-      const [articleData, allArticles] = await Promise.all([
-        getArticleBySlug(slug),
-        getAllArticles(),
-      ]);
+      const [articleData, allArticles] = await withTimeout(
+        Promise.all([getArticleBySlug(slug), getAllArticles()]),
+      );
 
       setArticle(articleData);
 
@@ -167,6 +174,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
       {article && (
         <Helmet>
           <title>{article.title} - Aurio Rajaa</title>
+          <link rel="canonical" href={shareUrl} />
           <meta name="description" content={article.excerpt} />
 
           {/* Open Graph / Facebook */}
@@ -245,7 +253,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                       borderRadius="2px"
                       border="1px solid #ffc107"
                     >
-                      <Sparkles size={10} color="#856404" />
+                      {/* <Sparkles size={10} color="#856404" /> */}
                       <Text fontSize="10px" color="#856404" fontWeight="bold">
                         FEATURED
                       </Text>
@@ -320,7 +328,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                             url={shareUrl}
                             quote={article.title}
                           >
-                            <FacebookIcon size={28} round />
+                            <FacebookIcon size={28} round={false} />
                           </FacebookShareButton>
                         </Tooltip>
                         <Tooltip label="Share on Twitter" fontSize="10px">
@@ -328,7 +336,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                             url={shareUrl}
                             title={article.title}
                           >
-                            <TwitterIcon size={28} round />
+                            <TwitterIcon size={28} round={false} />
                           </TwitterShareButton>
                         </Tooltip>
                         <Tooltip label="Share on LinkedIn" fontSize="10px">
@@ -337,7 +345,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                             title={article.title}
                             summary={article.excerpt}
                           >
-                            <LinkedinIcon size={28} round />
+                            <LinkedinIcon size={28} round={false} />
                           </LinkedinShareButton>
                         </Tooltip>
                         <Tooltip label="Share on WhatsApp" fontSize="10px">
@@ -345,7 +353,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                             url={shareUrl}
                             title={article.title}
                           >
-                            <WhatsappIcon size={28} round />
+                            <WhatsappIcon size={28} round={false} />
                           </WhatsappShareButton>
                         </Tooltip>
                       </HStack>

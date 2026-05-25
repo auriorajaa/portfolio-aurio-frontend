@@ -24,7 +24,11 @@ const PersonalInfoEditor = () => {
     email: "",
     github: "",
     linkedin: "",
+    website: "",
+    twitter: "",
     location: "",
+    seoTitle: "",
+    seoDescription: "",
     bio: "",
   });
   const [loading, setLoading] = useState(false);
@@ -214,6 +218,46 @@ const PersonalInfoEditor = () => {
 
           <FormControl>
             <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+              Website URL
+            </FormLabel>
+            <Input
+              name="website"
+              value={formData.website || ""}
+              onChange={handleInputChange}
+              placeholder="https://aurio.work"
+              size="md"
+              fontSize="13px"
+              borderRadius="0"
+              _hover={{ borderColor: "facebook.blue" }}
+              _focus={{
+                borderColor: "facebook.blue",
+                boxShadow: "0 0 0 1px #1d5f9f",
+              }}
+            />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+              Twitter/X URL
+            </FormLabel>
+            <Input
+              name="twitter"
+              value={formData.twitter || ""}
+              onChange={handleInputChange}
+              placeholder="https://twitter.com/username"
+              size="md"
+              fontSize="13px"
+              borderRadius="0"
+              _hover={{ borderColor: "facebook.blue" }}
+              _focus={{
+                borderColor: "facebook.blue",
+                boxShadow: "0 0 0 1px #1d5f9f",
+              }}
+            />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
               Location
             </FormLabel>
             <Input
@@ -248,6 +292,46 @@ const PersonalInfoEditor = () => {
               _focus={{
                 borderColor: "facebook.blue",
                 boxShadow: "0 0 0 1px #3b5998",
+              }}
+            />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+              SEO Title
+            </FormLabel>
+            <Input
+              name="seoTitle"
+              value={formData.seoTitle || ""}
+              onChange={handleInputChange}
+              placeholder="Aurio Rajaa | Software Engineer Portfolio"
+              size="md"
+              fontSize="13px"
+              borderRadius="0"
+              _hover={{ borderColor: "facebook.blue" }}
+              _focus={{
+                borderColor: "facebook.blue",
+                boxShadow: "0 0 0 1px #1d5f9f",
+              }}
+            />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel fontSize="13px" fontWeight="bold" mb={2}>
+              SEO Description
+            </FormLabel>
+            <Textarea
+              name="seoDescription"
+              value={formData.seoDescription || ""}
+              onChange={handleInputChange}
+              placeholder="Short search/social preview description"
+              rows={3}
+              fontSize="13px"
+              borderRadius="0"
+              _hover={{ borderColor: "facebook.blue" }}
+              _focus={{
+                borderColor: "facebook.blue",
+                boxShadow: "0 0 0 1px #1d5f9f",
               }}
             />
           </FormControl>

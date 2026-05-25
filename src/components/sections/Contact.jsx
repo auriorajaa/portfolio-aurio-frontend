@@ -1,172 +1,92 @@
 import React from "react";
 import {
   Box,
-  Text,
-  Flex,
-  VStack,
-  Input,
-  Textarea,
   Button,
+  HStack,
+  Input,
   Link,
-  useColorModeValue,
+  SimpleGrid,
+  Text,
+  Textarea,
+  VStack,
 } from "@chakra-ui/react";
-import { Mail, Github, Linkedin } from "lucide-react";
+import { Github, Linkedin, Mail, MapPin } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
+import { RetroBadge, RetroPanel, useRetroColors } from "../ui/retro";
 
 const Contact = () => {
   const { portfolioData } = usePortfolio();
-  const personalInfo = portfolioData.personalInfo;
-  const cardBg = useColorModeValue("white", "#242526");
-  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
-  const textColor = useColorModeValue("#333333", "#e4e6eb");
-  const lightTextColor = useColorModeValue("#90949c", "#b0b3b8");
-  const grayBg = useColorModeValue("#f7f7f7", "#242526");
-  const iconColor = useColorModeValue("#3b5998", "#5b7ec8");
+  const personalInfo = portfolioData.personalInfo || {};
+  const colors = useRetroColors();
+
   return (
-    <Box
-      bg={cardBg}
-      border="1px solid"
-      borderColor={borderColor}
-      borderRadius="2px"
-      mb={4}
+    <RetroPanel
       id="contact"
+      title="Contact Information"
+      icon={Mail}
+      headerRight={<RetroBadge tone="green">Open inbox</RetroBadge>}
+      bodyProps={{ p: 3 }}
     >
-      {/* Header */}
-      <Flex
-        borderBottom="1px solid"
-        borderColor={borderColor}
-        px={3}
-        py={2}
-        align="center"
-        gap={2}
-        bg={grayBg}
-      >
-        <Mail size={14} color={iconColor} />
-        <Text fontSize="14px" fontWeight="bold" color={textColor}>
-          Contact Information
-        </Text>
-      </Flex>
-
-      <Box px={3} py={3}>
-        <Text fontSize="13px" color={textColor} mb={3} lineHeight="1.4">
-          Open for opportunities and collaborations. Feel free to reach out.
-        </Text>
-
-        {/* Links */}
-        <VStack spacing={2} align="stretch" mb={4}>
-          <Flex align="center" gap={2}>
-            <Mail size={12} color={iconColor} />
-            <Link
-              href={`mailto:${personalInfo.email}`}
-              fontSize="13px"
-              color="facebook.linkBlue"
-              fontWeight="bold"
-            >
-              {personalInfo.email}
-            </Link>
-          </Flex>
-
-          <Flex align="center" gap={2}>
-            <Github size={12} color={iconColor} />
-            <Link
-              href={personalInfo.github}
-              isExternal
-              fontSize="13px"
-              color="facebook.linkBlue"
-              fontWeight="bold"
-            >
-              github.com/auriorajaa
-            </Link>
-          </Flex>
-
-          <Flex align="center" gap={2}>
-            <Linkedin size={12} color={iconColor} />
-            <Link
-              href={personalInfo.linkedin}
-              isExternal
-              fontSize="13px"
-              color="facebook.linkBlue"
-              fontWeight="bold"
-            >
-              linkedin.com/in/auriorajaa
-            </Link>
-          </Flex>
-        </VStack>
-
-        {/* Message Form */}
-        <Box
-          bg={grayBg}
-          border="1px solid"
-          borderColor={borderColor}
-          p={3}
-          borderRadius="2px"
-        >
-          <Text fontSize="13px" fontWeight="bold" color={textColor} mb={2}>
-            Send a Message
+      <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={3}>
+        <VStack align="stretch" spacing={2}>
+          <Text fontSize="13px" color={colors.text} lineHeight="1.5">
+            Open for software engineering opportunities, collaborations, and
+            technical conversations around backend systems, cloud, and product
+            interfaces.
           </Text>
 
-          <VStack spacing={3} align="stretch">
-            {/* Name */}
-            <Box>
-              <Text fontSize="12px" color={lightTextColor} mb={1}>
-                Your Name
-              </Text>
-              <Input
-                size="sm"
-                borderRadius="2px"
-                fontSize="13px"
-                _hover={{ borderColor: "facebook.blue" }}
-                _focus={{
-                  borderColor: "facebook.blue",
-                  boxShadow: "0 0 0 1px #3b5998",
-                }}
-              />
-            </Box>
+          <Box border="1px solid" borderColor={colors.borderSoft} bg={colors.panelAlt} p={3}>
+            <VStack spacing={2} align="stretch">
+              <HStack spacing={2}>
+                <Mail size={14} color={colors.link} />
+                <Link href={`mailto:${personalInfo.email}`} fontSize="12px" fontWeight="bold">
+                  {personalInfo.email}
+                </Link>
+              </HStack>
+              <HStack spacing={2}>
+                <Github size={14} color={colors.link} />
+                <Link href={personalInfo.github} isExternal fontSize="12px" fontWeight="bold">
+                  github.com/auriorajaa
+                </Link>
+              </HStack>
+              <HStack spacing={2}>
+                <Linkedin size={14} color={colors.link} />
+                <Link href={personalInfo.linkedin} isExternal fontSize="12px" fontWeight="bold">
+                  linkedin.com/in/auriorajaa
+                </Link>
+              </HStack>
+              <HStack spacing={2}>
+                <MapPin size={14} color={colors.link} />
+                <Text fontSize="12px" color={colors.text}>
+                  {personalInfo.location || "Jakarta, Indonesia"}
+                </Text>
+              </HStack>
+            </VStack>
+          </Box>
+        </VStack>
 
-            {/* Email */}
-            <Box>
-              <Text fontSize="12px" color={lightTextColor} mb={1}>
-                Your Email
-              </Text>
-              <Input
-                type="email"
-                size="sm"
-                borderRadius="2px"
-                fontSize="13px"
-                _hover={{ borderColor: "facebook.blue" }}
-                _focus={{
-                  borderColor: "facebook.blue",
-                  boxShadow: "0 0 0 1px #3b5998",
-                }}
-              />
-            </Box>
-
-            {/* Message */}
-            <Box>
-              <Text fontSize="12px" color={lightTextColor} mb={1}>
-                Message
-              </Text>
-              <Textarea
-                size="sm"
-                borderRadius="2px"
-                fontSize="13px"
-                rows={4}
-                resize="none"
-                _hover={{ borderColor: "facebook.blue" }}
-                _focus={{
-                  borderColor: "facebook.blue",
-                  boxShadow: "0 0 0 1px #3b5998",
-                }}
-              />
-            </Box>
-
-            <Button variant="facebook" size="md" alignSelf="flex-end">
-              Send Message
+        <Box border="1px solid" borderColor={colors.border} bg={colors.panelAlt} p={3}>
+          <Text fontSize="12px" fontWeight="bold" color={colors.text} mb={2}>
+            Quick Message Draft
+          </Text>
+          <VStack spacing={2} align="stretch">
+            <Input size="sm" placeholder="Your name" />
+            <Input size="sm" type="email" placeholder="Your email" />
+            <Textarea size="sm" rows={4} resize="vertical" placeholder="Message" />
+            <Button
+              as={Link}
+              href={`mailto:${personalInfo.email}`}
+              variant="facebook"
+              size="sm"
+              alignSelf="flex-end"
+              _hover={{ textDecoration: "none" }}
+            >
+              Open Email Client
             </Button>
           </VStack>
         </Box>
-      </Box>
-    </Box>
+      </SimpleGrid>
+    </RetroPanel>
   );
 };
 

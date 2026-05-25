@@ -4,6 +4,9 @@ const CLOUDINARY_CLOUD_NAME =
   process.env.REACT_APP_CLOUDINARY_CLOUD_NAME || "dfohyltdw";
 const CLOUDINARY_UPLOAD_PRESET = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
 
+const getUploadEndpoint = (resourceType = "image") =>
+  `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`;
+
 /**
  * Upload image to Cloudinary
  * @param {File} file - Image file to upload
@@ -21,7 +24,7 @@ export const uploadImage = async (file, folder = "portfolio") => {
     formData.append("folder", folder);
 
     const response = await fetch(
-      `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+      getUploadEndpoint("image"),
       {
         method: "POST",
         body: formData,
@@ -38,6 +41,48 @@ export const uploadImage = async (file, folder = "portfolio") => {
     console.error("Error uploading to Cloudinary:", error);
     throw error;
   }
+};
+
+/**
+ * Upload image/PDF media to Cloudinary using the auto resource endpoint.
+ * @param {File} file - Image or PDF file
+ * @param {Function} onProgress - Progress callback
+ * @returns {Promise<string>} - Secure media URL
+ */
+export const uploadMediaWithProgress = async (file, onProgress) => {
+  return new Promise((resolve, reject) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append(
+      "upload_preset",
+      CLOUDINARY_UPLOAD_PRESET || "unsigned_preset",
+    );
+    formData.append("folder", "portfolio");
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.upload.addEventListener("progress", (e) => {
+      if (e.lengthComputable && onProgress) {
+        onProgress((e.loaded / e.total) * 100);
+      }
+    });
+
+    xhr.addEventListener("load", () => {
+      if (xhr.status === 200) {
+        const response = JSON.parse(xhr.responseText);
+        resolve(response.secure_url);
+      } else {
+        reject(new Error("Upload failed"));
+      }
+    });
+
+    xhr.addEventListener("error", () => {
+      reject(new Error("Upload failed"));
+    });
+
+    xhr.open("POST", getUploadEndpoint("auto"));
+    xhr.send(formData);
+  });
 };
 
 /**
@@ -100,7 +145,7 @@ export const uploadImageWithProgress = async (file, onProgress) => {
 
     xhr.open(
       "POST",
-      `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+      getUploadEndpoint("image"),
     );
     xhr.send(formData);
   });
@@ -136,6 +181,38 @@ export const validateImageFile = (file, maxSizeMB = 5) => {
     return {
       valid: false,
       error: `Image size must be less than ${maxSizeMB}MB`,
+    };
+  }
+
+  return { valid: true, error: null };
+};
+
+export const validateMediaFile = (file, maxSizeMB = 12) => {
+  if (!file) {
+    return { valid: false, error: "No file selected" };
+  }
+
+  const validTypes = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/gif",
+    "image/webp",
+    "application/pdf",
+  ];
+
+  if (!validTypes.includes(file.type)) {
+    return {
+      valid: false,
+      error: "Please select a JPG, PNG, GIF, WebP, or PDF file",
+    };
+  }
+
+  const maxSize = maxSizeMB * 1024 * 1024;
+  if (file.size > maxSize) {
+    return {
+      valid: false,
+      error: `File size must be less than ${maxSizeMB}MB`,
     };
   }
 

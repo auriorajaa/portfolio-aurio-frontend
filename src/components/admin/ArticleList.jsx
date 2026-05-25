@@ -350,7 +350,7 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
                                     _hover={{ bg: "facebook.paleBlue" }}
                                     cursor="pointer"
                                   >
-                                    <FacebookIcon size={20} round />
+                                    <FacebookIcon size={20} round={false} />
                                     <Text fontSize="12px">Facebook</Text>
                                   </HStack>
                                 </FacebookShareButton>
@@ -364,7 +364,7 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
                                     _hover={{ bg: "facebook.paleBlue" }}
                                     cursor="pointer"
                                   >
-                                    <TwitterIcon size={20} round />
+                                    <TwitterIcon size={20} round={false} />
                                     <Text fontSize="12px">Twitter</Text>
                                   </HStack>
                                 </TwitterShareButton>
@@ -379,7 +379,7 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
                                     _hover={{ bg: "facebook.paleBlue" }}
                                     cursor="pointer"
                                   >
-                                    <LinkedinIcon size={20} round />
+                                    <LinkedinIcon size={20} round={false} />
                                     <Text fontSize="12px">LinkedIn</Text>
                                   </HStack>
                                 </LinkedinShareButton>
@@ -393,7 +393,7 @@ const ArticleList = ({ onEdit, onView, refresh }) => {
                                     _hover={{ bg: "facebook.paleBlue" }}
                                     cursor="pointer"
                                   >
-                                    <WhatsappIcon size={20} round />
+                                    <WhatsappIcon size={20} round={false} />
                                     <Text fontSize="12px">WhatsApp</Text>
                                   </HStack>
                                 </WhatsappShareButton>

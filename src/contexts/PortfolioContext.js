@@ -12,6 +12,15 @@ import {
 } from "../data/portfolioData";
 
 const PortfolioContext = createContext();
+const FIREBASE_LOAD_TIMEOUT_MS = 4500;
+
+const withTimeout = (promise, timeoutMs) =>
+  Promise.race([
+    promise,
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Firebase portfolio load timed out")), timeoutMs),
+    ),
+  ]);
 
 export const usePortfolio = () => {
   const context = useContext(PortfolioContext);
@@ -41,7 +50,10 @@ export const PortfolioProvider = ({ children }) => {
   const loadPortfolioData = async () => {
     try {
       setLoading(true);
-      const firebaseData = await getPortfolioData();
+      const firebaseData = await withTimeout(
+        getPortfolioData(),
+        FIREBASE_LOAD_TIMEOUT_MS,
+      );
 
       if (firebaseData) {
         setPortfolioData(firebaseData);

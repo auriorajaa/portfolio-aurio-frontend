@@ -1,119 +1,230 @@
 import { extendTheme } from "@chakra-ui/react";
 import { mode } from "@chakra-ui/theme-tools";
 
+const sharpFocus = (color) => `0 0 0 1px ${color}`;
+
 const theme = extendTheme({
   config: {
     initialColorMode: "light",
     useSystemColorMode: false,
   },
+
+  radii: {
+    none: "0",
+    sm: "0",
+    base: "0",
+    md: "0",
+    lg: "0",
+    xl: "0",
+    "2xl": "0",
+    full: "0",
+  },
+
   colors: {
-    // Classic Facebook Blue Theme (2008-2012) - Light Mode
+    retro: {
+      ink: "#1f2833",
+      inkSoft: "#4d5866",
+      chrome: "#d7dde6",
+      chromeDark: "#8894a3",
+      paper: "#f4f6f9",
+      panel: "#ffffff",
+      line: "#9aa8ba",
+      lineSoft: "#c3ccd8",
+      blue: "#1d5f9f",
+      blueDark: "#123f6c",
+      bluePale: "#dce8f5",
+      amber: "#b56a00",
+      green: "#276b46",
+      red: "#9f2436",
+      black: "#10151b",
+    },
+    retroDark: {
+      ink: "#e6edf5",
+      inkSoft: "#aab6c4",
+      chrome: "#27313d",
+      chromeDark: "#111821",
+      paper: "#141a22",
+      panel: "#1b232d",
+      line: "#465568",
+      lineSoft: "#344252",
+      blue: "#8bb8e8",
+      blueDark: "#5e93ca",
+      bluePale: "#26394d",
+      amber: "#b56a00",
+      green: "#276b46",
+      red: "#9f2436",
+      black: "#090d12",
+    },
     facebook: {
-      blue: "#3b5998", // Classic Facebook blue
-      darkBlue: "#2d4373", // Darker blue for header
-      lightBlue: "#627aad", // Light blue for hover
-      paleBlue: "#d8dfea", // Very pale blue for backgrounds
-      gray: "#f7f7f7", // Light gray background
-      border: "#d3d6db", // Border gray
-      text: "#333333", // Dark text
-      lightText: "#90949c", // Light gray text
+      blue: "#1d5f9f",
+      darkBlue: "#123f6c",
+      lightBlue: "#4f86bd",
+      paleBlue: "#dce8f5",
+      gray: "#eef2f6",
+      border: "#9aa8ba",
+      text: "#1f2833",
+      lightText: "#4d5866",
       white: "#ffffff",
-      linkBlue: "#3b5998",
-      hoverBlue: "#8b9dc3",
+      linkBlue: "#1d5f9f",
+      hoverBlue: "#c9d8e8",
     },
-    // Dark Mode - Retro Facebook inspired
     facebookDark: {
-      blue: "#5b7ec8", // Lighter blue for dark mode
-      darkBlue: "#3b5998", // Classic blue for accents
-      lightBlue: "#7a99d4", // Lighter blue for hover
-      bg: "#18191a", // Dark background
-      cardBg: "#242526", // Card background
-      hoverBg: "#3a3b3c", // Hover background
-      border: "#3e4042", // Border in dark mode
-      text: "#e4e6eb", // Light text
-      lightText: "#b0b3b8", // Lighter gray text
-      inputBg: "#3a3b3c", // Input background
-      inputBorder: "#5b5d60", // Input border
+      blue: "#8bb8e8",
+      darkBlue: "#5e93ca",
+      lightBlue: "#a8c9ed",
+      bg: "#141a22",
+      cardBg: "#1b232d",
+      hoverBg: "#27313d",
+      border: "#465568",
+      text: "#e6edf5",
+      lightText: "#aab6c4",
+      inputBg: "#111821",
+      inputBorder: "#465568",
     },
   },
+
   fonts: {
-    heading: "'Tahoma', 'Lucida Grande', sans-serif",
-    body: "'Tahoma', 'Lucida Grande', sans-serif",
+    heading: "'Plus Jakarta Sans', 'Tahoma', 'Verdana', 'Geneva', sans-serif",
+    body: "'Plus Jakarta Sans', 'Tahoma', 'Verdana', 'Geneva', sans-serif",
+    mono: "'Lucida Console', 'Courier New', monospace",
   },
+
   styles: {
     global: (props) => ({
-      body: {
-        bg: mode("#e9ebee", "#18191a")(props),
-        color: mode("#333333", "#e4e6eb")(props),
-        fontSize: "13px",
-        lineHeight: "1.34",
-        fontFamily: "'Tahoma', 'Lucida Grande', sans-serif",
+      "html, body, #root": {
+        minHeight: "100%",
       },
       html: {
         scrollBehavior: "smooth",
       },
+      body: {
+        bg: mode("#cfd7e2", "#0f151d")(props),
+        color: mode("#1f2833", "#e6edf5")(props),
+        fontSize: "13px",
+        lineHeight: "1.42",
+        fontFamily:
+          "'Plus Jakarta Sans', 'Tahoma', 'Verdana', 'Geneva', sans-serif",
+        letterSpacing: "0",
+        overflowX: "hidden",
+        backgroundImage: mode(
+          "linear-gradient(rgba(255,255,255,.42) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.34) 1px, transparent 1px)",
+          "linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px)"
+        )(props),
+        backgroundSize: "16px 16px",
+      },
+
+      // Custom Retro Scrollbar
+      "::-webkit-scrollbar": {
+        width: "12px",
+        height: "12px",
+      },
+      "::-webkit-scrollbar-track": {
+        bg: mode("#d7dde6", "#1b232d")(props),
+        borderLeft: mode("1px solid #9aa8ba", "1px solid #465568")(props),
+      },
+      "::-webkit-scrollbar-thumb": {
+        bg: mode("#8894a3", "#465568")(props),
+        border: mode("3px solid #d7dde6", "3px solid #1b232d")(props),
+        _hover: {
+          bg: mode("#6c7988", "#5e93ca")(props),
+        },
+      },
+
+      // Firefox scrollbar support
+      "*": {
+        scrollbarWidth: "thin",
+        scrollbarColor: mode("#8894a3 #d7dde6", "#465568 #1b232d")(props),
+      },
+
+      "*::selection": {
+        bg: mode("#174f88", "#8bb8e8")(props),
+        color: mode("#ffffff", "#10151b")(props),
+      },
+
       a: {
-        color: mode("#3b5998", "#5b7ec8")(props),
+        color: mode("#1d5f9f", "#8bb8e8")(props),
         textDecoration: "none",
         _hover: {
           textDecoration: "underline",
         },
       },
+      "button, input, textarea, select": {
+        letterSpacing: "0",
+      },
+      "p, span, a": {
+        overflowWrap: "break-word",
+      },
     }),
   },
+
   components: {
     Button: {
       baseStyle: {
         fontWeight: "bold",
         fontSize: "13px",
-        fontFamily: "'Tahoma', 'Lucida Grande', sans-serif",
-        borderRadius: "2px",
+        fontFamily:
+          "'Plus Jakarta Sans', 'Tahoma', 'Verdana', 'Geneva', sans-serif",
+        borderRadius: "0",
+        transition: "background-color .12s ease, border-color .12s ease",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,.62)",
+        _active: {
+          boxShadow: "inset 0 1px 3px rgba(0,0,0,.28)",
+        },
       },
       variants: {
         facebook: (props) => ({
-          bg: mode("#3b5998", "#5b7ec8")(props),
+          bg: mode("#1d5f9f", "#5e93ca")(props),
           color: "white",
-          border: mode("1px solid #29487d", "1px solid #4a6ba8")(props),
+          border: mode("1px solid #123f6c", "1px solid #8bb8e8")(props),
+          textShadow: "0 1px 0 rgba(0,0,0,.24)",
           _hover: {
-            bg: mode("#627aad", "#7a99d4")(props),
+            bg: mode("#2a6faf", "#79aadb")(props),
           },
           _active: {
-            bg: mode("#2d4373", "#3b5998")(props),
+            bg: mode("#123f6c", "#457bae")(props),
           },
         }),
         facebookGray: (props) => ({
-          bg: mode("#f6f7f9", "#3a3b3c")(props),
-          color: mode("#333333", "#e4e6eb")(props),
-          border: mode("1px solid #ccd0d5", "1px solid #5b5d60")(props),
+          bg: mode("#e8edf4", "#27313d")(props),
+          color: mode("#1f2833", "#e6edf5")(props),
+          border: mode("1px solid #9aa8ba", "1px solid #465568")(props),
           _hover: {
-            bg: mode("#e4e6eb", "#4a4b4c")(props),
+            bg: mode("#dce5ef", "#334253")(props),
+          },
+        }),
+        outline: (props) => ({
+          border: mode("1px solid #9aa8ba", "1px solid #465568")(props),
+          bg: mode("#ffffff", "#1b232d")(props),
+          color: mode("#1d5f9f", "#8bb8e8")(props),
+          _hover: {
+            bg: mode("#dce8f5", "#26394d")(props),
           },
         }),
       },
     },
+
     Input: {
-      baseStyle: (props) => ({
-        field: {
-          fontFamily: "'Tahoma', 'Lucida Grande', sans-serif",
-          fontSize: "13px",
-        },
-      }),
       variants: {
         outline: (props) => ({
           field: {
-            bg: mode("white", "#3a3b3c")(props),
-            borderColor: mode("#d3d6db", "#5b5d60")(props),
-            color: mode("#333333", "#e4e6eb")(props),
-            borderRadius: "2px",
+            bg: mode("#ffffff", "#111821")(props),
+            borderColor: mode("#9aa8ba", "#465568")(props),
+            color: mode("#1f2833", "#e6edf5")(props),
+            borderRadius: "0",
+            fontSize: "13px",
+            boxShadow: mode(
+              "inset 1px 1px 0 #e3e7ed",
+              "inset 1px 1px 0 #090d12"
+            )(props),
             _placeholder: {
-              color: mode("#90949c", "#8a8d91")(props),
+              color: mode("#6b7684", "#8996a6")(props),
             },
             _hover: {
-              borderColor: mode("#3b5998", "#5b7ec8")(props),
+              borderColor: mode("#1d5f9f", "#8bb8e8")(props),
             },
             _focus: {
-              borderColor: mode("#3b5998", "#5b7ec8")(props),
-              boxShadow: mode("0 0 0 1px #3b5998", "0 0 0 1px #5b7ec8")(props),
+              borderColor: mode("#1d5f9f", "#8bb8e8")(props),
+              boxShadow: sharpFocus(mode("#1d5f9f", "#8bb8e8")(props)),
             },
           },
         }),
@@ -122,26 +233,28 @@ const theme = extendTheme({
         variant: "outline",
       },
     },
+
     Textarea: {
-      baseStyle: (props) => ({
-        fontFamily: "'Tahoma', 'Lucida Grande', sans-serif",
-        fontSize: "13px",
-      }),
       variants: {
         outline: (props) => ({
-          bg: mode("white", "#3a3b3c")(props),
-          borderColor: mode("#d3d6db", "#5b5d60")(props),
-          color: mode("#333333", "#e4e6eb")(props),
-          borderRadius: "2px",
+          bg: mode("#ffffff", "#111821")(props),
+          borderColor: mode("#9aa8ba", "#465568")(props),
+          color: mode("#1f2833", "#e6edf5")(props),
+          borderRadius: "0",
+          fontSize: "13px",
+          boxShadow: mode(
+            "inset 1px 1px 0 #e3e7ed",
+            "inset 1px 1px 0 #090d12"
+          )(props),
           _placeholder: {
-            color: mode("#90949c", "#8a8d91")(props),
+            color: mode("#6b7684", "#8996a6")(props),
           },
           _hover: {
-            borderColor: mode("#3b5998", "#5b7ec8")(props),
+            borderColor: mode("#1d5f9f", "#8bb8e8")(props),
           },
           _focus: {
-            borderColor: mode("#3b5998", "#5b7ec8")(props),
-            boxShadow: mode("0 0 0 1px #3b5998", "0 0 0 1px #5b7ec8")(props),
+            borderColor: mode("#1d5f9f", "#8bb8e8")(props),
+            boxShadow: sharpFocus(mode("#1d5f9f", "#8bb8e8")(props)),
           },
         }),
       },
@@ -149,26 +262,22 @@ const theme = extendTheme({
         variant: "outline",
       },
     },
+
     Select: {
-      baseStyle: (props) => ({
-        field: {
-          fontFamily: "'Tahoma', 'Lucida Grande', sans-serif",
-          fontSize: "13px",
-        },
-      }),
       variants: {
         outline: (props) => ({
           field: {
-            bg: mode("white", "#3a3b3c")(props),
-            borderColor: mode("#d3d6db", "#5b5d60")(props),
-            color: mode("#333333", "#e4e6eb")(props),
-            borderRadius: "2px",
+            bg: mode("#ffffff", "#111821")(props),
+            borderColor: mode("#9aa8ba", "#465568")(props),
+            color: mode("#1f2833", "#e6edf5")(props),
+            borderRadius: "0",
+            fontSize: "13px",
             _hover: {
-              borderColor: mode("#3b5998", "#5b7ec8")(props),
+              borderColor: mode("#1d5f9f", "#8bb8e8")(props),
             },
             _focus: {
-              borderColor: mode("#3b5998", "#5b7ec8")(props),
-              boxShadow: mode("0 0 0 1px #3b5998", "0 0 0 1px #5b7ec8")(props),
+              borderColor: mode("#1d5f9f", "#8bb8e8")(props),
+              boxShadow: sharpFocus(mode("#1d5f9f", "#8bb8e8")(props)),
             },
           },
         }),
@@ -177,44 +286,62 @@ const theme = extendTheme({
         variant: "outline",
       },
     },
+
     FormLabel: {
       baseStyle: (props) => ({
-        fontSize: "13px",
+        fontSize: "12px",
         fontWeight: "bold",
-        color: mode("#333333", "#e4e6eb")(props),
-        fontFamily: "'Tahoma', 'Lucida Grande', sans-serif",
+        color: mode("#1f2833", "#e6edf5")(props),
+        fontFamily:
+          "'Plus Jakarta Sans', 'Tahoma', 'Verdana', 'Geneva', sans-serif",
         mb: 1,
       }),
     },
+
     Modal: {
       baseStyle: (props) => ({
         dialog: {
-          bg: mode("white", "#242526")(props),
-          borderRadius: "2px",
+          bg: mode("#ffffff", "#1b232d")(props),
+          borderRadius: "0",
+          border: mode("1px solid #6c7988", "1px solid #465568")(props),
         },
         header: {
           fontSize: "14px",
           fontWeight: "bold",
-          color: mode("#333333", "#e4e6eb")(props),
-          borderBottom: mode("1px solid #d3d6db", "1px solid #3e4042")(props),
-        },
-        body: {
-          color: mode("#333333", "#e4e6eb")(props),
+          color: mode("#1f2833", "#e6edf5")(props),
+          borderBottom: mode("1px solid #9aa8ba", "1px solid #465568")(props),
+          bg: mode("#d7dde6", "#27313d")(props),
         },
         footer: {
-          borderTop: mode("1px solid #d3d6db", "1px solid #3e4042")(props),
+          borderTop: mode("1px solid #9aa8ba", "1px solid #465568")(props),
         },
       }),
     },
+
     Heading: {
       baseStyle: {
-        fontFamily: "'Tahoma', 'Lucida Grande', sans-serif",
+        fontFamily:
+          "'Plus Jakarta Sans', 'Tahoma', 'Verdana', 'Geneva', sans-serif",
         fontWeight: "bold",
+        letterSpacing: "0",
       },
     },
+
     Text: {
       baseStyle: {
-        fontFamily: "'Tahoma', 'Lucida Grande', sans-serif",
+        fontFamily:
+          "'Plus Jakarta Sans', 'Tahoma', 'Verdana', 'Geneva', sans-serif",
+        letterSpacing: "0",
+      },
+    },
+
+    Tag: {
+      baseStyle: {
+        container: {
+          borderRadius: "0",
+          border: "1px solid",
+          fontWeight: "bold",
+        },
       },
     },
   },

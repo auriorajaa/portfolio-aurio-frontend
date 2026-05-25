@@ -1,106 +1,66 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Box,
-  Text,
-  Flex,
-  Image,
-  SimpleGrid,
   Button,
+  Flex,
   HStack,
+  Image,
+  Link,
+  SimpleGrid,
+  Text,
   VStack,
-  useColorModeValue,
+  useDisclosure,
 } from "@chakra-ui/react";
-import {
-  ExternalLink,
-  Github,
-  FolderOpen,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { ExternalLink, FileText, FolderOpen, Github, Images } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
+import { normalizeProjects } from "../../utils/projectMedia";
+import ProjectShowcaseModal from "../ui/ProjectShowcaseModal";
+import { RetroBadge, RetroPanel, useRetroColors } from "../ui/retro";
 
 const Projects = () => {
   const { portfolioData } = usePortfolio();
-  const projects = portfolioData.projects || [];
+  const projects = useMemo(
+    () => normalizeProjects(portfolioData.projects || []),
+    [portfolioData.projects],
+  );
   const [filter, setFilter] = useState("ALL");
-  const [currentPage, setCurrentPage] = useState(1);
-  const projectsPerPage = 4;
+  const [selectedProject, setSelectedProject] = useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const colors = useRetroColors();
 
-  // Use admin-style colors
-  const cardBg = useColorModeValue("white", "#242526");
-  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
-  const textColor = useColorModeValue("#333333", "#e4e6eb");
-  const lightTextColor = useColorModeValue("#90949c", "#b0b3b8");
-  const grayBg = useColorModeValue("#f7f7f7", "#242526");
-  const iconColor = useColorModeValue("#3b5998", "#5b7ec8");
-
-  // Get unique tags dynamically from all projects
   const allTags = projects.reduce((tags, project) => {
     project.tags.forEach((tag) => {
-      if (!tags.includes(tag)) {
-        tags.push(tag);
-      }
+      if (!tags.includes(tag)) tags.push(tag);
     });
     return tags;
   }, []);
-
-  // Show ALL + up to 3 most common tags (or all if less than 4)
-  const essentialTags = ["ALL", ...allTags.slice(0, 3)];
-
+  const filters = ["ALL", ...allTags.slice(0, 5)];
   const filteredProjects =
-    filter === "ALL"
-      ? projects
-      : projects.filter((p) => p.tags.includes(filter));
+    filter === "ALL" ? projects : projects.filter((project) => project.tags.includes(filter));
 
-  // Calculate pagination
-  const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
-  const indexOfLastProject = currentPage * projectsPerPage;
-  const indexOfFirstProject = indexOfLastProject - projectsPerPage;
-  const currentProjects = filteredProjects.slice(
-    indexOfFirstProject,
-    indexOfLastProject,
-  );
-
-  // Reset to page 1 when filter changes
-  const handleFilterChange = (tag) => {
-    setFilter(tag);
-    setCurrentPage(1);
+  const openProject = (project) => {
+    setSelectedProject(project);
+    onOpen();
   };
 
   return (
-    <Box
-      bg={cardBg}
-      border="1px solid"
-      borderColor={borderColor}
-      borderRadius="2px"
-      mb={4}
+    <RetroPanel
       id="projects"
+      title="Project Showcase"
+      icon={FolderOpen}
+      headerRight={<RetroBadge tone="amber">{filteredProjects.length} records</RetroBadge>}
+      bodyProps={{ p: 0 }}
     >
-      {/* Section Header */}
-      <Box
-        borderBottom="1px solid"
-        borderColor={borderColor}
-        px={3}
-        py={2}
-        bg={grayBg}
-      >
-        <Flex align="center" gap={2} mb={2}>
-          <FolderOpen size={14} color={iconColor} />
-          <Text fontSize="14px" fontWeight="bold" color={textColor}>
-            Projects
-          </Text>
-        </Flex>
-
-        {/* Filter Tabs */}
-        <HStack spacing={2}>
-          {essentialTags.map((tag) => (
+      <Box px={3} py={2} borderBottom="1px solid" borderColor={colors.border}>
+        <HStack spacing={2} flexWrap="wrap">
+          {filters.map((tag) => (
             <Button
               key={tag}
               size="sm"
               variant={filter === tag ? "facebook" : "facebookGray"}
-              onClick={() => handleFilterChange(tag)}
-              fontSize="12px"
-              h="22px"
+              onClick={() => setFilter(tag)}
+              fontSize="11px"
+              h="24px"
               px={3}
             >
               {tag.toUpperCase()}
@@ -109,132 +69,167 @@ const Projects = () => {
         </HStack>
       </Box>
 
-      {/* Projects Grid - Photo Album Style */}
-      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={0}>
-        {currentProjects.map((project, idx) => (
-          <Box
-            key={project.id}
-            p={3}
-            borderRight={{
-              base: "none",
-              md: idx % 2 === 0 ? "1px solid lightgray" : "none",
-            }}
-            borderBottom="1px solid"
-            borderColor={borderColor}
-          >
-            {/* Project Image */}
+      <SimpleGrid columns={{ base: 1, md:2, lg: 2 }} spacing={0}>
+        {filteredProjects.map((project, idx) => {
+          const firstMedia = project.gallery?.[0];
+          const hasPdf = project.gallery?.some((item) => item.type === "pdf");
+
+          return (
             <Box
-              border="1px solid"
-              borderColor={borderColor}
-              mb={2}
-              overflow="hidden"
+              key={project.id || project.slug}
+              p={3}
+              borderRight={{
+                base: "none",
+                lg: idx % 2 === 0 ? "1px solid" : "none",
+              }}
+              borderBottom="1px solid"
+              borderColor={colors.borderSoft}
+              bg={idx % 2 === 0 ? colors.panelBg : colors.panelAlt}
             >
-              <Image
-                src={project.image}
-                alt={project.title}
-                w="100%"
-                h="150px"
-                objectFit="cover"
-              />
-            </Box>
-
-            {/* Project Info */}
-            <VStack spacing={1} align="stretch">
-              <Text fontSize="14px" fontWeight="bold" color={textColor}>
-                {project.title}
-              </Text>
-              <Text fontSize="13px" color={lightTextColor} lineHeight="1.4">
-                {project.description}
-              </Text>
-
-              {/* Tags */}
-              <HStack spacing={1}>
-                {project.tags.slice(0, 3).map((tag) => (
-                  <Text key={tag} fontSize="12px" color={lightTextColor}>
-                    #{tag}
-                  </Text>
-                ))}
-              </HStack>
-
-              {/* Links */}
-              <HStack spacing={2} pt={1}>
-                <Text
-                  as="a"
-                  href={project.github}
-                  target="_blank"
-                  fontSize="13px"
-                  color={iconColor}
-                  fontWeight="bold"
-                  display="flex"
-                  alignItems="center"
-                  gap={1}
+              <Flex
+                gap={3}
+                align="stretch"
+                direction={{ base: "column", sm: "column" }}
+                h="100%"
+              >
+                <Box
+                  w={{ base: "100%", sm: "100%" }}
+                  flexShrink={0}
+                  cursor="pointer"
+                  onClick={() => openProject(project)}
+                  position="relative"
+                  overflow="hidden"
                 >
-                  <Github size={11} /> Code
-                </Text>
-                {project.website && (
-                  <Text
-                    as="a"
-                    href={project.website}
-                    target="_blank"
-                    fontSize="13px"
-                    color={iconColor}
-                    fontWeight="bold"
-                    display="flex"
-                    alignItems="center"
-                    gap={1}
-                  >
-                    <ExternalLink size={11} /> Demo
-                  </Text>
-                )}
-              </HStack>
-            </VStack>
-          </Box>
-        ))}
+                  {project.image ? (
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      w="100%"
+                      h={{ base: "170px", sm: "132px" }}
+                      objectFit="cover"
+                    />
+                  ) : (
+                    <Flex h="132px" align="center" justify="center">
+                      <Images size={30} color="#8bb8e8" />
+                    </Flex>
+                  )}
+                </Box>
+
+                <VStack align="stretch" spacing={2} flex={1} minW={0} h="100%">
+                  {/* Header section */}
+                  <HStack justify="space-between" align="start" spacing={2}>
+                    <Box minW={0}>
+                      <Text
+                        fontSize="14px"
+                        fontWeight="bold"
+                        color={colors.link}
+                        noOfLines={1}
+                      >
+                        {project.title}
+                      </Text>
+                      <Text fontSize="11px" color={colors.muted} noOfLines={1}>
+                        {project.role}{" "}
+                        {project.period ? `/ ${project.period}` : ""}
+                      </Text>
+                    </Box>
+                    <RetroBadge
+                      tone={project.status === "Archived" ? "gray" : "green"}
+                    >
+                      {project.status}
+                    </RetroBadge>
+                  </HStack>
+
+                  {/* 1. ONLY THE DESCRIPTION AREA GROWS */}
+                  <Box flex={1}>
+                    <Text
+                      fontSize="12px"
+                      color={colors.text}
+                      lineHeight="1.45"
+                      noOfLines={3}
+                    >
+                      {project.description}
+                    </Text>
+
+                    {project.highlights?.length > 0 && (
+                      <Text
+                        fontSize="11px"
+                        color={colors.muted}
+                        noOfLines={2}
+                        mt={1}
+                      >
+                        {project.highlights[0]}
+                      </Text>
+                    )}
+                  </Box>
+
+                  {/* 2. THE BOTTOM CONTAINER (TAGS + BUTTONS) */}
+                  {/* mt="auto" ensures this entire stack sits at the absolute bottom of the card */}
+                  <VStack align="stretch" spacing={2} mt="auto" pt={2}>
+                    <HStack spacing={1} flexWrap="wrap">
+                      {project.tags.slice(0, 4).map((tag) => (
+                        <RetroBadge key={tag}>{tag}</RetroBadge>
+                      ))}
+                    </HStack>
+
+                    <HStack spacing={2} pt={1} flexWrap="wrap">
+                      <Button
+                        size="sm"
+                        h="26px"
+                        variant="facebook"
+                        leftIcon={
+                          firstMedia?.type === "pdf" ? (
+                            <FileText size={13} />
+                          ) : (
+                            <Images size={13} />
+                          )
+                        }
+                        onClick={() => openProject(project)}
+                      >
+                        View Case
+                      </Button>
+                      {project.github && (
+                        <Button
+                          as={Link}
+                          href={project.github}
+                          isExternal
+                          size="sm"
+                          h="26px"
+                          variant="facebookGray"
+                          leftIcon={<Github size={13} />}
+                          _hover={{ textDecoration: "none" }}
+                        >
+                          Code
+                        </Button>
+                      )}
+                      {project.website && (
+                        <Button
+                          as={Link}
+                          href={project.website}
+                          isExternal
+                          size="sm"
+                          h="26px"
+                          variant="facebookGray"
+                          leftIcon={<ExternalLink size={13} />}
+                          _hover={{ textDecoration: "none" }}
+                        >
+                          Demo
+                        </Button>
+                      )}
+                    </HStack>
+                  </VStack>
+                </VStack>
+              </Flex>
+            </Box>
+          );
+        })}
       </SimpleGrid>
 
-      {/* Pagination Controls */}
-      {totalPages > 1 && (
-        <Box
-          borderTop="1px solid"
-          borderColor={borderColor}
-          px={3}
-          py={2}
-          bg={grayBg}
-        >
-          <Flex justify="center" align="center" gap={3}>
-            <Button
-              size="sm"
-              variant="facebookGray"
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              isDisabled={currentPage === 1}
-              fontSize="12px"
-              h="22px"
-              px={2}
-            >
-              <ChevronLeft size={12} />
-            </Button>
-
-            <Text fontSize="13px" color={textColor}>
-              Page {currentPage} of {totalPages}
-            </Text>
-
-            <Button
-              size="sm"
-              variant="facebookGray"
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-              isDisabled={currentPage === totalPages}
-              fontSize="12px"
-              h="22px"
-              px={2}
-            >
-              <ChevronRight size={12} />
-            </Button>
-          </Flex>
-        </Box>
-      )}
-    </Box>
+      <ProjectShowcaseModal
+        project={selectedProject}
+        isOpen={isOpen}
+        onClose={onClose}
+      />
+    </RetroPanel>
   );
 };
 
