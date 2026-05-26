@@ -331,7 +331,7 @@ const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
               </Text>
             </Box>
             <HStack spacing={1} display={{ base: "none", md: "flex" }}>
-              <RetroBadge tone="green">{normalized.status}</RetroBadge>
+              {/* <RetroBadge tone="green">{normalized.status}</RetroBadge> */}
               <RetroBadge tone="amber">{gallery.length || 1} images</RetroBadge>
             </HStack>
           </Flex>
