@@ -53,27 +53,29 @@ const ActivityModal = ({ isOpen, onClose, activity }) => {
             _hover={{ bg: grayBg }}
           />
         </ModalHeader>
+
         <ModalBody p={4}>
-          <VStack spacing={3} align="stretch">
+          <VStack spacing={4} align="stretch">
             {/* Activity Image */}
             {activity.image && (
               <Box
                 border="1px solid"
                 borderColor={borderColor}
                 overflow="hidden"
+                borderRadius="2px"
               >
                 <Image
                   src={activity.image}
                   alt={activity.title}
                   w="100%"
                   h="auto"
-                  maxH="400px"
+                  maxH="420px"
                   objectFit="cover"
                 />
               </Box>
             )}
 
-            {/* Activity Title */}
+            {/* Title & Info */}
             <Box>
               <Text fontSize="19px" fontWeight="bold" color={textColor} mb={1}>
                 {activity.title}
@@ -86,21 +88,33 @@ const ActivityModal = ({ isOpen, onClose, activity }) => {
               </Text>
             </Box>
 
-            {/* Activity Description */}
-            <Box
-              bg={grayBg}
-              p={3}
-              borderRadius="2px"
-              border="1px solid"
-              borderColor={borderColor}
-            >
-              <Text fontSize="17px" fontWeight="bold" color={textColor} mb={2}>
-                Description
-              </Text>
-              <Text fontSize="16px" color={textColor} lineHeight="1.6">
-                {activity.description}
-              </Text>
-            </Box>
+            {/* Description */}
+            {activity.description && (
+              <Box
+                bg={grayBg}
+                p={4}
+                borderRadius="2px"
+                border="1px solid"
+                borderColor={borderColor}
+              >
+                <Text
+                  fontSize="17px"
+                  fontWeight="bold"
+                  color={textColor}
+                  mb={3}
+                >
+                  Description
+                </Text>
+                <Text
+                  fontSize="16px"
+                  color={textColor}
+                  lineHeight="1.7"
+                  whiteSpace="pre-line"
+                >
+                  {activity.description}
+                </Text>
+              </Box>
+            )}
           </VStack>
         </ModalBody>
       </ModalContent>

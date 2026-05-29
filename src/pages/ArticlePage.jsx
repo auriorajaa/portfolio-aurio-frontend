@@ -185,7 +185,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
         h="2px" bg={colors.accent} zIndex={1200} transform="scaleX(0)"
       />
 
-      <Header isDownloading={isDownloading} handleDownload={handleDownload} />
+      {/* <Header isDownloading={isDownloading} handleDownload={handleDownload} /> */}
 
       {/* ── Hero ─────────────────────────────────────────────────── */}
       <Box
@@ -199,7 +199,9 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
           <Box
             data-hero
             as="button"
-            onClick={() => navigate("/")}
+            onClick={() => {
+              navigate("/", { state: { scrollTo: "articles" } });
+            }}
             display="inline-flex"
             alignItems="center"
             gap={2}
