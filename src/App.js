@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import AdminDashboard from "./pages/AdminDashboard";
 import ArticlePage from "./pages/ArticlePage";
+import NotFound from "./pages/NotFound";
 
 const App = () => {
   const [isDownloading, setIsDownloading] = useState(false);
@@ -72,6 +73,17 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/503"
+                element={
+                  <NotFound
+                    code="503"
+                    title="Service unavailable"
+                    message="The portfolio is temporarily unavailable. Please retry from the homepage."
+                  />
+                }
+              />
+              <Route path="*" element={<NotFound />} />
             </Routes>
             <Analytics />
           </Box>

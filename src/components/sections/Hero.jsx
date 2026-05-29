@@ -1,168 +1,378 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   Box,
+  Button,
   Flex,
+  Grid,
   Heading,
-  Text,
-  Image,
-  VStack,
   HStack,
   Link,
-  SimpleGrid,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
-import { Briefcase, MapPin, Mail } from "lucide-react";
+import { useGSAP } from "@gsap/react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { ArrowDown, Mail, QrCode } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
-import { RetroBadge, RetroPanel, useRetroColors } from "../ui/retro";
+import { SplitWords, StudioPill, useStudioColors } from "../public/studio";
+import { gsap, prefersReducedMotion } from "../../utils/gsap";
 
 const Hero = () => {
   const { portfolioData } = usePortfolio();
   const personalInfo = portfolioData.personalInfo || {};
-  const colors = useRetroColors();
-  const topSkills = ["Spring Boot", "Django REST", "React", "Next.js", "GCP"];
+  const colors = useStudioColors();
+  const rootRef = useRef(null);
+  const badgeRef = useRef(null);
+  const strapRef = useRef(null);
+
+  useGSAP(
+    () => {
+      if (prefersReducedMotion()) return undefined;
+
+      gsap
+        .timeline({ defaults: { ease: "power3.out" } })
+        .from(".split-word-inner", {
+          yPercent: 105,
+          duration: 0.85,
+          stagger: 0.035,
+        })
+        .from(
+          "[data-hero-reveal]",
+          { y: 18, autoAlpha: 0, duration: 0.65, stagger: 0.06 },
+          "-=0.35",
+        )
+        .from(
+          badgeRef.current,
+          { y: -28, autoAlpha: 0, duration: 0.8, ease: "power3.out" },
+          "-=0.45",
+        )
+        .from(
+          strapRef.current,
+          { scaleY: 0, duration: 0.7, transformOrigin: "top center" },
+          "-=0.62",
+        );
+
+      const rotateTo = gsap.quickTo(badgeRef.current, "rotation", { duration: 0.55, ease: "power3.out" });
+      const xTo = gsap.quickTo(badgeRef.current, "x", { duration: 0.55, ease: "power3.out" });
+
+      const onPointerMove = (e) => {
+        const rect = rootRef.current.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        rotateTo(x * 4);
+        xTo(x * 10);
+      };
+
+      const onPointerLeave = () => {
+        rotateTo(0);
+        xTo(0);
+      };
+
+      const root = rootRef.current;
+      root.addEventListener("pointermove", onPointerMove);
+      root.addEventListener("pointerleave", onPointerLeave);
+      return () => {
+        root.removeEventListener("pointermove", onPointerMove);
+        root.removeEventListener("pointerleave", onPointerLeave);
+      };
+    },
+    { scope: rootRef },
+  );
 
   return (
-    <RetroPanel id="hero" bodyProps={{ p: 0 }}>
-      <Box
-        minH={{ base: "132px", md: "170px" }}
-        borderBottom="1px solid"
-        borderColor={colors.border}
-        bg={colors.headerBg}
-        position="relative"
-        overflow="hidden"
+    <Box
+      ref={rootRef}
+      as="section"
+      id="hero"
+      maxW="1320px"
+      mx="auto"
+      px={{ base: 4, md: 7 }}
+      pt={{ base: "80px", md: 14 }}
+      pb={{ base: "88px", md: 18 }}
+      color={colors.text}
+    >
+      <Grid
+        templateColumns={{ base: "1fr", lg: "minmax(0, .86fr) minmax(360px, .54fr)" }}
+        gap={{ base: 10, lg: 12 }}
+        alignItems="center"
       >
-        <Box
-          position="absolute"
-          inset={0}
-          opacity={0.9}
-          bgImage="
-            linear-gradient(90deg, rgba(18,63,108,.90), rgba(29,95,159,.72)),
-            repeating-linear-gradient(0deg, rgba(255,255,255,.16) 0, rgba(255,255,255,.16) 1px, transparent 1px, transparent 7px),
-            repeating-linear-gradient(90deg, rgba(255,255,255,.10) 0, rgba(255,255,255,.10) 1px, transparent 1px, transparent 9px)
-          "
-        />
-        <Flex
-          position="relative"
-          zIndex={1}
-          h="100%"
-          minH={{ base: "132px", md: "140px" }}
-          align="end"
-          p={{ base: 3, md: 4 }}
-        >
-          <Box color="white" maxW="780px">
-            {/* <HStack spacing={2} mb={2} flexWrap="wrap">
-              <RetroBadge tone="green">Available for Collaboration</RetroBadge>
-            </HStack> */}
-            <Heading
-              as="h1"
-              fontSize={{ base: "27px", md: "37px" }}
-              lineHeight="1.08"
-            >
-              {personalInfo.name || "Aurio Rajaa"}
-            </Heading>
-            <Text
-              fontSize={{ base: "16px", md: "18px" }}
-              mt={1}
-              color="rgba(255,255,255,.84)"
-            >
-              {personalInfo.title || "Software Engineer"} / Backend, cloud, and
-              full-stack systems
+        <VStack align="stretch" spacing={{ base: 6, md: 8 }}>
+          <HStack data-hero-reveal spacing={3} flexWrap="wrap">
+            <StudioPill>Portfolio / 2026</StudioPill>
+            <Text fontSize="15px" color={colors.muted} fontWeight="500">
+              {personalInfo.location || "Jakarta, Indonesia"}
             </Text>
-          </Box>
-        </Flex>
-      </Box>
+          </HStack>
 
-      <Flex
-        p={{ base: 3, md: 4 }}
-        gap={4}
-        direction={{ base: "column", md: "row" }}
-        align="stretch"
-      >
-        <Box
-          display={{ base: "block", lg: "none" }}
-          w={{ base: "188px", md: "168px" }}
-          h={{ base: "188px", md: "168px" }}
-          flexShrink={0}
-          border="1px solid"
-          borderColor={colors.border}
-          bg={colors.panelAlt}
-          p={1}
-          alignSelf={{ base: "center", md: "flex-start" }}
-        >
-          <Link
-            href="/profilepic.png"
-            isExternal
-            _hover={{ textDecoration: "none" }}
+          <Heading
+            as="h1"
+            fontSize={{ base: "43px", md: "56px" }}
+            lineHeight=".96"
+            fontWeight="800"
+            letterSpacing="-0.02em"
+            maxW="860px"
           >
-            <Image
-              src="/profilepic.png"
-              alt={personalInfo.name || "Aurio Rajaa"}
-              w="100%"
-              h="100%"
-              objectFit="cover"
-              objectPosition="center"
+            <SplitWords
+              text={
+                `${personalInfo.name || "Aurio Rajaa"}. ` +
+                "Building systems and interfaces that work."
+              }
             />
-          </Link>
-        </Box>
+          </Heading>
 
-        <VStack align="stretch" spacing={3} flex={1} minW={0}>
-          <Text
-            fontSize="16px"
-            color={colors.text}
-            lineHeight="1.6"
-            overflowWrap="anywhere"
+          <Grid
+            data-hero-reveal
+            templateColumns={{ base: "1fr", md: ".34fr 1fr" }}
+            gap={5}
+            maxW="760px"
           >
-            {personalInfo.bio}
-          </Text>
+            <Text fontSize="14px" color={colors.muted} textTransform="uppercase" letterSpacing=".08em" fontWeight="600">
+              Overview
+            </Text>
+            <Text fontSize={{ base: "16px", md: "18px" }} lineHeight="1.7" color={colors.text}>
+              {personalInfo.bio ||
+                "Backend and web development, focused on code that is easy to maintain and actually ships."}
+            </Text>
+          </Grid>
 
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={2}>
-            <HStack
-              border="1px solid"
-              borderColor={colors.borderSoft}
-              bg={colors.panelAlt}
-              p={2}
+          <HStack data-hero-reveal spacing={3} flexWrap="wrap" pt={2}>
+            <Button
+              as={Link}
+              href="#projects"
+              variant="studio"
+              rightIcon={<ArrowDown size={16} />}
+              _hover={{ textDecoration: "none" }}
             >
-              <Briefcase size={14} color={colors.link} />
-              <Text fontSize="15px" color={colors.text} noOfLines={1}>
-                {personalInfo.title}
-              </Text>
-            </HStack>
-            <HStack
-              border="1px solid"
-              borderColor={colors.borderSoft}
-              bg={colors.panelAlt}
-              p={2}
+              View projects
+            </Button>
+            <Button
+              as={Link}
+              href={`mailto:${personalInfo.email}`}
+              variant="studioGhost"
+              leftIcon={<Mail size={16} />}
+              _hover={{ textDecoration: "none", bg: colors.surfaceAlt }}
             >
-              <MapPin size={14} color={colors.link} />
-              <Text fontSize="15px" color={colors.text} noOfLines={1}>
-                {personalInfo.location}
-              </Text>
-            </HStack>
-            <HStack
-              border="1px solid"
-              borderColor={colors.borderSoft}
-              bg={colors.panelAlt}
-              p={2}
-            >
-              <Mail size={14} color={colors.link} />
-              <Link
-                href={`mailto:${personalInfo.email}`}
-                fontSize="15px"
-                fontWeight="bold"
-                noOfLines={1}
-              >
-                {personalInfo.email}
-              </Link>
-            </HStack>
-          </SimpleGrid>
-
-          <HStack spacing={1} flexWrap="wrap">
-            {topSkills.map((skill) => (
-              <RetroBadge key={skill}>{skill}</RetroBadge>
-            ))}
+              Contact
+            </Button>
           </HStack>
         </VStack>
-      </Flex>
-    </RetroPanel>
+
+        {/* ── Responsive ID Badge Container ── */}
+        <Flex
+          justify={{ base: "center", lg: "flex-end" }}
+          position="relative"
+          minH={{ base: "540px", md: "620px" }}
+          w="100%"
+        >
+          {/* Assembly Wrapper: Mengunci sinkronisasi tali, klip, dan kartu dalam satu koordinat lebar */}
+          <Box position="relative" w={{ base: "310px", md: "350px" }}>
+
+            {/* Lanyard Straps Container (GSAP target) */}
+            <Box
+              ref={strapRef}
+              position="absolute"
+              top={0}
+              left={0}
+              w="100%"
+              h={{ base: "182px", md: "222px" }}
+              zIndex={0}
+            >
+              {/* MOBILE: Single Center Strap */}
+              <Box
+                display={{ base: "block", md: "none" }}
+                position="absolute"
+                top={0}
+                left="50%"
+                transform="translateX(-50%)"
+                w="14px"
+                h="100%"
+                bg={colors.text}
+                opacity={0.12}
+              />
+
+              {/* DESKTOP & TABLET: Left Strap */}
+              <Box
+                display={{ base: "none", md: "block" }}
+                position="absolute"
+                top={0}
+                left="42px" // Center-point match: 42px + 6px (half width) = 48px
+                w="12px"
+                h="100%"
+                bg={colors.text}
+                opacity={0.12}
+              />
+
+              {/* DESKTOP & TABLET: Right Strap */}
+              <Box
+                display={{ base: "none", md: "block" }}
+                position="absolute"
+                top={0}
+                right="42px" // Center-point match dari kanan: 48px
+                w="12px"
+                h="100%"
+                bg={colors.text}
+                opacity={0.12}
+              />
+
+              {/* ── Clips Attached to the bottom of the straps ── */}
+              {/* MOBILE: Center Clip */}
+              <Box
+                display={{ base: "block", md: "none" }}
+                position="absolute"
+                bottom={0}
+                left="50%"
+                transform="translateX(-50%)"
+                w="20px"
+                h="10px"
+                border="1px solid"
+                borderColor={colors.border}
+                bg={colors.surfaceAlt}
+                borderRadius="3px"
+                zIndex={2}
+              />
+
+              {/* DESKTOP & TABLET: Left Clip */}
+              <Box
+                display={{ base: "none", md: "block" }}
+                position="absolute"
+                bottom={0}
+                left="40px" // Pas membungkus lubang pasak kiri (40px sampai 56px)
+                w="16px"
+                h="12px"
+                border="1px solid"
+                borderColor={colors.border}
+                bg={colors.surfaceAlt}
+                borderRadius="2px"
+                zIndex={2}
+              />
+
+              {/* DESKTOP & TABLET: Right Clip */}
+              <Box
+                display={{ base: "none", md: "block" }}
+                position="absolute"
+                bottom={0}
+                right="40px" // Pas membungkus lubang pasak kanan
+                w="16px"
+                h="12px"
+                border="1px solid"
+                borderColor={colors.border}
+                bg={colors.surfaceAlt}
+                borderRadius="2px"
+                zIndex={2}
+              />
+            </Box>
+
+            {/* ID Badge Card */}
+            <Box
+              ref={badgeRef}
+              mt={{ base: "180px", md: "220px" }}
+              w="100%" // Otomatis mengisi penuh lebar Assembly Wrapper
+              bg={colors.surface}
+              border="1px solid"
+              borderColor={colors.border}
+              borderRadius="16px"
+              boxShadow="0 24px 48px rgba(0,0,0,0.04)"
+              position="relative"
+              zIndex={1}
+              style={{ transformOrigin: "50% -180px" }}
+            >
+              {/* MOBILE: Center Punch Hole */}
+              <Box
+                display={{ base: "block", md: "none" }}
+                position="absolute"
+                top="12px"
+                left="50%"
+                transform="translateX(-50%)"
+                w="28px"
+                h="5px"
+                bg={colors.background || "transparent"}
+                border="1px solid"
+                borderColor={colors.border}
+                borderRadius="full"
+                zIndex={10}
+              />
+
+              {/* DESKTOP & TABLET: Left Punch Hole */}
+              <Box
+                display={{ base: "none", md: "block" }}
+                position="absolute"
+                top="12px"
+                left="40px"
+                w="16px"
+                h="5px"
+                bg={colors.background || "transparent"}
+                border="1px solid"
+                borderColor={colors.border}
+                borderRadius="full"
+                zIndex={10}
+              />
+
+              {/* DESKTOP & TABLET: Right Punch Hole */}
+              <Box
+                display={{ base: "none", md: "block" }}
+                position="absolute"
+                top="12px"
+                right="40px"
+                w="16px"
+                h="5px"
+                bg={colors.background || "transparent"}
+                border="1px solid"
+                borderColor={colors.border}
+                borderRadius="full"
+                zIndex={10}
+              />
+
+              <Box p={5} pt={8}>
+                {/* Profile Image Frame */}
+                <Box
+                  aspectRatio="1 / 1"
+                  overflow="hidden"
+                  borderRadius="10px"
+                  bg={colors.surfaceAlt}
+                  border="1px solid"
+                  borderColor={colors.border}
+                >
+                  <LazyLoadImage
+                    src="/profilepic.png"
+                    alt={personalInfo.name || "Aurio Rajaa"}
+                    effect="opacity"
+                    width="100%"
+                    height="100%"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                  />
+                </Box>
+
+                {/* Badge Identity Row */}
+                <Flex justify="space-between" align="flex-end" mt={5}>
+                  <Box>
+                    <Text fontSize="22px" fontWeight="800" lineHeight="1.1" letterSpacing="-0.02em">
+                      {personalInfo.name || "Aurio Rajaa"}
+                    </Text>
+                    <Text fontSize="13px" fontWeight="500" color={colors.muted} mt={1}>
+                      {personalInfo.title || "Backend Engineer"}
+                    </Text>
+                  </Box>
+                  <QrCode size={32} strokeWidth={1.5} color={colors.text} opacity={0.6} />
+                </Flex>
+
+                {/* Minimal Divider */}
+                <Box w="100%" h="1px" bg={colors.border} my={4} opacity={0.6} />
+
+                {/* Badge Footer Data */}
+                <Flex justify="space-between" align="center">
+                  <Text fontSize="10px" color={colors.muted} fontWeight="700" letterSpacing="0.08em">
+                    ACCESS / ALL AREAS
+                  </Text>
+                  <Text fontSize="10px" color={colors.muted} fontFamily="mono">
+                    ID: 2026-AR
+                  </Text>
+                </Flex>
+              </Box>
+            </Box>
+
+          </Box>
+        </Flex>
+      </Grid>
+    </Box>
   );
 };
 

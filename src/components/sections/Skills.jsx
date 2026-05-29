@@ -1,66 +1,136 @@
-import React from "react";
-import { Box, HStack, SimpleGrid, Text, VStack } from "@chakra-ui/react";
-import { Award, Cpu } from "lucide-react";
-import { skillDetails, skillsData } from "../../data/portfolioData";
-import { RetroPanel, useRetroColors } from "../ui/retro";
+import React, { useEffect, useRef } from "react";
+import { Box, Grid, HStack, Text, VStack } from "@chakra-ui/react";
+import { useGSAP } from "@gsap/react";
+import { skillsData } from "../../data/portfolioData";
+import { StudioPill, StudioSection, useStudioColors } from "../public/studio";
+import { gsap, prefersReducedMotion } from "../../utils/gsap";
+
+const TICKER_TEXT = "API / CLOUD / INTERFACE / DATABASE / DOCUMENTS / ";
+// Repeat enough times to fill any viewport width seamlessly
+const REPEATS = 6;
 
 const Skills = () => {
-  const colors = useRetroColors();
+  const colors = useStudioColors();
+  const rootRef = useRef(null);
+  const tickerRef = useRef(null);
+  const tweenRef = useRef(null);
+
+  // Infinite marquee — pure GSAP, no CSS animation
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+    const track = tickerRef.current;
+    if (!track) return;
+
+    // Each child is one copy of the text; we measure the first child width
+    const singleWidth = track.children[0]?.offsetWidth || 0;
+    if (!singleWidth) return;
+
+    // Start from x=0, animate to x=-singleWidth, then repeat seamlessly
+    tweenRef.current = gsap.fromTo(
+      track,
+      { x: 0 },
+      {
+        x: -singleWidth,
+        duration: 18,
+        ease: "none",
+        repeat: -1,
+      }
+    );
+
+    return () => tweenRef.current?.kill();
+  }, []);
+
+  useGSAP(
+    () => {
+      if (prefersReducedMotion()) return;
+
+      gsap.utils.toArray("[data-skill-row]").forEach((row, index) => {
+        gsap.fromTo(
+          row,
+          { x: index % 2 === 0 ? -42 : 42, autoAlpha: 0 },
+          {
+            x: 0,
+            autoAlpha: 1,
+            duration: 0.75,
+            ease: "power4.out",
+            scrollTrigger: {
+              trigger: row,
+              start: "top 82%",
+              once: true,
+            },
+          }
+        );
+      });
+    },
+    { scope: rootRef }
+  );
 
   return (
-    <RetroPanel
-      id="skills"
-      title="Skills & Expertise Matrix"
-      icon={Award}
-      bodyProps={{ p: 0 }}
-    >
-      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={0}>
-        {skillsData.map((category, idx) => (
-          <Box
-            key={category.category}
-            p={3}
-            borderRight={{ base: "none", md: idx % 2 === 0 ? "1px solid" : "none" }}
-            borderBottom="1px solid"
-            borderColor={colors.borderSoft}
-            bg={idx % 2 === 0 ? colors.panelBg : colors.panelAlt}
-          >
-            <HStack spacing={2} mb={2}>
-              <Cpu size={14} color={colors.link} />
-              <Text fontSize="16px" fontWeight="bold" color={colors.text}>
-                {category.category}
-              </Text>
-            </HStack>
+    <StudioSection id="skills" eyebrow="Practice" title="What I use to shape the work.">
+      <Box ref={rootRef} overflow="hidden">
 
-            <VStack spacing={2} align="stretch">
-              {category.skills.map((skill) => {
-                const detail = skillDetails[skill];
-                return (
-                  <Box
-                    key={skill}
-                    border="1px solid"
-                    borderColor={colors.borderSoft}
-                    bg={colors.panelBg}
-                    p={2}
-                  >
-                    <HStack spacing={2} justify="space-between" align="start">
-                      <Text fontSize="15px" fontWeight="bold" color={colors.link}>
-                        {skill}
-                      </Text>
-                      {/* {detail?.level && <RetroBadge tone="green">{detail.level}</RetroBadge>} */}
-                    </HStack>
-                    {detail?.description && (
-                      <Text fontSize="14px" color={colors.muted} mt={1} lineHeight="1.4">
-                        {detail.description}
-                      </Text>
-                    )}
-                  </Box>
-                );
-              })}
-            </VStack>
+        {/* ── Infinite marquee ticker ─────────────────────────── */}
+        <Box
+          overflow="hidden"
+          mb={{ base: 8, md: 10 }}
+          // Fade edges
+          sx={{
+            maskImage: "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+          }}
+        >
+          <Box
+            ref={tickerRef}
+            display="flex"
+            whiteSpace="nowrap"
+            willChange="transform"
+          >
+            {Array.from({ length: REPEATS }).map((_, i) => (
+              <Text
+                key={i}
+                as="span"
+                display="inline-block"
+                flexShrink={0}
+                fontSize={{ base: "46px", md: "84px" }}
+                fontWeight="800"
+                lineHeight="1"
+                color={colors.border}
+                userSelect="none"
+                aria-hidden={i > 0 ? "true" : undefined}
+              >
+                {TICKER_TEXT}
+              </Text>
+            ))}
           </Box>
-        ))}
-      </SimpleGrid>
-    </RetroPanel>
+        </Box>
+
+        {/* ── Skill rows ──────────────────────────────────────── */}
+        <VStack align="stretch" spacing={0}>
+          {skillsData.map((category, index) => (
+            <Grid
+              data-skill-row
+              key={category.category}
+              templateColumns={{ base: "1fr", md: ".42fr 1fr" }}
+              gap={{ base: 4, md: 8 }}
+              py={{ base: 6, md: 7 }}
+              borderTop="1px solid"
+              borderColor={colors.border}
+            >
+              <Text fontSize={{ base: "24px", md: "34px" }} fontWeight="700" lineHeight="1.05">
+                {String(index + 1).padStart(2, "0")} / {category.category}
+              </Text>
+              <HStack spacing={3} flexWrap="wrap">
+                {category.skills.map((skill) => (
+                  <StudioPill key={skill} tone={index % 2 ? "accent" : "primary"}>
+                    {skill}
+                  </StudioPill>
+                ))}
+              </HStack>
+            </Grid>
+          ))}
+        </VStack>
+      </Box>
+    </StudioSection>
   );
 };
 
