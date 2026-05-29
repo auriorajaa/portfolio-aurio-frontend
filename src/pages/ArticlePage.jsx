@@ -1,5 +1,5 @@
 // src/pages/ArticlePage.jsx
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Box, Center, Container, Spinner, Text, VStack } from "@chakra-ui/react";
@@ -34,8 +34,6 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
     ? `${window.location.origin}/article/${slug}`
     : `https://aurio.work/article/${slug}`;
 
-  useEffect(() => { loadArticle(); }, [slug]);
-
   useGSAP(
     () => {
       if (!article || prefersReducedMotion()) return;
@@ -63,7 +61,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
     { dependencies: [article?.slug], scope: rootRef }
   );
 
-  const loadArticle = async () => {
+  const loadArticle = useCallback(async () => {
     try {
       setLoading(true);
       const [articleData, allArticles] = await withTimeout(
@@ -86,7 +84,9 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [slug]);
+
+  useEffect(() => { loadArticle(); }, [slug, loadArticle]);
 
   const handleCopyLink = async () => {
     try {
@@ -185,7 +185,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
         h="2px" bg={colors.accent} zIndex={1200} transform="scaleX(0)"
       />
 
-      {/* <Header isDownloading={isDownloading} handleDownload={handleDownload} /> */}
+      <Header isDownloading={isDownloading} handleDownload={handleDownload} />
 
       {/* ── Hero ─────────────────────────────────────────────────── */}
       <Box
