@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
   Center,
-  Flex,
+  Grid,
   HStack,
-  Image,
-  SimpleGrid,
   Spinner,
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { useGSAP } from "@gsap/react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
-import { BookOpen, Calendar, Clock } from "lucide-react";
+import { ArrowUpRight, Calendar } from "lucide-react";
 import { getAllArticles } from "../../services/articleService";
-import { RetroBadge, RetroPanel, useRetroColors } from "../ui/retro";
+import { StudioPill, StudioSection, useStudioColors } from "../public/studio";
+import { gsap, prefersReducedMotion } from "../../utils/gsap";
 
 const withTimeout = (promise, timeoutMs = 4500) =>
   Promise.race([
@@ -29,11 +30,32 @@ const Articles = () => {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("ALL");
   const navigate = useNavigate();
-  const colors = useRetroColors();
+  const colors = useStudioColors();
+  const rootRef = useRef(null);
 
   useEffect(() => {
     loadArticles();
   }, []);
+
+  useGSAP(
+    () => {
+      if (loading || prefersReducedMotion()) return;
+      gsap.from("[data-article-card]", {
+        clipPath: "inset(18% 0% 18% 0% round 28px)",
+        y: 32,
+        autoAlpha: 0,
+        duration: 0.85,
+        ease: "power4.out",
+        stagger: { each: 0.08, from: "start" },
+        scrollTrigger: {
+          trigger: rootRef.current,
+          start: "top 72%",
+          once: true,
+        },
+      });
+    },
+    { dependencies: [loading, filter], scope: rootRef },
+  );
 
   const loadArticles = async () => {
     try {
@@ -50,109 +72,96 @@ const Articles = () => {
     }
   };
 
-  const categories = ["ALL", ...new Set(articles.map((a) => a.categoryLabel).filter(Boolean))].slice(0, 6);
+  const categories = ["ALL", ...new Set(articles.map((a) => a.categoryLabel).filter(Boolean))].slice(0, 5);
   const filteredArticles =
     filter === "ALL" ? articles : articles.filter((article) => article.categoryLabel === filter);
-  const visibleArticles = filteredArticles.slice(0, 6);
+  const visibleArticles = filteredArticles.slice(0, 5);
 
   if (loading) {
     return (
-      <RetroPanel id="articles" title="Articles" icon={BookOpen} bodyProps={{ p: 8 }}>
-        <Center>
-          <Spinner size="md" color="retro.blue" thickness="2px" />
+      <StudioSection id="articles" eyebrow="Writing" title="Field notes">
+        <Center py={10}>
+          <Spinner color={colors.accent} />
         </Center>
-      </RetroPanel>
+      </StudioSection>
     );
   }
 
   if (articles.length === 0) return null;
 
   return (
-    <RetroPanel
-      id="articles"
-      title="Articles & Field Notes"
-      icon={BookOpen}
-      // headerRight={<RetroBadge tone="green">{articles.length} public</RetroBadge>}
-      bodyProps={{ p: 0 }}
-    >
-      <Box px={3} py={2} borderBottom="1px solid" borderColor={colors.border}>
-        <HStack spacing={2} flexWrap="wrap">
+    <StudioSection id="articles" eyebrow="Writing" title="Notes.">
+      <Box ref={rootRef}>
+        <HStack spacing={2} flexWrap="wrap" mb={{ base: 7, md: 10 }}>
           {categories.map((category) => (
             <Button
               key={category}
+              variant={filter === category ? "studio" : "studioGhost"}
               size="sm"
-              variant={filter === category ? "facebook" : "facebookGray"}
               onClick={() => setFilter(category)}
-              fontSize="14px"
-              h="24px"
-              px={3}
             >
               {category.toUpperCase()}
             </Button>
           ))}
         </HStack>
-      </Box>
 
-      <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={0}>
-        {visibleArticles.map((article, idx) => (
-          <Box
-            key={article.id}
-            p={3}
-            borderRight={{ base: "none", lg: idx % 2 === 0 ? "1px solid" : "none" }}
-            borderBottom="1px solid"
-            borderColor={colors.borderSoft}
-            bg={idx % 2 === 0 ? colors.panelBg : colors.panelAlt}
-            cursor="pointer"
-            _hover={{ bg: colors.paleBlue }}
-            onClick={() => navigate(`/article/${article.slug}`)}
-          >
-            <Flex gap={3} align="start">
+        <Grid templateColumns={{ base: "1fr", lg: "1.1fr .9fr" }} gap={{ base: 5, md: 7 }}>
+          {visibleArticles.map((article, index) => (
+            <Box
+              data-article-card
+              key={article.id}
+              gridColumn={{ lg: index === 0 ? "span 1" : "auto" }}
+              minH={index === 0 ? { base: "420px", md: "560px" } : "auto"}
+              overflow="hidden"
+              bg={colors.surface}
+              border="1px solid"
+              borderColor={colors.borderSoft}
+              cursor="pointer"
+              position="relative"
+              onClick={() => navigate(`/article/${article.slug}`)}
+              _hover={{ "& img": { transform: "scale(1.06)" } }}
+            >
               {article.image && (
-                <Box
-                  w="88px"
-                  h="68px"
-                  flexShrink={0}
-                  border="1px solid"
-                  borderColor={colors.border}
-                  overflow="hidden"
-                  bg={colors.panelBg}
-                >
-                  <Image src={article.image} alt={article.title} w="100%" h="100%" objectFit="cover" />
+                <Box h={index === 0 ? "58%" : "210px"} overflow="hidden" bg={colors.surfaceAlt}>
+                  <LazyLoadImage
+                    src={article.image}
+                    alt={article.title}
+                    effect="opacity"
+                    width="100%"
+                    height="100%"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      display: "block",
+                      transition: "transform .7s cubic-bezier(.2,.8,.2,1)",
+                    }}
+                  />
                 </Box>
               )}
-              <VStack spacing={1} align="stretch" minW={0} flex={1}>
-                <HStack spacing={1} flexWrap="wrap">
-                  <RetroBadge>{article.categoryLabel}</RetroBadge>
-                  {article.featured && (
-                    <RetroBadge tone="amber">
-                      <HStack spacing={1}>
-                        <Text as="span">Featured</Text>
-                      </HStack>
-                    </RetroBadge>
-                  )}
+              <VStack align="stretch" spacing={4} p={{ base: 5, md: 6 }}>
+                <HStack justify="space-between" align="center">
+                  <StudioPill tone="ghost">{article.categoryLabel}</StudioPill>
+                  <ArrowUpRight size={18} color={colors.accent} />
                 </HStack>
-                <Text fontSize="16px" fontWeight="bold" color={colors.link} noOfLines={2}>
+                <Text fontSize={index === 0 ? { base: "28px", md: "38px" } : "22px"} fontWeight="800" lineHeight="1.08">
                   {article.title}
                 </Text>
-                <Text fontSize="15px" color={colors.text} lineHeight="1.45" noOfLines={2}>
+                <Text fontSize="15px" color={colors.muted} lineHeight="1.7" noOfLines={3}>
                   {article.excerpt}
                 </Text>
-                <HStack spacing={3} color={colors.muted}>
-                  <HStack spacing={1}>
-                    <Calendar size={10} />
-                    <Text fontSize="13px">{new Date(article.date).toLocaleDateString()}</Text>
-                  </HStack>
-                  <HStack spacing={1}>
-                    <Clock size={10} />
-                    <Text fontSize="13px">{article.readTime}</Text>
-                  </HStack>
+                <HStack color={colors.muted} fontSize="14px">
+                  <Calendar size={14} />
+                  <Text>{new Date(article.date).toLocaleDateString()}</Text>
+                  <Text>/</Text>
+                  <Text>{article.readTime}</Text>
                 </HStack>
               </VStack>
-            </Flex>
-          </Box>
-        ))}
-      </SimpleGrid>
-    </RetroPanel>
+            </Box>
+          ))}
+        </Grid>
+      </Box>
+    </StudioSection>
   );
 };
 

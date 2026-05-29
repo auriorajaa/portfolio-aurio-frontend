@@ -21,65 +21,101 @@ const theme = extendTheme({
   },
 
   colors: {
+    studio: {
+      white: "#fafaf8",
+      surface: "#f3f3f0",
+      border: "#e2e2dd",
+      ink: "#1a1a1a",
+      charcoal: "#2c2c2c",
+      darkBg: "#1e1e1e",
+      darkSurface: "#2a2a2a",
+      darkBorder: "#3a3a3a",
+      darkText: "#eaeaea",
+      muted: "#6f6f6a",
+    },
+
+    // ── Admin panel palette — biru diganti studio neutral ──
     retro: {
-      ink: "#1f2833",
-      inkSoft: "#4d5866",
-      chrome: "#d7dde6",
-      chromeDark: "#8894a3",
-      paper: "#f4f6f9",
+      ink: "#1a1a1a",
+      inkSoft: "#4a4a47",
+      chrome: "#e2e2dd",
+      chromeDark: "#9a9a95",
+      paper: "#fafaf8",
       panel: "#ffffff",
-      line: "#9aa8ba",
-      lineSoft: "#c3ccd8",
-      blue: "#1d5f9f",
-      blueDark: "#123f6c",
-      bluePale: "#dce8f5",
-      amber: "#b56a00",
+      line: "#c8c8c3",
+      lineSoft: "#d8d8d3",
+      // Aksen: dulu biru, sekarang charcoal
+      blue: "#2c2c2c",
+      blueDark: "#1a1a1a",
+      bluePale: "#f3f3f0",
+      amber: "#8a6000",
       green: "#276b46",
       red: "#9f2436",
-      black: "#10151b",
+      black: "#0f0f0f",
     },
     retroDark: {
-      ink: "#e6edf5",
-      inkSoft: "#aab6c4",
-      chrome: "#27313d",
-      chromeDark: "#111821",
-      paper: "#141a22",
-      panel: "#1b232d",
-      line: "#465568",
-      lineSoft: "#344252",
-      blue: "#8bb8e8",
-      blueDark: "#5e93ca",
-      bluePale: "#26394d",
+      ink: "#eaeaea",
+      inkSoft: "#b9b9b4",
+      chrome: "#2a2a2a",
+      chromeDark: "#1a1a1a",
+      paper: "#1e1e1e",
+      panel: "#242424",
+      line: "#3a3a3a",
+      lineSoft: "#313131",
+      // Aksen: dulu biru terang, sekarang putih/abu terang
+      blue: "#eaeaea",
+      blueDark: "#c8c8c3",
+      bluePale: "#2c2c2c",
       amber: "#b56a00",
       green: "#276b46",
       red: "#9f2436",
-      black: "#090d12",
+      black: "#0f0f0f",
     },
+
+    // ── facebook.* masih dipakai komponen admin — netralkan ──
     facebook: {
-      blue: "#1d5f9f",
-      darkBlue: "#123f6c",
-      lightBlue: "#4f86bd",
-      paleBlue: "#dce8f5",
-      gray: "#eef2f6",
-      border: "#9aa8ba",
-      text: "#1f2833",
-      lightText: "#4d5866",
+      blue: "#2c2c2c",
+      darkBlue: "#1a1a1a",
+      lightBlue: "#4a4a47",
+      paleBlue: "#f3f3f0",
+      gray: "#f3f3f0",
+      border: "#c8c8c3",
+      text: "#1a1a1a",
+      lightText: "#6f6f6a",
       white: "#ffffff",
-      linkBlue: "#1d5f9f",
-      hoverBlue: "#c9d8e8",
+      linkBlue: "#2c2c2c",
+      hoverBlue: "#e2e2dd",
     },
     facebookDark: {
-      blue: "#8bb8e8",
-      darkBlue: "#5e93ca",
-      lightBlue: "#a8c9ed",
-      bg: "#141a22",
-      cardBg: "#1b232d",
-      hoverBg: "#27313d",
-      border: "#465568",
-      text: "#e6edf5",
-      lightText: "#aab6c4",
-      inputBg: "#111821",
-      inputBorder: "#465568",
+      blue: "#eaeaea",
+      darkBlue: "#c8c8c3",
+      lightBlue: "#d0d0cb",
+      bg: "#1e1e1e",
+      cardBg: "#242424",
+      hoverBg: "#2a2a2a",
+      border: "#3a3a3a",
+      text: "#eaeaea",
+      lightText: "#b9b9b4",
+      inputBg: "#1a1a1a",
+      inputBorder: "#3a3a3a",
+    },
+  },
+
+  semanticTokens: {
+    colors: {
+      "public.bg": { default: "#fafaf8", _dark: "#1e1e1e" },
+      "public.surface": { default: "#f3f3f0", _dark: "#2a2a2a" },
+      "public.surfaceAlt": { default: "#ffffff", _dark: "#242424" },
+      "public.text": { default: "#1a1a1a", _dark: "#eaeaea" },
+      "public.muted": { default: "#6f6f6a", _dark: "#b9b9b4" },
+      "public.border": { default: "#e2e2dd", _dark: "#3a3a3a" },
+      "public.primary": { default: "#2c2c2c", _dark: "#f5f5f2" },
+      "public.primaryDark": { default: "#1a1a1a", _dark: "#ffffff" },
+      "public.accent": { default: "#2c2c2c", _dark: "#eaeaea" },
+      "public.glow": {
+        default: "rgba(0, 0, 0, .04)",
+        _dark: "rgba(0, 0, 0, .18)",
+      },
     },
   },
 
@@ -98,51 +134,47 @@ const theme = extendTheme({
         scrollBehavior: "smooth",
       },
       body: {
-        bg: mode("#cfd7e2", "#0f151d")(props),
-        color: mode("#1f2833", "#e6edf5")(props),
+        bg: mode("#fafaf8", "#1e1e1e")(props),
+        color: mode("#1a1a1a", "#eaeaea")(props),
         fontSize: "16px",
-        lineHeight: "1.42",
+        lineHeight: "1.65",
         fontFamily:
           "'Plus Jakarta Sans', 'Tahoma', 'Verdana', 'Geneva', sans-serif",
         letterSpacing: "0",
         overflowX: "hidden",
-        backgroundImage: mode(
-          "linear-gradient(rgba(255,255,255,.42) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.34) 1px, transparent 1px)",
-          "linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px)"
-        )(props),
-        backgroundSize: "16px 16px",
+        backgroundImage: "none",
+        transition: "background-color .18s ease, color .18s ease",
       },
 
-      // Custom Retro Scrollbar
+      // Scrollbar — disesuaikan ke palette studio
       "::-webkit-scrollbar": {
         width: "12px",
         height: "12px",
       },
       "::-webkit-scrollbar-track": {
-        bg: mode("#d7dde6", "#1b232d")(props),
-        borderLeft: mode("1px solid #9aa8ba", "1px solid #465568")(props),
+        bg: mode("#e2e2dd", "#242424")(props),
+        borderLeft: mode("1px solid #c8c8c3", "1px solid #3a3a3a")(props),
       },
       "::-webkit-scrollbar-thumb": {
-        bg: mode("#8894a3", "#465568")(props),
-        border: mode("3px solid #d7dde6", "3px solid #1b232d")(props),
+        bg: mode("#9a9a95", "#3a3a3a")(props),
+        border: mode("3px solid #e2e2dd", "3px solid #242424")(props),
         _hover: {
-          bg: mode("#6c7988", "#5e93ca")(props),
+          bg: mode("#6f6f6a", "#5a5a55")(props),
         },
       },
-
-      // Firefox scrollbar support
       "*": {
         scrollbarWidth: "thin",
-        scrollbarColor: mode("#8894a3 #d7dde6", "#465568 #1b232d")(props),
+        scrollbarColor: mode("#9a9a95 #e2e2dd", "#3a3a3a #242424")(props),
       },
 
       "*::selection": {
-        bg: mode("#174f88", "#8bb8e8")(props),
-        color: mode("#ffffff", "#10151b")(props),
+        bg: mode("#1a1a1a", "#eaeaea")(props),
+        color: mode("#fafaf8", "#1e1e1e")(props),
       },
 
       a: {
-        color: mode("#1d5f9f", "#8bb8e8")(props),
+        // Link warna teks biasa, bukan biru
+        color: mode("#1a1a1a", "#eaeaea")(props),
         textDecoration: "none",
         _hover: {
           textDecoration: "underline",
@@ -172,32 +204,76 @@ const theme = extendTheme({
         },
       },
       variants: {
-        facebook: (props) => ({
-          bg: mode("#1d5f9f", "#5e93ca")(props),
-          color: "white",
-          border: mode("1px solid #123f6c", "1px solid #8bb8e8")(props),
-          textShadow: "0 1px 0 rgba(0,0,0,.24)",
+        // Public portfolio — tidak berubah
+        studio: (props) => ({
+          bg: mode("#1a1a1a", "#eaeaea")(props),
+          color: mode("#fafaf8", "#1e1e1e")(props),
+          borderRadius: "999px",
+          border: mode("1px solid #1a1a1a", "1px solid #eaeaea")(props),
+          boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+          textShadow: "none",
+          fontWeight: "600",
           _hover: {
-            bg: mode("#2a6faf", "#79aadb")(props),
+            bg: mode("#2c2c2c", "#ffffff")(props),
+            color: mode("#fafaf8", "#1e1e1e")(props),
+            textDecoration: "none",
           },
           _active: {
-            bg: mode("#123f6c", "#457bae")(props),
+            transform: "translateY(1px)",
           },
         }),
+        studioGhost: (props) => ({
+          bg: "transparent",
+          color: mode("#1a1a1a", "#eaeaea")(props),
+          borderRadius: "999px",
+          border: mode("1px solid #e2e2dd", "1px solid #3a3a3a")(props),
+          fontWeight: "600",
+          boxShadow: "none",
+          textShadow: "none",
+          _hover: {
+            bg: mode("#f3f3f0", "#2a2a2a")(props),
+            borderColor: mode("#1a1a1a", "#eaeaea")(props),
+            textDecoration: "none",
+          },
+        }),
+
+        // Admin panel — dulu biru, sekarang studio solid
+        facebook: (props) => ({
+          bg: mode("#1a1a1a", "#eaeaea")(props),
+          color: mode("#fafaf8", "#1e1e1e")(props),
+          border: mode("1px solid #0f0f0f", "1px solid #c8c8c3")(props),
+          textShadow: "none",
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,.08)",
+          _hover: {
+            bg: mode("#2c2c2c", "#ffffff")(props),
+          },
+          _active: {
+            bg: mode("#0f0f0f", "#c8c8c3")(props),
+          },
+        }),
+
+        // Admin panel secondary/gray — studio ghost
         facebookGray: (props) => ({
-          bg: mode("#e8edf4", "#27313d")(props),
-          color: mode("#1f2833", "#e6edf5")(props),
-          border: mode("1px solid #9aa8ba", "1px solid #465568")(props),
+          bg: mode("#f3f3f0", "#2a2a2a")(props),
+          color: mode("#1a1a1a", "#eaeaea")(props),
+          border: mode("1px solid #c8c8c3", "1px solid #3a3a3a")(props),
+          boxShadow: "none",
+          textShadow: "none",
           _hover: {
-            bg: mode("#dce5ef", "#334253")(props),
+            bg: mode("#e2e2dd", "#333330")(props),
           },
         }),
+
+        // outline — dipakai beberapa halaman admin
         outline: (props) => ({
-          border: mode("1px solid #9aa8ba", "1px solid #465568")(props),
-          bg: mode("#ffffff", "#1b232d")(props),
-          color: mode("#1d5f9f", "#8bb8e8")(props),
+          border: mode("1px solid #c8c8c3", "1px solid #3a3a3a")(props),
+          bg: mode("#ffffff", "#242424")(props),
+          color: mode("#1a1a1a", "#eaeaea")(props),
+          boxShadow: "none",
+          textShadow: "none",
           _hover: {
-            bg: mode("#dce8f5", "#26394d")(props),
+            bg: mode("#f3f3f0", "#2a2a2a")(props),
+            borderColor: mode("#1a1a1a", "#eaeaea")(props),
           },
         }),
       },
@@ -207,24 +283,24 @@ const theme = extendTheme({
       variants: {
         outline: (props) => ({
           field: {
-            bg: mode("#ffffff", "#111821")(props),
-            borderColor: mode("#9aa8ba", "#465568")(props),
-            color: mode("#1f2833", "#e6edf5")(props),
+            bg: mode("#ffffff", "#1a1a1a")(props),
+            borderColor: mode("#c8c8c3", "#3a3a3a")(props),
+            color: mode("#1a1a1a", "#eaeaea")(props),
             borderRadius: "0",
             fontSize: "16px",
             boxShadow: mode(
-              "inset 1px 1px 0 #e3e7ed",
-              "inset 1px 1px 0 #090d12"
+              "inset 1px 1px 0 #e2e2dd",
+              "inset 1px 1px 0 #0f0f0f"
             )(props),
             _placeholder: {
-              color: mode("#6b7684", "#8996a6")(props),
+              color: mode("#9a9a95", "#6f6f6a")(props),
             },
             _hover: {
-              borderColor: mode("#1d5f9f", "#8bb8e8")(props),
+              borderColor: mode("#1a1a1a", "#eaeaea")(props),
             },
             _focus: {
-              borderColor: mode("#1d5f9f", "#8bb8e8")(props),
-              boxShadow: sharpFocus(mode("#1d5f9f", "#8bb8e8")(props)),
+              borderColor: mode("#1a1a1a", "#eaeaea")(props),
+              boxShadow: sharpFocus(mode("#1a1a1a", "#eaeaea")(props)),
             },
           },
         }),
@@ -237,24 +313,24 @@ const theme = extendTheme({
     Textarea: {
       variants: {
         outline: (props) => ({
-          bg: mode("#ffffff", "#111821")(props),
-          borderColor: mode("#9aa8ba", "#465568")(props),
-          color: mode("#1f2833", "#e6edf5")(props),
+          bg: mode("#ffffff", "#1a1a1a")(props),
+          borderColor: mode("#c8c8c3", "#3a3a3a")(props),
+          color: mode("#1a1a1a", "#eaeaea")(props),
           borderRadius: "0",
           fontSize: "16px",
           boxShadow: mode(
-            "inset 1px 1px 0 #e3e7ed",
-            "inset 1px 1px 0 #090d12"
+            "inset 1px 1px 0 #e2e2dd",
+            "inset 1px 1px 0 #0f0f0f"
           )(props),
           _placeholder: {
-            color: mode("#6b7684", "#8996a6")(props),
+            color: mode("#9a9a95", "#6f6f6a")(props),
           },
           _hover: {
-            borderColor: mode("#1d5f9f", "#8bb8e8")(props),
+            borderColor: mode("#1a1a1a", "#eaeaea")(props),
           },
           _focus: {
-            borderColor: mode("#1d5f9f", "#8bb8e8")(props),
-            boxShadow: sharpFocus(mode("#1d5f9f", "#8bb8e8")(props)),
+            borderColor: mode("#1a1a1a", "#eaeaea")(props),
+            boxShadow: sharpFocus(mode("#1a1a1a", "#eaeaea")(props)),
           },
         }),
       },
@@ -267,17 +343,17 @@ const theme = extendTheme({
       variants: {
         outline: (props) => ({
           field: {
-            bg: mode("#ffffff", "#111821")(props),
-            borderColor: mode("#9aa8ba", "#465568")(props),
-            color: mode("#1f2833", "#e6edf5")(props),
+            bg: mode("#ffffff", "#1a1a1a")(props),
+            borderColor: mode("#c8c8c3", "#3a3a3a")(props),
+            color: mode("#1a1a1a", "#eaeaea")(props),
             borderRadius: "0",
             fontSize: "16px",
             _hover: {
-              borderColor: mode("#1d5f9f", "#8bb8e8")(props),
+              borderColor: mode("#1a1a1a", "#eaeaea")(props),
             },
             _focus: {
-              borderColor: mode("#1d5f9f", "#8bb8e8")(props),
-              boxShadow: sharpFocus(mode("#1d5f9f", "#8bb8e8")(props)),
+              borderColor: mode("#1a1a1a", "#eaeaea")(props),
+              boxShadow: sharpFocus(mode("#1a1a1a", "#eaeaea")(props)),
             },
           },
         }),
@@ -291,7 +367,7 @@ const theme = extendTheme({
       baseStyle: (props) => ({
         fontSize: "15px",
         fontWeight: "bold",
-        color: mode("#1f2833", "#e6edf5")(props),
+        color: mode("#1a1a1a", "#eaeaea")(props),
         fontFamily:
           "'Plus Jakarta Sans', 'Tahoma', 'Verdana', 'Geneva', sans-serif",
         mb: 1,
@@ -301,19 +377,20 @@ const theme = extendTheme({
     Modal: {
       baseStyle: (props) => ({
         dialog: {
-          bg: mode("#ffffff", "#1b232d")(props),
+          bg: mode("#ffffff", "#242424")(props),
           borderRadius: "0",
-          border: mode("1px solid #6c7988", "1px solid #465568")(props),
+          border: mode("1px solid #c8c8c3", "1px solid #3a3a3a")(props),
         },
         header: {
           fontSize: "17px",
           fontWeight: "bold",
-          color: mode("#1f2833", "#e6edf5")(props),
-          borderBottom: mode("1px solid #9aa8ba", "1px solid #465568")(props),
-          bg: mode("#d7dde6", "#27313d")(props),
+          color: mode("#1a1a1a", "#eaeaea")(props),
+          // Header modal: dulu biru-abu, sekarang surface abu
+          borderBottom: mode("1px solid #c8c8c3", "1px solid #3a3a3a")(props),
+          bg: mode("#f3f3f0", "#2a2a2a")(props),
         },
         footer: {
-          borderTop: mode("1px solid #9aa8ba", "1px solid #465568")(props),
+          borderTop: mode("1px solid #c8c8c3", "1px solid #3a3a3a")(props),
         },
       }),
     },
