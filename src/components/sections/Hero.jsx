@@ -89,6 +89,8 @@ const Hero = () => {
       pt={{ base: "80px", md: 14 }}
       pb={{ base: "88px", md: 18 }}
       color={colors.text}
+      position="relative"
+      zIndex={0}
     >
       <Grid
         templateColumns={{ base: "1fr", lg: "minmax(0, .86fr) minmax(360px, .54fr)" }}
@@ -162,6 +164,7 @@ const Hero = () => {
           position="relative"
           minH={{ base: "540px", md: "620px" }}
           w="100%"
+          isolation="isolate"  
         >
           {/* Assembly Wrapper: Mengunci sinkronisasi tali, klip, dan kartu dalam satu koordinat lebar */}
           <Box position="relative" w={{ base: "310px", md: "350px" }}>

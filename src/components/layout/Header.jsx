@@ -368,7 +368,7 @@ const Header = ({ isDownloading, handleDownload }) => {
         ref={overlayRef}
         position="fixed"
         inset={0}
-        zIndex={999}
+        zIndex={1100}
         bg={colorMode === "light" ? "#fafaf8" : "#1e1e1e"}
         color={colors.text}
         opacity={0}
@@ -450,18 +450,6 @@ const Header = ({ isDownloading, handleDownload }) => {
             Download CV
           </Button>
         </Flex>
-
-        {/* Subtle name */}
-        <Text
-          position="absolute"
-          bottom={20}
-          right={7}
-          fontSize="12px"
-          color={colors.muted}
-          letterSpacing=".04em"
-        >
-          {personalInfo.name || "Aurio Rajaa"}
-        </Text>
       </Box>
     </>
   );
