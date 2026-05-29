@@ -108,7 +108,7 @@ const Hero = () => {
           <Heading
             as="h1"
             fontSize={{ base: "43px", md: "56px" }}
-            lineHeight=".96"
+            lineHeight=".99"
             fontWeight="800"
             letterSpacing="-0.02em"
             maxW="860px"

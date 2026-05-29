@@ -1,6 +1,7 @@
 import React, { useMemo, useRef, useState } from "react";
 import {
   Box,
+  Flex,
   Grid,
   IconButton,
   Modal,
@@ -9,6 +10,7 @@ import {
   ModalOverlay,
   Text,
   VStack,
+  Divider,
 } from "@chakra-ui/react";
 import { useGSAP } from "@gsap/react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -29,7 +31,14 @@ const Gallery = () => {
     () =>
       (portfolioData.achievements || [])
         .filter((i) => i.image)
-        .map((i) => ({ title: i.title, caption: i.issuer, date: i.date, image: i.image, type: "Certificate" }))
+        .map((i) => ({
+          title: i.title,
+          caption: i.issuer,
+          date: i.date,
+          image: i.image,
+          description: i.description || "",
+          type: "Certificate",
+        }))
         .reverse(),
     [portfolioData.achievements]
   );
@@ -38,7 +47,14 @@ const Gallery = () => {
     () =>
       (portfolioData.activities || [])
         .filter((i) => i.image)
-        .map((i) => ({ title: i.title, caption: i.role || i.period, image: i.image, type: "Activity" }))
+        .map((i) => ({
+          title: i.title,
+          caption: i.role || i.period,
+          date: i.period,
+          image: i.image,
+          description: i.description || "",
+          type: "Activity",
+        }))
         .reverse(),
     [portfolioData.activities]
   );
@@ -66,7 +82,10 @@ const Gallery = () => {
     { dependencies: [isOpen, selected?.image] }
   );
 
-  const openItem = (item) => { setSelected(item); setIsOpen(true); };
+  const openItem = (item) => {
+    setSelected(item);
+    setIsOpen(true);
+  };
   const closeItem = () => setIsOpen(false);
 
   if (achievements.length === 0 && activities.length === 0) return null;
@@ -78,7 +97,6 @@ const Gallery = () => {
         {/* ── Achievements / Certificates ─────────────────────── */}
         {achievements.length > 0 && (
           <Box>
-            {/* Sub-header */}
             <Box
               display="flex"
               alignItems="center"
@@ -88,7 +106,6 @@ const Gallery = () => {
               borderBottom="1px solid"
               borderColor={colors.borderSoft}
             >
-              {/* <Award size={15} color={colors.accent} /> */}
               <Text
                 fontSize="11px"
                 fontWeight="700"
@@ -112,7 +129,6 @@ const Gallery = () => {
               </Box>
             </Box>
 
-            {/* Certificate list — horizontal scroll on mobile */}
             <Box
               display="grid"
               gridTemplateColumns={{ base: "repeat(2, 1fr)", sm: "repeat(3, 1fr)", lg: "repeat(4, 1fr)" }}
@@ -133,7 +149,6 @@ const Gallery = () => {
                   gap={0}
                   _hover={{ "& .gallery-img": { transform: "scale(1.04)" }, "& .gallery-title": { color: colors.accent } }}
                 >
-                  {/* Image */}
                   <Box
                     overflow="hidden"
                     bg={colors.surfaceAlt}
@@ -159,7 +174,6 @@ const Gallery = () => {
                     />
                   </Box>
 
-                  {/* Meta */}
                   <Text
                     className="gallery-title"
                     fontSize={{ base: "13px", md: "14px" }}
@@ -195,7 +209,6 @@ const Gallery = () => {
         {/* ── Activities ───────────────────────────────────────── */}
         {activities.length > 0 && (
           <Box>
-            {/* Sub-header */}
             <Box
               display="flex"
               alignItems="center"
@@ -205,12 +218,6 @@ const Gallery = () => {
               borderBottom="1px solid"
               borderColor={colors.borderSoft}
             >
-              {/* <Box
-                w="15px" h="15px" borderRadius="full"
-                border="2px solid"
-                borderColor={colors.accent}
-                flexShrink={0}
-              /> */}
               <Text
                 fontSize="11px"
                 fontWeight="700"
@@ -234,7 +241,6 @@ const Gallery = () => {
               </Box>
             </Box>
 
-            {/* Activity grid — larger, editorial */}
             <Grid
               templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
               gap={{ base: 4, md: 5 }}
@@ -270,7 +276,6 @@ const Gallery = () => {
                       transition: "transform .7s cubic-bezier(.2,.8,.2,1)",
                     }}
                   />
-                  {/* Overlay */}
                   <Box
                     className="act-overlay"
                     position="absolute"
@@ -279,7 +284,6 @@ const Gallery = () => {
                     opacity={0.88}
                     transition="opacity .3s ease"
                   />
-                  {/* Caption */}
                   <Box
                     position="absolute"
                     bottom={0}
@@ -321,27 +325,40 @@ const Gallery = () => {
       </VStack>
 
       {/* ── Lightbox ─────────────────────────────────────────── */}
-      <Modal isOpen={isOpen} onClose={closeItem} size="4xl" isCentered>
+      <Modal isOpen={isOpen} onClose={closeItem} size="4xl" isCentered scrollBehavior="inside">
         <ModalOverlay bg="rgba(0,0,0,.88)" backdropFilter="blur(12px)" />
-        <ModalContent bg="transparent" boxShadow="none" mx={4}>
+        <ModalContent
+          bg="transparent"
+          boxShadow="none"
+          mx={4}
+          borderRadius="md"
+          overflow="hidden"
+        >
           <ModalBody p={0}>
             {selected && (
-              <Box ref={lightboxRef} bg={colors.surfaceSolid} position="relative">
-                {/* Close */}
+              <Box
+                ref={lightboxRef}
+                bg={colors.surfaceSolid}
+                borderRadius="md"
+                overflow="hidden"
+                maxH={{ base: "90vh", md: "85vh" }}
+                overflowY="auto"
+              >
+                {/* Close Button */}
                 <IconButton
                   icon={<X size={16} />}
                   aria-label="Close"
                   position="absolute"
-                  top={3}
-                  right={3}
-                  zIndex={2}
+                  top={4}
+                  right={4}
+                  zIndex={10}
                   size="sm"
                   variant="studioGhost"
                   onClick={closeItem}
                 />
 
                 {/* Image */}
-                <Box bg={colors.surfaceAlt} maxH="70vh" overflow="hidden">
+                <Box bg={colors.surfaceAlt} overflow="hidden">
                   <LazyLoadImage
                     src={selected.image}
                     alt={selected.title}
@@ -349,58 +366,91 @@ const Gallery = () => {
                     width="100%"
                     style={{
                       width: "100%",
-                      maxHeight: "70vh",
+                      maxHeight: "60vh",
                       objectFit: "contain",
                       display: "block",
                     }}
                   />
                 </Box>
 
-                {/* Caption */}
-                <Box
-                  p={{ base: 4, md: 6 }}
-                  borderTop="1px solid"
-                  borderColor={colors.borderSoft}
-                  display="flex"
-                  alignItems="flex-start"
-                  justifyContent="space-between"
-                  flexWrap="wrap"
-                  gap={3}
-                >
-                  <Box>
-                    <Text
-                      fontSize="11px"
-                      fontWeight="700"
-                      letterSpacing="0.08em"
-                      textTransform="uppercase"
-                      color={colors.accent}
-                      mb={1}
-                    >
-                      {selected.type}
-                    </Text>
-                    <Text
-                      fontSize={{ base: "17px", md: "20px" }}
-                      fontWeight="800"
-                      lineHeight="1.2"
-                      letterSpacing="-0.02em"
-                      color={colors.text}
-                    >
-                      {selected.title}
-                    </Text>
-                  </Box>
-                  <Box textAlign={{ base: "left", md: "right" }}>
-                    {selected.caption && (
-                      <Text fontSize="14px" fontWeight="600" color={colors.text}>
-                        {selected.caption}
+                {/* Caption & Description */}
+                <Box p={{ base: 5, md: 7 }}>
+                  <Flex
+                    direction={{ base: "column", md: "row" }}
+                    alignItems={{ base: "flex-start", md: "flex-start" }}
+                    justifyContent="space-between"
+                    gap={{ base: 3, md: 4 }}
+                    mb={5}
+                  >
+                    <Box flex="1" minW="0">
+                      <Text
+                        fontSize="11px"
+                        fontWeight="700"
+                        letterSpacing="0.08em"
+                        textTransform="uppercase"
+                        color={colors.accent}
+                        mb={1}
+                      >
+                        {selected.type}
                       </Text>
-                    )}
-                    {selected.date && (
-                      <Box display="flex" alignItems="center" gap={1} justifyContent={{ md: "flex-end" }} mt={1}>
-                        <Calendar size={11} color={colors.muted} />
-                        <Text fontSize="12px" color={colors.muted}>{selected.date}</Text>
+                      <Text
+                        fontSize={{ base: "17px", md: "20px" }}
+                        fontWeight="800"
+                        lineHeight="1.2"
+                        letterSpacing="-0.02em"
+                        color={colors.text}
+                      >
+                        {selected.title}
+                      </Text>
+                    </Box>
+
+                    <Box textAlign={{ base: "left", md: "right" }} flexShrink={0}>
+                      {selected.caption && (
+                        <Text fontSize="14px" fontWeight="600" color={colors.text}>
+                          {selected.caption}
+                        </Text>
+                      )}
+                      {selected.date && (
+                        <Flex
+                          alignItems="center"
+                          gap={1}
+                          justifyContent={{ base: "flex-start", md: "flex-end" }}
+                          mt={1}
+                        >
+                          <Calendar size={11} color={colors.muted} />
+                          <Text fontSize="12px" color={colors.muted}>
+                            {selected.date}
+                          </Text>
+                        </Flex>
+                      )}
+                    </Box>
+                  </Flex>
+
+                  {selected.description && (
+                    <>
+                      <Divider borderColor={colors.borderSoft} mb={4} />
+                      <Box>
+                        <Text
+                          fontSize="13px"
+                          fontWeight="700"
+                          letterSpacing="0.05em"
+                          textTransform="uppercase"
+                          color={colors.muted}
+                          mb={3}
+                        >
+                          Description
+                        </Text>
+                        <Text
+                          fontSize="15px"
+                          lineHeight="1.75"
+                          color={colors.text}
+                          whiteSpace="pre-line"
+                        >
+                          {selected.description}
+                        </Text>
                       </Box>
-                    )}
-                  </Box>
+                    </>
+                  )}
                 </Box>
               </Box>
             )}

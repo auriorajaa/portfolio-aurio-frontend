@@ -156,6 +156,7 @@ const Articles = () => {
                   <Text>/</Text>
                   <Text>{article.readTime}</Text>
                 </HStack>
+                <br />
               </VStack>
             </Box>
           ))}

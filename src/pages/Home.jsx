@@ -13,10 +13,13 @@ import Gallery from "../components/sections/Gallery";
 import Contact from "../components/sections/Contact";
 import Articles from "../components/sections/Articles";
 import { usePortfolio } from "../contexts/PortfolioContext";
+import { useLayoutEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const Home = ({ isDownloading, handleDownload }) => {
   const { portfolioData, loading } = usePortfolio();
   const personalInfo = portfolioData.personalInfo || {};
+  const location = useLocation();
   const canonicalUrl = "https://aurio.work/";
   const title =
     personalInfo.seoTitle ||
@@ -26,6 +29,17 @@ const Home = ({ isDownloading, handleDownload }) => {
     personalInfo.bio ||
     "Aurio Rajaa is a software engineer from Jakarta focused on backend, cloud, and full-stack product systems.";
   const imageUrl = "https://aurio.work/profilepic.png";
+
+  useLayoutEffect(() => {
+    if (location.state?.scrollTo) {
+      const el = document.getElementById(location.state.scrollTo);
+      if (el) {
+        el.scrollIntoView({ behavior: "auto", block: "start" });
+      }
+      // Bersihkan state biar tidak scroll ulang saat refresh
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
 
   if (loading) {
     return (
