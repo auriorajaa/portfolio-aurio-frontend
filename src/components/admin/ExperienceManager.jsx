@@ -138,7 +138,7 @@ const ExperienceManager = ({ onDataChange }) => {
   if (loading) {
     return (
       <Center py={10}>
-        <Spinner size="xl" color="facebook.blue" />
+        <Spinner size="xl" color="public.text" />
       </Center>
     );
   }
@@ -173,11 +173,11 @@ const ExperienceManager = ({ onDataChange }) => {
         <Box
           p={6}
           textAlign="center"
-          borderRadius="2px"
+          borderRadius="14px"
           border="1px solid"
-          borderColor="facebook.border"
+          borderColor="public.border"
         >
-          <Text fontSize="16px" color="facebook.lightText">
+          <Text fontSize="16px" color="public.muted">
             No experiences yet. Add your first experience!
           </Text>
         </Box>
@@ -189,23 +189,23 @@ const ExperienceManager = ({ onDataChange }) => {
                 key={exp.id}
                 px={3}
                 py={2}
-                borderRadius="2px"
+                borderRadius="14px"
                 border="1px solid"
-                borderColor="facebook.border"
+                borderColor="public.border"
               >
                 <HStack justify="space-between" align="start">
                   <VStack align="start" flex={1} spacing={0.5}>
                     <Text
                       fontSize="17px"
                       fontWeight="bold"
-                      color="facebook.blue"
+                      color="public.text"
                     >
                       {exp.position}
                     </Text>
                     <Text fontSize="16px">{exp.company}</Text>
                     <HStack
                       fontSize="15px"
-                      color="facebook.lightText"
+                      color="public.muted"
                       spacing={1.5}
                     >
                       <Text>{exp.period}</Text>
@@ -213,12 +213,12 @@ const ExperienceManager = ({ onDataChange }) => {
                       <Text>{exp.location}</Text>
                     </HStack>
                     <Badge
-                      bg="facebook.paleBlue"
-                      color="facebook.blue"
+                      bg="public.surface"
+                      color="public.text"
                       fontSize="12px"
                       px={2}
                       py={0.5}
-                      borderRadius="2px"
+                      borderRadius="14px"
                       mt={1}
                     >
                       {exp.type}

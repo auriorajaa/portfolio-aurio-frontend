@@ -72,7 +72,7 @@ const theme = extendTheme({
       black: "#0f0f0f",
     },
 
-    // ── facebook.* masih dipakai komponen admin — netralkan ──
+    // Legacy variant names retained for admin buttons that still request them.
     facebook: {
       blue: "#2c2c2c",
       darkBlue: "#1a1a1a",
@@ -192,15 +192,17 @@ const theme = extendTheme({
   components: {
     Button: {
       baseStyle: {
-        fontWeight: "bold",
-        fontSize: "16px",
+        fontWeight: "600",
+        fontSize: "15px",
         fontFamily:
           "'Plus Jakarta Sans', 'Tahoma', 'Verdana', 'Geneva', sans-serif",
-        borderRadius: "0",
-        transition: "background-color .12s ease, border-color .12s ease",
-        boxShadow: "inset 0 1px 0 rgba(255,255,255,.62)",
+        borderRadius: "999px",
+        transition:
+          "background-color .16s ease, border-color .16s ease, color .16s ease, transform .16s ease",
+        boxShadow: "none",
         _active: {
-          boxShadow: "inset 0 1px 3px rgba(0,0,0,.28)",
+          transform: "translateY(1px)",
+          boxShadow: "none",
         },
       },
       variants: {
@@ -242,8 +244,9 @@ const theme = extendTheme({
           bg: mode("#1a1a1a", "#eaeaea")(props),
           color: mode("#fafaf8", "#1e1e1e")(props),
           border: mode("1px solid #0f0f0f", "1px solid #c8c8c3")(props),
+          borderRadius: "999px",
           textShadow: "none",
-          boxShadow: "inset 0 1px 0 rgba(255,255,255,.08)",
+          boxShadow: "none",
           _hover: {
             bg: mode("#2c2c2c", "#ffffff")(props),
           },
@@ -257,6 +260,7 @@ const theme = extendTheme({
           bg: mode("#f3f3f0", "#2a2a2a")(props),
           color: mode("#1a1a1a", "#eaeaea")(props),
           border: mode("1px solid #c8c8c3", "1px solid #3a3a3a")(props),
+          borderRadius: "999px",
           boxShadow: "none",
           textShadow: "none",
           _hover: {
@@ -269,6 +273,7 @@ const theme = extendTheme({
           border: mode("1px solid #c8c8c3", "1px solid #3a3a3a")(props),
           bg: mode("#ffffff", "#242424")(props),
           color: mode("#1a1a1a", "#eaeaea")(props),
+          borderRadius: "999px",
           boxShadow: "none",
           textShadow: "none",
           _hover: {
@@ -286,12 +291,10 @@ const theme = extendTheme({
             bg: mode("#ffffff", "#1a1a1a")(props),
             borderColor: mode("#c8c8c3", "#3a3a3a")(props),
             color: mode("#1a1a1a", "#eaeaea")(props),
-            borderRadius: "0",
-            fontSize: "16px",
-            boxShadow: mode(
-              "inset 1px 1px 0 #e2e2dd",
-              "inset 1px 1px 0 #0f0f0f"
-            )(props),
+            borderRadius: "14px",
+            fontSize: "15px",
+            minH: "42px",
+            boxShadow: "none",
             _placeholder: {
               color: mode("#9a9a95", "#6f6f6a")(props),
             },
@@ -316,12 +319,9 @@ const theme = extendTheme({
           bg: mode("#ffffff", "#1a1a1a")(props),
           borderColor: mode("#c8c8c3", "#3a3a3a")(props),
           color: mode("#1a1a1a", "#eaeaea")(props),
-          borderRadius: "0",
-          fontSize: "16px",
-          boxShadow: mode(
-            "inset 1px 1px 0 #e2e2dd",
-            "inset 1px 1px 0 #0f0f0f"
-          )(props),
+          borderRadius: "14px",
+          fontSize: "15px",
+          boxShadow: "none",
           _placeholder: {
             color: mode("#9a9a95", "#6f6f6a")(props),
           },
@@ -346,8 +346,9 @@ const theme = extendTheme({
             bg: mode("#ffffff", "#1a1a1a")(props),
             borderColor: mode("#c8c8c3", "#3a3a3a")(props),
             color: mode("#1a1a1a", "#eaeaea")(props),
-            borderRadius: "0",
-            fontSize: "16px",
+            borderRadius: "14px",
+            fontSize: "15px",
+            minH: "42px",
             _hover: {
               borderColor: mode("#1a1a1a", "#eaeaea")(props),
             },
@@ -378,19 +379,23 @@ const theme = extendTheme({
       baseStyle: (props) => ({
         dialog: {
           bg: mode("#ffffff", "#242424")(props),
-          borderRadius: "0",
-          border: mode("1px solid #c8c8c3", "1px solid #3a3a3a")(props),
+          borderRadius: "24px",
+          border: mode("1px solid #e2e2dd", "1px solid #3a3a3a")(props),
+          boxShadow: mode(
+            "0 24px 70px rgba(0,0,0,.12)",
+            "0 24px 70px rgba(0,0,0,.4)",
+          )(props),
+          overflow: "hidden",
         },
         header: {
           fontSize: "17px",
-          fontWeight: "bold",
+          fontWeight: "700",
           color: mode("#1a1a1a", "#eaeaea")(props),
-          // Header modal: dulu biru-abu, sekarang surface abu
-          borderBottom: mode("1px solid #c8c8c3", "1px solid #3a3a3a")(props),
-          bg: mode("#f3f3f0", "#2a2a2a")(props),
+          borderBottom: mode("1px solid #e8e8e2", "1px solid #343434")(props),
+          bg: mode("#ffffff", "#242424")(props),
         },
         footer: {
-          borderTop: mode("1px solid #c8c8c3", "1px solid #3a3a3a")(props),
+          borderTop: mode("1px solid #e8e8e2", "1px solid #343434")(props),
         },
       }),
     },
@@ -415,9 +420,9 @@ const theme = extendTheme({
     Tag: {
       baseStyle: {
         container: {
-          borderRadius: "0",
+          borderRadius: "999px",
           border: "1px solid",
-          fontWeight: "bold",
+          fontWeight: "600",
         },
       },
     },

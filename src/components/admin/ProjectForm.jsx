@@ -149,7 +149,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
             placeholder="Project name"
             size="md"
             fontSize="16px"
-            borderRadius="2px"
+            borderRadius="14px"
           />
         </FormControl>
 
@@ -165,7 +165,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
             rows={4}
             size="md"
             fontSize="16px"
-            borderRadius="2px"
+            borderRadius="14px"
           />
         </FormControl>
 
@@ -181,7 +181,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
               placeholder="small-circle"
               size="md"
               fontSize="16px"
-              borderRadius="0"
+              borderRadius="14px"
             />
           </FormControl>
 
@@ -196,7 +196,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
               placeholder="Full-stack Developer"
               size="md"
               fontSize="16px"
-              borderRadius="0"
+              borderRadius="14px"
             />
           </FormControl>
 
@@ -210,7 +210,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
               onChange={handleInputChange}
               size="md"
               fontSize="16px"
-              borderRadius="0"
+              borderRadius="14px"
             >
               <option value="Published">Published</option>
               <option value="Featured">Featured</option>
@@ -231,7 +231,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
             placeholder="2024 - 2025"
             size="md"
             fontSize="16px"
-            borderRadius="0"
+            borderRadius="14px"
           />
         </FormControl>
 
@@ -253,7 +253,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
               placeholder="https://github.com/..."
               size="md"
               fontSize="16px"
-              borderRadius="2px"
+              borderRadius="14px"
             />
           </FormControl>
 
@@ -268,7 +268,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
               placeholder="https://project.com"
               size="md"
               fontSize="16px"
-              borderRadius="2px"
+              borderRadius="14px"
             />
           </FormControl>
         </HStack>
@@ -314,7 +314,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
               size="md"
               h="36px"
               fontSize="16px"
-              borderRadius="2px"
+              borderRadius="14px"
             >
               Cancel
             </Button>
@@ -328,7 +328,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
         onClose={onClose}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent borderRadius="2px">
+          <AlertDialogContent borderRadius="24px">
             <AlertDialogHeader fontSize="17px" fontWeight="bold">
               Confirm Save
             </AlertDialogHeader>
@@ -345,7 +345,7 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
                 Cancel
               </Button>
               <Button
-                colorScheme="blue"
+                variant="facebook"
                 onClick={confirmSave}
                 ml={2}
                 size="sm"

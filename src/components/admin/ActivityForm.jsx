@@ -109,7 +109,7 @@ const ActivityForm = ({ data, onSave, onCancel }) => {
             placeholder="e.g. Student Council President"
             size="md"
             fontSize="16px"
-            borderRadius="2px"
+            borderRadius="14px"
           />
         </FormControl>
 
@@ -125,7 +125,7 @@ const ActivityForm = ({ data, onSave, onCancel }) => {
               placeholder="e.g. President"
               size="md"
               fontSize="16px"
-              borderRadius="2px"
+              borderRadius="14px"
             />
           </FormControl>
 
@@ -140,7 +140,7 @@ const ActivityForm = ({ data, onSave, onCancel }) => {
               placeholder="e.g. Student Council"
               size="md"
               fontSize="16px"
-              borderRadius="2px"
+              borderRadius="14px"
             />
           </FormControl>
         </HStack>
@@ -156,7 +156,7 @@ const ActivityForm = ({ data, onSave, onCancel }) => {
             placeholder="e.g. Jan 2023 - Dec 2023"
             size="md"
             fontSize="16px"
-            borderRadius="2px"
+            borderRadius="14px"
           />
         </FormControl>
 
@@ -172,7 +172,7 @@ const ActivityForm = ({ data, onSave, onCancel }) => {
             rows={4}
             size="md"
             fontSize="16px"
-            borderRadius="2px"
+            borderRadius="14px"
           />
         </FormControl>
 
@@ -202,8 +202,8 @@ const ActivityForm = ({ data, onSave, onCancel }) => {
               size="md"
               h="36px"
               fontSize="16px"
-              borderColor="facebook.border"
-              borderRadius="2px"
+              borderColor="public.border"
+              borderRadius="14px"
             >
               Cancel
             </Button>
@@ -217,7 +217,7 @@ const ActivityForm = ({ data, onSave, onCancel }) => {
         onClose={onClose}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent borderRadius="2px">
+          <AlertDialogContent borderRadius="24px">
             <AlertDialogHeader fontSize="17px" fontWeight="bold">
               Confirm Save
             </AlertDialogHeader>
@@ -234,7 +234,7 @@ const ActivityForm = ({ data, onSave, onCancel }) => {
                 Cancel
               </Button>
               <Button
-                colorScheme="blue"
+                variant="facebook"
                 onClick={confirmSave}
                 ml={2}
                 size="md"

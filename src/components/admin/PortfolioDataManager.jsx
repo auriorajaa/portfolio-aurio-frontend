@@ -161,7 +161,7 @@ const PortfolioDataManager = ({ onDataChange }) => {
   if (loading) {
     return (
       <Center py={10}>
-        <Spinner size="xl" color="facebook.blue" />
+        <Spinner size="xl" color="public.text" />
       </Center>
     );
   }
@@ -194,12 +194,12 @@ const PortfolioDataManager = ({ onDataChange }) => {
               local portfolio file.
             </Text>
             <Button
-              bg="facebook.blue"
+              bg="public.primary"
               color="white"
               onClick={handleInitialize}
               isLoading={saving}
               loadingText="Initializing..."
-              _hover={{ bg: "facebook.darkBlue" }}
+              _hover={{ bg: "public.primaryDark" }}
             >
               Initialize Portfolio Data
             </Button>

@@ -69,7 +69,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
             placeholder="Company name"
             size="md"
             fontSize="16px"
-            borderRadius="2px"
+            borderRadius="14px"
           />
         </FormControl>
 
@@ -84,7 +84,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
             placeholder="Job title"
             size="md"
             fontSize="16px"
-            borderRadius="2px"
+            borderRadius="14px"
           />
         </FormControl>
 
@@ -100,7 +100,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
               placeholder="e.g. Jan 2023 – Present"
               size="md"
               fontSize="16px"
-              borderRadius="2px"
+              borderRadius="14px"
             />
           </FormControl>
 
@@ -115,7 +115,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
               placeholder="City or Remote"
               size="md"
               fontSize="16px"
-              borderRadius="2px"
+              borderRadius="14px"
             />
           </FormControl>
         </HStack>
@@ -131,7 +131,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
               onChange={handleInputChange}
               size="md"
               fontSize="16px"
-              borderRadius="2px"
+              borderRadius="14px"
             >
               <option value="Full-time">Full-time</option>
               <option value="Part-time">Part-time</option>
@@ -152,7 +152,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
               placeholder="https://example.com/logo.png"
               size="md"
               fontSize="16px"
-              borderRadius="2px"
+              borderRadius="14px"
             />
           </FormControl>
         </HStack>
@@ -195,8 +195,8 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
               size="md"
               h="36px"
               fontSize="16px"
-              borderColor="facebook.border"
-              borderRadius="2px"
+              borderColor="public.border"
+              borderRadius="14px"
             >
               Cancel
             </Button>
@@ -210,7 +210,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
         onClose={onClose}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent borderRadius="2px">
+          <AlertDialogContent borderRadius="24px">
             <AlertDialogHeader fontSize="17px" fontWeight="bold">
               Confirm Save
             </AlertDialogHeader>
@@ -227,7 +227,7 @@ const ExperienceForm = ({ data, onSave, onCancel }) => {
                 Cancel
               </Button>
               <Button
-                colorScheme="blue"
+                variant="facebook"
                 onClick={confirmSave}
                 ml={2}
                 size="md"

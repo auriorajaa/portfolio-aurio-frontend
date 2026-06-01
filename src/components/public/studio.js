@@ -30,7 +30,11 @@ export const StudioPill = ({ children, tone = "primary", ...props }) => {
   const toneMap = {
     primary: { bg: "transparent", color: colors.text, border: colors.border },
     accent: { bg: colors.surface, color: colors.text, border: colors.border },
-    ghost: { bg: "transparent", color: colors.muted, border: colors.borderSoft },
+    ghost: {
+      bg: "transparent",
+      color: colors.muted,
+      border: colors.borderSoft,
+    },
   };
   const selected = toneMap[tone] || toneMap.primary;
 

@@ -108,7 +108,7 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
             placeholder="e.g. Best Paper Award"
             size="md"
             fontSize="16px"
-            borderRadius="2px"
+            borderRadius="14px"
           />
         </FormControl>
 
@@ -123,7 +123,7 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
             placeholder="e.g. IEEE Conference"
             size="md"
             fontSize="16px"
-            borderRadius="2px"
+            borderRadius="14px"
           />
         </FormControl>
 
@@ -138,7 +138,7 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
             placeholder="e.g. January 2024"
             size="md"
             fontSize="16px"
-            borderRadius="2px"
+            borderRadius="14px"
           />
         </FormControl>
 
@@ -154,7 +154,7 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
             rows={3}
             size="md"
             fontSize="16px"
-            borderRadius="2px"
+            borderRadius="14px"
           />
         </FormControl>
 
@@ -184,8 +184,8 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
               size="md"
               h="36px"
               fontSize="16px"
-              borderColor="facebook.border"
-              borderRadius="2px"
+              borderColor="public.border"
+              borderRadius="14px"
             >
               Cancel
             </Button>
@@ -199,7 +199,7 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
         onClose={onClose}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent borderRadius="2px">
+          <AlertDialogContent borderRadius="24px">
             <AlertDialogHeader fontSize="17px" fontWeight="bold">
               Confirm Save
             </AlertDialogHeader>
@@ -216,7 +216,7 @@ const AchievementForm = ({ data, onSave, onCancel }) => {
                 Cancel
               </Button>
               <Button
-                colorScheme="blue"
+                variant="facebook"
                 onClick={confirmSave}
                 ml={2}
                 size="md"

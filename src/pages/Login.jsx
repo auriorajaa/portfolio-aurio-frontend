@@ -1,26 +1,47 @@
 // src/pages/Login.jsx
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
-  Container,
-  VStack,
-  Input,
   Button,
-  Text,
+  Container,
+  Divider,
   FormControl,
   FormLabel,
-  useToast,
-  InputGroup,
-  InputRightElement,
-  IconButton,
+  Grid,
   HStack,
-  Divider,
-  useColorModeValue,
+  IconButton,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+  Link,
+  SimpleGrid,
+  Stack,
+  Text,
+  VStack,
+  useToast,
 } from "@chakra-ui/react";
-import { Eye, EyeOff, Lock, Mail, Shield, Home } from "lucide-react";
+import {
+  ArrowLeft,
+  Eye,
+  EyeOff,
+  FileText,
+  FolderOpen,
+  Lock,
+  Mail,
+  ShieldCheck,
+  UserRound,
+} from "lucide-react";
 import { loginAdmin } from "../services/authService";
 import { useAuth } from "../contexts/AuthContext";
+import { StudioPill, useStudioColors } from "../components/public/studio";
+
+const LOGIN_FEATURES = [
+  { icon: FileText, label: "Articles", text: "Drafts, visibility, previews" },
+  { icon: FolderOpen, label: "Projects", text: "Showcase media and links" },
+  { icon: UserRound, label: "Profile", text: "Bio, SEO, contact details" },
+];
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -30,15 +51,7 @@ const Login = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const { currentUser, isAdminUser } = useAuth();
-
-  // Color mode values
-  const bgColor = useColorModeValue("#e9ebee", "#18191a");
-  const cardBg = useColorModeValue("white", "#242526");
-  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
-  const textColor = useColorModeValue("#333333", "#e4e6eb");
-  const lightTextColor = useColorModeValue("#90949c", "#b0b3b8");
-  const paleBg = useColorModeValue("#d8dfea", "#3a3b3c");
-  const grayBg = useColorModeValue("#f7f7f7", "#242526");
+  const colors = useStudioColors();
 
   useEffect(() => {
     if (currentUser && isAdminUser) {
@@ -51,8 +64,8 @@ const Login = () => {
 
     if (!email || !password) {
       toast({
-        title: "Error",
-        description: "Please fill in all fields",
+        title: "Missing credentials",
+        description: "Please fill in both fields.",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -65,8 +78,8 @@ const Login = () => {
     try {
       await loginAdmin(email, password);
       toast({
-        title: "Success",
-        description: "Logged in successfully",
+        title: "Signed in",
+        description: "Welcome back to the portfolio studio.",
         status: "success",
         duration: 2000,
         isClosable: true,
@@ -74,7 +87,7 @@ const Login = () => {
       navigate("/dashboard-secure-panel");
     } catch (error) {
       toast({
-        title: "Login Failed",
+        title: "Login failed",
         description: error.message || "Invalid credentials",
         status: "error",
         duration: 4000,
@@ -86,290 +99,221 @@ const Login = () => {
   };
 
   return (
-    <Box minH="100vh" bg={bgColor} py={{ base: 8, md: 20 }}>
-      <Container maxW="900px" px={4}>
-        {/* Main Content */}
+    <Box minH="100vh" bg={colors.bg} color={colors.text} overflowX="hidden">
+      <Container maxW="1180px" w="100%" px={{ base: 4, md: 6 }} py={{ base: 5, md: 8 }}>
         <HStack
-          spacing={6}
-          align="stretch"
-          direction={{ base: "column", md: "row" }}
-          as={Box}
+          justify="space-between"
+          align="center"
+          mb={{ base: 8, md: 18 }}
+          w="100%"
+          maxW="calc(100vw - 32px)"
         >
-          {/* Left Side - Branding */}
-          <Box flex="1" display={{ base: "none", md: "block" }}>
-            <VStack align="start" spacing={4} pt={8}>
-              <Text fontSize="19px" color={textColor} lineHeight="1.6">
-                Manage your portfolio content, articles, and projects from this
-                secure administrative dashboard.
+          <Link href="/" _hover={{ textDecoration: "none", opacity: 0.72 }}>
+            <Text fontSize="15px" fontWeight="700" letterSpacing="-.01em">
+              aurio
+              <Box as="span" color={colors.muted} fontWeight="400">
+                .work
+              </Box>
+            </Text>
+          </Link>
+          <Button
+            variant="studioGhost"
+            size="sm"
+            leftIcon={<ArrowLeft size={14} />}
+            onClick={() => navigate("/")}
+          >
+            Portfolio
+          </Button>
+        </HStack>
+
+        <Grid
+          templateColumns={{ base: "1fr", lg: "minmax(0, .9fr) 420px" }}
+          gap={{ base: 8, lg: 16 }}
+          alignItems="center"
+          minW={0}
+        >
+          <VStack
+            align="stretch"
+            spacing={{ base: 5, md: 9 }}
+            minW={0}
+            w="100%"
+            maxW={{ base: "calc(100vw - 32px)", lg: "720px" }}
+          >
+            <HStack spacing={3} flexWrap="wrap">
+              <StudioPill>Private Studio</StudioPill>
+              <Text fontSize="15px" color={colors.muted} fontWeight="500">
+                Portfolio administration
               </Text>
+            </HStack>
 
-              <Box
-                bg={cardBg}
-                border="1px solid"
-                borderColor={borderColor}
-                borderRadius="2px"
-                p={4}
-                w="100%"
+            <Box>
+              <Text
+                as="h1"
+                fontSize={{ base: "38px", md: "56px" }}
+                lineHeight=".99"
+                fontWeight="800"
+                letterSpacing="-0.02em"
+                maxW={{ base: "calc(100vw - 32px)", lg: "720px" }}
+                overflowWrap="break-word"
               >
-                <VStack align="start" spacing={3}>
-                  <Text fontSize="17px" fontWeight="bold" color={textColor}>
-                    Portal Features:
-                  </Text>
-
-                  <VStack align="start" spacing={2} pl={2}>
-                    <HStack spacing={2}>
-                      <Box
-                        w="4px"
-                        h="4px"
-                        bg="facebook.blue"
-                        borderRadius="full"
-                      />
-                      <Text fontSize="16px" color={textColor}>
-                        Create and edit articles
-                      </Text>
-                    </HStack>
-                    <HStack spacing={2}>
-                      <Box
-                        w="4px"
-                        h="4px"
-                        bg="facebook.blue"
-                        borderRadius="full"
-                      />
-                      <Text fontSize="16px" color={textColor}>
-                        Manage project portfolio
-                      </Text>
-                    </HStack>
-                    <HStack spacing={2}>
-                      <Box
-                        w="4px"
-                        h="4px"
-                        bg="facebook.blue"
-                        borderRadius="full"
-                      />
-                      <Text fontSize="16px" color={textColor}>
-                        Update profile information
-                      </Text>
-                    </HStack>
-                    <HStack spacing={2}>
-                      <Box
-                        w="4px"
-                        h="4px"
-                        bg="facebook.blue"
-                        borderRadius="full"
-                      />
-                      <Text fontSize="16px" color={textColor}>
-                        Content analytics & stats
-                      </Text>
-                    </HStack>
-                  </VStack>
-                </VStack>
-              </Box>
-
-              <Box
-                bg={paleBg}
-                border="1px solid"
-                borderColor={borderColor}
-                borderRadius="2px"
-                p={3}
-                w="100%"
+                A quiet control room for the public portfolio.
+              </Text>
+              <Text
+                mt={5}
+                fontSize={{ base: "16px", md: "18px" }}
+                lineHeight="1.75"
+                color={colors.muted}
+                maxW={{ base: "calc(100vw - 32px)", md: "600px" }}
               >
-                <HStack spacing={2}>
-                  <Lock
-                    size={14}
-                    color={useColorModeValue("#3b5998", "#5b7ec8")}
-                  />
-                  <Text fontSize="15px" color={textColor} fontStyle="italic">
-                    This area is protected and accessible only to authorized
-                    administrators.
-                  </Text>
-                </HStack>
-              </Box>
-            </VStack>
-          </Box>
+                Sign in to manage writing, project case studies, profile data,
+                credentials, media, and the small details that keep the site
+                sharp.
+              </Text>
+            </Box>
 
-          {/* Right Side - Login Form */}
-          <Box flex="1" maxW={{ base: "100%", md: "400px" }}>
-            <Box
-              bg={cardBg}
-              border="1px solid"
-              borderColor={borderColor}
-              borderRadius="2px"
+            <SimpleGrid display={{ base: "none", md: "grid" }} columns={{ md: 3 }} spacing={3}>
+              {LOGIN_FEATURES.map(({ icon: Icon, label, text }) => (
+                <Box
+                  key={label}
+                  border="1px solid"
+                  borderColor={colors.border}
+                  borderRadius="18px"
+                  bg={colors.surfaceAlt}
+                  p={4}
+                >
+                  <Icon size={18} color={colors.muted} />
+                  <Text mt={4} fontSize="15px" fontWeight="700">
+                    {label}
+                  </Text>
+                  <Text mt={1} fontSize="13px" color={colors.muted} lineHeight="1.55">
+                    {text}
+                  </Text>
+                </Box>
+              ))}
+            </SimpleGrid>
+
+            <HStack
+              display={{ base: "none", md: "flex" }}
+              borderTop="1px solid"
+              borderColor={colors.borderSoft}
+              pt={5}
+              spacing={3}
+              color={colors.muted}
+              align="start"
             >
-              {/* Header */}
-              <Box
-                borderBottom="1px solid"
-                borderColor={borderColor}
-                px={4}
-                py={3}
-                bg={grayBg}
-              >
-                <VStack spacing={1} align="start">
-                  <Text fontSize="15px" color={lightTextColor}>
-                    Enter your credentials to continue
-                  </Text>
-                </VStack>
-              </Box>
+              <ShieldCheck size={18} />
+              <Text fontSize="14px" lineHeight="1.65" maxW="560px">
+                Access is restricted to the owner account. The public portfolio
+                stays untouched until saved changes are published from the
+                dashboard.
+              </Text>
+            </HStack>
+          </VStack>
 
-              {/* Form */}
-              <Box px={4} py={4}>
-                <form onSubmit={handleSubmit}>
-                  <VStack spacing={3}>
-                    <FormControl isRequired>
-                      <FormLabel
-                        fontSize="16px"
-                        fontWeight="bold"
-                        mb={2}
-                        color={textColor}
-                      >
-                        Email Address
-                      </FormLabel>
-                      <InputGroup size="md">
-                        <Input
-                          type="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          placeholder="admin@example.com"
-                          fontSize="16px"
-                          pl={8}
+          <Box
+            bg={colors.surfaceAlt}
+            border="1px solid"
+            borderColor={colors.border}
+            borderRadius="28px"
+            boxShadow="0 24px 60px rgba(0,0,0,.06)"
+            overflow="hidden"
+            minW={0}
+            w={{ base: "calc(100vw - 32px)", lg: "420px" }}
+            maxW="calc(100vw - 32px)"
+          >
+            <Box px={{ base: 5, md: 6 }} py={5}>
+              <Text fontSize="24px" fontWeight="800" lineHeight="1.12">
+                Sign in
+              </Text>
+              <Text mt={2} fontSize="14px" color={colors.muted}>
+                Use your admin credentials to continue.
+              </Text>
+            </Box>
+
+            <Divider borderColor={colors.borderSoft} />
+
+            <Box px={{ base: 5, md: 6 }} py={{ base: 5, md: 6 }}>
+              <form onSubmit={handleSubmit}>
+                <VStack spacing={4} align="stretch">
+                  <FormControl isRequired>
+                    <FormLabel>Email address</FormLabel>
+                    <InputGroup>
+                      <InputLeftElement pointerEvents="none">
+                        <Mail size={16} color={colors.muted} />
+                      </InputLeftElement>
+                      <Input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="admin@example.com"
+                      />
+                    </InputGroup>
+                  </FormControl>
+
+                  <FormControl isRequired>
+                    <FormLabel>Password</FormLabel>
+                    <InputGroup>
+                      <InputLeftElement pointerEvents="none">
+                        <Lock size={16} color={colors.muted} />
+                      </InputLeftElement>
+                      <Input
+                        type={showPassword ? "text" : "password"}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Enter your password"
+                      />
+                      <InputRightElement>
+                        <IconButton
+                          size="sm"
+                          variant="ghost"
+                          icon={
+                            showPassword ? (
+                              <EyeOff size={16} color={colors.muted} />
+                            ) : (
+                              <Eye size={16} color={colors.muted} />
+                            )
+                          }
+                          onClick={() => setShowPassword((value) => !value)}
+                          aria-label={showPassword ? "Hide password" : "Show password"}
                         />
-                        <Box
-                          position="absolute"
-                          left="8px"
-                          top="50%"
-                          transform="translateY(-50%)"
-                          zIndex={1}
-                          pointerEvents="none"
-                        >
-                          <Mail size={16} color={lightTextColor} />
-                        </Box>
-                      </InputGroup>
-                    </FormControl>
-
-                    <FormControl isRequired>
-                      <FormLabel
-                        fontSize="16px"
-                        fontWeight="bold"
-                        mb={2}
-                        color={textColor}
-                      >
-                        Password
-                      </FormLabel>
-                      <InputGroup size="md">
-                        <Input
-                          type={showPassword ? "text" : "password"}
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          placeholder="Enter your password"
-                          fontSize="16px"
-                          pl={8}
-                        />
-                        <Box
-                          position="absolute"
-                          left="8px"
-                          top="50%"
-                          transform="translateY(-50%)"
-                          zIndex={1}
-                          pointerEvents="none"
-                        >
-                          <Lock size={16} color={lightTextColor} />
-                        </Box>
-                        <InputRightElement>
-                          <IconButton
-                            size="sm"
-                            variant="ghost"
-                            icon={
-                              showPassword ? (
-                                <EyeOff size={16} color={lightTextColor} />
-                              ) : (
-                                <Eye size={16} color={lightTextColor} />
-                              )
-                            }
-                            onClick={() => setShowPassword(!showPassword)}
-                            aria-label={
-                              showPassword ? "Hide password" : "Show password"
-                            }
-                            _hover={{ bg: paleBg }}
-                          />
-                        </InputRightElement>
-                      </InputGroup>
-                    </FormControl>
-
-                    <Button
-                      type="submit"
-                      w="full"
-                      variant="facebook"
-                      fontSize="16px"
-                      fontWeight="bold"
-                      isLoading={loading}
-                      loadingText="Signing in..."
-                      mt={2}
-                      h="38px"
-                    >
-                      Sign In
-                    </Button>
-                  </VStack>
-                </form>
-              </Box>
-
-              {/* Footer */}
-              <Box
-                borderTop="1px solid"
-                borderColor={borderColor}
-                px={4}
-                py={3}
-                bg={grayBg}
-              >
-                <VStack spacing={2}>
-                  <HStack spacing={2} fontSize="15px" color={lightTextColor}>
-                    <Lock size={12} />
-                    <Text>Secure encrypted connection</Text>
-                  </HStack>
-
-                  <Divider borderColor={borderColor} />
+                      </InputRightElement>
+                    </InputGroup>
+                  </FormControl>
 
                   <Button
-                    variant="facebookGray"
-                    size="sm"
-                    fontSize="15px"
-                    h="32px"
-                    leftIcon={<Home size={14} />}
-                    onClick={() => navigate("/")}
-                    w="full"
+                    type="submit"
+                    variant="studio"
+                    h="44px"
+                    isLoading={loading}
+                    loadingText="Signing in..."
                   >
-                    Back to Portfolio
+                    Enter dashboard
                   </Button>
                 </VStack>
-              </Box>
+              </form>
             </Box>
 
-            {/* Mobile Branding Info */}
-            <Box
-              display={{ base: "block", md: "none" }}
-              mt={4}
-              bg={cardBg}
-              border="1px solid"
-              borderColor={borderColor}
-              borderRadius="2px"
-              p={3}
+            <Divider borderColor={colors.borderSoft} />
+
+            <Stack
+              direction={{ base: "column", sm: "row" }}
+              spacing={3}
+              align={{ base: "stretch", sm: "center" }}
+              justify="space-between"
+              px={{ base: 5, md: 6 }}
+              py={4}
+              bg={colors.surface}
             >
-              <VStack align="start" spacing={2}>
-                <HStack spacing={2}>
-                  <Shield
-                    size={16}
-                    color={useColorModeValue("#3b5998", "#5b7ec8")}
-                  />
-                  <Text fontSize="16px" fontWeight="bold" color={textColor}>
-                    About Admin Portal
-                  </Text>
-                </HStack>
-                <Text fontSize="15px" color={lightTextColor} lineHeight="1.5">
-                  Manage articles, projects, and portfolio content. Protected
-                  access for administrators only.
-                </Text>
-              </VStack>
-            </Box>
+              <HStack spacing={2} color={colors.muted}>
+                <Lock size={13} />
+                <Text fontSize="13px">Encrypted admin session</Text>
+              </HStack>
+              <Button variant="studioGhost" size="sm" onClick={() => navigate("/")}>
+                Back to site
+              </Button>
+            </Stack>
           </Box>
-        </HStack>
+        </Grid>
       </Container>
     </Box>
   );

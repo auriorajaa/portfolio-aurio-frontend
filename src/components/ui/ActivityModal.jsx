@@ -1,68 +1,64 @@
 import React from "react";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalBody,
-  ModalHeader,
-  Image,
+  Box,
   IconButton,
+  Image,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   Text,
   VStack,
-  Box,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import { X } from "lucide-react";
+import { useStudioColors } from "../public/studio";
 
 const ActivityModal = ({ isOpen, onClose, activity }) => {
-  const textColor = useColorModeValue("#333333", "#e4e6eb");
-  const lightTextColor = useColorModeValue("#90949c", "#b0b3b8");
-  const cardBg = useColorModeValue("white", "#242526");
-  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
-  const grayBg = useColorModeValue("#f7f7f7", "#242526");
-  const linkBlue = useColorModeValue("#3b5998", "#5b7ec8");
+  const colors = useStudioColors();
 
   if (!activity) return null;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="2xl" isCentered>
-      <ModalOverlay bg="rgba(0, 0, 0, 0.8)" />
-      <ModalContent bg={cardBg} borderRadius="2px" overflow="hidden">
+      <ModalOverlay bg={colors.overlay} backdropFilter="blur(10px)" />
+      <ModalContent
+        bg={colors.surfaceAlt}
+        border="1px solid"
+        borderColor={colors.border}
+        borderRadius="24px"
+        overflow="hidden"
+        mx={4}
+      >
         <ModalHeader
-          bg={grayBg}
           borderBottom="1px solid"
-          borderColor={borderColor}
-          px={3}
-          py={2}
+          borderColor={colors.borderSoft}
+          px={5}
+          py={4}
           display="flex"
           justifyContent="space-between"
           alignItems="center"
         >
-          <Text fontSize="17px" fontWeight="bold" color={textColor}>
-            Activity Details
+          <Text fontSize="17px" fontWeight="700" color={colors.text}>
+            Activity details
           </Text>
           <IconButton
             icon={<X size={16} />}
             onClick={onClose}
             size="sm"
             aria-label="Close"
-            bg={cardBg}
-            color={linkBlue}
-            border="1px solid"
-            borderColor={borderColor}
-            _hover={{ bg: grayBg }}
+            variant="studioGhost"
           />
         </ModalHeader>
 
-        <ModalBody p={4}>
+        <ModalBody p={{ base: 4, md: 5 }}>
           <VStack spacing={4} align="stretch">
-            {/* Activity Image */}
             {activity.image && (
               <Box
                 border="1px solid"
-                borderColor={borderColor}
+                borderColor={colors.border}
                 overflow="hidden"
-                borderRadius="2px"
+                borderRadius="18px"
               >
                 <Image
                   src={activity.image}
@@ -75,40 +71,40 @@ const ActivityModal = ({ isOpen, onClose, activity }) => {
               </Box>
             )}
 
-            {/* Title & Info */}
             <Box>
-              <Text fontSize="19px" fontWeight="bold" color={textColor} mb={1}>
+              <Text fontSize="22px" fontWeight="800" color={colors.text} lineHeight="1.15">
                 {activity.title}
               </Text>
-              <Text fontSize="17px" color={linkBlue} mb={1}>
+              <Text fontSize="15px" color={colors.text} mt={2}>
                 {activity.role}
               </Text>
-              <Text fontSize="16px" color={lightTextColor}>
+              <Text fontSize="14px" color={colors.muted} mt={1}>
                 {activity.period}
               </Text>
             </Box>
 
-            {/* Description */}
             {activity.description && (
               <Box
-                bg={grayBg}
-                p={4}
-                borderRadius="2px"
+                bg={colors.surface}
+                p={{ base: 4, md: 5 }}
+                borderRadius="20px"
                 border="1px solid"
-                borderColor={borderColor}
+                borderColor={colors.borderSoft}
               >
                 <Text
-                  fontSize="17px"
-                  fontWeight="bold"
-                  color={textColor}
+                  fontSize="12px"
+                  fontWeight="700"
+                  color={colors.muted}
+                  letterSpacing=".08em"
+                  textTransform="uppercase"
                   mb={3}
                 >
                   Description
                 </Text>
                 <Text
-                  fontSize="16px"
-                  color={textColor}
-                  lineHeight="1.7"
+                  fontSize="15px"
+                  color={colors.text}
+                  lineHeight="1.75"
                   whiteSpace="pre-line"
                 >
                   {activity.description}

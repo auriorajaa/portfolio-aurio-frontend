@@ -32,8 +32,8 @@ const ImageUpload = ({
   const [uploadProgress, setUploadProgress] = useState(0);
   const [imageUrl, setImageUrl] = useState(value || "");
   const fileInputRef = useRef(null);
-  const borderColor = useColorModeValue("gray.200", "gray.600");
-  const lightTextColor = useColorModeValue("gray.500", "gray.400");
+  const borderColor = useColorModeValue("#e2e2dd", "#3a3a3a");
+  const lightTextColor = useColorModeValue("#6f6f6a", "#b9b9b4");
   const toast = useToast();
 
   // Update local state when prop changes
@@ -142,7 +142,7 @@ const ImageUpload = ({
               alt={label}
               maxH={previewHeight}
               objectFit="cover"
-              borderRadius="2px"
+              borderRadius="18px"
               border="1px solid"
               borderColor={borderColor}
             />
@@ -151,7 +151,7 @@ const ImageUpload = ({
                 icon={<EditIcon boxSize={2.5} />}
                 size="sm"
                 h="24px"
-                colorScheme="blue"
+                variant="studioGhost"
                 onClick={() => fileInputRef.current?.click()}
                 aria-label="Replace image"
               />
@@ -159,7 +159,8 @@ const ImageUpload = ({
                 icon={<DeleteIcon boxSize={2.5} />}
                 size="sm"
                 h="24px"
-                colorScheme="red"
+                bg="#f9e6e9"
+                color="#9f2436"
                 onClick={handleRemove}
                 aria-label="Remove image"
               />
@@ -172,7 +173,7 @@ const ImageUpload = ({
             <Text fontSize="15px" mb={1}>
               Uploading... {Math.round(uploadProgress)}%
             </Text>
-            <Progress value={uploadProgress} size="sm" colorScheme="blue" />
+            <Progress value={uploadProgress} size="sm" colorScheme="gray" />
           </Box>
         )}
 
@@ -189,12 +190,11 @@ const ImageUpload = ({
             onClick={() => fileInputRef.current?.click()}
             isLoading={uploading}
             loadingText="Uploading..."
-            colorScheme="blue"
             variant="outline"
             size="sm"
             h="36px"
             fontSize="15px"
-            borderRadius="2px"
+            borderRadius="999px"
           >
             Upload Image
           </Button>
@@ -207,7 +207,7 @@ const ImageUpload = ({
           onBlur={handleUrlBlur}
           size="sm"
           fontSize="16px"
-          borderRadius="2px"
+          borderRadius="14px"
           borderColor={borderColor}
         />
 
