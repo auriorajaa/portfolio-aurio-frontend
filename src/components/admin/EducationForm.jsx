@@ -76,7 +76,7 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
             placeholder="University or Program name"
             size="md"
             fontSize="16px"
-            borderRadius="2px"
+            borderRadius="14px"
           />
         </FormControl>
 
@@ -92,7 +92,7 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
               placeholder="e.g. 2020 - 2024"
               size="md"
               fontSize="16px"
-              borderRadius="2px"
+              borderRadius="14px"
             />
           </FormControl>
 
@@ -107,7 +107,7 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
               placeholder={type === "education" ? "3.50/4.0" : "85/100"}
               size="md"
               fontSize="16px"
-              borderRadius="2px"
+              borderRadius="14px"
             />
           </FormControl>
         </HStack>
@@ -124,7 +124,7 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
               placeholder="Field of study"
               size="md"
               fontSize="16px"
-              borderRadius="2px"
+              borderRadius="14px"
             />
           </FormControl>
 
@@ -139,7 +139,7 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
               placeholder="e.g. Bachelor's"
               size="md"
               fontSize="16px"
-              borderRadius="2px"
+              borderRadius="14px"
             />
           </FormControl>
         </HStack>
@@ -155,7 +155,7 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
               onChange={handleInputChange}
               size="md"
               fontSize="16px"
-              borderRadius="2px"
+              borderRadius="14px"
             >
               <option value="Current">Current</option>
               <option value="Completed">Completed</option>
@@ -173,7 +173,7 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
               onChange={handleInputChange}
               size="md"
               fontSize="16px"
-              borderRadius="2px"
+              borderRadius="14px"
             >
               <option value="formal">Formal Education</option>
               <option value="bootcamp">Bootcamp/Certification</option>
@@ -192,7 +192,7 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
             placeholder="https://example.com/logo.png"
             size="md"
             fontSize="16px"
-            borderRadius="2px"
+            borderRadius="14px"
           />
         </FormControl>
 
@@ -208,7 +208,7 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
             rows={3}
             size="md"
             fontSize="16px"
-            borderRadius="2px"
+            borderRadius="14px"
           />
         </FormControl>
 
@@ -253,8 +253,8 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
               size="md"
               h="36px"
               fontSize="16px"
-              borderColor="facebook.border"
-              borderRadius="2px"
+              borderColor="public.border"
+              borderRadius="14px"
             >
               Cancel
             </Button>
@@ -268,7 +268,7 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
         onClose={onClose}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent borderRadius="2px">
+          <AlertDialogContent borderRadius="24px">
             <AlertDialogHeader fontSize="17px" fontWeight="bold">
               Confirm Save
             </AlertDialogHeader>
@@ -286,7 +286,7 @@ const EducationForm = ({ data, type, onSave, onCancel }) => {
                 Cancel
               </Button>
               <Button
-                colorScheme="blue"
+                variant="facebook"
                 onClick={confirmSave}
                 ml={2}
                 size="md"

@@ -4,7 +4,7 @@ import { HStack, Text, IconButton, useColorModeValue } from "@chakra-ui/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  const textColor = useColorModeValue("#333333", "#e4e6eb");
+  const textColor = useColorModeValue("#1a1a1a", "#eaeaea");
 
   if (totalPages <= 1) return null;
 

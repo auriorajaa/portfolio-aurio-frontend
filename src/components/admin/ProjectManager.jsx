@@ -27,7 +27,7 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
 } from "@chakra-ui/react";
-import { AddIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import {
   getPortfolioData,
   updateProjects,
@@ -165,7 +165,7 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
   if (loading) {
     return (
       <Center py={6}>
-        <Spinner size="lg" color="facebook.blue" />
+        <Spinner size="lg" color="public.text" />
       </Center>
     );
   }
@@ -183,7 +183,7 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
     <Box>
       <HStack justify="space-between" mb={3}>
         <Text fontSize="16px">Total: {projects.length} projects</Text>
-        <Button
+        {/* <Button
           leftIcon={<AddIcon boxSize={3} />}
           size="sm"
           variant="facebook"
@@ -193,18 +193,18 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
           px={2}
         >
           Add Project
-        </Button>
+        </Button> */}
       </HStack>
 
       {projects.length === 0 ? (
         <Box
           p={6}
           textAlign="center"
-          borderRadius="2px"
+          borderRadius="14px"
           border="1px solid"
-          borderColor="facebook.border"
+          borderColor="public.border"
         >
-          <Text fontSize="16px" color="facebook.lightText">
+          <Text fontSize="16px" color="public.muted">
             No projects yet. Add your first project!
           </Text>
         </Box>
@@ -229,7 +229,7 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
                       w="60px"
                       h="60px"
                       border="1px solid"
-                      borderColor="facebook.border"
+                      borderColor="public.border"
                       overflow="hidden"
                     >
                       <Image
@@ -245,7 +245,7 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
                     <Text
                       fontSize="17px"
                       fontWeight="bold"
-                      color="facebook.blue"
+                      color="public.text"
                     >
                       {project.title}
                     </Text>
@@ -257,10 +257,10 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
                         <Tag
                           key={tag}
                           size="sm"
-                          bg="facebook.paleBlue"
-                          color="facebook.text"
+                          bg="public.surface"
+                          color="public.text"
                           fontSize="12px"
-                          borderRadius="2px"
+                          borderRadius="14px"
                           fontWeight="normal"
                         >
                           {tag}
@@ -333,7 +333,7 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
         onClose={onCloseDelete}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent borderRadius="2px">
+          <AlertDialogContent borderRadius="24px">
             <AlertDialogHeader fontSize="17px" fontWeight="bold">
               Delete Project
             </AlertDialogHeader>

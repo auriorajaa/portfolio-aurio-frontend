@@ -15,7 +15,14 @@ import {
   VStack,
   useToast,
 } from "@chakra-ui/react";
-import { ArrowDown, ArrowUp, Image as ImageIcon, Plus, Trash2, Upload } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowUp,
+  Image as ImageIcon,
+  Plus,
+  Trash2,
+  Upload,
+} from "lucide-react";
 import { validateMediaFile } from "../../services/cloudinaryService";
 import { RetroBadge, useRetroColors } from "../ui/retro";
 
@@ -156,13 +163,19 @@ const ProjectGalleryInput = ({ value = [], onChange }) => {
         </HStack>
 
         {uploadProgress > 0 && (
-          <Progress value={uploadProgress} size="sm" colorScheme="blue" />
+          <Progress value={uploadProgress} size="sm" colorScheme="gray" />
         )}
 
         {items.length === 0 ? (
-          <Box border="1px solid" borderColor={colors.borderSoft} p={3} bg={colors.panelAlt}>
+          <Box
+            border="1px solid"
+            borderColor={colors.borderSoft}
+            p={3}
+            bg={colors.panelAlt}
+          >
             <Text fontSize="15px" color={colors.muted}>
-              No showcase images yet. Existing project thumbnail will still be used as fallback.
+              No showcase images yet. Existing project thumbnail will still be
+              used as fallback.
             </Text>
           </Box>
         ) : (
@@ -188,9 +201,21 @@ const ProjectGalleryInput = ({ value = [], onChange }) => {
                     overflow="hidden"
                   >
                     {item.url ? (
-                      <Image src={item.url} alt={item.alt || item.title} w="100%" h="100%" objectFit="cover" />
+                      <Image
+                        src={item.url}
+                        alt={item.alt || item.title}
+                        w="100%"
+                        h="100%"
+                        objectFit="cover"
+                      />
                     ) : item.thumbnail ? (
-                      <Image src={item.thumbnail} alt={item.title} w="100%" h="100%" objectFit="cover" />
+                      <Image
+                        src={item.thumbnail}
+                        alt={item.title}
+                        w="100%"
+                        h="100%"
+                        objectFit="cover"
+                      />
                     ) : (
                       <ImageIcon size={28} color={colors.link} />
                     )}
@@ -241,13 +266,20 @@ const ProjectGalleryInput = ({ value = [], onChange }) => {
                     <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2}>
                       <Input
                         value={item.title}
-                        onChange={(e) => updateItem(item.id, { title: e.target.value })}
+                        onChange={(e) =>
+                          updateItem(item.id, { title: e.target.value })
+                        }
                         placeholder="Image title"
                         size="sm"
                       />
                       <Input
                         value={item.url}
-                        onChange={(e) => updateItem(item.id, { url: e.target.value, type: "image" })}
+                        onChange={(e) =>
+                          updateItem(item.id, {
+                            url: e.target.value,
+                            type: "image",
+                          })
+                        }
                         placeholder="Image URL"
                         size="sm"
                       />
@@ -255,20 +287,26 @@ const ProjectGalleryInput = ({ value = [], onChange }) => {
                     <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2}>
                       <Input
                         value={item.thumbnail}
-                        onChange={(e) => updateItem(item.id, { thumbnail: e.target.value })}
+                        onChange={(e) =>
+                          updateItem(item.id, { thumbnail: e.target.value })
+                        }
                         placeholder="Thumbnail URL (optional)"
                         size="sm"
                       />
                       <Input
                         value={item.alt}
-                        onChange={(e) => updateItem(item.id, { alt: e.target.value })}
+                        onChange={(e) =>
+                          updateItem(item.id, { alt: e.target.value })
+                        }
                         placeholder="Alt text"
                         size="sm"
                       />
                     </SimpleGrid>
                     <Textarea
                       value={item.caption}
-                      onChange={(e) => updateItem(item.id, { caption: e.target.value })}
+                      onChange={(e) =>
+                        updateItem(item.id, { caption: e.target.value })
+                      }
                       placeholder="Caption"
                       rows={2}
                       size="sm"

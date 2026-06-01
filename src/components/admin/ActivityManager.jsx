@@ -140,7 +140,7 @@ const ActivityManager = ({ onDataChange }) => {
   if (loading) {
     return (
       <Center py={6}>
-        <Spinner size="lg" color="facebook.blue" />
+        <Spinner size="lg" color="public.text" />
       </Center>
     );
   }
@@ -172,11 +172,11 @@ const ActivityManager = ({ onDataChange }) => {
         <Box
           p={6}
           textAlign="center"
-          borderRadius="2px"
+          borderRadius="14px"
           border="1px solid"
-          borderColor="facebook.border"
+          borderColor="public.border"
         >
-          <Text fontSize="16px" color="facebook.lightText">
+          <Text fontSize="16px" color="public.muted">
             No activities yet. Add your first activity!
           </Text>
         </Box>
@@ -191,7 +191,7 @@ const ActivityManager = ({ onDataChange }) => {
                 borderBottom={
                   idx !== currentActivities.length - 1 ? "1px solid" : "none"
                 }
-                borderColor="facebook.border"
+                borderColor="public.border"
               >
                 <Stack
                   direction={{ base: "column", md: "row" }}
@@ -204,7 +204,7 @@ const ActivityManager = ({ onDataChange }) => {
                       w={{ base: "100%", md: "60px" }}
                       h="60px"
                       border="1px solid"
-                      borderColor="facebook.border"
+                      borderColor="public.border"
                       overflow="hidden"
                     >
                       <Image
@@ -221,14 +221,14 @@ const ActivityManager = ({ onDataChange }) => {
                       <Text
                         fontSize="17px"
                         fontWeight="bold"
-                        color="facebook.blue"
+                        color="public.text"
                       >
                         {activity.title}
                       </Text>
                       {activity.role && (
                         <Badge
-                          bg="facebook.paleBlue"
-                          color="facebook.text"
+                          bg="public.surface"
+                          color="public.text"
                           fontSize="12px"
                         >
                           {activity.role}
@@ -238,7 +238,7 @@ const ActivityManager = ({ onDataChange }) => {
                     {activity.organization && (
                       <Text fontSize="16px">{activity.organization}</Text>
                     )}
-                    <Text fontSize="15px" color="facebook.lightText">
+                    <Text fontSize="15px" color="public.muted">
                       {activity.period}
                     </Text>
                   </VStack>

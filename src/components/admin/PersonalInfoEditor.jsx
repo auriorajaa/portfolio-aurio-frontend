@@ -107,7 +107,7 @@ const PersonalInfoEditor = ({ onDataChange }) => {
   if (fetching) {
     return (
       <Center py={10}>
-        <Spinner size="xl" color="facebook.blue" />
+        <Spinner size="xl" color="public.text" />
       </Center>
     );
   }
@@ -127,11 +127,11 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               placeholder="Your full name"
               size="md"
               fontSize="16px"
-              borderRadius="2px"
-              _hover={{ borderColor: "facebook.blue" }}
+              borderRadius="14px"
+              _hover={{ borderColor: "public.text" }}
               _focus={{
-                borderColor: "facebook.blue",
-                boxShadow: "0 0 0 1px #3b5998",
+                borderColor: "public.text",
+                boxShadow: "0 0 0 1px var(--chakra-colors-public-text)",
               }}
             />
           </FormControl>
@@ -147,11 +147,11 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               placeholder="e.g. Software Engineer"
               size="md"
               fontSize="16px"
-              borderRadius="2px"
-              _hover={{ borderColor: "facebook.blue" }}
+              borderRadius="14px"
+              _hover={{ borderColor: "public.text" }}
               _focus={{
-                borderColor: "facebook.blue",
-                boxShadow: "0 0 0 1px #3b5998",
+                borderColor: "public.text",
+                boxShadow: "0 0 0 1px var(--chakra-colors-public-text)",
               }}
             />
           </FormControl>
@@ -168,11 +168,11 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               placeholder="your.email@example.com"
               size="md"
               fontSize="16px"
-              borderRadius="2px"
-              _hover={{ borderColor: "facebook.blue" }}
+              borderRadius="14px"
+              _hover={{ borderColor: "public.text" }}
               _focus={{
-                borderColor: "facebook.blue",
-                boxShadow: "0 0 0 1px #3b5998",
+                borderColor: "public.text",
+                boxShadow: "0 0 0 1px var(--chakra-colors-public-text)",
               }}
             />
           </FormControl>
@@ -188,11 +188,11 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               placeholder="https://github.com/username"
               size="md"
               fontSize="16px"
-              borderRadius="2px"
-              _hover={{ borderColor: "facebook.blue" }}
+              borderRadius="14px"
+              _hover={{ borderColor: "public.text" }}
               _focus={{
-                borderColor: "facebook.blue",
-                boxShadow: "0 0 0 1px #3b5998",
+                borderColor: "public.text",
+                boxShadow: "0 0 0 1px var(--chakra-colors-public-text)",
               }}
             />
           </FormControl>
@@ -208,11 +208,11 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               placeholder="https://linkedin.com/in/username"
               size="md"
               fontSize="16px"
-              borderRadius="2px"
-              _hover={{ borderColor: "facebook.blue" }}
+              borderRadius="14px"
+              _hover={{ borderColor: "public.text" }}
               _focus={{
-                borderColor: "facebook.blue",
-                boxShadow: "0 0 0 1px #3b5998",
+                borderColor: "public.text",
+                boxShadow: "0 0 0 1px var(--chakra-colors-public-text)",
               }}
             />
           </FormControl>
@@ -228,11 +228,11 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               placeholder="https://aurio.work"
               size="md"
               fontSize="16px"
-              borderRadius="0"
-              _hover={{ borderColor: "facebook.blue" }}
+              borderRadius="14px"
+              _hover={{ borderColor: "public.text" }}
               _focus={{
-                borderColor: "facebook.blue",
-                boxShadow: "0 0 0 1px #1d5f9f",
+                borderColor: "public.text",
+                boxShadow: "0 0 0 1px var(--chakra-colors-public-text)",
               }}
             />
           </FormControl>
@@ -248,11 +248,11 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               placeholder="https://twitter.com/username"
               size="md"
               fontSize="16px"
-              borderRadius="0"
-              _hover={{ borderColor: "facebook.blue" }}
+              borderRadius="14px"
+              _hover={{ borderColor: "public.text" }}
               _focus={{
-                borderColor: "facebook.blue",
-                boxShadow: "0 0 0 1px #1d5f9f",
+                borderColor: "public.text",
+                boxShadow: "0 0 0 1px var(--chakra-colors-public-text)",
               }}
             />
           </FormControl>
@@ -268,11 +268,11 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               placeholder="City, Country"
               size="md"
               fontSize="16px"
-              borderRadius="2px"
-              _hover={{ borderColor: "facebook.blue" }}
+              borderRadius="14px"
+              _hover={{ borderColor: "public.text" }}
               _focus={{
-                borderColor: "facebook.blue",
-                boxShadow: "0 0 0 1px #3b5998",
+                borderColor: "public.text",
+                boxShadow: "0 0 0 1px var(--chakra-colors-public-text)",
               }}
             />
           </FormControl>
@@ -288,11 +288,11 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               placeholder="Brief professional summary"
               rows={4}
               fontSize="16px"
-              borderRadius="2px"
-              _hover={{ borderColor: "facebook.blue" }}
+              borderRadius="14px"
+              _hover={{ borderColor: "public.text" }}
               _focus={{
-                borderColor: "facebook.blue",
-                boxShadow: "0 0 0 1px #3b5998",
+                borderColor: "public.text",
+                boxShadow: "0 0 0 1px var(--chakra-colors-public-text)",
               }}
             />
           </FormControl>
@@ -308,11 +308,11 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               placeholder="Aurio Rajaa | Software Engineer Portfolio"
               size="md"
               fontSize="16px"
-              borderRadius="0"
-              _hover={{ borderColor: "facebook.blue" }}
+              borderRadius="14px"
+              _hover={{ borderColor: "public.text" }}
               _focus={{
-                borderColor: "facebook.blue",
-                boxShadow: "0 0 0 1px #1d5f9f",
+                borderColor: "public.text",
+                boxShadow: "0 0 0 1px var(--chakra-colors-public-text)",
               }}
             />
           </FormControl>
@@ -328,11 +328,11 @@ const PersonalInfoEditor = ({ onDataChange }) => {
               placeholder="Short search/social preview description"
               rows={3}
               fontSize="16px"
-              borderRadius="0"
-              _hover={{ borderColor: "facebook.blue" }}
+              borderRadius="14px"
+              _hover={{ borderColor: "public.text" }}
               _focus={{
-                borderColor: "facebook.blue",
-                boxShadow: "0 0 0 1px #1d5f9f",
+                borderColor: "public.text",
+                boxShadow: "0 0 0 1px var(--chakra-colors-public-text)",
               }}
             />
           </FormControl>

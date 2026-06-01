@@ -216,13 +216,13 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
       as="form"
       onSubmit={handleSubmit}
       border="1px solid"
-      borderColor="facebook.border"
-      borderRadius="2px"
+      borderColor="public.border"
+      borderRadius="14px"
     >
       {/* Form Header */}
       <Box
         borderBottom="1px solid"
-        borderColor="facebook.border"
+        borderColor="public.border"
         px={{ base: 3, md: 4 }}
         py={3}
       >
@@ -246,10 +246,10 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
               placeholder="Enter article title"
               fontSize="17px"
               size="md"
-              _hover={{ borderColor: "facebook.blue" }}
+              _hover={{ borderColor: "public.text" }}
               _focus={{
-                borderColor: "facebook.blue",
-                boxShadow: "0 0 0 1px #3b5998",
+                borderColor: "public.text",
+                boxShadow: "0 0 0 1px var(--chakra-colors-public-text)",
               }}
             />
           </FormControl>
@@ -266,10 +266,10 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
               placeholder="Brief summary of the article"
               rows={3}
               fontSize="17px"
-              _hover={{ borderColor: "facebook.blue" }}
+              _hover={{ borderColor: "public.text" }}
               _focus={{
-                borderColor: "facebook.blue",
-                boxShadow: "0 0 0 1px #3b5998",
+                borderColor: "public.text",
+                boxShadow: "0 0 0 1px var(--chakra-colors-public-text)",
               }}
             />
           </FormControl>
@@ -284,11 +284,11 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
               onChange={handleCategoryChange}
               fontSize="16px"
               size="md"
-              borderRadius="2px"
-              _hover={{ borderColor: "facebook.blue" }}
+              borderRadius="14px"
+              _hover={{ borderColor: "public.text" }}
               _focus={{
-                borderColor: "facebook.blue",
-                boxShadow: "0 0 0 1px #3b5998",
+                borderColor: "public.text",
+                boxShadow: "0 0 0 1px var(--chakra-colors-public-text)",
               }}
             >
               {CATEGORIES.map((cat) => (
@@ -319,10 +319,10 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
                 fontSize="17px"
                 size="md"
                 flex={1}
-                _hover={{ borderColor: "facebook.blue" }}
+                _hover={{ borderColor: "public.text" }}
                 _focus={{
-                  borderColor: "facebook.blue",
-                  boxShadow: "0 0 0 1px #3b5998",
+                  borderColor: "public.text",
+                  boxShadow: "0 0 0 1px var(--chakra-colors-public-text)",
                 }}
                 onKeyPress={(e) => {
                   if (e.key === "Enter") {
@@ -349,12 +349,12 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
                 {formData.tags.map((tag) => (
                   <HStack
                     key={tag}
-                    bg="facebook.paleBlue"
+                    bg="public.surface"
                     px={2}
                     py={1}
-                    borderRadius="2px"
+                    borderRadius="14px"
                     border="1px solid"
-                    borderColor="facebook.border"
+                    borderColor="public.border"
                     spacing={1}
                   >
                     <Text fontSize="15px">{tag}</Text>
@@ -396,7 +396,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
                       featured: e.target.checked,
                     }))
                   }
-                  colorScheme="blue"
+                  colorScheme="gray"
                   size="sm"
                 />
               </HStack>
@@ -417,11 +417,11 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
                 }
                 fontSize="16px"
                 size="md"
-                borderRadius="2px"
-                _hover={{ borderColor: "facebook.blue" }}
+                borderRadius="14px"
+                _hover={{ borderColor: "public.text" }}
                 _focus={{
-                  borderColor: "facebook.blue",
-                  boxShadow: "0 0 0 1px #3b5998",
+                  borderColor: "public.text",
+                  boxShadow: "0 0 0 1px var(--chakra-colors-public-text)",
                 }}
               >
                 <option value="draft">Draft</option>
@@ -438,21 +438,21 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
             </FormLabel>
             <Box
               border="1px solid"
-              borderColor="facebook.border"
-              borderRadius="2px"
+              borderColor="public.border"
+              borderRadius="14px"
               sx={{
                 ".quill": {
                   fontFamily: "'Tahoma', 'Lucida Grande', sans-serif",
                 },
                 ".ql-toolbar": {
-                  borderColor: "facebook.border",
+                  borderColor: "public.border",
                   borderTopLeftRadius: "2px",
                   borderTopRightRadius: "2px",
                 },
                 ".ql-container": {
                   minHeight: "300px",
                   fontSize: "16px",
-                  borderColor: "facebook.border",
+                  borderColor: "public.border",
                   borderBottomLeftRadius: "2px",
                   borderBottomRightRadius: "2px",
                   fontFamily: "'Tahoma', 'Lucida Grande', sans-serif",
@@ -464,7 +464,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
                 },
                 ".ql-editor.ql-blank::before": {
                   fontSize: "16px",
-                  color: "facebook.lightText",
+                  color: "public.muted",
                   fontStyle: "italic",
                 },
               }}
@@ -483,7 +483,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
       {/* Form Footer */}
       <Box
         borderTop="1px solid"
-        borderColor="facebook.border"
+        borderColor="public.border"
         px={{ base: 3, md: 4 }}
         py={3}
       >
@@ -526,7 +526,7 @@ const ArticleEditor = ({ article, onSuccess, onCancel }) => {
         onClose={onClose}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent borderRadius="2px" mx={4}>
+          <AlertDialogContent borderRadius="24px" mx={4}>
             <AlertDialogHeader fontSize="17px" fontWeight="bold">
               Confirm {article ? "Update" : "Create"}
             </AlertDialogHeader>

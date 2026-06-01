@@ -187,7 +187,7 @@ const ArticleList = ({
   if (loading) {
     return (
       <Center py={10}>
-        <Spinner size="xl" color="facebook.blue" />
+        <Spinner size="xl" color="public.text" />
       </Center>
     );
   }
@@ -226,11 +226,11 @@ const ArticleList = ({
         <Box
           p={6}
           textAlign="center"
-          borderRadius="2px"
+          borderRadius="14px"
           border="1px solid"
-          borderColor="facebook.border"
+          borderColor="public.border"
         >
-          <Text fontSize="16px" color="facebook.lightText">
+          <Text fontSize="16px" color="public.muted">
             No articles yet. Create your first article!
           </Text>
         </Box>
@@ -245,7 +245,7 @@ const ArticleList = ({
                 borderBottom={
                   idx !== currentArticles.length - 1 ? "1px solid" : "none"
                 }
-                borderColor="facebook.border"
+                borderColor="public.border"
               >
                 <Stack
                   direction={{ base: "column", md: "row" }}
@@ -258,7 +258,7 @@ const ArticleList = ({
                       w={{ base: "100%", md: "80px" }}
                       h="80px"
                       border="1px solid"
-                      borderColor="facebook.border"
+                      borderColor="public.border"
                       overflow="hidden"
                     >
                       <Image
@@ -275,7 +275,7 @@ const ArticleList = ({
                       <Text
                         fontSize="17px"
                         fontWeight="bold"
-                        color="facebook.blue"
+                        color="public.text"
                       >
                         {article.title}
                       </Text>
@@ -290,13 +290,13 @@ const ArticleList = ({
                     </Text>
                     <HStack
                       fontSize="15px"
-                      color="facebook.lightText"
+                      color="public.muted"
                       spacing={1}
                       flexWrap="wrap"
                     >
                       <Badge
-                        bg="facebook.paleBlue"
-                        color="facebook.text"
+                        bg="public.surface"
+                        color="public.text"
                         fontSize="12px"
                       >
                         {article.categoryLabel}
@@ -315,7 +315,7 @@ const ArticleList = ({
                       onChange={(e) =>
                         handleVisibilityChange(article.id, e.target.value)
                       }
-                      borderRadius="2px"
+                      borderRadius="14px"
                       borderColor={
                         article.visibility === "draft"
                           ? "orange.300"
@@ -354,8 +354,8 @@ const ArticleList = ({
                         <Portal>
                           <PopoverContent
                             border="1px solid"
-                            borderColor="facebook.border"
-                            borderRadius="2px"
+                            borderColor="public.border"
+                            borderRadius="14px"
                             boxShadow="0 2px 8px rgba(0,0,0,0.15)"
                             minW="140px"
                             w="140px"
@@ -371,7 +371,7 @@ const ArticleList = ({
                                   <HStack
                                     spacing={1}
                                     p={1}
-                                    _hover={{ bg: "facebook.paleBlue" }}
+                                    _hover={{ bg: "public.surface" }}
                                     cursor="pointer"
                                   >
                                     <FacebookIcon size={20} round={false} />
@@ -385,7 +385,7 @@ const ArticleList = ({
                                   <HStack
                                     spacing={1}
                                     p={1}
-                                    _hover={{ bg: "facebook.paleBlue" }}
+                                    _hover={{ bg: "public.surface" }}
                                     cursor="pointer"
                                   >
                                     <TwitterIcon size={20} round={false} />
@@ -400,7 +400,7 @@ const ArticleList = ({
                                   <HStack
                                     spacing={1}
                                     p={1}
-                                    _hover={{ bg: "facebook.paleBlue" }}
+                                    _hover={{ bg: "public.surface" }}
                                     cursor="pointer"
                                   >
                                     <LinkedinIcon size={20} round={false} />
@@ -414,7 +414,7 @@ const ArticleList = ({
                                   <HStack
                                     spacing={1}
                                     p={1}
-                                    _hover={{ bg: "facebook.paleBlue" }}
+                                    _hover={{ bg: "public.surface" }}
                                     cursor="pointer"
                                   >
                                     <WhatsappIcon size={20} round={false} />
@@ -477,7 +477,7 @@ const ArticleList = ({
         onClose={onClose}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent borderRadius="2px">
+          <AlertDialogContent borderRadius="24px">
             <AlertDialogHeader fontSize="17px" fontWeight="bold">
               Delete Article
             </AlertDialogHeader>

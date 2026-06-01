@@ -21,9 +21,9 @@ const ArrayInput = ({
 }) => {
   const [inputValue, setInputValue] = useState("");
 
-  const borderColor = useColorModeValue("#d3d6db", "#3e4042");
-  const itemBg = useColorModeValue("#f7f7f7", "#3a3b3c");
-  const focusBorder = useColorModeValue("#3b5998", "#5b7ec8");
+  const borderColor = useColorModeValue("#e2e2dd", "#3a3a3a");
+  const itemBg = useColorModeValue("#f3f3f0", "#2a2a2a");
+  const focusBorder = useColorModeValue("#1a1a1a", "#eaeaea");
 
   const handleAdd = () => {
     if (inputValue.trim()) {
@@ -61,7 +61,7 @@ const ArrayInput = ({
             placeholder={placeholder}
             size="md"
             fontSize="16px"
-            borderRadius="2px"
+            borderRadius="14px"
             _hover={{ borderColor: focusBorder }}
             _focus={{
               borderColor: focusBorder,
@@ -75,7 +75,7 @@ const ArrayInput = ({
             h="36px"
             fontSize="15px"
             variant="facebook"
-            borderRadius="2px"
+            borderRadius="999px"
           >
             Add
           </Button>
@@ -89,7 +89,7 @@ const ArrayInput = ({
                 px={2}
                 py={1}
                 bg={itemBg}
-                borderRadius="2px"
+                borderRadius="14px"
                 justify="space-between"
                 border="1px solid"
                 borderColor={borderColor}

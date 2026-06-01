@@ -168,11 +168,11 @@ const EducationManager = ({ onDataChange }) => {
         <Box
           p={6}
           textAlign="center"
-          borderRadius="2px"
+          borderRadius="14px"
           border="1px solid"
-          borderColor="facebook.border"
+          borderColor="public.border"
         >
-          <Text fontSize="16px" color="facebook.lightText">
+          <Text fontSize="16px" color="public.muted">
             No {type === "education" ? "education" : "certifications"} yet. Add
             your first one!
           </Text>
@@ -193,17 +193,17 @@ const EducationManager = ({ onDataChange }) => {
               key={index}
               px={3}
               py={2}
-              borderRadius="2px"
+              borderRadius="14px"
               border="1px solid"
-              borderColor="facebook.border"
+              borderColor="public.border"
             >
               <HStack justify="space-between" align="start">
                 <VStack align="start" flex={1} spacing={0.5}>
-                  <Text fontSize="17px" fontWeight="bold" color="facebook.blue">
+                  <Text fontSize="17px" fontWeight="bold" color="public.text">
                     {item.title}
                   </Text>
                   <Text fontSize="16px">{item.major || item.degree}</Text>
-                  <Text fontSize="15px" color="facebook.lightText">
+                  <Text fontSize="15px" color="public.muted">
                     {item.period}
                   </Text>
                   <HStack spacing={1.5} mt={1}>
@@ -215,17 +215,17 @@ const EducationManager = ({ onDataChange }) => {
                       fontSize="12px"
                       px={2}
                       py={0.5}
-                      borderRadius="2px"
+                      borderRadius="14px"
                     >
                       {item.type}
                     </Badge>
                     <Badge
-                      bg="facebook.paleBlue"
-                      color="facebook.blue"
+                      bg="public.surface"
+                      color="public.text"
                       fontSize="12px"
                       px={2}
                       py={0.5}
-                      borderRadius="2px"
+                      borderRadius="14px"
                     >
                       {item.status}
                     </Badge>
@@ -269,26 +269,26 @@ const EducationManager = ({ onDataChange }) => {
   if (loading) {
     return (
       <Center py={10}>
-        <Spinner size="xl" color="facebook.blue" />
+        <Spinner size="xl" color="public.text" />
       </Center>
     );
   }
 
   return (
     <Box>
-      <Tabs colorScheme="blue" size="sm">
-        <TabList borderColor="facebook.border">
+      <Tabs colorScheme="gray" size="sm">
+        <TabList borderColor="public.border">
           <Tab
             fontSize="16px"
             fontWeight="bold"
-            _selected={{ color: "facebook.blue", borderColor: "facebook.blue" }}
+            _selected={{ color: "public.text", borderColor: "public.text" }}
           >
             Formal Education ({educationList.length})
           </Tab>
           <Tab
             fontSize="16px"
             fontWeight="bold"
-            _selected={{ color: "facebook.blue", borderColor: "facebook.blue" }}
+            _selected={{ color: "public.text", borderColor: "public.text" }}
           >
             Certifications & Bootcamps ({certificationsList.length})
           </Tab>

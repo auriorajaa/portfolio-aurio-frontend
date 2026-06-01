@@ -1,31 +1,28 @@
 import React from "react";
-import {
-  Box,
-  Flex,
-  HStack,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Flex, HStack, Text, useColorModeValue } from "@chakra-ui/react";
+import { useStudioColors } from "../public/studio";
 
 export const useRetroColors = () => ({
-  pageBg: useColorModeValue("#cfd7e2", "#0f151d"),
-  panelBg: useColorModeValue("#ffffff", "#1b232d"),
-  panelAlt: useColorModeValue("#eef2f6", "#141a22"),
-  headerBg: useColorModeValue("#d7dde6", "#27313d"),
-  headerDark: useColorModeValue("#b8c3d0", "#111821"),
-  border: useColorModeValue("#9aa8ba", "#465568"),
-  borderSoft: useColorModeValue("#c3ccd8", "#344252"),
-  text: useColorModeValue("#1f2833", "#e6edf5"),
-  muted: useColorModeValue("#4d5866", "#aab6c4"),
-  link: useColorModeValue("#1d5f9f", "#8bb8e8"),
-  linkDark: useColorModeValue("#123f6c", "#5e93ca"),
-  paleBlue: useColorModeValue("#dce8f5", "#26394d"),
-  amber: useColorModeValue("#b56a00", "#b56a00"),
-  green: useColorModeValue("#276b46", "#276b46"),
-  red: useColorModeValue("#9f2436", "#9f2436"),
+  ...useStudioColors(),
+  pageBg: useColorModeValue("#fafaf8", "#1e1e1e"),
+  panelBg: useColorModeValue("#ffffff", "#242424"),
+  panelAlt: useColorModeValue("#f3f3f0", "#2a2a2a"),
+  headerBg: useColorModeValue("#ffffff", "#242424"),
+  headerDark: useColorModeValue("#f3f3f0", "#2a2a2a"),
+  border: useColorModeValue("#e2e2dd", "#3a3a3a"),
+  borderSoft: useColorModeValue("#edede8", "#343434"),
+  text: useColorModeValue("#1a1a1a", "#eaeaea"),
+  muted: useColorModeValue("#6f6f6a", "#b9b9b4"),
+  link: useColorModeValue("#1a1a1a", "#eaeaea"),
+  linkDark: useColorModeValue("#0f0f0f", "#ffffff"),
+  paleBlue: useColorModeValue("#f3f3f0", "#2a2a2a"),
+  amber: useColorModeValue("#8a6000", "#d6a64b"),
+  green: useColorModeValue("#276b46", "#75b98f"),
+  red: useColorModeValue("#9f2436", "#de7886"),
+  overlay: useColorModeValue("rgba(26,26,26,.42)", "rgba(0,0,0,.74)"),
   shadow: useColorModeValue(
-    "inset 1px 1px 0 #ffffff, inset -1px -1px 0 #b6c0cc",
-    "inset 1px 1px 0 rgba(255,255,255,.06), inset -1px -1px 0 rgba(0,0,0,.32)"
+    "0 18px 48px rgba(0,0,0,0.045)",
+    "0 18px 48px rgba(0,0,0,0.24)",
   ),
 });
 
@@ -48,7 +45,7 @@ export const RetroPanel = ({
       bg={colors.panelBg}
       border="1px solid"
       borderColor={colors.border}
-      borderRadius="0"
+      borderRadius="22px"
       mb={4}
       boxShadow={colors.shadow}
       overflow="hidden"
@@ -60,17 +57,17 @@ export const RetroPanel = ({
           justify="space-between"
           gap={3}
           px={3}
-          py={2}
+          py={3}
           borderBottom="1px solid"
-          borderColor={colors.border}
-          bg={`linear-gradient(180deg, ${colors.headerBg}, ${colors.headerDark})`}
-          minH="34px"
+          borderColor={colors.borderSoft}
+          bg={colors.panelBg}
+          minH="46px"
         >
           <HStack spacing={2} minW={0}>
-            {Icon && <Icon size={14} color={colors.link} />}
+            {Icon && <Icon size={15} color={colors.muted} />}
             <Text
-              fontSize="16px"
-              fontWeight="bold"
+              fontSize="15px"
+              fontWeight="700"
               color={colors.text}
               noOfLines={1}
             >
@@ -104,10 +101,10 @@ export const RetroPanel = ({
 export const RetroBadge = ({ children, tone = "blue", ...props }) => {
   const colors = useRetroColors();
   const tones = {
-    blue: { bg: colors.paleBlue, color: colors.link, border: colors.border },
-    amber: { bg: "#fff2cc", color: colors.amber, border: "#d6a84a" },
-    green: { bg: "#dff0df", color: colors.green, border: "#8fbc8f" },
-    red: { bg: "#f7d8dc", color: colors.red, border: "#c97a86" },
+    blue: { bg: colors.panelAlt, color: colors.text, border: colors.border },
+    amber: { bg: useColorModeValue("#fff6df", "#332815"), color: colors.amber, border: useColorModeValue("#ead6a2", "#5a4824") },
+    green: { bg: useColorModeValue("#e8f4ec", "#14291e"), color: colors.green, border: useColorModeValue("#bed9c8", "#2b563c") },
+    red: { bg: useColorModeValue("#f9e6e9", "#32171c"), color: colors.red, border: useColorModeValue("#e6bcc3", "#63303a") },
     gray: { bg: colors.panelAlt, color: colors.muted, border: colors.border },
   };
   const selected = tones[tone] || tones.blue;
@@ -117,15 +114,17 @@ export const RetroBadge = ({ children, tone = "blue", ...props }) => {
       as="span"
       display="inline-flex"
       alignItems="center"
-      minH="18px"
-      px={2}
+      minH="22px"
+      px={2.5}
       border="1px solid"
       bg={selected.bg}
       color={selected.color}
       borderColor={selected.border}
-      fontSize="13px"
-      fontWeight="bold"
-      lineHeight="16px"
+      borderRadius="999px"
+      fontSize="11px"
+      fontWeight="700"
+      letterSpacing=".04em"
+      lineHeight="1"
       textTransform="uppercase"
       {...props}
     >
@@ -139,10 +138,7 @@ export const RetroDivider = () => {
   return (
     <Box
       h="1px"
-      bg={colors.border}
-      borderBottom="1px solid"
-      borderColor={colors.borderSoft}
+      bg={colors.borderSoft}
     />
   );
 };
-
