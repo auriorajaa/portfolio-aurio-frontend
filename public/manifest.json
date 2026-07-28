@@ -1,21 +1,32 @@
 {
   "short_name": "aurio.work",
   "name": "Aurio Rajaa - Software Engineer Portfolio",
-  "description": "Retro desktop portal portfolio for Aurio Rajaa.",
+  "description": "Software engineer portfolio for Aurio Rajaa.",
   "icons": [
     {
-      "src": "portfolio.png",
+      "src": "/favicon-48x48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "/favicon-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "portfolio.png",
+      "src": "/apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    },
+    {
+      "src": "/portfolio.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "theme_color": "#123f6c",
-  "background_color": "#cfd7e2"
+  "theme_color": "#1e1e1e",
+  "background_color": "#fafaf8"
 }

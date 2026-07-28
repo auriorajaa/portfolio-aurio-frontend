@@ -10,6 +10,15 @@ import Header from "../components/layout/Header";
 import { StudioPill, useStudioColors } from "../components/public/studio";
 import { getArticleBySlug, getAllArticles } from "../services/articleService";
 import { gsap, prefersReducedMotion } from "../utils/gsap";
+import {
+  DEFAULT_AUTHOR,
+  DEFAULT_IMAGE,
+  SITE_NAME,
+  absoluteUrl,
+  createArticleSchema,
+  createBreadcrumbSchema,
+  truncate,
+} from "../utils/seo";
 
 const withTimeout = (promise, ms = 4500) =>
   Promise.race([
@@ -30,9 +39,7 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
   const rootRef = useRef(null);
   const progressRef = useRef(null);
 
-  const shareUrl = typeof window !== "undefined"
-    ? `${window.location.origin}/article/${slug}`
-    : `https://aurio.work/article/${slug}`;
+  const shareUrl = absoluteUrl(`/article/${slug}`);
 
   useGSAP(
     () => {
@@ -119,6 +126,10 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
   const formatDate = (d) =>
     new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 
+  const articleTitle = article ? `${article.title} | ${DEFAULT_AUTHOR}` : `Article not found | ${SITE_NAME}`;
+  const articleDescription = article ? truncate(article.excerpt || article.description, 155) : "This article could not be found in Aurio Rajaa's portfolio.";
+  const articleImage = absoluteUrl(article?.image || DEFAULT_IMAGE);
+
   if (loading) {
     return (
       <Box minH="100vh" bg={colors.bg}>
@@ -130,6 +141,12 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
   if (!article) {
     return (
       <Box minH="100vh" bg={colors.bg} color={colors.text}>
+        <Helmet>
+          <title>{articleTitle}</title>
+          <link rel="canonical" href={shareUrl} />
+          <meta name="description" content={articleDescription} />
+          <meta name="robots" content="noindex, follow" />
+        </Helmet>
         <Header isDownloading={isDownloading} handleDownload={handleDownload} />
         <Center minH="70vh" px={4}>
           <VStack spacing={5} textAlign="center">
@@ -156,26 +173,37 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
     );
   }
 
+  const articleSchema = createArticleSchema(article, shareUrl);
+  const breadcrumbs = createBreadcrumbSchema([
+    { name: "Home", item: "/" },
+    { name: "Articles", item: "/#articles" },
+    { name: article.title, item: `/article/${article.slug || slug}` },
+  ]);
+
   return (
     <Box ref={rootRef} minH="100vh" bg={colors.bg} color={colors.text} transition="background-color .28s ease">
       <Helmet>
-        <title>{article.title} — Aurio Rajaa</title>
+        <title>{articleTitle}</title>
         <link rel="canonical" href={shareUrl} />
-        <meta name="description" content={article.excerpt} />
+        <meta name="description" content={articleDescription} />
         <meta property="og:type" content="article" />
         <meta property="og:url" content={shareUrl} />
-        <meta property="og:title" content={article.title} />
-        <meta property="og:description" content={article.excerpt} />
-        <meta property="og:image" content={article.image || ""} />
-        <meta property="og:site_name" content="Aurio Rajaa" />
-        <meta property="article:author" content={article.author} />
+        <meta property="og:site_name" content={SITE_NAME} />
+        <meta property="og:title" content={articleTitle} />
+        <meta property="og:description" content={articleDescription} />
+        <meta property="og:image" content={articleImage} />
+        <meta property="og:image:alt" content={`${article.title} article cover`} />
+        <meta property="article:author" content={article.author || DEFAULT_AUTHOR} />
         <meta property="article:published_time" content={article.date} />
+        {article.updatedAt && <meta property="article:modified_time" content={article.updatedAt} />}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={article.title} />
-        <meta name="twitter:description" content={article.excerpt} />
-        <meta name="twitter:image" content={article.image || ""} />
-        <meta name="author" content={article.author} />
-        <meta name="keywords" content={article.tags?.join(", ")} />
+        <meta name="twitter:title" content={articleTitle} />
+        <meta name="twitter:description" content={articleDescription} />
+        <meta name="twitter:image" content={articleImage} />
+        <meta name="author" content={article.author || DEFAULT_AUTHOR} />
+        <meta name="keywords" content={(article.tags || []).join(", ")} />
+        <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbs)}</script>
       </Helmet>
 
       {/* Reading progress bar */}
@@ -295,6 +323,9 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
               src={article.image}
               alt={article.title}
               effect="opacity"
+              threshold={260}
+              loading="lazy"
+              decoding="async"
               width="100%"
               style={{ width: "100%", height: "auto", display: "block" }}
             />

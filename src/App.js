@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import AdminDashboard from "./pages/AdminDashboard";
 import ArticlePage from "./pages/ArticlePage";
+import ProjectPage from "./pages/ProjectPage";
 import NotFound from "./pages/NotFound";
 
 const App = () => {
@@ -60,6 +61,15 @@ const App = () => {
                 path="/article/:slug"
                 element={
                   <ArticlePage
+                    isDownloading={isDownloading}
+                    handleDownload={handleDownload}
+                  />
+                }
+              />
+              <Route
+                path="/project/:slug"
+                element={
+                  <ProjectPage
                     isDownloading={isDownloading}
                     handleDownload={handleDownload}
                   />

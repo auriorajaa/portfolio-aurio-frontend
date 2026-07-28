@@ -15,20 +15,25 @@ import Articles from "../components/sections/Articles";
 import { usePortfolio } from "../contexts/PortfolioContext";
 import { useLayoutEffect } from "react";
 import { useLocation } from "react-router-dom";
+import {
+  DEFAULT_DESCRIPTION,
+  DEFAULT_TITLE,
+  SITE_NAME,
+  absoluteUrl,
+  createPersonSchema,
+  createWebsiteSchema,
+} from "../utils/seo";
 
 const Home = ({ isDownloading, handleDownload }) => {
   const { portfolioData, loading } = usePortfolio();
   const personalInfo = portfolioData.personalInfo || {};
   const location = useLocation();
-  const canonicalUrl = "https://aurio.work/";
-  const title =
-    personalInfo.seoTitle ||
-    `${personalInfo.name || "Aurio Rajaa"} - ${personalInfo.title || "Software Engineer"}`;
-  const description =
-    personalInfo.seoDescription ||
-    personalInfo.bio ||
-    "Aurio Rajaa is a software engineer from Jakarta focused on backend, cloud, and full-stack product systems.";
-  const imageUrl = "https://aurio.work/profilepic.png";
+  const canonicalUrl = absoluteUrl("/");
+  const title = personalInfo.seoTitle || DEFAULT_TITLE;
+  const description = personalInfo.seoDescription || personalInfo.bio || DEFAULT_DESCRIPTION;
+  const imageUrl = absoluteUrl("/profilepic.png");
+  const personSchema = createPersonSchema(personalInfo);
+  const websiteSchema = createWebsiteSchema();
 
   useLayoutEffect(() => {
     if (location.state?.scrollTo) {
@@ -62,7 +67,7 @@ const Home = ({ isDownloading, handleDownload }) => {
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:site_name" content="aurio.work" />
+        <meta property="og:site_name" content={SITE_NAME} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content={imageUrl} />
@@ -72,32 +77,8 @@ const Home = ({ isDownloading, handleDownload }) => {
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={imageUrl} />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Person",
-            name: personalInfo.name || "Aurio Rajaa",
-            url: canonicalUrl,
-            image: imageUrl,
-            jobTitle: personalInfo.title || "Software Engineer",
-            description,
-            address: {
-              "@type": "PostalAddress",
-              addressLocality: "Jakarta",
-              addressCountry: "ID",
-            },
-            sameAs: [personalInfo.github, personalInfo.linkedin].filter(Boolean),
-            knowsAbout: [
-              "Spring Boot",
-              "Django REST Framework",
-              "React",
-              "Next.js",
-              "Google Cloud Platform",
-              "Java",
-              "TypeScript",
-            ],
-          })}
-        </script>
+        <script type="application/ld+json">{JSON.stringify(personSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(websiteSchema)}</script>
       </Helmet>
 
       <Layout isDownloading={isDownloading} handleDownload={handleDownload}>

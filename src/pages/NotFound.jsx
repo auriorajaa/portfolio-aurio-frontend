@@ -1,7 +1,9 @@
 import React, { useRef } from "react";
 import { Box, Button, Container, Heading, Link, Text, VStack } from "@chakra-ui/react";
 import { useGSAP } from "@gsap/react";
+import { Helmet } from "react-helmet-async";
 import { ArrowLeft } from "lucide-react";
+import { SITE_NAME } from "../utils/seo";
 import { useStudioColors } from "../components/public/studio";
 import { gsap, prefersReducedMotion } from "../utils/gsap";
 
@@ -38,6 +40,11 @@ const NotFound = ({ code = "404", title = "Page not found", message }) => {
 
   return (
     <Box ref={rootRef} minH="100vh" bg={colors.bg} display="grid" placeItems="center" px={4}>
+      <Helmet>
+        <title>{`${title} | ${SITE_NAME}`}</title>
+        <meta name="description" content={message || "This page could not be found in Aurio Rajaa's portfolio."} />
+        <meta name="robots" content="noindex, follow" />
+      </Helmet>
       <Container maxW="620px" textAlign="center">
         <VStack spacing={5}>
           <Heading

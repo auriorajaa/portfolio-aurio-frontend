@@ -108,15 +108,15 @@ const Hero = () => {
           <Heading
             as="h1"
             fontSize={{ base: "43px", md: "56px" }}
-            lineHeight=".99"
+            lineHeight={{ base: ".99", md: "1.25" }} // .99 di mobile, lebih longgar di desktop agar tidak terpotong
+            letterSpacing={{ base: "-0.02em", md: "normal" }} // -0.02em di mobile, normal di desktop
             fontWeight="800"
-            letterSpacing="-0.02em"
             maxW="860px"
           >
             <SplitWords
               text={
                 `${personalInfo.name || "Aurio Rajaa"}. ` +
-                "Building systems and interfaces that work."
+                "Backend and Java Developer."
               }
             />
           </Heading>
@@ -338,6 +338,10 @@ const Hero = () => {
                     src="/profilepic.png"
                     alt={personalInfo.name || "Aurio Rajaa"}
                     effect="opacity"
+                    visibleByDefault
+                    loading="eager"
+                    decoding="async"
+                    fetchPriority="high"
                     width="100%"
                     height="100%"
                     style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}

@@ -11,7 +11,7 @@ export const personalInfo = {
   seoTitle: "Aurio Rajaa | Software Engineer Portfolio",
   seoDescription:
     "Aurio Rajaa is a software engineer from Jakarta focused on backend systems, cloud workflows, and full-stack product interfaces.",
-  bio: "Backend developer specializing in Spring Boot and Java ecosystem. Building robust RESTful APIs and microservices. Also experienced with Django and modern frontend technologies like React and Next.js.",
+  bio: "Backend developer specializing in Spring Boot and Java ecosystem. Building robust RESTful APIs and microservices. Also familiar with Django and modern frontend technologies like React and Next.js.",
 };
 
 // Formal Education (Degree Programs)
@@ -412,6 +412,7 @@ export const skillsData = [
     category: "Tools",
     skills: [
       "Git & GitHub",
+      "Docker",
       "Google Cloud Services",
     ],
   },
