@@ -147,7 +147,7 @@ const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
   const isZoomed = zoom > 1;
 
   return (
-    <Modal isOpen={isOpen} onClose={close} size="6xl" isCentered trapFocus>
+    <Modal isOpen={isOpen} onClose={close} size="6xl" isCentered trapFocus scrollBehavior="inside">
       <ModalOverlay bg={colors.overlay} backdropFilter="blur(14px)" />
       <ModalContent
         ref={modalRef}
@@ -157,19 +157,22 @@ const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
         borderColor={colors.border}
         borderRadius="0"
         boxShadow="0 1px 3px rgba(0,0,0,0.04)"
-        maxH={{ base: "100dvh", md: "90dvh" }}
+        maxH={{ base: "calc(100dvh - 16px)", md: "90dvh" }}
         overflow="hidden"
-        mx={{ base: 0, md: 4 }}
+        mx={{ base: 2, md: 4 }}
       >
-        <ModalBody p={0}>
-          <Grid templateColumns={{ base: "1fr", lg: "minmax(0, 1.05fr) .95fr" }} maxH={{ md: "90dvh" }}>
+        <ModalBody p={0} overflowY={{ base: "auto", lg: "hidden" }}>
+          <Grid
+            templateColumns={{ base: "1fr", lg: "minmax(0, 1.05fr) .95fr" }}
+            maxH={{ lg: "90dvh" }}
+          >
 
             {/* ── Image panel ── */}
             <Flex
               data-modal-part
               direction="column"
-              minH={{ base: "55vh", md: "70vh" }}
-              maxH={{ base: "55vh", md: "90dvh" }}
+              minH={{ base: "38dvh", md: "70vh" }}
+              maxH={{ base: "42dvh", md: "90dvh" }}
               bg={colors.surface}
               position="relative"
               onTouchStart={handleTouchStart}
@@ -211,6 +214,9 @@ const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
                       <img
                         src={item.url}
                         alt={item.alt || normalized.title}
+                        loading={i === activeIndex ? "eager" : "lazy"}
+                        decoding="async"
+                        fetchPriority={i === activeIndex ? "high" : "low"}
                         style={{
                           display: "block",
                           maxWidth: "100%",
@@ -318,7 +324,14 @@ const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
             </Flex>
 
             {/* ── Info panel ── */}
-            <VStack align="stretch" spacing={5} p={{ base: 5, md: 6 }} overflowY="auto">
+            <VStack
+              align="stretch"
+              spacing={5}
+              p={{ base: 5, md: 6 }}
+              pb={{ base: 0, md: 6 }}
+              overflowY={{ base: "visible", lg: "auto" }}
+              minH={0}
+            >
               <Flex data-modal-part justify="space-between" align="start" gap={4}>
                 <Box flex="1" minW="0">
                   <Text fontSize="12px" color={colors.muted} textTransform="uppercase" letterSpacing=".08em" mb={1}>
@@ -355,7 +368,20 @@ const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
                 {(normalized.tags || []).join(" / ")}
               </Text>
 
-              <HStack data-modal-part spacing={3} flexWrap="wrap">
+              <HStack
+                data-modal-part
+                spacing={3}
+                flexWrap="wrap"
+                position={{ base: "sticky", md: "static" }}
+                bottom={0}
+                bg={colors.surfaceAlt}
+                borderTop={{ base: "1px solid", md: "none" }}
+                borderColor={colors.border}
+                mx={{ base: -5, md: 0 }}
+                px={{ base: 5, md: 0 }}
+                py={{ base: 4, md: 0 }}
+                zIndex={2}
+              >
                 {normalized.github && (
                   <Button as={Link} href={normalized.github} isExternal variant="studioGhost" leftIcon={<Github size={14} />} _hover={{ textDecoration: "none" }}>
                     Source

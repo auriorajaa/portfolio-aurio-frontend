@@ -268,6 +268,11 @@ const ProjectCard = ({ project, index, colors, onClick, featured }) => {
             src={project.image}
             alt={project.title}
             effect="opacity"
+            threshold={220}
+            visibleByDefault={index === 0}
+            loading={index === 0 ? "eager" : "lazy"}
+            decoding="async"
+            fetchPriority={index === 0 ? "high" : "auto"}
             width="100%"
             height="100%"
             style={{
@@ -404,6 +409,18 @@ const ProjectCard = ({ project, index, colors, onClick, featured }) => {
             {project.website && (
               <Link href={project.website} isExternal aria-label={`${project.title} live demo`} color={colors.muted} _hover={{ color: colors.text }}>
                 <ExternalLink size={14} />
+              </Link>
+            )}
+            {project.slug && (
+              <Link
+                href={`/project/${project.slug}`}
+                aria-label={`Open ${project.title} case study`}
+                color={colors.muted}
+                fontSize="12px"
+                fontWeight="600"
+                _hover={{ color: colors.text, textDecoration: "none" }}
+              >
+                Case study
               </Link>
             )}
             {/* Arrow hint on hover */}

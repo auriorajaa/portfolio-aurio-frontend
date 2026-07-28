@@ -127,6 +127,9 @@ const Articles = () => {
                     src={article.image}
                     alt={article.title}
                     effect="opacity"
+                    threshold={260}
+                    loading="lazy"
+                    decoding="async"
                     width="100%"
                     height="100%"
                     style={{

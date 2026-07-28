@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import {
   Box,
   Flex,
-  Image,
   SimpleGrid,
   Text,
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Award } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
 import CertificateModal from "../ui/CertificateModal";
@@ -56,7 +56,18 @@ const Achievements = () => {
                 overflow="hidden"
                 bg={colors.panelBg}
               >
-                <Image src={achievement.image} alt={achievement.title} w="100%" h="100%" objectFit="cover" />
+                <Box
+                  as={LazyLoadImage}
+                  src={achievement.image}
+                  alt={achievement.title}
+                  effect="opacity"
+                  threshold={220}
+                  loading="lazy"
+                  decoding="async"
+                  w="100%"
+                  h="100%"
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                />
               </Box>
 
               <VStack align="stretch" spacing={1} minW={0} flex={1}>

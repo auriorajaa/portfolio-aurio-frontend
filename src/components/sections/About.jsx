@@ -49,7 +49,7 @@ const About = () => {
   );
 
   return (
-    <StudioSection id="about" eyebrow="Dossier" title="The bio sits like a caption, not a billboard.">
+    <StudioSection id="about" eyebrow="Dossier" title="A quick overview about me...">
       <Grid ref={rootRef} templateColumns={{ base: "1fr", lg: ".42fr 1fr" }} gap={{ base: 8, lg: 12 }}>
         <VStack align="stretch" spacing={0} borderTop="1px solid" borderColor={colors.border}>
           {stats.map(([label, value]) => (
@@ -74,7 +74,7 @@ const About = () => {
         <Box>
           <Text data-about-reveal fontSize={{ base: "24px", md: "34px" }} lineHeight="1.22" fontWeight="700">
             {personalInfo.title || "Software Engineer"} working across APIs,
-            content systems, product interfaces, and cloud workflows.
+            backend systems, microservices, and cloud workflows.
           </Text>
           <Box data-about-line h="1px" bg={colors.text} my={{ base: 6, md: 8 }} />
           <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>
@@ -82,9 +82,7 @@ const About = () => {
               {personalInfo.bio}
             </Text>
             <Text data-about-reveal fontSize="16px" lineHeight="1.76" color={colors.muted}>
-              The site is arranged like a working desk: identity card, project
-              grid, timeline, notes, and contact are close enough to scan, but
-              each has its own weight on the page.
+              Designed and deployed scalable backend architectures using Spring Boot, utilizing Docker and Kubernetes for container orchestration alongside gRPC and Protobuf for efficient API communication.
             </Text>
           </Grid>
         </Box>
