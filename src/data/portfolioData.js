@@ -8,10 +8,11 @@ export const personalInfo = {
   website: "https://aurio.work",
   twitter: "https://twitter.com/auriorajaa",
   location: "Jakarta, Indonesia",
-  seoTitle: "Aurio Rajaa | Software Engineer Portfolio",
+  seoTitle:
+    "Aurio Rajaa (Aurio Hendrianoko Rajaa) | Java & Software Engineer Portfolio",
   seoDescription:
-    "Aurio Rajaa is a software engineer from Jakarta focused on backend systems, cloud workflows, and full-stack product interfaces.",
-  bio: "Backend developer specializing in Spring Boot and Java ecosystem. Building robust RESTful APIs and microservices. Also familiar with Django and modern frontend technologies like React and Next.js.",
+    "Aurio Rajaa, also known as Aurio Hendrianoko Rajaa, is a Jakarta-based software engineer and Java developer focused on backend systems, cloud workflows, React interfaces, and full-stack product work.",
+  bio: "Software engineer specializing in Spring Boot and Node.js ecosystem. Building backend with RESTful APIs and microservices. Also familiar with Django and modern frontend technologies like React and Next.js.",
 };
 
 // Formal Education (Degree Programs)
@@ -388,6 +389,7 @@ export const skillsData = [
     category: "Backend",
     skills: [
       "Spring Boot REST API",
+      "Node.js",
       "Django REST Framework",
       // "API Design",
       // "SQL & NoSQL Databases",
@@ -396,25 +398,15 @@ export const skillsData = [
   },
   {
     category: "Frontend",
-    skills: [
-      "React.js",
-      "Next.js",
-    ],
+    skills: ["React.js", "Next.js"],
   },
   {
     category: "Java",
-    skills: [
-      "Core Java",
-      "Spring Framework",
-    ],
+    skills: ["Core Java", "Spring Framework"],
   },
   {
     category: "Tools",
-    skills: [
-      "Git & GitHub",
-      "Docker",
-      "Google Cloud Services",
-    ],
+    skills: ["Git & GitHub", "Docker", "Google Cloud Services"],
   },
 ];
 
@@ -487,8 +479,7 @@ export const skillDetails = {
   },
   "Core Java": {
     level: "Advanced",
-    description:
-      "Strong foundation from CCIT-FTUI and applied in Android",
+    description: "Strong foundation from CCIT-FTUI and applied in Android",
     context: "Primary programming language with 3+ years experience",
   },
   "Spring Framework": {

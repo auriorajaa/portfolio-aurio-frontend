@@ -34,7 +34,7 @@ const ActivityManager = ({ onDataChange }) => {
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const activitiesPerPage = 5;
+  const activitiesPerPage = 7;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 

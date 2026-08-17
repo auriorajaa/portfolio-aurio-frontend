@@ -13,6 +13,7 @@ import { gsap, prefersReducedMotion } from "../utils/gsap";
 import {
   DEFAULT_AUTHOR,
   DEFAULT_IMAGE,
+  DEFAULT_KEYWORDS,
   SITE_NAME,
   absoluteUrl,
   createArticleSchema,
@@ -129,6 +130,9 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
   const articleTitle = article ? `${article.title} | ${DEFAULT_AUTHOR}` : `Article not found | ${SITE_NAME}`;
   const articleDescription = article ? truncate(article.excerpt || article.description, 155) : "This article could not be found in Aurio Rajaa's portfolio.";
   const articleImage = absoluteUrl(article?.image || DEFAULT_IMAGE);
+  const articleKeywords = article
+    ? [...new Set([...(article.tags || []), ...DEFAULT_KEYWORDS])].join(", ")
+    : DEFAULT_KEYWORDS.join(", ");
 
   if (loading) {
     return (
@@ -192,16 +196,23 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
         <meta property="og:title" content={articleTitle} />
         <meta property="og:description" content={articleDescription} />
         <meta property="og:image" content={articleImage} />
+        <meta property="og:image:secure_url" content={articleImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content={`${article.title} article cover`} />
         <meta property="article:author" content={article.author || DEFAULT_AUTHOR} />
         <meta property="article:published_time" content={article.date} />
         {article.updatedAt && <meta property="article:modified_time" content={article.updatedAt} />}
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={shareUrl} />
         <meta name="twitter:title" content={articleTitle} />
         <meta name="twitter:description" content={articleDescription} />
         <meta name="twitter:image" content={articleImage} />
+        <meta name="twitter:image:alt" content={`${article.title} article cover`} />
+        <meta name="twitter:site" content="@auriorajaa" />
+        <meta name="twitter:creator" content="@auriorajaa" />
         <meta name="author" content={article.author || DEFAULT_AUTHOR} />
-        <meta name="keywords" content={(article.tags || []).join(", ")} />
+        <meta name="keywords" content={articleKeywords} />
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbs)}</script>
       </Helmet>

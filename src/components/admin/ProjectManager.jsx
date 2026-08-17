@@ -27,7 +27,7 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
 } from "@chakra-ui/react";
-import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import { EditIcon, DeleteIcon, ArrowUpIcon, ArrowDownIcon } from "@chakra-ui/icons";
 import {
   getPortfolioData,
   updateProjects,
@@ -37,12 +37,19 @@ import Pagination from "../ui/Pagination";
 import { normalizeProjects } from "../../utils/projectMedia";
 import { RetroBadge, useRetroColors } from "../ui/retro";
 
+const normalizeProjectOrder = (list) =>
+  list.map((project, index) => ({
+    ...project,
+    order: index,
+  }));
+
 const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [savingOrder, setSavingOrder] = useState(null);
   const projectsPerPage = 5;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -101,7 +108,7 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
 
   const handleDelete = async () => {
     try {
-      const updated = projects.filter((p) => p.id !== deleteId);
+      const updated = normalizeProjectOrder(projects.filter((p) => p.id !== deleteId));
       await updateProjects(updated);
       setProjects(updated);
       onDataChange?.();
@@ -123,6 +130,44 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
     }
     onCloseDelete();
   };
+  const handleReorder = async (fromIndex, direction) => {
+    const toIndex = fromIndex + direction;
+
+    if (toIndex < 0 || toIndex >= projects.length) return;
+
+    const movedProject = projects[fromIndex];
+    const nextProjects = [...projects];
+    [nextProjects[fromIndex], nextProjects[toIndex]] = [
+      nextProjects[toIndex],
+      nextProjects[fromIndex],
+    ];
+
+    const updated = normalizeProjectOrder(nextProjects);
+
+    try {
+      setSavingOrder(`${movedProject.id}-${direction < 0 ? "up" : "down"}`);
+      await updateProjects(updated);
+      setProjects(updated);
+      onDataChange?.();
+      toast({
+        title: "Success",
+        description: "Project order updated successfully",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update project order",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    } finally {
+      setSavingOrder(null);
+    }
+  };
 
   const handleSave = async (projectData) => {
     try {
@@ -130,13 +175,21 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
       if (selectedProject) {
         updated = projects.map((p) =>
           p.id === selectedProject.id
-            ? { ...projectData, id: selectedProject.id }
+            ? {
+                ...projectData,
+                id: selectedProject.id,
+                order: Number.isFinite(Number(selectedProject.order))
+                  ? Number(selectedProject.order)
+                  : p.order,
+              }
             : p,
         );
       } else {
-        const newProject = { ...projectData, id: Date.now() };
+        const newProject = { ...projectData, id: Date.now(), order: projects.length };
         updated = [...projects, newProject];
       }
+
+      updated = normalizeProjectOrder(updated);
 
       await updateProjects(updated);
       setProjects(updated);
@@ -211,7 +264,10 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
       ) : (
         <>
           <VStack spacing={0} align="stretch">
-            {currentProjects.map((project, idx) => (
+            {currentProjects.map((project, idx) => {
+              const globalIndex = indexOfFirstProject + idx;
+
+              return (
               <Box
                 key={project.id}
                 px={3}
@@ -253,6 +309,7 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
                       {project.description}
                     </Text>
                     <Wrap spacing={1}>
+                      <RetroBadge tone="amber">#{globalIndex + 1}</RetroBadge>
                       {project.tags?.slice(0, 4).map((tag) => (
                         <Tag
                           key={tag}
@@ -278,6 +335,28 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
                   </VStack>
                   <HStack spacing={1}>
                     <IconButton
+                      icon={<ArrowUpIcon boxSize={3} />}
+                      size="sm"
+                      variant="facebookGray"
+                      onClick={() => handleReorder(globalIndex, -1)}
+                      aria-label="Move up"
+                      h="32px"
+                      minW="32px"
+                      isDisabled={globalIndex === 0 || Boolean(savingOrder)}
+                      isLoading={savingOrder === `${project.id}-up`}
+                    />
+                    <IconButton
+                      icon={<ArrowDownIcon boxSize={3} />}
+                      size="sm"
+                      variant="facebookGray"
+                      onClick={() => handleReorder(globalIndex, 1)}
+                      aria-label="Move down"
+                      h="32px"
+                      minW="32px"
+                      isDisabled={globalIndex === projects.length - 1 || Boolean(savingOrder)}
+                      isLoading={savingOrder === `${project.id}-down`}
+                    />
+                    <IconButton
                       icon={<EditIcon boxSize={3} />}
                       size="sm"
                       variant="facebookGray"
@@ -300,7 +379,8 @@ const ProjectManager = ({ openCreateSignal = 0, onDataChange }) => {
                   </HStack>
                 </HStack>
               </Box>
-            ))}
+              );
+            })}
           </VStack>
           <Pagination
             currentPage={currentPage}

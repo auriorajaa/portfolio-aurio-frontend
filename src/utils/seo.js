@@ -1,10 +1,43 @@
 export const SITE_URL = "https://aurio.work";
 export const SITE_NAME = "aurio.work";
 export const DEFAULT_AUTHOR = "Aurio Rajaa";
-export const DEFAULT_TITLE = "Aurio Rajaa | Software Engineer Portfolio";
+export const FULL_NAME = "Aurio Hendrianoko Rajaa";
+export const DEFAULT_TITLE = "Aurio Rajaa (Aurio Hendrianoko Rajaa) | Java & Software Engineer Portfolio";
 export const DEFAULT_DESCRIPTION =
-  "Aurio Rajaa is a software engineer from Jakarta focused on backend systems, cloud workflows, and full-stack product interfaces.";
+  "Aurio Rajaa, also known as Aurio Hendrianoko Rajaa, is a Jakarta-based software engineer and Java developer focused on backend systems, cloud workflows, and full-stack product interfaces.";
 export const DEFAULT_IMAGE = "/profilepic.png";
+export const AUTHOR_ALIASES = [
+  DEFAULT_AUTHOR,
+  FULL_NAME,
+  "Aurio Hendrianoko",
+  "auriorajaa",
+  "github auriorajaa",
+];
+export const DEFAULT_KEYWORDS = [
+  "Aurio Rajaa",
+  "Aurio Hendrianoko Rajaa",
+  "Aurio Hendrianoko",
+  "auriorajaa",
+  "aurio.work",
+  "github auriorajaa",
+  "Java Developer",
+  "Software Engineer",
+  "Backend Engineer",
+  "Full-Stack Developer",
+  "Spring Boot",
+  "Django REST Framework",
+  "React",
+  "Next.js",
+  "TypeScript",
+  "Google Cloud Platform",
+  "Bank Indonesia",
+  "PNJ",
+  "Politeknik Negeri Jakarta",
+  "CCIT FTUI",
+  "SMAN 113 Jakarta",
+  "Jakarta",
+  "Indonesia",
+];
 
 export const absoluteUrl = (path = "/") => {
   if (!path) return SITE_URL;
@@ -28,7 +61,7 @@ export const createPersonSchema = (personalInfo = {}) => ({
   "@context": "https://schema.org",
   "@type": "Person",
   name: personalInfo.name || DEFAULT_AUTHOR,
-  alternateName: ["Aurio Hendrianoko Rajaa", "auriorajaa"],
+  alternateName: AUTHOR_ALIASES,
   url: SITE_URL,
   image: absoluteUrl(DEFAULT_IMAGE),
   jobTitle: personalInfo.title || "Software Engineer",
@@ -59,12 +92,13 @@ export const createWebsiteSchema = () => ({
   "@type": "WebSite",
   url: SITE_URL,
   name: SITE_NAME,
-  alternateName: DEFAULT_AUTHOR,
+  alternateName: AUTHOR_ALIASES,
   description: DEFAULT_DESCRIPTION,
   inLanguage: "en-US",
   publisher: {
     "@type": "Person",
     name: DEFAULT_AUTHOR,
+    alternateName: FULL_NAME,
     url: SITE_URL,
   },
 });
@@ -96,6 +130,7 @@ export const createArticleSchema = (article = {}, url = SITE_URL) => ({
   publisher: {
     "@type": "Person",
     name: DEFAULT_AUTHOR,
+    alternateName: FULL_NAME,
     url: SITE_URL,
   },
   mainEntityOfPage: {
@@ -116,11 +151,13 @@ export const createProjectSchema = (project = {}, url = SITE_URL) => {
     author: {
       "@type": "Person",
       name: DEFAULT_AUTHOR,
+    alternateName: FULL_NAME,
       url: SITE_URL,
     },
     creator: {
       "@type": "Person",
       name: DEFAULT_AUTHOR,
+    alternateName: FULL_NAME,
       url: SITE_URL,
     },
     keywords: (project.tags || []).join(", "),

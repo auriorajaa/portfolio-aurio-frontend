@@ -82,7 +82,7 @@ const About = () => {
               {personalInfo.bio}
             </Text>
             <Text data-about-reveal fontSize="16px" lineHeight="1.76" color={colors.muted}>
-              Designed and deployed scalable backend architectures using Spring Boot, utilizing Docker and Kubernetes for container orchestration alongside gRPC and Protobuf for efficient API communication.
+              Designed and deployed scalable backend architectures using Spring Boot and Node.js, utilizing Docker and Kubernetes for container orchestration alongside gRPC and Protobuf for efficient API communication.
             </Text>
           </Grid>
         </Box>

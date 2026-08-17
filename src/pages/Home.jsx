@@ -17,6 +17,7 @@ import { useLayoutEffect } from "react";
 import { useLocation } from "react-router-dom";
 import {
   DEFAULT_DESCRIPTION,
+  DEFAULT_KEYWORDS,
   DEFAULT_TITLE,
   SITE_NAME,
   absoluteUrl,
@@ -32,6 +33,7 @@ const Home = ({ isDownloading, handleDownload }) => {
   const title = personalInfo.seoTitle || DEFAULT_TITLE;
   const description = personalInfo.seoDescription || personalInfo.bio || DEFAULT_DESCRIPTION;
   const imageUrl = absoluteUrl("/profilepic.png");
+  const keywords = DEFAULT_KEYWORDS.join(", ");
   const personSchema = createPersonSchema(personalInfo);
   const websiteSchema = createWebsiteSchema();
 
@@ -61,22 +63,24 @@ const Home = ({ isDownloading, handleDownload }) => {
         <link rel="canonical" href={canonicalUrl} />
         <meta name="description" content={description} />
         <meta name="author" content={personalInfo.name || "Aurio Rajaa"} />
-        <meta
-          name="keywords"
-          content="Aurio Rajaa, aurio.work, Software Engineer, Backend Engineer, Spring Boot, Django REST Framework, React, Next.js, Google Cloud, Jakarta"
-        />
+        <meta name="keywords" content={keywords} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:site_name" content={SITE_NAME} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content={imageUrl} />
+        <meta property="og:image:secure_url" content={imageUrl} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content={`${personalInfo.name || "Aurio Rajaa"} profile photo`} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:url" content={canonicalUrl} />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={imageUrl} />
+        <meta name="twitter:site" content="@auriorajaa" />
+        <meta name="twitter:creator" content="@auriorajaa" />
         <script type="application/ld+json">{JSON.stringify(personSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(websiteSchema)}</script>
       </Helmet>

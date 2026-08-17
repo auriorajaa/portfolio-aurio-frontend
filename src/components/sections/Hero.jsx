@@ -116,7 +116,7 @@ const Hero = () => {
             <SplitWords
               text={
                 `${personalInfo.name || "Aurio Rajaa"}. ` +
-                "Backend and Java Developer."
+                "Software Engineer."
               }
             />
           </Heading>

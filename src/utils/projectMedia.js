@@ -45,6 +45,14 @@ export const normalizeProject = (project = {}) => {
   };
 };
 
-export const normalizeProjects = (projects = []) => projects.map(normalizeProject);
+export const normalizeProjects = (projects = []) =>
+  projects
+    .map((project, index) =>
+      normalizeProject({
+        ...project,
+        order: Number.isFinite(Number(project?.order)) ? Number(project.order) : index,
+      }),
+    )
+    .sort((a, b) => a.order - b.order);
 
 export const isPdfUrl = () => false;
