@@ -19,7 +19,7 @@ import ProjectShowcaseModal from "../ui/ProjectShowcaseModal";
 import { StudioSection, useStudioColors } from "../public/studio";
 import { gsap, prefersReducedMotion } from "../../utils/gsap";
 
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 8;
 
 const Projects = () => {
   const { portfolioData } = usePortfolio();
