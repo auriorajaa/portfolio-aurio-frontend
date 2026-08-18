@@ -1,14 +1,9 @@
 import React from "react";
 import { Box, Button, Grid, HStack, Text } from "@chakra-ui/react";
-import { ArrowRight, Brain, Gamepad2, Grid2X2, Zap } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link as RouterLink } from "react-router-dom";
 import { StudioSection, useStudioColors } from "../public/studio";
 
-const games = [
-  { label: "2048 Mini", icon: Grid2X2, color: "#ffca3a" },
-  { label: "Memory Match", icon: Brain, color: "#f15bb5" },
-  { label: "Reaction Dodge", icon: Zap, color: "#00bbf9" },
-];
 const ArcadePreview = () => {
   const colors = useStudioColors();
   return (

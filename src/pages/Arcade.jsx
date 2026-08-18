@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Box, Button, Container, Grid, HStack, Text } from "@chakra-ui/react";
-import { Brain, Gamepad2, Grid2X2, Zap } from "lucide-react";
+import { Brain, Grid2X2, Zap } from "lucide-react";
 import { Link as RouterLink } from "react-router-dom";
 import Header from "../components/layout/Header";
 import { useStudioColors } from "../components/public/studio";
@@ -170,7 +170,6 @@ const Arcade = ({ isDownloading, handleDownload }) => {
           mb={{ base: 6, md: 8 }}
         >
           {GAMES.map((game) => {
-            const Icon = game.icon;
             const activeStyle = activeGame === game.id;
             return (
               <Button
