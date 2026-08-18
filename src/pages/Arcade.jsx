@@ -1,7 +1,17 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Box, Button, Container, Grid, HStack, Text } from "@chakra-ui/react";
-import { Brain, Grid2X2, Zap } from "lucide-react";
+import {
+  Brain,
+  Disc,
+  Grid2X2,
+  Hammer,
+  Hash,
+  Rabbit,
+  Route,
+  Swords,
+  Zap,
+} from "lucide-react";
 import { Link as RouterLink } from "react-router-dom";
 import Header from "../components/layout/Header";
 import { useStudioColors } from "../components/public/studio";
@@ -9,6 +19,12 @@ import { absoluteUrl, SITE_NAME } from "../utils/seo";
 import Game2048 from "../components/arcade/2048Game";
 import MemoryMatch from "../components/arcade/MemoryMatch";
 import ReactionDodge from "../components/arcade/ReactionDodge";
+import TicTacToe from "../components/arcade/TicTacToe";
+import RockPaperScissors from "../components/arcade/RockPaperScissors";
+import WhacAMole from "../components/arcade/WhacAMole";
+import Snake from "../components/arcade/Snake";
+import Pong from "../components/arcade/Pong";
+import EndlessRunner from "../components/arcade/EndlessRunner";
 
 const GAMES = [
   {
@@ -34,6 +50,54 @@ const GAMES = [
     icon: Zap,
     color: "#00bbf9",
     component: ReactionDodge,
+  },
+  {
+    id: "tictactoe",
+    label: "Tic-Tac-Toe",
+    note: "Beat the computer",
+    icon: Hash,
+    color: "#00f5d4",
+    component: TicTacToe,
+  },
+  {
+    id: "rps",
+    label: "Rock Paper Scissors",
+    note: "Outsmart the computer",
+    icon: Swords,
+    color: "#9b5de5",
+    component: RockPaperScissors,
+  },
+  {
+    id: "whacamole",
+    label: "Whac-a-Mole",
+    note: "Quick reflexes",
+    icon: Hammer,
+    color: "#8ac926",
+    component: WhacAMole,
+  },
+  {
+    id: "snake",
+    label: "Snake",
+    note: "Classic grid game",
+    icon: Route,
+    color: "#0bbfa0",
+    component: Snake,
+  },
+  {
+    id: "pong",
+    label: "Pong",
+    note: "Beat the computer",
+    icon: Disc,
+    color: "#ff9f68",
+    component: Pong,
+  },
+  {
+    id: "runner",
+    label: "Endless Runner",
+    note: "Dodge and jump",
+    icon: Rabbit,
+    color: "#ff6b6b",
+    component: EndlessRunner,
   },
 ];
 
@@ -119,17 +183,6 @@ const Arcade = ({ isDownloading, handleDownload }) => {
             opacity=".85"
           />
           <Box position="relative">
-            {/* <HStack spacing={2} mb={3}>
-              <Gamepad2 size={17} />
-              <Text
-                fontSize="12px"
-                fontWeight="700"
-                textTransform="uppercase"
-                letterSpacing=".1em"
-              >
-                Arcade Corner
-              </Text>
-            </HStack> */}
             <Text
               as="h1"
               fontSize={{ base: "38px", md: "62px" }}
@@ -164,9 +217,9 @@ const Arcade = ({ isDownloading, handleDownload }) => {
         <Grid
           templateColumns={{
             base: "repeat(3, minmax(0, 1fr))",
-            md: "repeat(3, 1fr)",
+            md: "repeat(5, 1fr)",
           }}
-          gap={{ base: 2, md: 4 }}
+          gap={{ base: 2, md: 3 }}
           mb={{ base: 6, md: 8 }}
         >
           {GAMES.map((game) => {
@@ -179,7 +232,7 @@ const Arcade = ({ isDownloading, handleDownload }) => {
                 variant="unstyled"
                 h="auto"
                 minH={{ base: "62px", md: "70px" }}
-                p={{ base: 2.5, md: 3.5 }}
+                p={{ base: 2.5, md: 3 }}
                 display="flex"
                 flexDirection="column"
                 alignItems="flex-start"
@@ -208,7 +261,7 @@ const Arcade = ({ isDownloading, handleDownload }) => {
                 </Text>
 
                 <Text
-                  fontSize={{ base: "11px", md: "14px" }}
+                  fontSize={{ base: "11px", md: "13px" }}
                   fontWeight="800"
                   lineHeight="1.2"
                 >
