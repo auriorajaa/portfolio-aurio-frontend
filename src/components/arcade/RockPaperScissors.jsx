@@ -93,25 +93,25 @@ const RockPaperScissors = () => {
           <Text fontSize="20px" fontWeight="800">
             Rock Paper Scissors
           </Text>
-          <Text mt={1} fontSize="13px" color={colors.muted}>
+          <Text mt={1} fontSize={{ base: "14px", md: "15px" }} color={colors.muted}>
             The computer learns your habits. Try to stay unpredictable.
           </Text>
         </Box>
         <HStack spacing={2}>
           <Box border="1px solid" borderColor={colors.border} px={3} py={2}>
-            <Text fontSize="10px" color={colors.muted}>
+            <Text fontSize={{ base: "11px", md: "12px" }} color={colors.muted}>
               WINS
             </Text>
             <Text fontWeight="800">{score.wins}</Text>
           </Box>
           <Box border="1px solid" borderColor={colors.border} px={3} py={2}>
-            <Text fontSize="10px" color={colors.muted}>
+            <Text fontSize={{ base: "11px", md: "12px" }} color={colors.muted}>
               LOSSES
             </Text>
             <Text fontWeight="800">{score.losses}</Text>
           </Box>
           <Box border="1px solid" borderColor={colors.border} px={3} py={2}>
-            <Text fontSize="10px" color={colors.muted}>
+            <Text fontSize={{ base: "11px", md: "12px" }} color={colors.muted}>
               TIES
             </Text>
             <Text fontWeight="800">{score.ties}</Text>
@@ -119,7 +119,7 @@ const RockPaperScissors = () => {
         </HStack>
       </HStack>
 
-      <Box maxW="380px" mx="auto">
+      <Box maxW={{ base: "100%", md: "560px", xl: "700px" }} mx="auto">
         <Flex
           justify="center"
           align="center"
@@ -127,25 +127,25 @@ const RockPaperScissors = () => {
           bg={colors.surface}
           border="1px solid"
           borderColor={colors.border}
-          py={8}
+          py={{ base: 10, md: 14 }}
           mb={5}
         >
           <Flex direction="column" align="center">
-            <Text fontSize="10px" fontWeight="800" color={colors.muted} mb={2}>
+            <Text fontSize={{ base: "11px", md: "13px" }} fontWeight="800" color={colors.muted} mb={3}>
               YOU
             </Text>
-            <Text fontSize="44px" lineHeight="1">
+            <Text fontSize={{ base: "58px", md: "82px" }} lineHeight="1">
               {round?.player ? byId[round.player].emoji : "\u2753"}
             </Text>
           </Flex>
-          <Text fontSize="20px" fontWeight="800" color={colors.muted}>
+          <Text fontSize={{ base: "24px", md: "32px" }} fontWeight="800" color={colors.muted}>
             VS
           </Text>
           <Flex direction="column" align="center">
-            <Text fontSize="10px" fontWeight="800" color={colors.muted} mb={2}>
+            <Text fontSize={{ base: "11px", md: "13px" }} fontWeight="800" color={colors.muted} mb={3}>
               COMPUTER
             </Text>
-            <Text fontSize="44px" lineHeight="1">
+            <Text fontSize={{ base: "58px", md: "82px" }} lineHeight="1">
               {locked ? "\u2753" : round?.npc ? byId[round.npc].emoji : "\u2753"}
             </Text>
           </Flex>
@@ -159,7 +159,7 @@ const RockPaperScissors = () => {
           minH="20px"
         >
           {locked
-            ? "Choosing…"
+            ? "Choosing"
             : round?.verdict
               ? verdictCopy[round.verdict]
               : "Pick a move"}
@@ -173,16 +173,16 @@ const RockPaperScissors = () => {
               isDisabled={locked}
               variant="studioGhost"
               h="auto"
-              py={4}
+              py={{ base: 5, md: 7 }}
               flexDirection="column"
               borderColor={
                 round?.player === choice.id ? choice.color : colors.border
               }
             >
-              <Text fontSize="28px" lineHeight="1" mb={1}>
+              <Text fontSize={{ base: "36px", md: "48px" }} lineHeight="1" mb={2}>
                 {choice.emoji}
               </Text>
-              <Text fontSize="11px" fontWeight="800">
+              <Text fontSize={{ base: "12px", md: "14px" }} fontWeight="800">
                 {choice.label}
               </Text>
             </Button>

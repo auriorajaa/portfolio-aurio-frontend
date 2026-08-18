@@ -4,22 +4,22 @@ import { Play, RotateCcw } from "lucide-react";
 import { useStudioColors } from "../public/studio";
 import { setupHiDPICanvas } from "./canvasUtils";
 
-const WIDTH = 320;
-const HEIGHT = 220;
-const PADDLE_W = 8;
-const PADDLE_H = 46;
-const BALL_R = 6;
+const WIDTH = 640;
+const HEIGHT = 420;
+const PADDLE_W = 12;
+const PADDLE_H = 78;
+const BALL_R = 10;
 const WIN_SCORE = 5;
-const PLAYER_SPEED = 320; // px/sec while holding a key
-const AI_MAX_SPEED = 220; // px/sec, deliberately slower than the ball can move
+const PLAYER_SPEED = 640; // px/sec while holding a key
+const AI_MAX_SPEED = 440; // px/sec, deliberately slower than the ball can move
 const AI_REACTION_MS = 140;
 const BEST_KEY = "arcade:pong:streak";
 
 const freshBall = (directionToRight) => ({
   x: WIDTH / 2,
   y: HEIGHT / 2,
-  vx: (directionToRight ? 1 : -1) * 160,
-  vy: (Math.random() < 0.5 ? -1 : 1) * (60 + Math.random() * 60),
+  vx: (directionToRight ? 1 : -1) * 320,
+  vy: (Math.random() < 0.5 ? -1 : 1) * (120 + Math.random() * 120),
 });
 
 const Pong = () => {
@@ -142,7 +142,7 @@ const Pong = () => {
     if (ball.vx < 0 && hitsPaddle(state.player.y, 4 + PADDLE_W / 2)) {
       const offset = (ball.y - (state.player.y + PADDLE_H / 2)) / (PADDLE_H / 2);
       ball.vx = Math.abs(ball.vx) * 1.05;
-      ball.vy = offset * 220;
+      ball.vy = offset * 440;
       ball.x = 4 + PADDLE_W + BALL_R;
     } else if (
       ball.vx > 0 &&
@@ -150,7 +150,7 @@ const Pong = () => {
     ) {
       const offset = (ball.y - (state.ai.y + PADDLE_H / 2)) / (PADDLE_H / 2);
       ball.vx = -Math.abs(ball.vx) * 1.05;
-      ball.vy = offset * 220;
+      ball.vy = offset * 440;
       ball.x = WIDTH - 4 - PADDLE_W - BALL_R;
     }
 
@@ -249,43 +249,48 @@ const Pong = () => {
           <Text fontSize="20px" fontWeight="800">
             Pong
           </Text>
-          <Text mt={1} fontSize="13px" color={colors.muted}>
+          <Text mt={1} fontSize={{ base: "14px", md: "15px" }} color={colors.muted}>
             First to {WIN_SCORE} points wins.
           </Text>
         </Box>
         <HStack spacing={2}>
           <Box border="1px solid" borderColor={colors.border} px={3} py={2}>
-            <Text fontSize="10px" color={colors.muted}>
+            <Text fontSize={{ base: "11px", md: "12px" }} color={colors.muted}>
               YOU
             </Text>
             <Text fontWeight="800">{scores.player}</Text>
           </Box>
           <Box border="1px solid" borderColor={colors.border} px={3} py={2}>
-            <Text fontSize="10px" color={colors.muted}>
+            <Text fontSize={{ base: "11px", md: "12px" }} color={colors.muted}>
               COMPUTER
             </Text>
             <Text fontWeight="800">{scores.ai}</Text>
           </Box>
           <Box border="1px solid" borderColor={colors.border} px={3} py={2}>
-            <Text fontSize="10px" color={colors.muted}>
+            <Text fontSize={{ base: "11px", md: "12px" }} color={colors.muted}>
               STREAK
             </Text>
             <Text fontWeight="800">{bestStreak}</Text>
           </Box>
         </HStack>
       </HStack>
-      <Box maxW={`${WIDTH}px`} mx="auto">
+      <Box maxW={{ base: "100%", md: "620px", xl: "760px" }} mx="auto">
         <Box
           position="relative"
           w="100%"
-          maxW={`${WIDTH}px`}
-          h={`${HEIGHT}px`}
+          maxW="100%"
+          aspectRatio={WIDTH / HEIGHT}
           bg={colors.surface}
           border="1px solid"
           borderColor={colors.border}
           overflow="hidden"
-          touchAction="none"
           userSelect="none"
+          sx={{
+            touchAction: "none",
+            WebkitUserSelect: "none",
+            WebkitTouchCallout: "none",
+            overscrollBehavior: "contain",
+          }}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={() => {
@@ -318,15 +323,15 @@ const Pong = () => {
                     ? "You win"
                     : "Computer wins"}
               </Text>
-              <Text mt={2} fontSize="13px">
+              <Text mt={2} fontSize={{ base: "14px", md: "15px" }}>
                 {status === "idle"
                   ? "Drag, use your mouse, or arrow keys."
-                  : `Final score ${scores.player}–${scores.ai}.`}
+                  : `Final score ${scores.player}${scores.ai}.`}
               </Text>
             </Flex>
           )}
         </Box>
-        <Text mt={3} textAlign="center" fontSize="12px" color={colors.muted}>
+        <Text mt={3} textAlign="center" fontSize={{ base: "14px", md: "15px" }} color={colors.muted}>
           Drag on the board, or use W/S and arrow keys.
         </Text>
         <HStack justify="center" mt={4} spacing={2}>

@@ -11,6 +11,12 @@ const PLAYER_SIZE = 34;
 const GROUND_Y = HEIGHT - 54;
 const JUMP_MS = 460;
 const BEST_KEY = "arcade:runner:best";
+const BASE_SPEED = 92;
+const SPEED_RAMP = 180;
+const MAX_SPEED = 190;
+const MIN_SPAWN_MS = 620;
+const INITIAL_SPAWN_MS = 1240;
+const SWIPE_THRESHOLD = 34;
 
 const laneCenterX = (lane) => lane * LANE_W + LANE_W / 2 - PLAYER_SIZE / 2;
 
@@ -110,7 +116,7 @@ const EndlessRunner = () => {
       const delta = Math.min(50, now - game.last);
       game.last = now;
       const elapsed = now - game.started;
-      const speed = 140 + elapsed / 90;
+      const speed = Math.min(MAX_SPEED, BASE_SPEED + elapsed / SPEED_RAMP);
 
       if (game.jumping && now > game.jumpUntil) game.jumping = false;
 
@@ -132,7 +138,7 @@ const EndlessRunner = () => {
             y: -90,
           });
         }
-        game.nextSpawn = Math.max(420, 1000 - elapsed / 40);
+        game.nextSpawn = Math.max(MIN_SPAWN_MS, INITIAL_SPAWN_MS - elapsed / 55);
       }
 
       game.obstacles = game.obstacles
@@ -201,22 +207,30 @@ const EndlessRunner = () => {
 
   const handlePointerDown = (event) => {
     event.preventDefault();
-    event.preventDefault();
     event.currentTarget.setPointerCapture?.(event.pointerId);
     pointerStart.current = { x: event.clientX, y: event.clientY };
   };
-  const handlePointerUp = (event) => {
+  const handlePointerMove = (event) => {
+    if (!pointerStart.current || status !== "playing") return;
     event.preventDefault();
-    if (!pointerStart.current) return;
     const dx = event.clientX - pointerStart.current.x;
     const dy = event.clientY - pointerStart.current.y;
-    pointerStart.current = null;
-    if (Math.abs(dx) < 24 && Math.abs(dy) < 24) return;
-    if (Math.abs(dy) > Math.abs(dx) && dy < 0) {
-      jump();
-    } else if (Math.abs(dx) > Math.abs(dy)) {
-      changeLane(dx > 0 ? 1 : -1);
+    if (Math.abs(dx) < SWIPE_THRESHOLD && Math.abs(dy) < SWIPE_THRESHOLD) {
+      return;
     }
+    if (Math.abs(dy) > Math.abs(dx) * 1.15 && dy < -SWIPE_THRESHOLD) {
+      jump();
+      pointerStart.current = { x: event.clientX, y: event.clientY };
+      return;
+    }
+    if (Math.abs(dx) > Math.abs(dy) * 1.15 && Math.abs(dx) >= SWIPE_THRESHOLD) {
+      changeLane(dx > 0 ? 1 : -1);
+      pointerStart.current = { x: event.clientX, y: event.clientY };
+    }
+  };
+  const handlePointerUp = (event) => {
+    event.preventDefault();
+    pointerStart.current = null;
   };
 
   return (
@@ -226,19 +240,19 @@ const EndlessRunner = () => {
           <Text fontSize="20px" fontWeight="800">
             Endless Runner
           </Text>
-          <Text mt={1} fontSize="13px" color={colors.muted}>
+          <Text mt={1} fontSize={{ base: "14px", md: "15px" }} color={colors.muted}>
             Switch lanes, jump hurdles, grab coins.
           </Text>
         </Box>
         <HStack spacing={2}>
           <Box border="1px solid" borderColor={colors.border} px={3} py={2}>
-            <Text fontSize="10px" color={colors.muted}>
+            <Text fontSize={{ base: "11px", md: "12px" }} color={colors.muted}>
               SCORE
             </Text>
             <Text fontWeight="800">{score}</Text>
           </Box>
           <Box border="1px solid" borderColor={colors.border} px={3} py={2}>
-            <Text fontSize="10px" color={colors.muted}>
+            <Text fontSize={{ base: "11px", md: "12px" }} color={colors.muted}>
               BEST
             </Text>
             <Text fontWeight="800">{best}</Text>
@@ -255,11 +269,19 @@ const EndlessRunner = () => {
           border="1px solid"
           borderColor={colors.border}
           overflow="hidden"
-          touchAction="none"
           userSelect="none"
+          sx={{
+            touchAction: "none",
+            WebkitUserSelect: "none",
+            WebkitTouchCallout: "none",
+            overscrollBehavior: "contain",
+          }}
           onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
-          onPointerCancel={() => { pointerStart.current = null; }}
+          onPointerCancel={() => {
+            pointerStart.current = null;
+          }}
         >
           {[1, 2].map((line) => (
             <Box
@@ -326,7 +348,7 @@ const EndlessRunner = () => {
               <Text fontWeight="800" fontSize="20px">
                 {status === "idle" ? "Ready?" : "Game over"}
               </Text>
-              <Text mt={2} fontSize="13px">
+              <Text mt={2} fontSize={{ base: "14px", md: "15px" }}>
                 {status === "idle"
                   ? "Swipe left/right to switch lanes, swipe up to jump."
                   : `You scored ${score}.`}
@@ -334,7 +356,7 @@ const EndlessRunner = () => {
             </Flex>
           )}
         </Box>
-        <Text mt={3} textAlign="center" fontSize="12px" color={colors.muted}>
+        <Text mt={3} textAlign="center" fontSize={{ base: "14px", md: "15px" }} color={colors.muted}>
           A/D or arrows to switch lanes, Space or W/up to jump.
         </Text>
         <HStack justify="center" mt={4} spacing={2}>
@@ -342,6 +364,18 @@ const EndlessRunner = () => {
             onClick={start}
             variant="studio"
             isDisabled={status === "playing"}
+            color={colors.surfaceAlt}
+            bg={colors.text}
+            border="2px solid"
+            borderColor={colors.text}
+            _hover={{ bg: colors.text }}
+            _disabled={{
+              opacity: 1,
+              cursor: "default",
+              color: colors.surfaceAlt,
+              bg: colors.text,
+              borderColor: colors.text,
+            }}
             leftIcon={status === "playing" ? undefined : <Play size={14} />}
           >
             {status === "playing"

@@ -153,25 +153,25 @@ const TicTacToe = () => {
           <Text fontSize="20px" fontWeight="800">
             Tic-Tac-Toe
           </Text>
-          <Text mt={1} fontSize="13px" color={colors.muted}>
+          <Text mt={1} fontSize={{ base: "14px", md: "15px" }} color={colors.muted}>
             You're X. The computer plays O.
           </Text>
         </Box>
         <HStack spacing={2}>
           <Box border="1px solid" borderColor={colors.border} px={3} py={2}>
-            <Text fontSize="10px" color={colors.muted}>
+            <Text fontSize={{ base: "11px", md: "12px" }} color={colors.muted}>
               WINS
             </Text>
             <Text fontWeight="800">{score.wins}</Text>
           </Box>
           <Box border="1px solid" borderColor={colors.border} px={3} py={2}>
-            <Text fontSize="10px" color={colors.muted}>
+            <Text fontSize={{ base: "11px", md: "12px" }} color={colors.muted}>
               LOSSES
             </Text>
             <Text fontWeight="800">{score.losses}</Text>
           </Box>
           <Box border="1px solid" borderColor={colors.border} px={3} py={2}>
-            <Text fontSize="10px" color={colors.muted}>
+            <Text fontSize={{ base: "11px", md: "12px" }} color={colors.muted}>
               DRAWS
             </Text>
             <Text fontWeight="800">{score.draws}</Text>
@@ -195,7 +195,7 @@ const TicTacToe = () => {
         ))}
       </HStack>
 
-      <Box maxW="320px" mx="auto">
+      <Box maxW={{ base: "100%", md: "500px", xl: "600px" }} mx="auto">
         <Box position="relative">
           <SimpleGrid columns={3} gap={2}>
             {board.map((cell, index) => {
@@ -216,14 +216,14 @@ const TicTacToe = () => {
                 >
                   {cell === "X" && (
                     <XIcon
-                      size={34}
+                      size={58}
                       strokeWidth={3}
                       color={isWinning ? colors.surfaceAlt : "#00f5d4"}
                     />
                   )}
                   {cell === "O" && (
                     <Circle
-                      size={30}
+                      size={54}
                       strokeWidth={3}
                       color={isWinning ? colors.surfaceAlt : "#ff6b6b"}
                     />
@@ -251,7 +251,7 @@ const TicTacToe = () => {
                     ? "You win"
                     : "Computer wins"}
               </Text>
-              <Text mt={1} fontSize="13px">
+              <Text mt={1} fontSize={{ base: "14px", md: "15px" }}>
                 {result.mark === "draw"
                   ? "Nobody gets the line."
                   : result.mark === "X"
@@ -261,8 +261,8 @@ const TicTacToe = () => {
             </Flex>
           )}
         </Box>
-        <Text mt={3} textAlign="center" fontSize="12px" color={colors.muted} minH="16px">
-          {!result && thinking ? "Computer is thinking…" : "\u00A0"}
+        <Text mt={3} textAlign="center" fontSize={{ base: "14px", md: "15px" }} color={colors.muted} minH="16px">
+          {!result && thinking ? "Computer is thinkingâ€¦" : "\u00A0"}
         </Text>
         <HStack justify="center" mt={2}>
           <Button

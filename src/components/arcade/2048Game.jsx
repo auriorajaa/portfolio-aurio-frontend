@@ -134,6 +134,7 @@ const Game2048 = () => {
     pointerRef.current = { x: event.clientX, y: event.clientY };
   };
   const endPointer = (event) => {
+    event.preventDefault();
     if (!pointerRef.current) return;
     const dx = event.clientX - pointerRef.current.x;
     const dy = event.clientY - pointerRef.current.y;
@@ -157,33 +158,38 @@ const Game2048 = () => {
           <Text fontSize="20px" fontWeight="800">
             2048 Mini
           </Text>
-          <Text mt={1} fontSize="13px" color={colors.muted}>
+          <Text mt={1} fontSize={{ base: "14px", md: "15px" }} color={colors.muted}>
             Swipe or drag to join the tiles.
           </Text>
         </Box>
         <HStack spacing={2}>
           <Box border="1px solid" borderColor={colors.border} px={3} py={2}>
-            <Text fontSize="10px" color={colors.muted}>
+            <Text fontSize={{ base: "11px", md: "12px" }} color={colors.muted}>
               SCORE
             </Text>
             <Text fontWeight="800">{score}</Text>
           </Box>
           <Box border="1px solid" borderColor={colors.border} px={3} py={2}>
-            <Text fontSize="10px" color={colors.muted}>
+            <Text fontSize={{ base: "11px", md: "12px" }} color={colors.muted}>
               BEST
             </Text>
             <Text fontWeight="800">{best}</Text>
           </Box>
         </HStack>
       </HStack>
-      <Box maxW="430px" mx="auto">
+      <Box maxW={{ base: "100%", md: "560px", xl: "680px" }} mx="auto">
         <Box
           bg={colors.surface}
           p={{ base: 2, md: 3 }}
           border="1px solid"
           borderColor={colors.border}
-          touchAction="none"
           userSelect="none"
+          sx={{
+            touchAction: "none",
+            WebkitUserSelect: "none",
+            WebkitTouchCallout: "none",
+            overscrollBehavior: "contain",
+          }}
           onPointerDown={beginPointer}
           onPointerUp={endPointer}
           onPointerCancel={() => {
@@ -214,7 +220,7 @@ const Game2048 = () => {
             })}
           </SimpleGrid>
         </Box>
-        <Text mt={3} textAlign="center" fontSize="12px" color={colors.muted}>
+        <Text mt={3} textAlign="center" fontSize={{ base: "14px", md: "15px" }} color={colors.muted}>
           Use arrow keys, swipe, or drag.
         </Text>
         {status !== "playing" && (
@@ -228,7 +234,7 @@ const Game2048 = () => {
             <Text fontWeight="800">
               {status === "won" ? "You win" : "Game over"}
             </Text>
-            <Text mt={1} fontSize="13px" color={colors.muted}>
+            <Text mt={1} fontSize={{ base: "14px", md: "15px" }} color={colors.muted}>
               {status === "won"
                 ? "Nice work. Keep going if you want."
                 : "No more moves."}
