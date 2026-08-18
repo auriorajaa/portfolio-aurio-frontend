@@ -21,6 +21,7 @@ const randomFood = (snake) => {
   let cell;
   do {
     cell = randomCell();
+  // eslint-disable-next-line no-loop-func
   } while (snake.some((seg) => seg.x === cell.x && seg.y === cell.y));
   return cell;
 };
