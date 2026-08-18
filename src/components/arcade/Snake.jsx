@@ -21,7 +21,7 @@ const randomFood = (snake) => {
   let cell;
   do {
     cell = randomCell();
-  // eslint-disable-next-line no-loop-func
+    // eslint-disable-next-line no-loop-func
   } while (snake.some((seg) => seg.x === cell.x && seg.y === cell.y));
   return cell;
 };
@@ -174,19 +174,23 @@ const Snake = () => {
 
   const handlePointerDown = (event) => {
     event.preventDefault();
-    event.preventDefault();
     event.currentTarget.setPointerCapture?.(event.pointerId);
+    pointerStart.current = { x: event.clientX, y: event.clientY };
+  };
+  const handlePointerMove = (event) => {
+    if (!pointerStart.current || status !== "playing") return;
+    event.preventDefault();
+    const dx = event.clientX - pointerStart.current.x;
+    const dy = event.clientY - pointerStart.current.y;
+    if (Math.max(Math.abs(dx), Math.abs(dy)) < 16) return;
+    if (Math.abs(dx) > Math.abs(dy)) setDirection(dx > 0 ? 1 : -1, 0);
+    else setDirection(0, dy > 0 ? 1 : -1);
+    // reset titik awal biar bisa swipe beruntun tanpa angkat jari
     pointerStart.current = { x: event.clientX, y: event.clientY };
   };
   const handlePointerUp = (event) => {
     event.preventDefault();
-    if (!pointerStart.current) return;
-    const dx = event.clientX - pointerStart.current.x;
-    const dy = event.clientY - pointerStart.current.y;
     pointerStart.current = null;
-    if (Math.max(Math.abs(dx), Math.abs(dy)) < 20) return;
-    if (Math.abs(dx) > Math.abs(dy)) setDirection(dx > 0 ? 1 : -1, 0);
-    else setDirection(0, dy > 0 ? 1 : -1);
   };
 
   return (
@@ -196,38 +200,44 @@ const Snake = () => {
           <Text fontSize="20px" fontWeight="800">
             Snake
           </Text>
-          <Text mt={1} fontSize="13px" color={colors.muted}>
+          <Text mt={1} fontSize={{ base: "14px", md: "15px" }} color={colors.muted}>
             Eat the food. Don't hit the walls or yourself.
           </Text>
         </Box>
         <HStack spacing={2}>
           <Box border="1px solid" borderColor={colors.border} px={3} py={2}>
-            <Text fontSize="10px" color={colors.muted}>
+            <Text fontSize={{ base: "11px", md: "12px" }} color={colors.muted}>
               SCORE
             </Text>
             <Text fontWeight="800">{score}</Text>
           </Box>
           <Box border="1px solid" borderColor={colors.border} px={3} py={2}>
-            <Text fontSize="10px" color={colors.muted}>
+            <Text fontSize={{ base: "11px", md: "12px" }} color={colors.muted}>
               BEST
             </Text>
             <Text fontWeight="800">{best}</Text>
           </Box>
         </HStack>
       </HStack>
-      <Box maxW={`${WIDTH}px`} mx="auto">
+      <Box maxW={{ base: "100%", md: "560px", xl: "700px" }} mx="auto">
         <Box
           position="relative"
           w="100%"
-          maxW={`${WIDTH}px`}
-          h={`${HEIGHT}px`}
+          maxW="100%"
+          aspectRatio={WIDTH / HEIGHT}
           bg={colors.surface}
           border="1px solid"
           borderColor={colors.border}
           overflow="hidden"
-          touchAction="none"
-          userSelect="none"
+          sx={{
+            touchAction: "none",
+            userSelect: "none",
+            WebkitUserSelect: "none",
+            WebkitTouchCallout: "none",
+            overscrollBehavior: "contain",
+          }}
           onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={() => { pointerStart.current = null; }}
         >
@@ -250,7 +260,7 @@ const Snake = () => {
               <Text fontWeight="800" fontSize="20px">
                 {status === "idle" ? "Ready?" : "Game over"}
               </Text>
-              <Text mt={2} fontSize="13px">
+              <Text mt={2} fontSize={{ base: "14px", md: "15px" }}>
                 {status === "idle"
                   ? "Swipe or use arrow keys to steer."
                   : `You scored ${score}.`}
@@ -258,7 +268,7 @@ const Snake = () => {
             </Flex>
           )}
         </Box>
-        <Text mt={3} textAlign="center" fontSize="12px" color={colors.muted}>
+        <Text mt={3} textAlign="center" fontSize={{ base: "14px", md: "15px" }} color={colors.muted}>
           Arrow keys, WASD, or swipe to change direction.
         </Text>
         <HStack justify="center" mt={4} spacing={2}>
@@ -266,6 +276,7 @@ const Snake = () => {
             onClick={start}
             variant="studio"
             isDisabled={status === "playing"}
+            _disabled={{ opacity: 0.9, cursor: "default" }}
             leftIcon={status === "playing" ? undefined : <Play size={14} />}
           >
             {status === "playing"

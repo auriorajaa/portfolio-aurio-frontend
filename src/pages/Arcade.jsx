@@ -15,10 +15,10 @@ import {
   Grid2X2,
   Hammer,
   Hash,
-  Rabbit,
+  // Rabbit,
   Route,
   Swords,
-  Zap,
+  // Zap,
 } from "lucide-react";
 import { Link as RouterLink } from "react-router-dom";
 import Header from "../components/layout/Header";
@@ -26,13 +26,13 @@ import { useStudioColors } from "../components/public/studio";
 import { absoluteUrl, SITE_NAME } from "../utils/seo";
 import Game2048 from "../components/arcade/2048Game";
 import MemoryMatch from "../components/arcade/MemoryMatch";
-import ReactionDodge from "../components/arcade/ReactionDodge";
+// import ReactionDodge from "../components/arcade/ReactionDodge";
 import TicTacToe from "../components/arcade/TicTacToe";
 import RockPaperScissors from "../components/arcade/RockPaperScissors";
 import WhacAMole from "../components/arcade/WhacAMole";
 import Snake from "../components/arcade/Snake";
 import Pong from "../components/arcade/Pong";
-import EndlessRunner from "../components/arcade/EndlessRunner";
+// import EndlessRunner from "../components/arcade/EndlessRunner";
 
 const GAMES = [
   {
@@ -51,14 +51,14 @@ const GAMES = [
     color: "#f15bb5",
     component: MemoryMatch,
   },
-  {
-    id: "dodge",
-    label: "Reaction Dodge",
-    note: "Move fast",
-    icon: Zap,
-    color: "#00bbf9",
-    component: ReactionDodge,
-  },
+  // {
+  //   id: "dodge",
+  //   label: "Reaction Dodge",
+  //   note: "Move fast",
+  //   icon: Zap,
+  //   color: "#00bbf9",
+  //   component: ReactionDodge,
+  // },
   {
     id: "tictactoe",
     label: "Tic-Tac-Toe",
@@ -99,14 +99,14 @@ const GAMES = [
     color: "#ff9f68",
     component: Pong,
   },
-  {
-    id: "runner",
-    label: "Endless Runner",
-    note: "Dodge and jump",
-    icon: Rabbit,
-    color: "#ff6b6b",
-    component: EndlessRunner,
-  },
+  // {
+  //   id: "runner",
+  //   label: "Endless Runner",
+  //   note: "Dodge and jump",
+  //   icon: Rabbit,
+  //   color: "#ff6b6b",
+  //   component: EndlessRunner,
+  // },
 ];
 
 class ArcadeGameBoundary extends React.Component {
@@ -157,7 +157,7 @@ const Arcade = ({ isDownloading, handleDownload }) => {
       </Helmet>
       <Header isDownloading={isDownloading} handleDownload={handleDownload} />
       <Container
-        maxW="1080px"
+        maxW="6xl"
         px={{ base: 4, md: 6 }}
         pt={{ base: 24, md: 32 }}
         pb={{ base: 14, md: 20 }}
@@ -322,22 +322,6 @@ const Arcade = ({ isDownloading, handleDownload }) => {
           p={{ base: 4, md: 8 }}
           boxShadow={`8px 8px 0 ${active.color}`}
         >
-          <HStack justify="space-between" mb={6}>
-            <HStack spacing={2}>
-              <Box w="10px" h="10px" borderRadius="full" bg={active.color} />
-              <Text
-                fontSize="12px"
-                fontWeight="800"
-                textTransform="uppercase"
-                letterSpacing=".1em"
-              >
-                {active.label}
-              </Text>
-            </HStack>
-            <Text fontSize="11px" color={colors.muted}>
-              Local play
-            </Text>
-          </HStack>
           <ArcadeGameBoundary colors={colors} key={activeGame}>
             <ActiveGame />
           </ArcadeGameBoundary>

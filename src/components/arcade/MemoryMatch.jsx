@@ -121,7 +121,7 @@ const MemoryMatch = () => {
             <Text fontSize="10px" color={colors.muted}>
               BEST
             </Text>
-            <Text fontWeight="800">{best ?? "—"}</Text>
+            <Text fontWeight="800">{best ?? "0"}</Text>
           </Box>
           <Box border="1px solid" borderColor={colors.border} px={3} py={2}>
             <Text fontSize="10px" color={colors.muted}>
@@ -133,7 +133,7 @@ const MemoryMatch = () => {
           </Box>
         </HStack>
       </HStack>
-      <SimpleGrid maxW="430px" mx="auto" columns={4} gap={{ base: 2, md: 3 }}>
+      <SimpleGrid maxW={{ base: "100%", md: "560px", xl: "680px" }} mx="auto" columns={4} gap={{ base: 2, md: 3 }}>
         {cards.map((card) => {
           const Icon = card.Icon;
           const visible = card.flipped || card.matched;
@@ -154,9 +154,9 @@ const MemoryMatch = () => {
               transform={card.matched ? "scale(.96)" : "scale(1)"}
             >
               {visible ? (
-                <Icon size={24} strokeWidth={2.5} />
+                <Icon size={38} strokeWidth={2.5} />
               ) : (
-                <Text fontSize="24px" fontWeight="800" color={colors.muted}>
+                <Text fontSize="36px" fontWeight="800" color={colors.muted}>
                   ?
                 </Text>
               )}
