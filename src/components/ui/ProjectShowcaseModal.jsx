@@ -157,22 +157,22 @@ const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
         borderColor={colors.border}
         borderRadius="0"
         boxShadow="0 1px 3px rgba(0,0,0,0.04)"
-        maxH={{ base: "calc(100dvh - 16px)", md: "90dvh" }}
+        maxH={{ base: "calc(100dvh - 16px)", md: "94dvh" }}
         overflow="hidden"
         mx={{ base: 2, md: 4 }}
       >
         <ModalBody p={0} overflowY={{ base: "auto", lg: "hidden" }}>
           <Grid
             templateColumns={{ base: "1fr", lg: "minmax(0, 1.05fr) .95fr" }}
-            maxH={{ lg: "90dvh" }}
+            maxH={{ lg: "94dvh" }}
           >
 
             {/* ── Image panel ── */}
             <Flex
               data-modal-part
               direction="column"
-              minH={{ base: "38dvh", md: "70vh" }}
-              maxH={{ base: "42dvh", md: "90dvh" }}
+              minH={{ base: "46dvh", md: "72vh" }}
+              maxH={{ base: "62dvh", md: "88dvh" }}
               bg={colors.surface}
               position="relative"
               onTouchStart={handleTouchStart}
@@ -221,8 +221,8 @@ const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
                           display: "block",
                           maxWidth: "100%",
                           maxHeight: "100%",
-                          width: "auto",
-                          height: "auto",
+                          width: "100%",
+                          height: "100%",
                           objectFit: "contain",
                           userSelect: "none",
                           draggable: false,

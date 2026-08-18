@@ -49,6 +49,25 @@ export const uploadImage = async (file, folder = "portfolio") => {
  * @param {Function} onProgress - Progress callback
  * @returns {Promise<string>} - Secure media URL
  */
+export const uploadImageUrl = async (imageUrl, folder = "portfolio") => {
+  const formData = new FormData();
+  formData.append("file", imageUrl);
+  formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET || "unsigned_preset");
+  formData.append("folder", folder);
+
+  const response = await fetch(getUploadEndpoint("image"), {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to import remote image to Cloudinary");
+  }
+
+  const data = await response.json();
+  return data.secure_url;
+};
+
 export const uploadMediaWithProgress = async (file, onProgress) => {
   return new Promise((resolve, reject) => {
     const formData = new FormData();

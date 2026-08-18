@@ -21,9 +21,9 @@ import {
 } from "@chakra-ui/react";
 import ArrayInput from "../ui/ArrayInput";
 import ImageUpload from "../ui/ImageUpload";
-import { uploadImageWithProgress } from "../../services/cloudinaryService";
+import { uploadImageUrl, uploadImageWithProgress } from "../../services/cloudinaryService";
 import ProjectGalleryInput from "./ProjectGalleryInput";
-import { normalizeProject } from "../../utils/projectMedia";
+import { getStableProjectImageUrl, isGithubTemporaryAssetUrl, normalizeProject } from "../../utils/projectMedia";
 import { generateSlug } from "../../utils/slugify";
 
 const ProjectForm = ({ data, onSave, onCancel }) => {
@@ -80,12 +80,20 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
     onOpen();
   };
 
+  const isGithubHostedAsset = (value = "") =>
+    isGithubTemporaryAssetUrl(value) || value.includes("github.com/user-attachments/assets/");
+
   const confirmSave = async () => {
     setLoading(true);
     onClose();
 
     try {
       let finalFormData = { ...formData };
+
+      // Convert GitHub user assets to permanent Cloudinary URLs before saving.
+      if (formData.image && isGithubHostedAsset(formData.image)) {
+        finalFormData.image = await uploadImageUrl(getStableProjectImageUrl(formData.image));
+      }
 
       // If image is base64, upload to Cloudinary first
       if (formData.image && formData.image.startsWith("data:")) {
@@ -101,7 +109,16 @@ const ProjectForm = ({ data, onSave, onCancel }) => {
       if (Array.isArray(formData.gallery) && formData.gallery.length > 0) {
         finalFormData.gallery = await Promise.all(
           formData.gallery.map(async (item, index) => {
-            if (!item.url || !item.url.startsWith("data:")) {
+            if (!item.url) {
+              return { ...item, order: index };
+            }
+
+            if (isGithubHostedAsset(item.url)) {
+              const uploadedUrl = await uploadImageUrl(getStableProjectImageUrl(item.url));
+              return { ...item, type: "image", url: uploadedUrl, order: index };
+            }
+
+            if (!item.url.startsWith("data:")) {
               return { ...item, order: index };
             }
 

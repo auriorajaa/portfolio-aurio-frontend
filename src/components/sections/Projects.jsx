@@ -138,7 +138,7 @@ const Projects = () => {
               md: "repeat(2, 1fr)",
               xl: "repeat(3, 1fr)",
             }}
-            gap={{ base: 4, md: "1px" }}
+            gap={{ base: 4, md: 3 }}
           >
             {pagedProjects.map((project, index) => (
               <ProjectCard
@@ -258,7 +258,7 @@ const ProjectCard = ({ project, index, colors, onClick, featured }) => {
       {/* Image */}
       <Box
         w="100%"
-        h={{ base: "200px", md: featured ? "320px" : "220px" }}
+        h={{ base: "240px", md: featured ? "360px" : "260px" }}
         overflow="hidden"
         position="relative"
       >
@@ -278,10 +278,10 @@ const ProjectCard = ({ project, index, colors, onClick, featured }) => {
             style={{
               width: "100%",
               height: "100%",
-              objectFit: "cover",
+              objectFit: "contain",
               display: "block",
-              transform: hovered ? "scale(1.04)" : "scale(1)",
-              transition: "transform .5s cubic-bezier(.25,.46,.45,.94)",
+              transform: "scale(1)",
+              transition: "filter .25s ease",
               filter: hovered ? "brightness(.92)" : "brightness(1)",
             }}
           />
@@ -415,12 +415,13 @@ const ProjectCard = ({ project, index, colors, onClick, featured }) => {
               <Link
                 href={`/project/${project.slug}`}
                 aria-label={`Open ${project.title} case study`}
-                color={colors.muted}
+                color={colors.text}
                 fontSize="12px"
-                fontWeight="600"
+                fontWeight="700"
+                textDecoration="underline"
                 _hover={{ color: colors.text, textDecoration: "none" }}
               >
-                Case study
+                Explore case study
               </Link>
             )}
             {/* Arrow hint on hover */}

@@ -58,7 +58,7 @@ const ProjectPage = ({ isDownloading, handleDownload }) => {
     return (
       <Box minH="100vh" bg={colors.bg} color={colors.text}>
         <Header isDownloading={isDownloading} handleDownload={handleDownload} />
-        <Container maxW="1180px" px={{ base: 5, md: 8 }} py={16}>
+        <Container maxW="1320px" px={{ base: 5, md: 8 }} py={16}>
           <Spinner color={colors.accent} />
         </Container>
       </Box>
@@ -75,12 +75,26 @@ const ProjectPage = ({ isDownloading, handleDownload }) => {
           <meta name="robots" content="noindex, follow" />
         </Helmet>
         <Header isDownloading={isDownloading} handleDownload={handleDownload} />
-        <Container maxW="760px" px={{ base: 5, md: 8 }} py={{ base: 16, md: 24 }}>
+        <Container
+          maxW="760px"
+          px={{ base: 5, md: 8 }}
+          py={{ base: 16, md: 24 }}
+        >
           <VStack align="stretch" spacing={5}>
-            <Button alignSelf="flex-start" variant="studioGhost" leftIcon={<ArrowLeft size={15} />} onClick={() => navigate("/")}>
+            <Button
+              alignSelf="flex-start"
+              variant="studioGhost"
+              leftIcon={<ArrowLeft size={15} />}
+              onClick={() => navigate("/")}
+            >
               Back to Portfolio
             </Button>
-            <Text as="h1" fontSize={{ base: "34px", md: "48px" }} fontWeight="800" lineHeight="1.05">
+            <Text
+              as="h1"
+              fontSize={{ base: "34px", md: "48px" }}
+              fontWeight="800"
+              lineHeight="1.05"
+            >
               Project not found
             </Text>
             <Text color={colors.muted} fontSize="17px" lineHeight="1.7">
@@ -106,32 +120,73 @@ const ProjectPage = ({ isDownloading, handleDownload }) => {
         <link rel="canonical" href={canonicalUrl} />
         <meta name="description" content={description} />
         <meta name="author" content={DEFAULT_AUTHOR} />
-        <meta name="keywords" content={[project.title, ...(project.tags || []), DEFAULT_AUTHOR, "software project", "portfolio"].join(", ")} />
+        <meta
+          name="keywords"
+          content={[
+            project.title,
+            ...(project.tags || []),
+            DEFAULT_AUTHOR,
+            "software project",
+            "portfolio",
+          ].join(", ")}
+        />
         <meta property="og:type" content="article" />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:site_name" content={SITE_NAME} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content={imageUrl} />
-        <meta property="og:image:alt" content={`${project.title} project preview`} />
+        <meta
+          property="og:image:alt"
+          content={`${project.title} project preview`}
+        />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={imageUrl} />
-        <script type="application/ld+json">{JSON.stringify(projectSchema)}</script>
-        <script type="application/ld+json">{JSON.stringify(breadcrumbs)}</script>
+        <script type="application/ld+json">
+          {JSON.stringify(projectSchema)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbs)}
+        </script>
       </Helmet>
 
       <Header isDownloading={isDownloading} handleDownload={handleDownload} />
 
-      <Container maxW="1180px" px={{ base: 5, md: 8 }} py={{ base: 10, md: 16 }}>
-        <Button mb={8} variant="studioGhost" leftIcon={<ArrowLeft size={15} />} onClick={() => navigate("/", { state: { scrollTo: "projects" } })}>
+      <Container maxW="1380px" px={{ base: 5, md: 8 }} py={{ base: 8, md: 14 }}>
+        <br />
+        <br />
+
+        <Button
+          mb={{ base: 8, md: 10 }}
+          variant="studioGhost"
+          leftIcon={<ArrowLeft size={15} />}
+          onClick={() => navigate("/", { state: { scrollTo: "projects" } })}
+        >
           Back to Projects
         </Button>
 
-        <Grid templateColumns={{ base: "1fr", lg: "minmax(0, 1.05fr) .95fr" }} gap={{ base: 8, lg: 12 }} alignItems="start">
+        <Grid
+          templateColumns={{
+            base: "1fr",
+            lg: "minmax(0, 1.3fr) minmax(300px, .7fr)",
+          }}
+          gap={{ base: 10, lg: 14 }}
+          alignItems="start"
+        >
           <VStack align="stretch" spacing={4}>
-            <Box bg={colors.surfaceAlt} border="1px solid" borderColor={colors.border} overflow="hidden">
+            <Box
+              bg={colors.surface}
+              border="1px solid"
+              borderColor={colors.border}
+              overflow="hidden"
+              minH={{ base: "360px", md: "520px", xl: "650px" }}
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              p={{ base: 3, md: 6 }}
+            >
               {activeMedia ? (
                 <LazyLoadImage
                   src={activeMedia.url}
@@ -142,17 +197,35 @@ const ProjectPage = ({ isDownloading, handleDownload }) => {
                   decoding="async"
                   fetchPriority="high"
                   width="100%"
-                  style={{ width: "100%", aspectRatio: "16 / 10", objectFit: "contain", display: "block" }}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                    objectFit: "contain",
+                    display: "block",
+                  }}
                 />
               ) : (
-                <Box minH="320px" display="grid" placeItems="center" bg={colors.surface}>
+                <Box
+                  minH="320px"
+                  display="grid"
+                  placeItems="center"
+                  bg={colors.surface}
+                >
                   <Text color={colors.muted}>No preview available</Text>
                 </Box>
               )}
             </Box>
 
             {project.gallery?.length > 1 && (
-              <Grid templateColumns={{ base: "repeat(3, 1fr)", md: "repeat(5, 1fr)" }} gap={2}>
+              <Grid
+                templateColumns={{
+                  base: "repeat(3, 1fr)",
+                  md: "repeat(5, 1fr)",
+                }}
+                gap={{ base: 2, md: 3 }}
+              >
                 {project.gallery.map((item, index) => (
                   <Box
                     as="button"
@@ -160,7 +233,9 @@ const ProjectPage = ({ isDownloading, handleDownload }) => {
                     type="button"
                     onClick={() => setActiveIndex(index)}
                     border="1px solid"
-                    borderColor={index === activeIndex ? colors.text : colors.border}
+                    borderColor={
+                      index === activeIndex ? colors.text : colors.border
+                    }
                     bg={colors.surfaceAlt}
                     overflow="hidden"
                     cursor="pointer"
@@ -168,13 +243,21 @@ const ProjectPage = ({ isDownloading, handleDownload }) => {
                   >
                     <LazyLoadImage
                       src={item.thumbnail || item.url}
-                      alt={item.alt || `${project.title} thumbnail ${index + 1}`}
+                      alt={
+                        item.alt || `${project.title} thumbnail ${index + 1}`
+                      }
                       effect="opacity"
                       loading="lazy"
                       decoding="async"
                       width="100%"
                       height="100%"
-                      style={{ width: "100%", aspectRatio: "4 / 3", objectFit: "cover", display: "block" }}
+                      style={{
+                        width: "100%",
+                        aspectRatio: "16 / 10",
+                        objectFit: "contain",
+                        display: "block",
+                        background: colors.surface,
+                      }}
                     />
                   </Box>
                 ))}
@@ -182,24 +265,67 @@ const ProjectPage = ({ isDownloading, handleDownload }) => {
             )}
           </VStack>
 
-          <VStack align="stretch" spacing={5}>
+          <VStack
+            align="stretch"
+            spacing={{ base: 5, md: 6 }}
+            position={{ lg: "sticky" }}
+            top={{ lg: "104px" }}
+            borderLeft={{ lg: "1px solid" }}
+            borderColor={{ lg: colors.border }}
+            pl={{ lg: 8 }}
+          >
+            <Text
+              fontSize="11px"
+              fontWeight="700"
+              color={colors.muted}
+              textTransform="uppercase"
+              letterSpacing=".12em"
+            >
+              Case study
+            </Text>
             <HStack spacing={2} flexWrap="wrap">
               <StudioPill>{project.role}</StudioPill>
-              {project.period && <StudioPill tone="ghost">{project.period}</StudioPill>}
-              {project.status && <StudioPill tone="ghost">{project.status}</StudioPill>}
+              {project.period && (
+                <StudioPill tone="ghost">{project.period}</StudioPill>
+              )}
+              {project.status && (
+                <StudioPill tone="ghost">{project.status}</StudioPill>
+              )}
             </HStack>
 
-            <Text as="h1" fontSize={{ base: "36px", md: "54px" }} fontWeight="800" lineHeight="1.02">
+            <Text
+              as="h1"
+              fontSize={{ base: "40px", md: "58px", xl: "68px" }}
+              fontWeight="800"
+              lineHeight="1.02"
+            >
               {project.title}
             </Text>
 
-            <Text fontSize={{ base: "16px", md: "18px" }} color={colors.muted} lineHeight="1.75">
+            <Text
+              fontSize={{ base: "16px", md: "18px" }}
+              color={colors.muted}
+              lineHeight="1.75"
+              textAlign="justify"
+            >
               {project.description}
             </Text>
 
             {project.highlights?.length > 0 && (
-              <VStack align="stretch" spacing={3} borderTop="1px solid" borderColor={colors.border} pt={5}>
-                <Text fontSize="12px" fontWeight="700" color={colors.muted} textTransform="uppercase" letterSpacing="0.08em">
+              <VStack
+                align="stretch"
+                spacing={3}
+                borderTop="1px solid"
+                borderColor={colors.border}
+                pt={5}
+              >
+                <Text
+                  fontSize="12px"
+                  fontWeight="700"
+                  color={colors.muted}
+                  textTransform="uppercase"
+                  letterSpacing="0.08em"
+                >
                   Highlights
                 </Text>
                 {project.highlights.map((highlight) => (
@@ -213,19 +339,35 @@ const ProjectPage = ({ isDownloading, handleDownload }) => {
             {project.tags?.length > 0 && (
               <HStack spacing={2} flexWrap="wrap">
                 {project.tags.map((tag) => (
-                  <StudioPill key={tag} tone="ghost">{tag}</StudioPill>
+                  <StudioPill key={tag} tone="ghost">
+                    {tag}
+                  </StudioPill>
                 ))}
               </HStack>
             )}
 
             <HStack spacing={3} flexWrap="wrap" pt={2}>
               {project.github && (
-                <Button as={Link} href={project.github} isExternal variant="studioGhost" leftIcon={<Github size={15} />} _hover={{ textDecoration: "none" }}>
+                <Button
+                  as={Link}
+                  href={project.github}
+                  isExternal
+                  variant="studioGhost"
+                  leftIcon={<Github size={15} />}
+                  _hover={{ textDecoration: "none" }}
+                >
                   Source Code
                 </Button>
               )}
               {project.website && (
-                <Button as={Link} href={project.website} isExternal variant="studio" leftIcon={<ExternalLink size={15} />} _hover={{ textDecoration: "none" }}>
+                <Button
+                  as={Link}
+                  href={project.website}
+                  isExternal
+                  variant="studio"
+                  leftIcon={<ExternalLink size={15} />}
+                  _hover={{ textDecoration: "none" }}
+                >
                   Visit Website
                 </Button>
               )}

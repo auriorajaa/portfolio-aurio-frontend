@@ -1,16 +1,38 @@
 import { generateSlug } from "./slugify";
 
+export const isGithubTemporaryAssetUrl = (value = "") => {
+  try {
+    const { hostname } = new URL(value);
+    return hostname.startsWith("github-production-user-asset-") && hostname.endsWith(".s3.amazonaws.com");
+  } catch {
+    return false;
+  }
+};
+
+export const getStableProjectImageUrl = (value = "") => {
+  if (!value || !isGithubTemporaryAssetUrl(value)) return value;
+
+  try {
+    const { pathname } = new URL(value);
+    const filename = pathname.split("/").filter(Boolean).pop() || "";
+    const match = filename.match(/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/i);
+    return match ? "https://github.com/user-attachments/assets/" + match[1] : value;
+  } catch {
+    return value;
+  }
+};
+
 export const normalizeProject = (project = {}) => {
   const fallbackGallery = project.image
     ? [
         {
           id: `${project.id || project.title || "project"}-cover`,
           type: "image",
-          url: project.image,
+          url: getStableProjectImageUrl(project.image),
           title: "Cover",
           caption: project.description || "",
           alt: project.title || "Project preview",
-          thumbnail: project.image,
+          thumbnail: getStableProjectImageUrl(project.image),
           order: 0,
         },
       ]
@@ -22,11 +44,11 @@ export const normalizeProject = (project = {}) => {
         .map((item, index) => ({
           id: item.id || `${project.id || project.title || "project"}-${index}`,
           type: "image",
-          url: item.url,
+          url: getStableProjectImageUrl(item.url),
           title: item.title || `Screen ${index + 1}`,
           caption: item.caption || "",
           alt: item.alt || `${project.title || "Project"} showcase ${index + 1}`,
-          thumbnail: item.thumbnail || item.url,
+          thumbnail: getStableProjectImageUrl(item.thumbnail || item.url),
           order: Number.isFinite(Number(item.order)) ? Number(item.order) : index,
         }))
         .sort((a, b) => a.order - b.order)
@@ -40,7 +62,7 @@ export const normalizeProject = (project = {}) => {
     status: project.status || "Published",
     highlights: Array.isArray(project.highlights) ? project.highlights : [],
     gallery,
-    image: project.image || gallery.find((item) => item.type === "image")?.url || "",
+    image: getStableProjectImageUrl(project.image || gallery.find((item) => item.type === "image")?.url || ""),
     tags: Array.isArray(project.tags) ? project.tags : [],
   };
 };

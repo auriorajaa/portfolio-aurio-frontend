@@ -12,6 +12,8 @@ import Login from "./pages/Login";
 import AdminDashboard from "./pages/AdminDashboard";
 import ArticlePage from "./pages/ArticlePage";
 import ProjectPage from "./pages/ProjectPage";
+import Playground from "./pages/Playground";
+import Arcade from "./pages/Arcade";
 import NotFound from "./pages/NotFound";
 
 const App = () => {
@@ -70,6 +72,24 @@ const App = () => {
                 path="/project/:slug"
                 element={
                   <ProjectPage
+                    isDownloading={isDownloading}
+                    handleDownload={handleDownload}
+                  />
+                }
+              />
+              <Route
+                path="/playground"
+                element={
+                  <Playground
+                    isDownloading={isDownloading}
+                    handleDownload={handleDownload}
+                  />
+                }
+              />
+              <Route
+                path="/arcade"
+                element={
+                  <Arcade
                     isDownloading={isDownloading}
                     handleDownload={handleDownload}
                   />

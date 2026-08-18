@@ -12,6 +12,8 @@ import Education from "../components/sections/Education";
 import Gallery from "../components/sections/Gallery";
 import Contact from "../components/sections/Contact";
 import Articles from "../components/sections/Articles";
+import PlaygroundPreview from "../components/sections/PlaygroundPreview";
+import ArcadePreview from "../components/sections/ArcadePreview";
 import { usePortfolio } from "../contexts/PortfolioContext";
 import { useLayoutEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -94,6 +96,8 @@ const Home = ({ isDownloading, handleDownload }) => {
         <Education />
         <Gallery />
         <Articles />
+        <PlaygroundPreview />
+        <ArcadePreview />
         <Contact />
       </Layout>
     </Box>
