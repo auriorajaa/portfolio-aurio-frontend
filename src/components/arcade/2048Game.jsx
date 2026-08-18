@@ -129,6 +129,7 @@ const Game2048 = () => {
   });
 
   const beginPointer = (event) => {
+    event.preventDefault();
     event.currentTarget.setPointerCapture?.(event.pointerId);
     pointerRef.current = { x: event.clientX, y: event.clientY };
   };

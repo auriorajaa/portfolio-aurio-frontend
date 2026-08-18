@@ -200,9 +200,13 @@ const EndlessRunner = () => {
   );
 
   const handlePointerDown = (event) => {
+    event.preventDefault();
+    event.preventDefault();
+    event.currentTarget.setPointerCapture?.(event.pointerId);
     pointerStart.current = { x: event.clientX, y: event.clientY };
   };
   const handlePointerUp = (event) => {
+    event.preventDefault();
     if (!pointerStart.current) return;
     const dx = event.clientX - pointerStart.current.x;
     const dy = event.clientY - pointerStart.current.y;
@@ -255,6 +259,7 @@ const EndlessRunner = () => {
           userSelect="none"
           onPointerDown={handlePointerDown}
           onPointerUp={handlePointerUp}
+          onPointerCancel={() => { pointerStart.current = null; }}
         >
           {[1, 2].map((line) => (
             <Box

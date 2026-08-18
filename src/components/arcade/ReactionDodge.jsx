@@ -155,12 +155,14 @@ const ReactionDodge = () => {
   );
 
   const handlePointerDown = (event) => {
+    event.preventDefault();
     pointerActive.current = true;
+    event.preventDefault();
     event.currentTarget.setPointerCapture?.(event.pointerId);
     moveTo(event.clientX, event.currentTarget);
   };
   const handlePointerMove = (event) => {
-    if (pointerActive.current) moveTo(event.clientX, event.currentTarget);
+    if (pointerActive.current) { event.preventDefault(); moveTo(event.clientX, event.currentTarget); }
   };
 
   return (

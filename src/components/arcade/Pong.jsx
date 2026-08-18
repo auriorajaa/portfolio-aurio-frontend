@@ -232,12 +232,14 @@ const Pong = () => {
     gameRef.current.player.y = Math.max(0, Math.min(HEIGHT - PADDLE_H, y));
   };
   const handlePointerDown = (event) => {
+    event.preventDefault();
     pointerActive.current = true;
+    event.preventDefault();
     event.currentTarget.setPointerCapture?.(event.pointerId);
     moveTo(event.clientY, event.currentTarget);
   };
   const handlePointerMove = (event) => {
-    if (pointerActive.current) moveTo(event.clientY, event.currentTarget);
+    if (pointerActive.current) { event.preventDefault(); moveTo(event.clientY, event.currentTarget); }
   };
 
   return (

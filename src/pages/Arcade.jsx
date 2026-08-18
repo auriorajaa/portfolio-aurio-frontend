@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Box, Button, Container, Grid, HStack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  HStack,
+  Select,
+  Text,
+} from "@chakra-ui/react";
 import {
   Brain,
   Disc,
@@ -214,72 +222,99 @@ const Arcade = ({ isDownloading, handleDownload }) => {
             </Button>
           </Box>
         </Box>
+        <Box display={{ base: "block", md: "none" }} mb={6}>
+          <Text
+            mb={2}
+            fontSize="11px"
+            fontWeight="800"
+            color={colors.muted}
+            textTransform="uppercase"
+            letterSpacing=".08em"
+          >
+            Choose a game
+          </Text>
+          <Select
+            value={activeGame}
+            onChange={(event) => setActiveGame(event.target.value)}
+            size="lg"
+            bg={colors.surfaceAlt}
+            border="2px solid"
+            borderRadius={0}
+            borderColor={active.color}
+            fontWeight="700"
+          >
+            {GAMES.map((game) => (
+              <option key={game.id} value={game.id}>
+                {game.label}
+              </option>
+            ))}
+          </Select>
+          <Text mt={2} fontSize="13px" color={colors.muted}>
+            {active.note} - Ready to play
+          </Text>
+        </Box>
         <Grid
-          templateColumns={{
-            base: "repeat(3, minmax(0, 1fr))",
-            md: "repeat(5, 1fr)",
-          }}
-          gap={{ base: 2, md: 3 }}
-          mb={{ base: 6, md: 8 }}
+          display={{ base: "none", md: "grid" }}
+          templateColumns={{ md: "repeat(3, minmax(0, 1fr))" }}
+          gap={{ md: 4, xl: 5 }}
+          mb={{ md: 8 }}
         >
           {GAMES.map((game) => {
             const activeStyle = activeGame === game.id;
             return (
               <Button
                 key={game.id}
+                aria-pressed={activeStyle}
                 borderRadius={0}
                 onClick={() => setActiveGame(game.id)}
                 variant="unstyled"
                 h="auto"
-                minH={{ base: "62px", md: "70px" }}
-                p={{ base: 2.5, md: 3 }}
+                minH="112px"
+                p={4}
                 display="flex"
                 flexDirection="column"
-                alignItems="flex-start"
-                justifyContent="center"
+                alignItems="stretch"
+                justifyContent="space-between"
                 whiteSpace="normal"
                 textAlign="left"
                 bg={activeStyle ? game.color : colors.surfaceAlt}
                 color={activeStyle ? "#171717" : colors.text}
                 border="2px solid"
                 borderColor={activeStyle ? game.color : colors.border}
-                transform={activeStyle ? "translateY(-3px)" : "none"}
+                transform={activeStyle ? "translateY(-4px)" : "none"}
                 transition="all .2s"
                 _hover={{
-                  transform: "translateY(-3px)",
+                  transform: "translateY(-4px)",
                   borderColor: game.color,
                 }}
+                _focusVisible={{ boxShadow: `0 0 0 3px ${game.color}` }}
               >
-                <Text
-                  fontSize={{ base: "10px", md: "11px" }}
-                  fontWeight="800"
-                  opacity=".65"
-                  lineHeight="1"
-                  mb={1.5}
-                >
-                  {activeStyle ? "PLAYING" : "PLAY"}
-                </Text>
-
-                <Text
-                  fontSize={{ base: "11px", md: "13px" }}
-                  fontWeight="800"
-                  lineHeight="1.2"
-                >
-                  {game.label}
-                </Text>
-
-                <Text
-                  mt={0.5}
-                  fontSize={{ base: "9px", md: "10px" }}
-                  opacity=".65"
-                  lineHeight="1.2"
-                >
-                  {game.note}
-                </Text>
+                <HStack justify="space-between" w="100%">
+                  <Text
+                    fontSize="11px"
+                    fontWeight="800"
+                    opacity=".7"
+                    letterSpacing=".08em"
+                  >
+                    {activeStyle ? "PLAYING" : "PLAY"}
+                  </Text>
+                </HStack>
+                <Box>
+                  <Text
+                    fontSize={{ md: "15px", xl: "17px" }}
+                    fontWeight="800"
+                    lineHeight="1.2"
+                  >
+                    {game.label}
+                  </Text>
+                  <Text mt={1} fontSize="13px" opacity=".7" lineHeight="1.3">
+                    {game.note}
+                  </Text>
+                </Box>
               </Button>
             );
           })}
-        </Grid>
+        </Grid>{" "}
         <Box
           bg={colors.surfaceAlt}
           border="2px solid"
