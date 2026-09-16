@@ -20,7 +20,13 @@ const ActivityModal = ({ isOpen, onClose, activity }) => {
   if (!activity) return null;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="2xl" isCentered>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size="2xl"
+      isCentered
+      scrollBehavior="inside"
+    >
       <ModalOverlay bg={colors.overlay} backdropFilter="blur(10px)" />
       <ModalContent
         bg={colors.surfaceAlt}
@@ -29,6 +35,10 @@ const ActivityModal = ({ isOpen, onClose, activity }) => {
         borderRadius="24px"
         overflow="hidden"
         mx={4}
+        my={{ base: 4, md: "auto" }}
+        maxH={{ base: "calc(100dvh - 32px)", md: "85vh" }}
+        display="flex"
+        flexDirection="column"
       >
         <ModalHeader
           borderBottom="1px solid"
@@ -38,6 +48,7 @@ const ActivityModal = ({ isOpen, onClose, activity }) => {
           display="flex"
           justifyContent="space-between"
           alignItems="center"
+          flexShrink={0}
         >
           <Text fontSize="17px" fontWeight="700" color={colors.text}>
             Activity details
@@ -51,7 +62,20 @@ const ActivityModal = ({ isOpen, onClose, activity }) => {
           />
         </ModalHeader>
 
-        <ModalBody p={{ base: 4, md: 5 }}>
+        <ModalBody
+          p={{ base: 4, md: 5 }}
+          overflowY="auto"
+          sx={{
+            WebkitOverflowScrolling: "touch",
+            "&::-webkit-scrollbar": {
+              width: "6px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: colors.border,
+              borderRadius: "full",
+            },
+          }}
+        >
           <VStack spacing={4} align="stretch">
             {activity.image && (
               <Box
@@ -59,13 +83,14 @@ const ActivityModal = ({ isOpen, onClose, activity }) => {
                 borderColor={colors.border}
                 overflow="hidden"
                 borderRadius="18px"
+                flexShrink={0}
               >
                 <Image
                   src={activity.image}
                   alt={activity.title}
                   w="100%"
                   h="auto"
-                  maxH="420px"
+                  maxH={{ base: "220px", md: "420px" }}
                   objectFit="cover"
                 />
               </Box>
