@@ -12,8 +12,8 @@ import Login from "./pages/Login";
 import AdminDashboard from "./pages/AdminDashboard";
 import ArticlePage from "./pages/ArticlePage";
 import ProjectPage from "./pages/ProjectPage";
-import Playground from "./pages/Playground";
-import Arcade from "./pages/Arcade";
+// import Playground from "./pages/Playground";
+// import Arcade from "./pages/Arcade";
 import NotFound from "./pages/NotFound";
 
 const App = () => {
@@ -77,7 +77,7 @@ const App = () => {
                   />
                 }
               />
-              <Route
+              {/* <Route
                 path="/playground"
                 element={
                   <Playground
@@ -94,7 +94,7 @@ const App = () => {
                     handleDownload={handleDownload}
                   />
                 }
-              />
+              /> */}
               <Route
                 path="/dashboard-secure-panel"
                 element={
