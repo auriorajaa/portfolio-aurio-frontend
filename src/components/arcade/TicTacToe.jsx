@@ -1,7 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Box, Button, Flex, HStack, SimpleGrid, Text } from "@chakra-ui/react";
-import { Circle, RotateCcw, X as XIcon } from "lucide-react";
+import { Circle, RotateCcw, X as XIcon, Sparkles, Trophy } from "lucide-react";
 import { useStudioColors } from "../public/studio";
+import {
+  arcadeAudio,
+  arcadeHaptics,
+  loadArcadeStats,
+  recordGameSession,
+} from "../../services/arcadeService";
+import { getShopSnapshot } from "../../services/shopService";
 
 const LINES = [
   [0, 1, 2],
@@ -13,7 +20,7 @@ const LINES = [
   [0, 4, 8],
   [2, 4, 6],
 ];
-const SCORE_KEY = "arcade:tictactoe:score";
+
 const emptyBoard = () => Array(9).fill(null);
 
 const getWinner = (board) => {
@@ -65,36 +72,50 @@ const randomMove = (board) => {
   return options[Math.floor(Math.random() * options.length)];
 };
 
+// Coach hint: a safe spot for the player — immediate win, block, center, then corners.
+const suggestedMove = (board) => {
+  const findFor = (mark) => {
+    for (let i = 0; i < 9; i += 1) {
+      if (board[i]) continue;
+      const test = [...board];
+      test[i] = mark;
+      if (getWinner(test)) return i;
+    }
+    return null;
+  };
+  const win = findFor("X");
+  if (win !== null) return win;
+  const block = findFor("O");
+  if (block !== null) return block;
+  if (!board[4]) return 4;
+  const corners = [0, 2, 6, 8].filter((i) => !board[i]);
+  if (corners.length) return corners[0];
+  return board.findIndex((cell) => !cell);
+};
+
 const TicTacToe = () => {
   const colors = useStudioColors();
+  const [shop] = useState(() => getShopSnapshot("tictactoe"));
+  const palette = shop?.skin?.colors;
+  const pColor = palette?.p || "#00f5d4";
+  const sColor = palette?.s || "#ff6b6b";
+  const hasHint = Boolean(shop?.perks?.tttHint);
   const [board, setBoard] = useState(emptyBoard);
   const [turn, setTurn] = useState("X");
   const [result, setResult] = useState(null);
   const [difficulty, setDifficulty] = useState("hard");
   const [thinking, setThinking] = useState(false);
   const [score, setScore] = useState(() => {
-    try {
-      const stored = JSON.parse(window.localStorage.getItem(SCORE_KEY));
-      return stored && typeof stored === "object"
-        ? { wins: 0, losses: 0, draws: 0, ...stored }
-        : { wins: 0, losses: 0, draws: 0 };
-    } catch {
-      return { wins: 0, losses: 0, draws: 0 };
-    }
+    const stats = loadArcadeStats();
+    return stats.games?.tictactoe || { wins: 0, losses: 0, draws: 0 };
   });
   const timer = useRef(null);
 
-  const saveScore = (next) => {
-    setScore(next);
-    try {
-      window.localStorage.setItem(SCORE_KEY, JSON.stringify(next));
-    } catch {
-      // storage unavailable, ignore
-    }
-  };
-
-  const reset = () => {
+  const reset = (e) => {
+    if (e) e.stopPropagation();
     if (timer.current) window.clearTimeout(timer.current);
+    arcadeAudio.playClick();
+    arcadeAudio.startBgm("tictactoe");
     setBoard(emptyBoard());
     setTurn("X");
     setResult(null);
@@ -103,15 +124,38 @@ const TicTacToe = () => {
 
   const place = (index) => {
     if (result || thinking || board[index] || turn !== "X") return;
+    arcadeAudio.playClick();
+    arcadeHaptics.light();
     const next = [...board];
     next[index] = "X";
     setBoard(next);
     const outcome = getWinner(next);
     if (outcome) {
       setResult(outcome);
+      handleOutcome(outcome);
       return;
     }
     setTurn("O");
+  };
+
+  const handleOutcome = (outcome) => {
+    arcadeAudio.stopBgm({ fade: true });
+    let nextScore = { ...score };
+    if (outcome.mark === "X") {
+      nextScore.wins += 1;
+      arcadeAudio.playWin();
+      arcadeHaptics.success();
+    } else if (outcome.mark === "O") {
+      nextScore.losses += 1;
+      arcadeAudio.playHit();
+      arcadeHaptics.danger();
+    } else {
+      nextScore.draws += 1;
+      arcadeAudio.playMove();
+      arcadeHaptics.medium();
+    }
+    setScore(nextScore);
+    recordGameSession("tictactoe", nextScore);
   };
 
   useEffect(() => {
@@ -124,79 +168,109 @@ const TicTacToe = () => {
         const move = useRandom ? randomMove(working) : bestMove(working);
         if (move === null || move === undefined) return current;
         working[move] = "O";
+        arcadeAudio.playMove();
+        arcadeHaptics.light();
         const outcome = getWinner(working);
-        if (outcome) setResult(outcome);
-        else setTurn("X");
+        if (outcome) {
+          setResult(outcome);
+          handleOutcome(outcome);
+        } else {
+          setTurn("X");
+        }
         return working;
       });
       setThinking(false);
     }, 450);
     return () => window.clearTimeout(timer.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [turn, result, difficulty]);
 
-  useEffect(() => {
-    if (!result) return;
-    if (result.mark === "draw") {
-      saveScore({ ...score, draws: score.draws + 1 });
-    } else if (result.mark === "X") {
-      saveScore({ ...score, wins: score.wins + 1 });
-    } else if (result.mark === "O") {
-      saveScore({ ...score, losses: score.losses + 1 });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [result]);
+  useEffect(
+    () => () => {
+      arcadeAudio.stopBgm({ fade: false });
+    },
+    [],
+  );
+
+  const hintIndex =
+    hasHint && !result && !thinking && turn === "X"
+      ? suggestedMove(board)
+      : null;
 
   return (
-    <Box>
+    <Box w="100%">
       <HStack justify="space-between" flexWrap="wrap" gap={3} mb={5}>
         <Box>
-          <Text fontSize="20px" fontWeight="800">
-            Tic-Tac-Toe
-          </Text>
-          <Text mt={1} fontSize={{ base: "14px", md: "15px" }} color={colors.muted}>
-            You're X. The computer plays O.
+          <HStack spacing={2}>
+            <Text fontSize={{ base: "18px", md: "22px" }} fontWeight="800">
+              Tic-Tac-Toe
+            </Text>
+            {difficulty === "hard" && (
+              <Box px={2} py={0.5} bg="#ff6b6b" color="#fff" fontSize="10px" fontWeight="800" textTransform="uppercase" letterSpacing="0.05em">
+                Master AI
+              </Box>
+            )}
+          </HStack>
+          <Text mt={1} fontSize={{ base: "13px", md: "14px" }} color={colors.muted}>
+            You are X. The computer is O.
           </Text>
         </Box>
         <HStack spacing={2}>
-          <Box border="1px solid" borderColor={colors.border} px={3} py={2}>
-            <Text fontSize={{ base: "11px", md: "12px" }} color={colors.muted}>
+          <Box border="1px solid" borderColor={colors.border} bg={colors.surface} px={{ base: 2.5, md: 3 }} py={1.5} textAlign="center" minW="55px">
+            <Text fontSize="10px" fontWeight="800" color={colors.muted}>
               WINS
             </Text>
-            <Text fontWeight="800">{score.wins}</Text>
+            <Text fontWeight="800" fontSize={{ base: "14px", md: "16px" }} color="#00f5d4">
+              {score.wins}
+            </Text>
           </Box>
-          <Box border="1px solid" borderColor={colors.border} px={3} py={2}>
-            <Text fontSize={{ base: "11px", md: "12px" }} color={colors.muted}>
+          <Box border="1px solid" borderColor={colors.border} bg={colors.surface} px={{ base: 2.5, md: 3 }} py={1.5} textAlign="center" minW="55px">
+            <Text fontSize="10px" fontWeight="800" color={colors.muted}>
               LOSSES
             </Text>
-            <Text fontWeight="800">{score.losses}</Text>
+            <Text fontWeight="800" fontSize={{ base: "14px", md: "16px" }} color="#ff6b6b">
+              {score.losses}
+            </Text>
           </Box>
-          <Box border="1px solid" borderColor={colors.border} px={3} py={2}>
-            <Text fontSize={{ base: "11px", md: "12px" }} color={colors.muted}>
+          <Box border="1px solid" borderColor={colors.border} bg={colors.surface} px={{ base: 2.5, md: 3 }} py={1.5} textAlign="center" minW="55px">
+            <Text fontSize="10px" fontWeight="800" color={colors.muted}>
               DRAWS
             </Text>
-            <Text fontWeight="800">{score.draws}</Text>
+            <Text fontWeight="800" fontSize={{ base: "14px", md: "16px" }} color="#ffca3a">
+              {score.draws}
+            </Text>
           </Box>
         </HStack>
       </HStack>
 
-      <HStack justify="center" mb={4} spacing={2}>
-        {["easy", "hard"].map((level) => (
+      <HStack justify="center" mb={5} spacing={2}>
+        {[
+          { id: "easy", label: "Casual" },
+          { id: "hard", label: "Unbeatable" },
+        ].map((item) => (
           <Button
-            key={level}
+            key={item.id}
             onClick={() => {
-              setDifficulty(level);
+              arcadeAudio.playClick();
+              setDifficulty(item.id);
               reset();
             }}
             size="sm"
-            variant={difficulty === level ? "studio" : "studioGhost"}
+            fontSize="12px"
+            fontWeight="800"
+            border="2px solid"
+            borderColor={difficulty === item.id ? "#00f5d4" : colors.border}
+            bg={difficulty === item.id ? "#00f5d4" : colors.surface}
+            color={difficulty === item.id ? "#171717" : colors.text}
+            _hover={{ borderColor: "#00f5d4" }}
           >
-            {level === "easy" ? "Easy" : "Unbeatable"}
+            {item.label}
           </Button>
         ))}
       </HStack>
 
-      <Box maxW={{ base: "100%", md: "500px", xl: "600px" }} mx="auto">
-        <Box position="relative">
+      <Box maxW={{ base: "100%", sm: "360px", md: "420px" }} mx="auto">
+        <Box position="relative" p={1} bg={colors.surface} border="2px solid" borderColor={colors.border}>
           <SimpleGrid columns={3} gap={2}>
             {board.map((cell, index) => {
               const isWinning = result?.line?.includes(index);
@@ -204,34 +278,53 @@ const TicTacToe = () => {
                 <Flex
                   key={index}
                   as="button"
+                  aria-label={`Cell ${index + 1}: ${cell || "empty"}`}
                   onClick={() => place(index)}
                   aspectRatio="1"
                   align="center"
                   justify="center"
-                  bg={isWinning ? colors.text : colors.surface}
-                  border="1px solid"
-                  borderColor={colors.border}
+                  bg={isWinning ? "#1b2140" : colors.surfaceAlt}
+                  border="2px solid"
+                  borderColor={isWinning ? pColor : colors.border}
                   cursor={cell || result || thinking ? "default" : "pointer"}
-                  transition="background .15s"
+                  transition="all .18s ease"
+                  boxShadow={isWinning ? `0 0 12px ${pColor}66` : "none"}
+                  transform={isWinning ? "scale(1.02)" : "none"}
+                  _hover={
+                    !cell && !result && !thinking
+                      ? { borderColor: pColor, bg: colors.surface }
+                      : {}
+                  }
                 >
                   {cell === "X" && (
                     <XIcon
-                      size={58}
-                      strokeWidth={3}
-                      color={isWinning ? colors.surfaceAlt : "#00f5d4"}
+                      size={48}
+                      strokeWidth={3.5}
+                      color={pColor}
                     />
                   )}
                   {cell === "O" && (
                     <Circle
-                      size={54}
-                      strokeWidth={3}
-                      color={isWinning ? colors.surfaceAlt : "#ff6b6b"}
+                      size={44}
+                      strokeWidth={3.5}
+                      color={sColor}
+                    />
+                  )}
+                  {hintIndex === index && !cell && (
+                    <Box
+                      w="34%"
+                      aspectRatio="1"
+                      borderRadius="full"
+                      border="3px dashed"
+                      borderColor={pColor}
+                      opacity={0.55}
                     />
                   )}
                 </Flex>
               );
             })}
           </SimpleGrid>
+
           {result && (
             <Flex
               position="absolute"
@@ -241,40 +334,71 @@ const TicTacToe = () => {
               bg={colors.overlay}
               color={colors.surfaceAlt}
               direction="column"
-              p={4}
+              p={5}
               textAlign="center"
+              backdropFilter="blur(2px)"
             >
-              <Text fontWeight="800" fontSize="20px">
+              {result.mark === "X" ? (
+                <Trophy size={42} color="#00f5d4" />
+              ) : result.mark === "O" ? (
+                <Circle size={42} color="#ff6b6b" />
+              ) : (
+                <Sparkles size={42} color="#ffca3a" />
+              )}
+              <Text fontWeight="800" fontSize="22px" mt={2}>
                 {result.mark === "draw"
-                  ? "Draw"
+                  ? "Draw Match!"
                   : result.mark === "X"
-                    ? "You win"
-                    : "Computer wins"}
+                    ? "You Win!"
+                    : "Computer Wins!"}
               </Text>
-              <Text mt={1} fontSize={{ base: "14px", md: "15px" }}>
+              <Text mt={1} fontSize="13px" opacity={0.85}>
                 {result.mark === "draw"
-                  ? "Nobody gets the line."
+                  ? "Evenly matched."
                   : result.mark === "X"
-                    ? "Nicely played."
-                    : "Try again."}
+                    ? "Great strategy."
+                    : "The algorithm prevails. Try again!"}
               </Text>
+              <Button
+                mt={4}
+                size="sm"
+                onClick={reset}
+                bg="#00f5d4"
+                color="#171717"
+                fontWeight="800"
+                _hover={{ bg: "#8ac926" }}
+                leftIcon={<RotateCcw size={14} />}
+              >
+                Play Again
+              </Button>
             </Flex>
           )}
         </Box>
-        <Text mt={3} textAlign="center" fontSize={{ base: "14px", md: "15px" }} color={colors.muted} minH="16px">
-          {!result && thinking ? "Computer is thinkingâ€¦" : "\u00A0"}
+
+        <Text
+          mt={3}
+          textAlign="center"
+          fontSize="13px"
+          fontWeight="700"
+          color={colors.muted}
+          minH="20px"
+        >
+          {!result && thinking ? "Computer is thinking..." : !result ? "Your turn (X)" : ""}
         </Text>
+
         <HStack justify="center" mt={2}>
           <Button
             onClick={reset}
             variant="studioGhost"
+            size="sm"
             leftIcon={<RotateCcw size={14} />}
           >
-            New game
+            New Game
           </Button>
         </HStack>
       </Box>
     </Box>
   );
 };
+
 export default TicTacToe;
