@@ -3,23 +3,27 @@ import {
   Box,
   Button,
   Flex,
-  Grid,
   HStack,
   Link,
   Text,
   useDisclosure,
-  IconButton,
 } from "@chakra-ui/react";
 import { useGSAP } from "@gsap/react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { ExternalLink, Github, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ArrowUpRight,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  Github,
+} from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
 import { normalizeProjects } from "../../utils/projectMedia";
 import ProjectShowcaseModal from "../ui/ProjectShowcaseModal";
 import { StudioSection, useStudioColors } from "../public/studio";
 import { gsap, prefersReducedMotion } from "../../utils/gsap";
 
-const PAGE_SIZE = 8;
+const PAGE_SIZE = 6;
 
 const Projects = () => {
   const { portfolioData } = usePortfolio();
@@ -33,11 +37,12 @@ const Projects = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const colors = useStudioColors();
   const rootRef = useRef(null);
-  const gridRef = useRef(null);
+  const trackRef = useRef(null);
 
-  // Build tag filter list
   const tags = projects.reduce((acc, p) => {
-    p.tags.forEach((t) => { if (!acc.includes(t)) acc.push(t); });
+    p.tags.forEach((t) => {
+      if (!acc.includes(t)) acc.push(t);
+    });
     return acc;
   }, []);
   const filters = ["ALL", ...tags.slice(0, 5)];
@@ -46,52 +51,49 @@ const Projects = () => {
     filter === "ALL" ? projects : projects.filter((p) => p.tags.includes(filter));
 
   const totalPages = Math.ceil(filteredProjects.length / PAGE_SIZE);
-  const pagedProjects = filteredProjects.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const pagedProjects = filteredProjects.slice(
+    (page - 1) * PAGE_SIZE,
+    page * PAGE_SIZE,
+  );
 
-  // Reset to page 1 when filter changes
   const handleFilter = (tag) => {
     setFilter(tag);
     setPage(1);
+    if (trackRef.current) trackRef.current.scrollTo({ left: 0 });
   };
 
-  // Animate items on filter/page change
   useGSAP(
     () => {
-      if (prefersReducedMotion() || !gridRef.current) return;
-      gsap.from("[data-project-cell]", {
+      if (prefersReducedMotion() || !rootRef.current) return;
+      gsap.from("[data-project-card]", {
         y: 16,
         autoAlpha: 0,
-        duration: 0.44,
+        duration: 0.45,
         ease: "power3.out",
-        stagger: 0.045,
-        scrollTrigger: {
-          trigger: rootRef.current,
-          start: "top 78%",
-          once: true,
-        },
+        stagger: 0.05,
+        scrollTrigger: { trigger: rootRef.current, start: "top 80%", once: true },
       });
     },
     { dependencies: [filter, page], scope: rootRef },
   );
 
   const openProject = (project) => {
+    if (!project?.slug) return;
     setSelectedProject(project);
     onOpen();
   };
 
   const goPage = (n) => {
     setPage(n);
-    // Scroll grid into view smoothly
-    if (gridRef.current) {
-      gridRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    if (rootRef.current)
+      rootRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
     <StudioSection
       id="projects"
       eyebrow="Selected work"
-      title="A gallery wall for technical work."
+      title="A wall of technical work."
       maxW="1320px"
     >
       <Box ref={rootRef}>
@@ -104,16 +106,28 @@ const Projects = () => {
           flexWrap="wrap"
         >
           <Text
-            fontSize={{ base: "14px", md: "15px" }}
+            display={{ base: "none", md: "block" }}
+            fontSize="15px"
             color={colors.muted}
             maxW="420px"
             lineHeight="1.65"
           >
-            Tap a project to expand the case study.
+            Every project, fully visible — image, story, and links. Tap a card
+            for the full case study.
+          </Text>
+          <Text
+            display={{ base: "block", md: "none" }}
+            fontSize="13px"
+            color={colors.muted}
+          >
+            Swipe to browse, tap a card to open it.
           </Text>
 
-          {/* Filter pills */}
-          <HStack spacing={1} flexWrap="wrap" justify={{ base: "flex-start", md: "flex-end" }}>
+          <HStack
+            spacing={1}
+            flexWrap="wrap"
+            justify={{ base: "flex-start", md: "flex-end" }}
+          >
             {filters.map((tag) => (
               <Button
                 key={tag}
@@ -130,137 +144,178 @@ const Projects = () => {
           </HStack>
         </Flex>
 
-        {/* ── Project grid ── */}
-        <Box ref={gridRef}>
-          <Grid
-            templateColumns={{
-              base: "1fr",
-              md: "repeat(2, 1fr)",
-              xl: "repeat(3, 1fr)",
-            }}
-            gap={{ base: 4, md: 3 }}
-          >
-            {pagedProjects.map((project, index) => (
+        {/* ── Mobile: horizontal swipe slider ── */}
+        <Box
+          ref={trackRef}
+          display={{ base: "block", md: "none" }}
+          mx={{ base: "-20px" }}
+          px={{ base: "20px" }}
+          py="8px"
+          my="-8px"
+          overflowX="auto"
+          sx={{
+            scrollSnapType: "x mandatory",
+            scrollPaddingLeft: "20px",  /* Batas snap kiri */
+            scrollPaddingRight: "20px", /* Batas snap kanan */
+            WebkitOverflowScrolling: "touch",
+            "&::-webkit-scrollbar": { display: "none" },
+            scrollbarWidth: "none",
+          }}
+        >
+          <HStack spacing="14px" align="stretch">
+            {pagedProjects.map((project) => (
               <ProjectCard
                 key={project.id || project.slug}
                 project={project}
-                index={index}
                 colors={colors}
-                onClick={() => openProject(project)}
-                // First card on desktop spans 2 cols for editorial feel
-                featured={index === 0 && pagedProjects.length >= 3}
+                onOpen={() => openProject(project)}
               />
             ))}
-
-            {/* Empty state */}
-            {pagedProjects.length === 0 && (
-              <Box
-                gridColumn="1 / -1"
-                py={16}
-                textAlign="center"
-                bg={colors.surfaceAlt}
-              >
-                <Text fontSize="15px" color={colors.muted}>
-                  No projects matching "{filter}"
-                </Text>
-              </Box>
-            )}
-          </Grid>
+            {/* Dummy Spacer: Memaksa browser menciptakan ruang kosong 20px setelah kartu terakhir */}
+            <Box
+              flexShrink={0}
+              w="6px" /* Combined dengan spacing="14px" pada HStack = total 20px */
+              scrollSnapAlign="end"
+              aria-hidden="true"
+            />
+          </HStack>
         </Box>
+
+        {/* ── Desktop/tablet: uniform card grid ── */}
+        <Box
+          display={{ base: "none", md: "grid" }}
+          gridTemplateColumns={{ md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
+          gap={{ md: "20px", lg: "24px" }}
+        >
+          {pagedProjects.map((project) => (
+            <ProjectCard
+              key={project.id || project.slug}
+              project={project}
+              colors={colors}
+              onOpen={() => openProject(project)}
+            />
+          ))}
+        </Box>
+
+        {filteredProjects.length === 0 && (
+          <Box py={16} textAlign="center">
+            <Text fontSize="15px" color={colors.muted}>
+              No projects matching "{filter}"
+            </Text>
+          </Box>
+        )}
 
         {/* ── Pagination ── */}
         {totalPages > 1 && (
           <Flex
             justify="space-between"
             align="center"
-            mt={8}
+            mt={{ base: 6, md: 8 }}
             pt={5}
             borderTop="1px solid"
             borderColor={colors.border}
+            flexWrap="wrap"
+            gap={3}
           >
-            {/* Page count label */}
-            <Text fontSize="13px" color={colors.muted} letterSpacing=".02em">
-              {(page - 1) * PAGE_SIZE + 1}–
-              {Math.min(page * PAGE_SIZE, filteredProjects.length)} of{" "}
-              {filteredProjects.length}
+            <Text fontSize="13px" color={colors.muted}>
+              {String(page).padStart(2, "0")} / {String(totalPages).padStart(2, "0")}
             </Text>
 
-            {/* Page dots + prev/next */}
+            <HStack spacing={1} display={{ base: "none", md: "flex" }}>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+                <Button
+                  key={n}
+                  variant="unstyled"
+                  onClick={() => goPage(n)}
+                  minW="32px"
+                  h="32px"
+                  px={2}
+                  fontSize="13px"
+                  fontWeight={n === page ? "800" : "500"}
+                  color={n === page ? colors.surfaceAlt : colors.muted}
+                  bg={n === page ? colors.text : "transparent"}
+                  borderRadius="full"
+                  transition="all .15s ease"
+                  _hover={{ color: colors.text, bg: colors.surface }}
+                >
+                  {n}
+                </Button>
+              ))}
+            </HStack>
+
             <HStack spacing={2}>
-              <IconButton
+              <PaginationBtn
+                onClick={() => page > 1 && goPage(page - 1)}
+                disabled={page === 1}
+                colors={colors}
                 icon={<ChevronLeft size={15} />}
-                aria-label="Previous page"
-                variant="studioGhost"
-                size="sm"
-                isDisabled={page === 1}
-                onClick={() => goPage(page - 1)}
+                label="Prev"
               />
-
-              <HStack spacing={1}>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
-                  <Box
-                    key={n}
-                    as="button"
-                    onClick={() => goPage(n)}
-                    w={n === page ? "20px" : "6px"}
-                    h="6px"
-                    bg={n === page ? colors.text : colors.border}
-                    borderRadius="999px"
-                    transition="all .22s ease"
-                    _hover={{ bg: n === page ? colors.text : colors.muted }}
-                    aria-label={`Page ${n}`}
-                  />
-                ))}
-              </HStack>
-
-              <IconButton
+              <PaginationBtn
+                onClick={() => page < totalPages && goPage(page + 1)}
+                disabled={page === totalPages}
+                colors={colors}
                 icon={<ChevronRight size={15} />}
-                aria-label="Next page"
-                variant="studioGhost"
-                size="sm"
-                isDisabled={page === totalPages}
-                onClick={() => goPage(page + 1)}
+                label="Next"
+                iconRight
               />
             </HStack>
           </Flex>
         )}
       </Box>
 
-      <ProjectShowcaseModal project={selectedProject} isOpen={isOpen} onClose={onClose} />
+      <ProjectShowcaseModal
+        project={selectedProject}
+        isOpen={isOpen}
+        onClose={onClose}
+      />
     </StudioSection>
   );
 };
 
 // ─────────────────────────────────────────────
-// ProjectCard — two modes:
-//   featured (index 0, desktop): tall image left + meta right, spans 2 cols
-//   normal: image top, meta bottom — portrait card
-// Mobile: always single column, image top, text bottom (block layout)
+// ProjectCard Component
 // ─────────────────────────────────────────────
-const ProjectCard = ({ project, index, colors, onClick, featured }) => {
+const ProjectCard = ({ project, colors, onOpen }) => {
   const [hovered, setHovered] = useState(false);
 
   return (
     <Box
-      data-project-cell
+      data-project-card
       as="article"
-      gridColumn={{ md: featured ? "span 2" : "span 1", xl: featured ? "span 2" : "span 1" }}
+      display="flex"
+      flexDirection="column"
+      w={{ base: "84vw", md: "100%" }}
+      maxW={{ base: "360px", md: "none" }}
+      h="100%" /* Memaksa kartu meregang sama tinggi di flex container */
+      flexShrink={0}
+      scrollSnapAlign={{ base: "start", md: "unset" }}
       bg={colors.surfaceAlt}
-      cursor="pointer"
-      position="relative"
+      // border="0.5px solid"
+      // borderColor={hovered ? colors.text : colors.border}
       overflow="hidden"
-      onClick={onClick}
+      cursor={project.slug ? "pointer" : "default"}
+      transition="border-color .18s ease, transform .18s ease"
+      transform={{ md: hovered ? "translateY(-3px)" : "none" }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      display="block"
-      minH={{ base: "auto", md: featured ? "460px" : "320px" }}
+      onClick={() => project.slug && onOpen()}
     >
-      {/* Image */}
+      {/* Container Gambar dengan Aspek Rasio Tetap */}
       <Box
         w="100%"
-        h={{ base: "240px", md: featured ? "360px" : "260px" }}
+        aspectRatio="16 / 10"
+        bg={colors.surface}
         overflow="hidden"
         position="relative"
+        sx={{
+          /* Menyelaraskan wrapper LazyLoadImage agar memenuhi container */
+          "& .lazy-load-image-background": {
+            width: "100% !important",
+            height: "100% !important",
+            display: "block !important",
+          },
+        }}
       >
         {project.image ? (
           <Box
@@ -269,176 +324,185 @@ const ProjectCard = ({ project, index, colors, onClick, featured }) => {
             alt={project.title}
             effect="opacity"
             threshold={220}
-            visibleByDefault={index === 0}
-            loading={index === 0 ? "eager" : "lazy"}
-            decoding="async"
-            fetchPriority={index === 0 ? "high" : "auto"}
-            width="100%"
-            height="100%"
             style={{
               width: "100%",
               height: "100%",
               objectFit: "contain",
               display: "block",
-              transform: "scale(1)",
-              transition: "filter .25s ease",
-              filter: hovered ? "brightness(.92)" : "brightness(1)",
+              transform: hovered ? "scale(1.04)" : "scale(1)",
+              filter: hovered ? "brightness(.95)" : "brightness(1)",
+              transition: "transform .4s ease, filter .18s ease",
             }}
           />
         ) : (
-          // No-image placeholder
-          <Box
-            w="100%"
-            h="100%"
-            bg={colors.surface}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Text fontSize="11px" color={colors.muted} letterSpacing=".06em" textTransform="uppercase">
+          <Flex w="100%" h="100%" align="center" justify="center">
+            <Text
+              fontSize="11px"
+              color={colors.muted}
+              letterSpacing=".06em"
+              textTransform="uppercase"
+            >
               No preview
             </Text>
-          </Box>
+          </Flex>
         )}
-
-        {/* Index number — editorial detail */}
-        <Text
-          position="absolute"
-          top={3}
-          left={3}
-          fontSize="11px"
-          fontWeight="700"
-          letterSpacing=".08em"
-          color="rgba(255,255,255,.55)"
-          display={{ base: "none", md: "block" }}
-          userSelect="none"
-        >
-          {String(index + 1).padStart(2, "0")}
-        </Text>
       </Box>
 
-      {/* Meta */}
-      <Flex
-        direction="column"
-        justify="space-between"
-        flex={1}
-        p={{ base: "14px 16px", md: 5 }}
-        gap={{ base: 1, md: 3 }}
-        borderTop={{ base: "none", md: "1px solid" }}
-        borderColor={colors.border}
-        minH={{ md: featured ? "140px" : "unset" }}
-      >
-        <Box>
-          {/* Role / period */}
-          <Text
-            fontSize={{ base: "10px", md: "11px" }}
-            color={colors.muted}
-            textTransform="uppercase"
-            letterSpacing=".08em"
-            mb={{ base: "2px", md: 1 }}
-            noOfLines={1}
-          >
-            {/* {project.role || project.tags?.[0]} */}
-            {project.period ? ` · ${project.period}` : ""}
-          </Text>
-
-          {/* Title */}
-          <Text
-            fontSize={{ base: "17px", md: featured ? "22px" : "18px" }}
-            fontWeight="800"
-            lineHeight="1.1"
-            letterSpacing="-.01em"
-            noOfLines={{ base: 2, md: 3 }}
-            transition="opacity .2s"
-            opacity={hovered ? 0.72 : 1}
-          >
-            {project.title}
-          </Text>
-
-          {/* Description — only on desktop non-featured */}
-          {!featured && (
-            <Text
-              display={{ base: "none", md: "-webkit-box" }}
-              fontSize="13px"
-              color={colors.muted}
-              lineHeight="1.6"
-              mt={2}
-              noOfLines={2}
-            >
-              {project.description}
-            </Text>
-          )}
-
-          {/* Description — featured desktop gets more */}
-          {featured && (
-            <Text
-              display={{ base: "none", md: "-webkit-box" }}
-              fontSize="14px"
-              color={colors.muted}
-              lineHeight="1.7"
-              mt={2}
-              noOfLines={3}
-            >
-              {project.description}
-            </Text>
-          )}
-        </Box>
-
-        {/* Bottom row — tags + links */}
-        <Flex
-          justify="space-between"
-          align="center"
-          mt={{ base: 0, md: 1 }}
-          gap={2}
+      {/* Konten Kartu */}
+      <Flex flex="1" direction="column" p={{ base: "16px", md: "20px" }}>
+        <Text
+          fontSize={{ base: "16px", md: "18px", lg: "19px" }}
+          fontWeight="800"
+          lineHeight="1.3"
+          letterSpacing="-.005em"
+          noOfLines={2}
+          minH="2.6em" /* Menjamin ruang 2 baris teks agar tinggi judul seragam */
         >
-          <Text
-            fontSize={{ base: "10px", md: "12px" }}
-            color={colors.muted}
-            noOfLines={1}
-            flex={1}
-          >
-            {(project.tags || []).slice(0, 3).join(" / ")}
-          </Text>
+          {project.title}
+        </Text>
 
-          <HStack spacing={2} flexShrink={0} onClick={(e) => e.stopPropagation()}>
-            {project.github && (
-              <Link href={project.github} isExternal aria-label={`${project.title} code`} color={colors.muted} _hover={{ color: colors.text }}>
-                <Github size={14} />
-              </Link>
+        {(project.period || project.tags?.length > 0) && (
+          <HStack spacing={2} mt={2} flexWrap="wrap">
+            {project.period && (
+              <Text fontSize="12px" color={colors.muted}>
+                {project.period}
+              </Text>
             )}
-            {project.website && (
-              <Link href={project.website} isExternal aria-label={`${project.title} live demo`} color={colors.muted} _hover={{ color: colors.text }}>
-                <ExternalLink size={14} />
-              </Link>
+            {project.period && project.tags?.length > 0 && (
+              <Text fontSize="12px" color={colors.border}>
+                —
+              </Text>
             )}
-            {project.slug && (
-              <Link
-                href={`/project/${project.slug}`}
-                aria-label={`Open ${project.title} case study`}
-                color={colors.text}
-                fontSize="12px"
-                fontWeight="700"
-                textDecoration="underline"
-                _hover={{ color: colors.text, textDecoration: "none" }}
-              >
-                Explore case study
-              </Link>
+            {project.tags?.length > 0 && (
+              <Text fontSize="12px" color={colors.muted} noOfLines={1}>
+                {project.tags.slice(0, 3).join(", ")}
+              </Text>
             )}
-            {/* Arrow hint on hover */}
-            <Box
-              color={colors.text}
-              opacity={hovered ? 1 : 0}
-              transform={hovered ? "translateX(0)" : "translateX(-4px)"}
-              transition="all .2s ease"
-              display={{ base: "none", md: "flex" }}
-            >
-              <ArrowRight size={14} />
-            </Box>
           </HStack>
-        </Flex>
+        )}
+
+        {project.description && (
+          <Text
+            fontSize="13.5px"
+            color={colors.muted}
+            lineHeight="1.6"
+            mt={3}
+            noOfLines={2}
+            minH="3.2em" /* Menjamin ruang 2 baris deskripsi seragam */
+          >
+            {project.description}
+          </Text>
+        )}
+
+        {/* Spacer mendorong action row selalu berada di paling bawah kartu */}
+        <Box flex="1" minH="12px" />
+
+        <ProjectActions project={project} colors={colors} />
       </Flex>
     </Box>
   );
 };
+
+const ProjectActions = ({ project, colors }) => {
+  if (!project.github && !project.website && !project.slug) return null;
+  return (
+    <HStack
+      spacing={2}
+      mt={3}
+      flexWrap="wrap"
+      onClick={(e) => e.stopPropagation()}
+    >
+      {project.github && (
+        <TileAction
+          href={project.github}
+          icon={<Github size={13} />}
+          label="Code"
+          colors={colors}
+        />
+      )}
+      {project.website && (
+        <TileAction
+          href={project.website}
+          icon={<ExternalLink size={13} />}
+          label="Live"
+          colors={colors}
+        />
+      )}
+      {project.slug && (
+        <TileAction
+          href={`/project/${project.slug}`}
+          icon={<ArrowUpRight size={13} />}
+          label="Detail"
+          colors={colors}
+          primary
+          external={false}
+        />
+      )}
+    </HStack>
+  );
+};
+
+const TileAction = ({
+  href,
+  icon,
+  label,
+  colors,
+  primary = false,
+  external = true,
+}) => (
+  <Link
+    href={href}
+    isExternal={external}
+    aria-label={label}
+    display="inline-flex"
+    alignItems="center"
+    gap="5px"
+    px="10px"
+    h="28px"
+    fontSize="12px"
+    fontWeight="600"
+    border="1px solid"
+    borderColor={primary ? colors.text : colors.border}
+    bg={primary ? colors.text : "transparent"}
+    color={primary ? colors.surfaceAlt : colors.text}
+    whiteSpace="nowrap"
+    transition="all .15s ease"
+    _hover={{
+      textDecoration: "none",
+      borderColor: colors.text,
+      bg: primary ? colors.text : colors.surface,
+    }}
+  >
+    {icon}
+    <Text as="span" fontSize="11px" fontWeight="600">
+      {label}
+    </Text>
+  </Link>
+);
+
+const PaginationBtn = ({ onClick, disabled, colors, icon, label, iconRight }) => (
+  <HStack
+    as="button"
+    onClick={onClick}
+    disabled={disabled}
+    spacing={1}
+    h="32px"
+    px={3}
+    fontSize="13px"
+    fontWeight="700"
+    border="1px solid"
+    borderColor={disabled ? colors.border : colors.border}
+    bg={disabled ? "transparent" : colors.surfaceAlt}
+    color={disabled ? colors.border : colors.text}
+    cursor={disabled ? "default" : "pointer"}
+    opacity={disabled ? 0.6 : 1}
+    transition="all .15s ease"
+    _hover={disabled ? {} : { borderColor: colors.text }}
+  >
+    {!iconRight && icon}
+    <Text as="span">{label}</Text>
+    {iconRight && icon}
+  </HStack>
+);
 
 export default Projects;
