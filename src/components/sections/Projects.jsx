@@ -17,6 +17,7 @@ import {
   ExternalLink,
   Github,
 } from "lucide-react";
+
 import { usePortfolio } from "../../contexts/PortfolioContext";
 import { normalizeProjects } from "../../utils/projectMedia";
 import ProjectShowcaseModal from "../ui/ProjectShowcaseModal";
@@ -27,30 +28,47 @@ const PAGE_SIZE = 6;
 
 const Projects = () => {
   const { portfolioData } = usePortfolio();
+
   const projects = useMemo(
     () => normalizeProjects(portfolioData.projects || []),
     [portfolioData.projects],
   );
+
   const [filter, setFilter] = useState("ALL");
   const [page, setPage] = useState(1);
   const [selectedProject, setSelectedProject] = useState(null);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const colors = useStudioColors();
   const rootRef = useRef(null);
-  const trackRef = useRef(null);
 
-  const tags = projects.reduce((acc, p) => {
-    p.tags.forEach((t) => {
-      if (!acc.includes(t)) acc.push(t);
+  // ─────────────────────────────────────────────
+  // Filters
+  // ─────────────────────────────────────────────
+
+  const tags = projects.reduce((acc, project) => {
+    project.tags.forEach((tag) => {
+      if (!acc.includes(tag)) {
+        acc.push(tag);
+      }
     });
+
     return acc;
   }, []);
+
   const filters = ["ALL", ...tags.slice(0, 5)];
 
   const filteredProjects =
-    filter === "ALL" ? projects : projects.filter((p) => p.tags.includes(filter));
+    filter === "ALL"
+      ? projects
+      : projects.filter((project) => project.tags.includes(filter));
+
+  // ─────────────────────────────────────────────
+  // Pagination
+  // ─────────────────────────────────────────────
 
   const totalPages = Math.ceil(filteredProjects.length / PAGE_SIZE);
+
   const pagedProjects = filteredProjects.slice(
     (page - 1) * PAGE_SIZE,
     page * PAGE_SIZE,
@@ -59,34 +77,59 @@ const Projects = () => {
   const handleFilter = (tag) => {
     setFilter(tag);
     setPage(1);
-    if (trackRef.current) trackRef.current.scrollTo({ left: 0 });
   };
+
+  // ─────────────────────────────────────────────
+  // Animation
+  // ─────────────────────────────────────────────
 
   useGSAP(
     () => {
       if (prefersReducedMotion() || !rootRef.current) return;
+
       gsap.from("[data-project-card]", {
         y: 16,
         autoAlpha: 0,
         duration: 0.45,
         ease: "power3.out",
         stagger: 0.05,
-        scrollTrigger: { trigger: rootRef.current, start: "top 80%", once: true },
+        scrollTrigger: {
+          trigger: rootRef.current,
+          start: "top 80%",
+          once: true,
+        },
       });
     },
-    { dependencies: [filter, page], scope: rootRef },
+    {
+      dependencies: [filter, page],
+      scope: rootRef,
+    },
   );
+
+  // ─────────────────────────────────────────────
+  // Open Project
+  // ─────────────────────────────────────────────
 
   const openProject = (project) => {
     if (!project?.slug) return;
+
     setSelectedProject(project);
     onOpen();
   };
 
-  const goPage = (n) => {
-    setPage(n);
-    if (rootRef.current)
-      rootRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  // ─────────────────────────────────────────────
+  // Pagination Navigation
+  // ─────────────────────────────────────────────
+
+  const goPage = (nextPage) => {
+    setPage(nextPage);
+
+    if (rootRef.current) {
+      rootRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
   };
 
   return (
@@ -97,7 +140,10 @@ const Projects = () => {
       maxW="1320px"
     >
       <Box ref={rootRef}>
-        {/* ── Header row ── */}
+        {/* ─────────────────────────────────────────────
+            Header
+        ───────────────────────────────────────────── */}
+
         <Flex
           justify="space-between"
           align={{ base: "start", md: "end" }}
@@ -105,6 +151,7 @@ const Projects = () => {
           mb={{ base: 6, md: 8 }}
           flexWrap="wrap"
         >
+          {/* Desktop description */}
           <Text
             display={{ base: "none", md: "block" }}
             fontSize="15px"
@@ -115,14 +162,17 @@ const Projects = () => {
             Every project, fully visible — image, story, and links. Tap a card
             for the full case study.
           </Text>
+
+          {/* Mobile description */}
           <Text
             display={{ base: "block", md: "none" }}
             fontSize="13px"
             color={colors.muted}
           >
-            Swipe to browse, tap a card to open it.
+            Browse my selected projects below.
           </Text>
 
+          {/* Filters */}
           <HStack
             spacing={1}
             flexWrap="wrap"
@@ -144,48 +194,27 @@ const Projects = () => {
           </HStack>
         </Flex>
 
-        {/* ── Mobile: horizontal swipe slider ── */}
-        <Box
-          ref={trackRef}
-          display={{ base: "block", md: "none" }}
-          mx={{ base: "-20px" }}
-          px={{ base: "20px" }}
-          py="8px"
-          my="-8px"
-          overflowX="auto"
-          sx={{
-            scrollSnapType: "x mandatory",
-            scrollPaddingLeft: "20px",  /* Batas snap kiri */
-            scrollPaddingRight: "20px", /* Batas snap kanan */
-            WebkitOverflowScrolling: "touch",
-            "&::-webkit-scrollbar": { display: "none" },
-            scrollbarWidth: "none",
-          }}
-        >
-          <HStack spacing="14px" align="stretch">
-            {pagedProjects.map((project) => (
-              <ProjectCard
-                key={project.id || project.slug}
-                project={project}
-                colors={colors}
-                onOpen={() => openProject(project)}
-              />
-            ))}
-            {/* Dummy Spacer: Memaksa browser menciptakan ruang kosong 20px setelah kartu terakhir */}
-            <Box
-              flexShrink={0}
-              w="6px" /* Combined dengan spacing="14px" pada HStack = total 20px */
-              scrollSnapAlign="end"
-              aria-hidden="true"
-            />
-          </HStack>
-        </Box>
+        {/* ─────────────────────────────────────────────
+            Responsive Project Grid
 
-        {/* ── Desktop/tablet: uniform card grid ── */}
+            Mobile  : 1 column
+            Tablet  : 2 columns
+            Desktop : 3 columns
+        ───────────────────────────────────────────── */}
+
         <Box
-          display={{ base: "none", md: "grid" }}
-          gridTemplateColumns={{ md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
-          gap={{ md: "20px", lg: "24px" }}
+          display="grid"
+          gridTemplateColumns={{
+            base: "1fr",
+            md: "repeat(2, minmax(0, 1fr))",
+            lg: "repeat(3, minmax(0, 1fr))",
+          }}
+          gap={{
+            base: "16px",
+            md: "20px",
+            lg: "24px",
+          }}
+          alignItems="stretch"
         >
           {pagedProjects.map((project) => (
             <ProjectCard
@@ -197,6 +226,10 @@ const Projects = () => {
           ))}
         </Box>
 
+        {/* ─────────────────────────────────────────────
+            Empty State
+        ───────────────────────────────────────────── */}
+
         {filteredProjects.length === 0 && (
           <Box py={16} textAlign="center">
             <Text fontSize="15px" color={colors.muted}>
@@ -205,7 +238,10 @@ const Projects = () => {
           </Box>
         )}
 
-        {/* ── Pagination ── */}
+        {/* ─────────────────────────────────────────────
+            Pagination
+        ───────────────────────────────────────────── */}
+
         {totalPages > 1 && (
           <Flex
             justify="space-between"
@@ -217,32 +253,47 @@ const Projects = () => {
             flexWrap="wrap"
             gap={3}
           >
+            {/* Page indicator */}
             <Text fontSize="13px" color={colors.muted}>
-              {String(page).padStart(2, "0")} / {String(totalPages).padStart(2, "0")}
+              {String(page).padStart(2, "0")} /{" "}
+              {String(totalPages).padStart(2, "0")}
             </Text>
 
-            <HStack spacing={1} display={{ base: "none", md: "flex" }}>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+            {/* Page numbers - tablet / desktop */}
+            <HStack
+              spacing={1}
+              display={{ base: "none", md: "flex" }}
+            >
+              {Array.from(
+                { length: totalPages },
+                (_, index) => index + 1,
+              ).map((number) => (
                 <Button
-                  key={n}
+                  key={number}
                   variant="unstyled"
-                  onClick={() => goPage(n)}
+                  onClick={() => goPage(number)}
                   minW="32px"
                   h="32px"
                   px={2}
                   fontSize="13px"
-                  fontWeight={n === page ? "800" : "500"}
-                  color={n === page ? colors.surfaceAlt : colors.muted}
-                  bg={n === page ? colors.text : "transparent"}
+                  fontWeight={number === page ? "800" : "500"}
+                  color={
+                    number === page ? colors.surfaceAlt : colors.muted
+                  }
+                  bg={number === page ? colors.text : "transparent"}
                   borderRadius="full"
                   transition="all .15s ease"
-                  _hover={{ color: colors.text, bg: colors.surface }}
+                  _hover={{
+                    color: colors.text,
+                    bg: colors.surface,
+                  }}
                 >
-                  {n}
+                  {number}
                 </Button>
               ))}
             </HStack>
 
+            {/* Prev / Next */}
             <HStack spacing={2}>
               <PaginationBtn
                 onClick={() => page > 1 && goPage(page - 1)}
@@ -251,8 +302,11 @@ const Projects = () => {
                 icon={<ChevronLeft size={15} />}
                 label="Prev"
               />
+
               <PaginationBtn
-                onClick={() => page < totalPages && goPage(page + 1)}
+                onClick={() =>
+                  page < totalPages && goPage(page + 1)
+                }
                 disabled={page === totalPages}
                 colors={colors}
                 icon={<ChevronRight size={15} />}
@@ -264,6 +318,10 @@ const Projects = () => {
         )}
       </Box>
 
+      {/* ─────────────────────────────────────────────
+          Project Modal
+      ───────────────────────────────────────────── */}
+
       <ProjectShowcaseModal
         project={selectedProject}
         isOpen={isOpen}
@@ -274,8 +332,9 @@ const Projects = () => {
 };
 
 // ─────────────────────────────────────────────
-// ProjectCard Component
+// ProjectCard
 // ─────────────────────────────────────────────
+
 const ProjectCard = ({ project, colors, onOpen }) => {
   const [hovered, setHovered] = useState(false);
 
@@ -285,23 +344,28 @@ const ProjectCard = ({ project, colors, onOpen }) => {
       as="article"
       display="flex"
       flexDirection="column"
-      w={{ base: "84vw", md: "100%" }}
-      maxW={{ base: "360px", md: "none" }}
-      h="100%" /* Memaksa kartu meregang sama tinggi di flex container */
-      flexShrink={0}
-      scrollSnapAlign={{ base: "start", md: "unset" }}
+      w="100%"
+      h="100%"
+      minH={{
+        base: "420px",
+        md: "440px",
+        lg: "460px",
+      }}
       bg={colors.surfaceAlt}
-      // border="0.5px solid"
-      // borderColor={hovered ? colors.text : colors.border}
       overflow="hidden"
       cursor={project.slug ? "pointer" : "default"}
       transition="border-color .18s ease, transform .18s ease"
-      transform={{ md: hovered ? "translateY(-3px)" : "none" }}
+      transform={{
+        md: hovered ? "translateY(-3px)" : "none",
+      }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onClick={() => project.slug && onOpen()}
     >
-      {/* Container Gambar dengan Aspek Rasio Tetap */}
+      {/* ─────────────────────────────────────────────
+          Image
+      ───────────────────────────────────────────── */}
+
       <Box
         w="100%"
         aspectRatio="16 / 10"
@@ -309,7 +373,6 @@ const ProjectCard = ({ project, colors, onOpen }) => {
         overflow="hidden"
         position="relative"
         sx={{
-          /* Menyelaraskan wrapper LazyLoadImage agar memenuhi container */
           "& .lazy-load-image-background": {
             width: "100% !important",
             height: "100% !important",
@@ -330,12 +393,20 @@ const ProjectCard = ({ project, colors, onOpen }) => {
               objectFit: "contain",
               display: "block",
               transform: hovered ? "scale(1.04)" : "scale(1)",
-              filter: hovered ? "brightness(.95)" : "brightness(1)",
-              transition: "transform .4s ease, filter .18s ease",
+              filter: hovered
+                ? "brightness(.95)"
+                : "brightness(1)",
+              transition:
+                "transform .4s ease, filter .18s ease",
             }}
           />
         ) : (
-          <Flex w="100%" h="100%" align="center" justify="center">
+          <Flex
+            w="100%"
+            h="100%"
+            align="center"
+            justify="center"
+          >
             <Text
               fontSize="11px"
               color={colors.muted}
@@ -348,39 +419,73 @@ const ProjectCard = ({ project, colors, onOpen }) => {
         )}
       </Box>
 
-      {/* Konten Kartu */}
-      <Flex flex="1" direction="column" p={{ base: "16px", md: "20px" }}>
+      {/* ─────────────────────────────────────────────
+          Card Content
+      ───────────────────────────────────────────── */}
+
+      <Flex
+        flex="1"
+        direction="column"
+        p={{
+          base: "16px",
+          md: "20px",
+        }}
+      >
+        {/* Title */}
         <Text
-          fontSize={{ base: "16px", md: "18px", lg: "19px" }}
+          fontSize={{
+            base: "16px",
+            md: "18px",
+            lg: "19px",
+          }}
           fontWeight="800"
           lineHeight="1.3"
           letterSpacing="-.005em"
           noOfLines={2}
-          minH="2.6em" /* Menjamin ruang 2 baris teks agar tinggi judul seragam */
+          minH="2.6em"
         >
           {project.title}
         </Text>
 
+        {/* Period + Tags */}
         {(project.period || project.tags?.length > 0) && (
-          <HStack spacing={2} mt={2} flexWrap="wrap">
+          <HStack
+            spacing={2}
+            mt={2}
+            flexWrap="wrap"
+          >
             {project.period && (
-              <Text fontSize="12px" color={colors.muted}>
+              <Text
+                fontSize="12px"
+                color={colors.muted}
+              >
                 {project.period}
               </Text>
             )}
-            {project.period && project.tags?.length > 0 && (
-              <Text fontSize="12px" color={colors.border}>
-                —
-              </Text>
-            )}
+
+            {project.period &&
+              project.tags?.length > 0 && (
+                <Text
+                  fontSize="12px"
+                  color={colors.border}
+                >
+                  —
+                </Text>
+              )}
+
             {project.tags?.length > 0 && (
-              <Text fontSize="12px" color={colors.muted} noOfLines={1}>
+              <Text
+                fontSize="12px"
+                color={colors.muted}
+                noOfLines={1}
+              >
                 {project.tags.slice(0, 3).join(", ")}
               </Text>
             )}
           </HStack>
         )}
 
+        {/* Description */}
         {project.description && (
           <Text
             fontSize="13.5px"
@@ -388,30 +493,49 @@ const ProjectCard = ({ project, colors, onOpen }) => {
             lineHeight="1.6"
             mt={3}
             noOfLines={2}
-            minH="3.2em" /* Menjamin ruang 2 baris deskripsi seragam */
+            minH="3.2em"
           >
             {project.description}
           </Text>
         )}
 
-        {/* Spacer mendorong action row selalu berada di paling bawah kartu */}
-        <Box flex="1" minH="12px" />
+        {/* Push actions to bottom */}
+        <Box
+          flex="1"
+          minH="12px"
+        />
 
-        <ProjectActions project={project} colors={colors} />
+        {/* Actions */}
+        <ProjectActions
+          project={project}
+          colors={colors}
+        />
       </Flex>
     </Box>
   );
 };
 
+// ─────────────────────────────────────────────
+// Project Actions
+// ─────────────────────────────────────────────
+
 const ProjectActions = ({ project, colors }) => {
-  if (!project.github && !project.website && !project.slug) return null;
+  if (
+    !project.github &&
+    !project.website &&
+    !project.slug
+  ) {
+    return null;
+  }
+
   return (
     <HStack
       spacing={2}
       mt={3}
       flexWrap="wrap"
-      onClick={(e) => e.stopPropagation()}
+      onClick={(event) => event.stopPropagation()}
     >
+      {/* GitHub */}
       {project.github && (
         <TileAction
           href={project.github}
@@ -420,6 +544,8 @@ const ProjectActions = ({ project, colors }) => {
           colors={colors}
         />
       )}
+
+      {/* Website */}
       {project.website && (
         <TileAction
           href={project.website}
@@ -428,6 +554,8 @@ const ProjectActions = ({ project, colors }) => {
           colors={colors}
         />
       )}
+
+      {/* Detail */}
       {project.slug && (
         <TileAction
           href={`/project/${project.slug}`}
@@ -441,6 +569,10 @@ const ProjectActions = ({ project, colors }) => {
     </HStack>
   );
 };
+
+// ─────────────────────────────────────────────
+// Tile Action
+// ─────────────────────────────────────────────
 
 const TileAction = ({
   href,
@@ -462,25 +594,47 @@ const TileAction = ({
     fontSize="12px"
     fontWeight="600"
     border="1px solid"
-    borderColor={primary ? colors.text : colors.border}
+    borderColor={
+      primary ? colors.text : colors.border
+    }
     bg={primary ? colors.text : "transparent"}
-    color={primary ? colors.surfaceAlt : colors.text}
+    color={
+      primary ? colors.surfaceAlt : colors.text
+    }
     whiteSpace="nowrap"
     transition="all .15s ease"
     _hover={{
       textDecoration: "none",
       borderColor: colors.text,
-      bg: primary ? colors.text : colors.surface,
+      bg: primary
+        ? colors.text
+        : colors.surface,
     }}
   >
     {icon}
-    <Text as="span" fontSize="11px" fontWeight="600">
+
+    <Text
+      as="span"
+      fontSize="11px"
+      fontWeight="600"
+    >
       {label}
     </Text>
   </Link>
 );
 
-const PaginationBtn = ({ onClick, disabled, colors, icon, label, iconRight }) => (
+// ─────────────────────────────────────────────
+// Pagination Button
+// ─────────────────────────────────────────────
+
+const PaginationBtn = ({
+  onClick,
+  disabled,
+  colors,
+  icon,
+  label,
+  iconRight,
+}) => (
   <HStack
     as="button"
     onClick={onClick}
@@ -491,16 +645,36 @@ const PaginationBtn = ({ onClick, disabled, colors, icon, label, iconRight }) =>
     fontSize="13px"
     fontWeight="700"
     border="1px solid"
-    borderColor={disabled ? colors.border : colors.border}
-    bg={disabled ? "transparent" : colors.surfaceAlt}
-    color={disabled ? colors.border : colors.text}
-    cursor={disabled ? "default" : "pointer"}
+    borderColor={colors.border}
+    bg={
+      disabled
+        ? "transparent"
+        : colors.surfaceAlt
+    }
+    color={
+      disabled
+        ? colors.border
+        : colors.text
+    }
+    cursor={
+      disabled ? "default" : "pointer"
+    }
     opacity={disabled ? 0.6 : 1}
     transition="all .15s ease"
-    _hover={disabled ? {} : { borderColor: colors.text }}
+    _hover={
+      disabled
+        ? {}
+        : {
+          borderColor: colors.text,
+        }
+    }
   >
     {!iconRight && icon}
-    <Text as="span">{label}</Text>
+
+    <Text as="span">
+      {label}
+    </Text>
+
     {iconRight && icon}
   </HStack>
 );
