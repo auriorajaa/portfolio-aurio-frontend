@@ -136,6 +136,19 @@ const ProjectPage = ({ isDownloading, handleDownload }) => {
     [project?.description],
   );
 
+  // Selalu mulai dari atas saat halaman dibuka / slug berubah.
+  // React Router (v6) mempertahankan scroll position saat pindah
+  // route, jadi tanpa ini halaman detail bisa muncul di tengah page
+  // (mewarisi posisi scroll dari halaman sebelumnya). Kita paksa
+  // ke atas — sekali saat mount, dan sekali lagi setiap slug berganti
+  // (mis. navigasi dari project A ke project B tanpa unmount).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    // Gunakan behavior "auto" (instan) supaya terasa seperti halaman
+    // baru, bukan animasi scroll yang aneh.
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [slug]);
+
   useEffect(() => {
     setActiveIndex(0);
   }, [slug]);
@@ -403,10 +416,15 @@ const ProjectPage = ({ isDownloading, handleDownload }) => {
 
       <Header isDownloading={isDownloading} handleDownload={handleDownload} />
 
-      <Container maxW="1240px" px={{ base: 5, md: 8 }} py={{ base: 8, md: 14 }}>
-        <br />
-        <br />
-
+      {/* Padding atas diset eksplisit di Container — bukan pakai
+          <br /><br /> seperti sebelumnya. Ini memberi jarak yang
+          konsisten dari header tanpa menggeser halaman ke bawah. */}
+      <Container
+        maxW="1240px"
+        px={{ base: 5, md: 8 }}
+        pt={{ base: 20, md: 28 }}
+        pb={{ base: 12, md: 20 }}
+      >
         <Button
           mb={{ base: 8, md: 10 }}
           variant="studioGhost"
@@ -474,11 +492,7 @@ const ProjectPage = ({ isDownloading, handleDownload }) => {
           </HStack>
         </VStack>
 
-        {/* ── Hero media: main image + gallery.
-            Desktop: hero image and the rail share a fixed height, so
-            the rail scrolls internally and the grid row is locked to
-            the image height — the gallery length can no longer push
-            the article body down. */}
+        {/* ── Hero media: main image + gallery. ── */}
         <Grid
           templateColumns={{ base: "1fr", lg: hasGallery ? "1fr 120px" : "1fr" }}
           gap={{ base: 3, lg: 3 }}
@@ -543,8 +557,6 @@ const ProjectPage = ({ isDownloading, handleDownload }) => {
               )}
             </Box>
 
-            {/* ── Control bar: nav + counter + zoom. Sits below the
-                image so it never covers the artwork. ── */}
             {hasActiveMedia && (
               <HStack
                 justify="space-between"
@@ -622,8 +634,6 @@ const ProjectPage = ({ isDownloading, handleDownload }) => {
 
           {hasGallery && (
             <>
-              {/* Wide screens: vertical thumbnail rail, height-locked to
-                  the hero and scrolling internally. */}
               <Box
                 ref={railContainerRef}
                 display={{ base: "none", lg: "flex" }}
@@ -656,9 +666,6 @@ const ProjectPage = ({ isDownloading, handleDownload }) => {
                 ))}
               </Box>
 
-              {/* Narrow screens: thumbnail row below the image. Its own
-                  scroll container so switching to an off-screen thumb
-                  doesn't nudge the page. */}
               <Box
                 ref={rowContainerRef}
                 display={{ base: "block", lg: "none" }}
@@ -701,8 +708,7 @@ const ProjectPage = ({ isDownloading, handleDownload }) => {
           )}
         </Grid>
 
-        {/* ── Article body — the full write-up, unsplit, read top to
-            bottom like a news article. ── */}
+        {/* ── Article body ── */}
         <Box maxW="1240px" mx="auto">
           {descriptionParagraphs.length > 0 && (
             <VStack as="article" align="stretch" spacing={5}>
