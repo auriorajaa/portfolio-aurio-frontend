@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -15,7 +16,15 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useGSAP } from "@gsap/react";
-import { ChevronLeft, ChevronRight, ExternalLink, Github, X, ZoomIn, ZoomOut } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  Github,
+  X,
+  ZoomIn,
+  ZoomOut,
+} from "lucide-react";
 import { normalizeProject } from "../../utils/projectMedia";
 import { useStudioColors } from "../public/studio";
 import { gsap, prefersReducedMotion } from "../../utils/gsap";
@@ -24,8 +33,15 @@ const ZOOM_STEP = 0.25;
 const ZOOM_MIN = 1;
 const ZOOM_MAX = 3;
 
+// Batas karakter sebelum deskripsi di-truncate di dalam modal.
+// Di atas angka ini, deskripsi dianggap "panjang" dan user diarahkan
+// ke halaman detail penuh lewat "See more →".
+const DESCRIPTION_TRUNCATE_AT = 320;
+const DESCRIPTION_MAX_LINES = 8;
+
 const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
   const colors = useStudioColors();
+  const navigate = useNavigate();
   const normalized = useMemo(() => normalizeProject(project || {}), [project]);
   const gallery = normalized.gallery || [];
   const [activeIndex, setActiveIndex] = useState(0);
@@ -33,7 +49,6 @@ const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
   const modalRef = useRef(null);
   const touchStartX = useRef(null);
 
-  // ── Pinch zoom refs ──
   const pinchStartDist = useRef(null);
   const pinchStartZoom = useRef(null);
 
@@ -91,14 +106,12 @@ const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
     setZoom((z) => Math.max(+(z - ZOOM_STEP).toFixed(2), ZOOM_MIN));
   }, []);
 
-  // ── Helpers for pinch ──
   const getPinchDistance = (touches) => {
     const dx = touches[0].clientX - touches[1].clientX;
     const dy = touches[0].clientY - touches[1].clientY;
     return Math.sqrt(dx * dx + dy * dy);
   };
 
-  // ── Touch: swipe (1 finger) + pinch zoom (2 fingers) ──
   const handleTouchStart = useCallback((e) => {
     if (e.touches.length === 2) {
       pinchStartDist.current = getPinchDistance(e.touches);
@@ -106,7 +119,7 @@ const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
       touchStartX.current = null;
       return;
     }
-    if (zoom > 1) return; // allow native pan when zoomed
+    if (zoom > 1) return;
     touchStartX.current = e.touches[0].clientX;
   }, [zoom]);
 
@@ -132,7 +145,6 @@ const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
     if (Math.abs(delta) > 42) go(delta > 0 ? -1 : 1);
   }, [zoom, go]);
 
-  // ── Wheel: Ctrl/Cmd + scroll = zoom (trackpad pinch gesture) ──
   const handleWheel = useCallback((e) => {
     const isZoomGesture = e.ctrlKey || e.metaKey;
     if (!isZoomGesture && zoom <= ZOOM_MIN) return;
@@ -145,6 +157,20 @@ const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
   if (!project) return null;
 
   const isZoomed = zoom > 1;
+
+  // Deskripsi panjang → truncate + tampilkan "See more →".
+  const descriptionText = normalized.description || "";
+  const hasSlug = Boolean(normalized.slug || project?.slug);
+  const projectSlug = normalized.slug || project?.slug;
+  const descriptionIsLong = descriptionText.length > DESCRIPTION_TRUNCATE_AT;
+
+  const goToDetail = (e) => {
+    if (e) e.stopPropagation();
+    if (!projectSlug) return;
+    // Tutup modal dulu supaya animasi unmount rapi, lalu navigasi.
+    onClose?.();
+    navigate(`/project/${projectSlug}`);
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={close} size="6xl" isCentered trapFocus scrollBehavior="inside">
@@ -160,26 +186,42 @@ const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
         maxH={{ base: "calc(100dvh - 16px)", md: "94dvh" }}
         overflow="hidden"
         mx={{ base: 2, md: 4 }}
+        position="relative"
       >
+        {/* Floating close — tetap terlihat saat user scroll jauh */}
+        <IconButton
+          icon={<X size={16} />}
+          aria-label="Close project"
+          variant="studioGhost"
+          onClick={close}
+          position="absolute"
+          top={2}
+          right={2}
+          zIndex={10}
+          bg={`${colors.surfaceAlt}E6`}
+          backdropFilter="blur(8px)"
+          border="1px solid"
+          borderColor={colors.border}
+          _hover={{ bg: colors.surfaceAlt }}
+        />
+
         <ModalBody p={0} overflowY={{ base: "auto", lg: "hidden" }}>
           <Grid
             templateColumns={{ base: "1fr", lg: "minmax(0, 1.05fr) .95fr" }}
             maxH={{ lg: "94dvh" }}
           >
-
             {/* ── Image panel ── */}
             <Flex
               data-modal-part
               direction="column"
-              minH={{ base: "46dvh", md: "72vh" }}
-              maxH={{ base: "62dvh", md: "88dvh" }}
+              minH={{ base: "40dvh", md: "72vh" }}
+              maxH={{ base: "56dvh", md: "88dvh" }}
               bg={colors.surface}
               position="relative"
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
             >
-              {/* Scrollable viewport */}
               <Box
                 flex="1"
                 overflow={isZoomed ? "auto" : "hidden"}
@@ -234,7 +276,7 @@ const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
                 </Box>
               </Box>
 
-              {/* ── Bottom bar ── */}
+              {/* Bottom bar: nav + zoom */}
               <HStack
                 position="absolute"
                 bottom={0}
@@ -328,43 +370,103 @@ const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
               align="stretch"
               spacing={5}
               p={{ base: 5, md: 6 }}
-              pb={{ base: 0, md: 6 }}
+              pb={{ base: 0, md: 8 }}
               overflowY={{ base: "visible", lg: "auto" }}
               minH={0}
+              minW={0}
             >
-              <Flex data-modal-part justify="space-between" align="start" gap={4}>
-                <Box flex="1" minW="0">
-                  <Text fontSize="12px" color={colors.muted} textTransform="uppercase" letterSpacing=".08em" mb={1}>
-                    {normalized.role} {normalized.period ? `/ ${normalized.period}` : ""}
-                  </Text>
-                  <Text fontSize={{ base: "20px", md: "26px" }} fontWeight="800" lineHeight="1.15">
-                    {normalized.title}
-                  </Text>
-                </Box>
-                <IconButton
-                  icon={<X size={16} />}
-                  aria-label="Close project"
-                  variant="studioGhost"
-                  onClick={close}
-                  flexShrink={0}
-                />
-              </Flex>
+              <Box data-modal-part pr={{ base: 0, md: 10 }} minW={0}>
+                <Text
+                  fontSize="12px"
+                  color={colors.muted}
+                  textTransform="uppercase"
+                  letterSpacing=".08em"
+                  mb={1}
+                  sx={{ overflowWrap: "anywhere" }}
+                >
+                  {normalized.role} {normalized.period ? `/ ${normalized.period}` : ""}
+                </Text>
+                <Text
+                  fontSize={{ base: "20px", md: "26px" }}
+                  fontWeight="800"
+                  lineHeight="1.15"
+                  sx={{ overflowWrap: "anywhere" }}
+                >
+                  {normalized.title}
+                </Text>
+              </Box>
 
-              <Text data-modal-part fontSize={{ base: "14px", md: "15px" }} lineHeight="1.7" color={colors.text}>
-                {normalized.description}
-              </Text>
+              {/* Deskripsi: truncate ke N baris kalau panjang, plus
+                  "See more →" yang mengarah ke halaman detail. */}
+              {descriptionText && (
+                <Box data-modal-part minW={0}>
+                  <Text
+                    fontSize={{ base: "14px", md: "15px" }}
+                    lineHeight="1.7"
+                    color={colors.text}
+                    whiteSpace={descriptionIsLong ? "normal" : "pre-wrap"}
+                    noOfLines={descriptionIsLong ? DESCRIPTION_MAX_LINES : undefined}
+                    sx={{ overflowWrap: "anywhere", wordBreak: "break-word" }}
+                  >
+                    {descriptionText}
+                  </Text>
+
+                  {descriptionIsLong && hasSlug && (
+                    <Text
+                      as="button"
+                      type="button"
+                      mt={2}
+                      fontSize="13px"
+                      fontWeight="700"
+                      color={colors.text}
+                      cursor="pointer"
+                      bg="transparent"
+                      border="0"
+                      p={0}
+                      onClick={goToDetail}
+                      _hover={{ textDecoration: "underline" }}
+                      _focusVisible={{
+                        outline: "2px solid",
+                        outlineColor: colors.accent,
+                        outlineOffset: "2px",
+                      }}
+                    >
+                      See more →
+                    </Text>
+                  )}
+                </Box>
+              )}
 
               {normalized.highlights?.length > 0 && (
-                <VStack data-modal-part align="stretch" spacing={2} borderTop="1px solid" borderColor={colors.border} pt={4}>
+                <VStack
+                  data-modal-part
+                  align="stretch"
+                  spacing={2}
+                  borderTop="1px solid"
+                  borderColor={colors.border}
+                  pt={4}
+                >
                   {normalized.highlights.map((highlight) => (
-                    <Text key={highlight} fontSize="14px" lineHeight="1.6" color={colors.muted}>
+                    <Text
+                      key={highlight}
+                      fontSize="14px"
+                      lineHeight="1.6"
+                      color={colors.muted}
+                      sx={{ overflowWrap: "anywhere" }}
+                    >
                       {highlight}
                     </Text>
                   ))}
                 </VStack>
               )}
 
-              <Text data-modal-part fontSize="13px" color={colors.muted}>
+              <Text
+                data-modal-part
+                fontSize="13px"
+                color={colors.muted}
+                mb={{ base: 4, md: 0 }}
+                sx={{ overflowWrap: "anywhere" }}
+              >
                 {(normalized.tags || []).join(" / ")}
               </Text>
 
@@ -383,13 +485,36 @@ const ProjectShowcaseModal = ({ project, isOpen, onClose }) => {
                 zIndex={2}
               >
                 {normalized.github && (
-                  <Button as={Link} href={normalized.github} isExternal variant="studioGhost" leftIcon={<Github size={14} />} _hover={{ textDecoration: "none" }}>
+                  <Button
+                    as={Link}
+                    href={normalized.github}
+                    isExternal
+                    variant="studioGhost"
+                    leftIcon={<Github size={14} />}
+                    _hover={{ textDecoration: "none" }}
+                  >
                     Source
                   </Button>
                 )}
                 {normalized.website && (
-                  <Button as={Link} href={normalized.website} isExternal variant="studio" leftIcon={<ExternalLink size={14} />} _hover={{ textDecoration: "none" }}>
+                  <Button
+                    as={Link}
+                    href={normalized.website}
+                    isExternal
+                    variant="studio"
+                    leftIcon={<ExternalLink size={14} />}
+                    _hover={{ textDecoration: "none" }}
+                  >
                     Live demo
+                  </Button>
+                )}
+                {hasSlug && (
+                  <Button
+                    variant="studioGhost"
+                    onClick={goToDetail}
+                    _hover={{ textDecoration: "none" }}
+                  >
+                    Open full case study
                   </Button>
                 )}
               </HStack>
