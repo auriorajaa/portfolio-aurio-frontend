@@ -1,91 +1,79 @@
-import React, { useMemo, useRef } from "react";
-import { Box, Grid, HStack, Text, VStack } from "@chakra-ui/react";
-import { useGSAP } from "@gsap/react";
+import React from "react";
+import { Box, Grid, Text } from "@chakra-ui/react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
 import { StudioSection, useStudioColors } from "../public/studio";
-import { gsap, prefersReducedMotion } from "../../utils/gsap";
 
 const About = () => {
   const { portfolioData } = usePortfolio();
-  const colors = useStudioColors();
-  const rootRef = useRef(null);
   const personalInfo = portfolioData.personalInfo || {};
-  const stats = useMemo(
-    () => [
-      ["Projects", portfolioData.projects?.length || 0],
-      ["Work entries", portfolioData.experiences?.length || 0],
-      // ["Public notes", "Live"],
-    ],
-    [portfolioData],
-  );
+  const colors = useStudioColors();
 
-  useGSAP(
-    () => {
-      if (prefersReducedMotion()) return;
-      gsap.from("[data-about-reveal]", {
-        y: 18,
-        autoAlpha: 0,
-        duration: 0.62,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: rootRef.current,
-          start: "top 76%",
-          once: true,
-        },
-      });
-      gsap.from("[data-about-line]", {
-        scaleX: 0,
-        transformOrigin: "left center",
-        duration: 0.85,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: rootRef.current,
-          start: "top 72%",
-          once: true,
-        },
-      });
-    },
-    { scope: rootRef },
-  );
+  const facts = [
+    personalInfo.location && { label: "Based in", value: personalInfo.location },
+    { label: "Focus", value: "Backend systems, APIs & web applications" },
+    personalInfo.title && { label: "Role", value: personalInfo.title },
+    { label: "Response time", value: "Within 24–48 hours" },
+  ].filter(Boolean);
 
   return (
-    <StudioSection id="about" eyebrow="Dossier" title="A quick overview about me...">
-      <Grid ref={rootRef} templateColumns={{ base: "1fr", lg: ".42fr 1fr" }} gap={{ base: 8, lg: 12 }}>
-        <VStack align="stretch" spacing={0} borderTop="1px solid" borderColor={colors.border}>
-          {stats.map(([label, value]) => (
-            <HStack
-              data-about-reveal
-              key={label}
-              justify="space-between"
-              py={5}
-              borderBottom="1px solid"
-              borderColor={colors.border}
-            >
-              <Text fontSize="15px" color={colors.muted}>
-                {label}
-              </Text>
-              <Text fontSize="22px" fontWeight="800">
-                {value}
-              </Text>
-            </HStack>
-          ))}
-        </VStack>
+    <StudioSection
+      id="about"
+      title="About"
+      watermark="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1200&q=50"
+    >
+      {/* Full-width bio, set like editorial columns on wide screens */}
+      {personalInfo.bio && (
+        <Text
+          fontSize={{ base: "17px", md: "18px" }}
+          lineHeight="1.95"
+          color={colors.text}
+          sx={{
+            columnCount: { base: 1, lg: 2 },
+            columnGap: "56px",
+            columnRule: `1px solid ${colors.border}`,
+          }}
+        >
+          {personalInfo.bio}
+        </Text>
+      )}
 
-        <Box>
-          <Text data-about-reveal fontSize={{ base: "24px", md: "34px" }} lineHeight="1.22" fontWeight="700">
-            {personalInfo.title || "Software Engineer"} working across APIs,
-            backend systems, microservices, and cloud workflows.
-          </Text>
-          <Box data-about-line h="1px" bg={colors.text} my={{ base: 6, md: 8 }} />
-          <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>
-            <Text data-about-reveal fontSize="16px" lineHeight="1.76" color={colors.text}>
-              {personalInfo.bio}
+      {/* Facts strip along the bottom */}
+      <Grid
+        templateColumns={{ base: "1fr 1fr", md: `repeat(${facts.length}, 1fr)` }}
+        borderTop="3px solid"
+        borderColor={colors.heading}
+        mt={{ base: 10, md: 12 }}
+      >
+        {facts.map((fact, index) => (
+          <Box
+            key={fact.label}
+            px={{ base: 4, md: 6 }}
+            py={{ base: 5, md: 6 }}
+            borderLeft={{
+              base: index % 2 === 1 ? "1px solid" : "none",
+              md: index === 0 ? "none" : "1px solid",
+            }}
+            borderTop={{
+              base: index >= 2 ? "1px solid" : "none",
+              md: "none",
+            }}
+            borderColor={colors.borderSoft}
+          >
+            <Text
+              fontSize="12px"
+              fontWeight="700"
+              textTransform="uppercase"
+              letterSpacing=".1em"
+              color={colors.muted}
+              mb={1}
+            >
+              {fact.label}
             </Text>
-            <Text data-about-reveal fontSize="16px" lineHeight="1.76" color={colors.muted}>
-              Designed and deployed scalable backend architectures using Spring Boot and Node.js, utilizing Docker and Kubernetes for container orchestration alongside gRPC and Protobuf for efficient API communication.
+            <Text fontSize={{ base: "15px", md: "17px" }} fontWeight="700" color={colors.heading}>
+              {fact.value}
             </Text>
-          </Grid>
-        </Box>
+          </Box>
+        ))}
       </Grid>
     </StudioSection>
   );

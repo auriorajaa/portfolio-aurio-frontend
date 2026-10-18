@@ -1,45 +1,53 @@
-import React, { useRef, useState } from "react";
-import { Box, Button, Grid, Link, Text, VStack, useToast } from "@chakra-ui/react";
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  Heading,
+  Link,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import emailjs from "@emailjs/browser";
-import { useGSAP } from "@gsap/react";
-import { Github, Linkedin, Mail, MapPin, Send } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
-import { StudioSection, useStudioColors } from "../public/studio";
-import { gsap, prefersReducedMotion } from "../../utils/gsap";
+import { useStudioColors } from "../public/studio";
+
+const fieldStyle = {
+  width: "100%",
+  padding: "12px 14px",
+  fontSize: "16px",
+  color: "#3b444d",
+  background: "#f8fafd",
+  border: "1px solid #c9d6e4",
+  borderRadius: "4px",
+  outline: "none",
+  fontFamily: "inherit",
+  boxSizing: "border-box",
+  transition: "border-color .15s ease, box-shadow .15s ease",
+};
 
 const Contact = () => {
   const { portfolioData } = usePortfolio();
   const personalInfo = portfolioData.personalInfo || {};
   const colors = useStudioColors();
-  const rootRef = useRef(null);
-  const formRef = useRef(null);
   const toast = useToast();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [sending, setSending] = useState(false);
-  const [focused, setFocused] = useState(null);
-
-  useGSAP(
-    () => {
-      if (prefersReducedMotion()) return;
-      gsap.from("[data-contact-reveal]", {
-        y: 22,
-        autoAlpha: 0,
-        duration: 0.65,
-        ease: "power3.out",
-        stagger: 0.1,
-        scrollTrigger: {
-          trigger: rootRef.current,
-          start: "top 78%",
-          once: true,
-        },
-      });
-    },
-    { scope: rootRef }
-  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((c) => ({ ...c, [name]: value }));
+    setForm((current) => ({ ...current, [name]: value }));
+  };
+
+  const handleFocus = (e) => {
+    e.target.style.borderColor = "#1f5fa9";
+    e.target.style.boxShadow = "0 0 0 3px rgba(31,95,169,0.15)";
+  };
+
+  const handleBlur = (e) => {
+    e.target.style.borderColor = "#c9d6e4";
+    e.target.style.boxShadow = "none";
   };
 
   const handleSubmit = async (e) => {
@@ -53,205 +61,264 @@ const Contact = () => {
       await emailjs.send(
         process.env.REACT_APP_EMAILJS_SERVICE_ID,
         process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
-        { from_name: form.name, from_email: form.email, message: form.message, to_email: "mr.auriorajaa@gmail.com", reply_to: form.email },
+        {
+          from_name: form.name,
+          from_email: form.email,
+          message: form.message,
+          to_email: "mr.auriorajaa@gmail.com",
+          reply_to: form.email,
+        },
         process.env.REACT_APP_EMAILJS_PUBLIC_KEY
       );
       setForm({ name: "", email: "", message: "" });
-      toast({ title: "Message sent.", description: "Thanks — I'll get back to you soon.", status: "success", duration: 3000, isClosable: true });
+      toast({
+        title: "Message sent.",
+        description: "Thanks — I'll get back to you soon.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
     } catch (error) {
-      toast({ title: "Message failed.", description: error?.text || "Please try again or email directly.", status: "error", duration: 3500, isClosable: true });
+      toast({
+        title: "Message failed.",
+        description: error?.text || "Please try again or email directly.",
+        status: "error",
+        duration: 3500,
+        isClosable: true,
+      });
     } finally {
       setSending(false);
     }
   };
 
   const socials = [
-    { icon: <Mail size={15} />, label: personalInfo.email, href: `mailto:${personalInfo.email}` },
-    { icon: <Github size={15} />, label: "github.com/auriorajaa", href: personalInfo.github, external: true },
-    { icon: <Linkedin size={15} />, label: "linkedin.com/in/auriorajaa", href: personalInfo.linkedin, external: true },
-    { icon: <MapPin size={15} />, label: personalInfo.location || "Jakarta, Indonesia" },
-  ].filter((s) => s.href || s.label);
-
-  const inputBase = {
-    width: "100%",
-    background: "transparent",
-    border: "none",
-    borderBottom: "1px solid",
-    outline: "none",
-    fontSize: "15px",
-    fontFamily: "inherit",
-    padding: "14px 0",
-    transition: "border-color .18s ease",
-    resize: "none",
-  };
+    personalInfo.email && {
+      label: "Email",
+      href: `mailto:${personalInfo.email}`,
+      external: false,
+    },
+    personalInfo.github && {
+      label: "GitHub",
+      href: personalInfo.github,
+      external: true,
+    },
+    personalInfo.linkedin && {
+      label: "LinkedIn",
+      href: personalInfo.linkedin,
+      external: true,
+    },
+  ].filter(Boolean);
 
   return (
-    <StudioSection id="contact" eyebrow="Contact" title="A small form to talk.">
-      <Grid
-        ref={rootRef}
-        templateColumns={{ base: "1fr", lg: "1fr 1.4fr" }}
-        gap={{ base: 12, lg: 16 }}
-        alignItems="start"
+    <Box
+      as="section"
+      id="contact"
+      bg={colors.navyGradient}
+      color="#ffffff"
+      mx={{ base: "12px", md: "28px" }}
+      my={{ base: "14px", md: "26px" }}
+      border="1px solid rgba(255,255,255,0.22)"
+      boxShadow="0 6px 18px rgba(18,58,99,0.25)"
+    >
+      <Box
+        maxW="1400px"
+        mx="auto"
+        px={{ base: 5, md: 10 }}
+        py={{ base: 14, md: 20 }}
       >
-        {/* ── Left: info ───────────────────────────────────── */}
-        <VStack align="stretch" spacing={8}>
-          <Text
-            data-contact-reveal
-            fontSize={{ base: "15px", md: "17px" }}
-            lineHeight="1.78"
-            color={colors.muted}
-            maxW="340px"
+        {/* Campaign call */}
+        <Box textAlign="center" maxW="780px" mx="auto">
+          <Flex align="center" justify="center" gap={3} mb={5}>
+            <Box w="44px" h="2px" bg="rgba(255,255,255,0.5)" />
+            <Text
+              fontSize="12px"
+              fontWeight="800"
+              letterSpacing=".22em"
+              textTransform="uppercase"
+              color="#c9dcf1"
+            >
+              Get in Touch
+            </Text>
+            <Box w="44px" h="2px" bg="rgba(255,255,255,0.5)" />
+          </Flex>
+
+          <Heading
+            as="h2"
+            fontSize={{ base: "30px", md: "44px" }}
+            fontWeight="800"
+            lineHeight="1.2"
+            textShadow="0 2px 3px rgba(9,24,42,0.45)"
           >
-            Open for engineering roles, collaborations, and practical product conversations.
+            Have a project in mind?
+          </Heading>
+
+          <Text
+            mt={4}
+            fontSize={{ base: "16px", md: "18px" }}
+            lineHeight="1.8"
+            color="#dbe7f5"
+          >
+            Send a message below! I usually reply within 24–48 hours.
           </Text>
 
-          <VStack data-contact-reveal align="stretch" spacing={0}>
-            {socials.map((s, i) => (
-              <Box
-                key={i}
-                display="flex"
-                alignItems="center"
-                gap={3}
-                py={3}
-                borderBottom="1px solid"
-                borderColor={colors.borderSoft}
-                color={colors.muted}
-                fontSize="14px"
-                _first={{ borderTop: "1px solid", borderTopColor: colors.borderSoft }}
-              >
-                <Box color={colors.accent} flexShrink={0}>{s.icon}</Box>
-                {s.href ? (
-                  <Link
-                    href={s.href}
-                    isExternal={s.external}
-                    color={colors.text}
-                    fontWeight="500"
-                    fontSize="14px"
-                    _hover={{ color: colors.accent }}
-                    transition="color .15s ease"
-                    textDecoration="none"
-                  >
-                    {s.label}
-                  </Link>
-                ) : (
-                  <Text fontSize="14px" fontWeight="500" color={colors.text}>{s.label}</Text>
-                )}
-              </Box>
-            ))}
-          </VStack>
-        </VStack>
+          <Flex
+            display="inline-flex"
+            align="center"
+            gap={3}
+            bg="rgba(255,255,255,0.12)"
+            border="1px solid rgba(255,255,255,0.35)"
+            boxShadow="inset 0 1px 0 rgba(255,255,255,0.15)"
+            px={5}
+            py={3}
+            my={5}
+          >
+            <Text fontSize="15px" fontWeight="600" color="#ffffff">
+              Currently open to full-time roles & project work
+            </Text>
+          </Flex>
+        </Box>
 
-        {/* ── Right: form ──────────────────────────────────── */}
+        {/* Form card */}
         <Box
-          data-contact-reveal
-          as="form"
-          ref={formRef}
-          onSubmit={handleSubmit}
+          maxW="820px"
+          mx="auto"
+          mt={{ base: 9, md: 11 }}
+          bg="#ffffff"
+          border="1px solid"
+          borderColor="#b9c9da"
+          boxShadow="0 10px 30px rgba(9,24,42,0.35)"
         >
-          <VStack align="stretch" spacing={0}>
-            {/* Name */}
-            <Box
-              // borderBottom="1px solid"
-              borderColor={focused === "name" ? colors.text : colors.borderSoft}
-              transition="border-color .18s ease"
-              pb={1}
-              mb={6}
+          <Box as="form" onSubmit={handleSubmit} p={{ base: 5, md: 8 }}>
+            <Grid
+              templateColumns={{ base: "1fr", md: "1fr 1fr" }}
+              gap={{ base: 5, md: 6 }}
             >
-              <Text fontSize="11px" fontWeight="700" letterSpacing="0.08em" textTransform="uppercase" color={colors.muted} mb={1}>
-                Name
-              </Text>
-              <input
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                onFocus={() => setFocused("name")}
-                onBlur={() => setFocused(null)}
-                placeholder="Your name"
-                style={{
-                  ...inputBase,
-                  borderColor: focused === "name" ? colors.text : colors.borderSoft,
-                  color: colors.text,
-                }}
-              />
-            </Box>
+              <Box>
+                <Text
+                  as="label"
+                  htmlFor="contact-name"
+                  fontSize="12px"
+                  fontWeight="700"
+                  letterSpacing=".1em"
+                  textTransform="uppercase"
+                  color={colors.muted}
+                  display="block"
+                  mb="6px"
+                >
+                  Name
+                </Text>
+                <input
+                  id="contact-name"
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
+                  placeholder="Your name"
+                  style={fieldStyle}
+                />
+              </Box>
 
-            {/* Email */}
-            <Box
-              // borderBottom="1px solid"
-              borderColor={focused === "email" ? colors.text : colors.borderSoft}
-              transition="border-color .18s ease"
-              pb={1}
-              mb={6}
-            >
-              <Text fontSize="11px" fontWeight="700" letterSpacing="0.08em" textTransform="uppercase" color={colors.muted} mb={1}>
-                Email
-              </Text>
-              <input
-                name="email"
-                type="email"
-                value={form.email}
-                onChange={handleChange}
-                onFocus={() => setFocused("email")}
-                onBlur={() => setFocused(null)}
-                placeholder="your@email.com"
-                style={{
-                  ...inputBase,
-                  borderColor: focused === "email" ? colors.text : colors.borderSoft,
-                  color: colors.text,
-                }}
-              />
-            </Box>
+              <Box>
+                <Text
+                  as="label"
+                  htmlFor="contact-email"
+                  fontSize="12px"
+                  fontWeight="700"
+                  letterSpacing=".1em"
+                  textTransform="uppercase"
+                  color={colors.muted}
+                  display="block"
+                  mb="6px"
+                >
+                  Email
+                </Text>
+                <input
+                  id="contact-email"
+                  name="email"
+                  type="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
+                  placeholder="your@email.com"
+                  style={fieldStyle}
+                />
+              </Box>
+            </Grid>
 
-            {/* Message */}
-            <Box
-              // borderBottom="1px solid"
-              borderColor={focused === "message" ? colors.text : colors.borderSoft}
-              transition="border-color .18s ease"
-              pb={1}
-              mb={8}
-            >
-              <Text fontSize="11px" fontWeight="700" letterSpacing="0.08em" textTransform="uppercase" color={colors.muted} mb={1}>
+            <Box mt={{ base: 5, md: 6 }}>
+              <Text
+                as="label"
+                htmlFor="contact-message"
+                fontSize="12px"
+                fontWeight="700"
+                letterSpacing=".1em"
+                textTransform="uppercase"
+                color={colors.muted}
+                display="block"
+                mb="6px"
+              >
                 Message
               </Text>
               <textarea
+                id="contact-message"
                 name="message"
                 value={form.message}
                 onChange={handleChange}
-                onFocus={() => setFocused("message")}
-                onBlur={() => setFocused(null)}
-                placeholder="What's on your mind?"
-                rows={6}
-                style={{
-                  ...inputBase,
-                  borderColor: focused === "message" ? colors.text : colors.borderSoft,
-                  color: colors.text,
-                }}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                placeholder="What would you like to talk about?"
+                rows={5}
+                style={{ ...fieldStyle, resize: "vertical" }}
               />
             </Box>
 
-            {/* Submit */}
-            <Box display="flex" alignItems="center" justifyContent="space-between" flexWrap="wrap" gap={4}>
-              <Text fontSize="12px" color={colors.muted} maxW="220px" lineHeight="1.6">
-                I typically respond within 24–48 hours.
-              </Text>
-              <Button
-                type="submit"
-                variant="studio"
-                size="sm"
-                fontSize="13px"
-                h="34px"
-                px={4}
-                leftIcon={<Send size={13} />}
-                isLoading={sending}
-                loadingText="Sending..."
-              >
-                Send message
-              </Button>
-            </Box>
-          </VStack>
+            <Button
+              type="submit"
+              variant="classic"
+              w="100%"
+              h="52px"
+              mt={{ base: 6, md: 7 }}
+              fontSize="17px"
+              isLoading={sending}
+              loadingText="Sending..."
+            >
+              Send Message
+            </Button>
+          </Box>
         </Box>
-      </Grid>
-    </StudioSection>
+
+        {/* Socials + direct email */}
+        <Box textAlign="center" mt={{ base: 8, md: 10 }}>
+          <Text fontSize="14px" color="#c9dcf1" mb={4}>
+            Or find me on
+          </Text>
+          <Flex justify="center" gap={3} flexWrap="wrap">
+            {socials.map((social) => (
+              <Button
+                key={social.label}
+                as={Link}
+                href={social.href}
+                isExternal={social.external}
+                variant="classicWhite"
+                h="46px"
+                px={7}
+                fontSize="15px"
+              >
+                {social.label}
+              </Button>
+            ))}
+          </Flex>
+          <Text mt={5} fontSize="14px" color="#c9dcf1">
+            Or email me directly at{" "}
+            <Text as="span" fontWeight="700" color="#ffffff">
+              {personalInfo.email}
+            </Text>
+          </Text>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

@@ -1,231 +1,181 @@
-import React, { useRef, useState, useEffect } from "react";
-import { Box, HStack, Link, Text } from "@chakra-ui/react";
-import { useGSAP } from "@gsap/react";
-import { ArrowUp, Github, Linkedin, Mail } from "lucide-react";
+import React from "react";
+import { Box, Flex, Grid, HStack, Link, Text, VStack } from "@chakra-ui/react";
+import { Github, Linkedin, Mail } from "lucide-react";
 import Header from "./Header";
 import { usePortfolio } from "../../contexts/PortfolioContext";
 import { useStudioColors } from "../public/studio";
-import { gsap, prefersReducedMotion } from "../../utils/gsap";
 
-const Layout = ({ children, isDownloading, handleDownload }) => {
+const FOOTER_LINKS = [
+  { label: "About", href: "/#about" },
+  { label: "Experience", href: "/#experience" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Writing", href: "/#articles" },
+  { label: "Contact", href: "/#contact" },
+];
+
+const Layout = ({ children, isDownloading, handleDownload, tinted = false }) => {
   const colors = useStudioColors();
-  const footerRef = useRef(null);
-  const topBtnRef = useRef(null);
-  const [showTop, setShowTop] = useState(false);
   const { portfolioData } = usePortfolio();
   const personalInfo = portfolioData.personalInfo || {};
   const year = new Date().getFullYear();
 
-  // Show/hide scroll-to-top button
-  useEffect(() => {
-    const onScroll = () => setShowTop(window.scrollY > 600);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // Fade in/out the button
-  useEffect(() => {
-    if (!topBtnRef.current) return;
-    gsap.to(topBtnRef.current, {
-      autoAlpha: showTop ? 1 : 0,
-      y: showTop ? 0 : 12,
-      duration: 0.32,
-      ease: "power3.out",
-    });
-  }, [showTop]);
-
-  const handleScrollTop = () => {
-    if (prefersReducedMotion()) {
-      window.scrollTo({ top: 0 });
-      return;
-    }
-    gsap.to(window, {
-      scrollTo: { y: 0, autoKill: false },
-      duration: 1.1,
-      ease: "power4.inOut",
-    });
-  };
-
-  useGSAP(
-    () => {
-      if (!footerRef.current || prefersReducedMotion()) return;
-      gsap.from("[data-footer-reveal]", {
-        y: 20,
-        autoAlpha: 0,
-        duration: 0.7,
-        ease: "power3.out",
-        stagger: 0.09,
-        scrollTrigger: {
-          trigger: footerRef.current,
-          start: "top 88%",
-          once: true,
-        },
-      });
-    },
-    { scope: footerRef }
-  );
-
   const socials = [
-    personalInfo.github && { href: personalInfo.github, icon: <Github size={18} />, label: "GitHub", external: true },
-    personalInfo.linkedin && { href: personalInfo.linkedin, icon: <Linkedin size={18} />, label: "LinkedIn", external: true },
-    personalInfo.email && { href: `mailto:${personalInfo.email}`, icon: <Mail size={18} />, label: "Email", external: false },
+    personalInfo.github && {
+      href: personalInfo.github,
+      icon: <Github size={15} />,
+      label: "GitHub",
+      external: true,
+    },
+    personalInfo.linkedin && {
+      href: personalInfo.linkedin,
+      icon: <Linkedin size={15} />,
+      label: "LinkedIn",
+      external: true,
+    },
+    personalInfo.email && {
+      href: `mailto:${personalInfo.email}`,
+      icon: <Mail size={15} />,
+      label: personalInfo.email,
+      external: false,
+    },
   ].filter(Boolean);
 
   return (
     <Box
       minH="100vh"
-      bg={colors.bg}
+      bg="#ffffff"
       color={colors.text}
-      transition="background-color .28s ease, color .28s ease"
-      position="relative"
-      overflow="hidden"
+      display="flex"
+      flexDirection="column"
     >
       <Header isDownloading={isDownloading} handleDownload={handleDownload} />
 
-      <Box as="main" position="relative" zIndex={1}>
+      <Box as="main" flex="1" bg={tinted ? "#c9d8ea" : "transparent"}>
         {children}
       </Box>
 
-      {/* ── Footer ───────────────────────────────────────────── */}
+      {/* ── Footer ─────────────────────────────────────────────── */}
       <Box
-        ref={footerRef}
         as="footer"
-        position="relative"
-        zIndex={1}
-        borderTop="1px solid"
-        borderColor={colors.borderSoft}
+        bg={colors.navy}
+        color={colors.onNavy}
+        borderTop="3px solid"
+        borderColor={colors.accent}
       >
-        {/* Big CTA row */}
-        <Box
-          maxW="1240px"
-          mx="auto"
-          px={{ base: 5, md: 8 }}
-          py={{ base: 10, md: 16 }}
-        >
-          <Box
-            display="flex"
-            alignItems={{ base: "flex-start", md: "center" }}
-            justifyContent="space-between"
-            flexWrap="wrap"
-            gap={6}
+        <Box maxW="1400px" mx="auto" px={{ base: 5, md: 10 }} py={{ base: 10, md: 12 }}>
+          <Grid
+            templateColumns={{ base: "1fr", md: "1.3fr 1fr 1fr" }}
+            gap={{ base: 8, md: 10 }}
           >
-            {/* <Box data-footer-reveal>
-              <Text
-                fontSize={{ base: "28px", md: "42px" }}
-                fontWeight="800"
-                lineHeight="1.05"
-                letterSpacing="-0.03em"
-                mb={2}
-              >
-                Let's build something.
+            {/* Identity */}
+            <Box>
+              <Text fontSize="21px" fontWeight="700" color={colors.onNavy} mb={2}>
+                {personalInfo.name || "Aurio Rajaa"}
               </Text>
-              <Text fontSize={{ base: "14px", md: "16px" }} color={colors.muted}>
-                Open to new projects, collaborations, and conversations.
+              <Text fontSize="15px" lineHeight="1.7" color={colors.onNavyMuted} maxW="360px">
+                {personalInfo.title || "Software Engineer"}
+                {personalInfo.location ? ` - ${personalInfo.location}` : ""} Building
+                backend systems, APIs, and practical web products.
               </Text>
-            </Box> */}
+            </Box>
 
-            {/* {personalInfo.email && (
-              <Link
-                data-footer-reveal
-                href={`mailto:${personalInfo.email}`}
-                display="inline-flex"
-                alignItems="center"
-                gap={2}
-                px={{ base: 5, md: 7 }}
-                py={{ base: 3, md: 4 }}
-                border="1px solid"
-                borderColor={colors.text}
-                fontSize={{ base: "13px", md: "14px" }}
+            {/* Site links */}
+            <Box>
+              <Text
+                fontSize="14px"
                 fontWeight="700"
-                letterSpacing="0.06em"
                 textTransform="uppercase"
-                color={colors.text}
-                bg="transparent"
-                _hover={{ bg: colors.text, color: colors.bg }}
-                transition="background .18s ease, color .18s ease"
-                textDecoration="none"
-                flexShrink={0}
+                letterSpacing=".08em"
+                color="#ffffff"
+                mb={3}
               >
-                <Mail size={15} />
-                Get in touch
-              </Link>
-            )} */}
-          </Box>
+                Browse
+              </Text>
+              <VStack align="stretch" spacing={2}>
+                {FOOTER_LINKS.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    fontSize="16px"
+                    fontWeight="600"
+                    color="#dbe7f5"
+                    _hover={{ color: "#ffffff" }}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </VStack>
+            </Box>
+
+            {/* Contact */}
+            <Box>
+              <Text
+                fontSize="14px"
+                fontWeight="700"
+                textTransform="uppercase"
+                letterSpacing=".08em"
+                color="#ffffff"
+                mb={3}
+              >
+                Get in Touch
+              </Text>
+              <VStack align="stretch" spacing={2}>
+                {socials.map((s) => (
+                  <Link
+                    key={s.label}
+                    href={s.href}
+                    isExternal={s.external}
+                    display="inline-flex"
+                    alignItems="center"
+                    gap="8px"
+                    fontSize="16px"
+                    fontWeight="600"
+                    color="#dbe7f5"
+                    _hover={{ color: "#ffffff" }}
+                  >
+                    {s.icon}
+                    {s.label}
+                  </Link>
+                ))}
+              </VStack>
+            </Box>
+          </Grid>
         </Box>
 
         {/* Bottom bar */}
-        <Box
-          maxW="1240px"
-          mx="auto"
-          px={{ base: 5, md: 8 }}
-          py={{ base: 5, md: 6 }}
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          flexWrap="wrap"
-          gap={4}
-        >
-          {/* Name + copyright */}
-          <Box data-footer-reveal>
-            <Text fontSize="14px" fontWeight="700" letterSpacing="-0.01em" mb="2px">
-              {personalInfo.name || "Aurio Rajaa"}
+        <Box borderTop="1px solid" borderColor="rgba(255,255,255,0.16)">
+          <Flex
+            maxW="1400px"
+            mx="auto"
+            px={{ base: 5, md: 10 }}
+            py={4}
+            direction={{ base: "column", sm: "row" }}
+            align="center"
+            justify="space-between"
+            gap={2}
+          >
+            <Text fontSize="14px" color={colors.onNavyMuted}>
+              © {year} {personalInfo.name || "Aurio Rajaa"}. All rights reserved.
             </Text>
-            <Text fontSize="12px" color={colors.muted}>
-              © {year} — All rights reserved
-            </Text>
-          </Box>
-
-          {/* Socials */}
-          <HStack data-footer-reveal spacing={1}>
-            {socials.map((s) => (
-              <Link
-                key={s.label}
-                href={s.href}
-                isExternal={s.external}
-                aria-label={s.label}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                w="36px"
-                h="36px"
-                border="1px solid"
-                borderColor={colors.borderSoft}
-                color={colors.muted}
-                _hover={{ borderColor: colors.text, color: colors.text }}
-                transition="border-color .15s ease, color .15s ease"
+            <HStack spacing={4}>
+              <Box
+                as="button"
+                type="button"
+                fontSize="14px"
+                fontWeight="600"
+                color={colors.onNavyMuted}
+                bg="transparent"
+                border="none"
+                cursor="pointer"
+                p={0}
+                _hover={{ color: "#ffffff", textDecoration: "underline" }}
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               >
-                {s.icon}
-              </Link>
-            ))}
-          </HStack>
+                Back to top ↑
+              </Box>
+            </HStack>
+          </Flex>
         </Box>
-      </Box>
-
-      {/* ── Scroll to top ─────────────────────────────────────── */}
-      <Box
-        ref={topBtnRef}
-        as="button"
-        onClick={handleScrollTop}
-        position="fixed"
-        bottom={{ base: 5, md: 7 }}
-        right={{ base: 5, md: 7 }}
-        zIndex={900}
-        w="44px"
-        h="44px"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        border="1px solid"
-        borderColor={colors.borderSoft}
-        bg={colors.bg}
-        color={colors.muted}
-        cursor="pointer"
-        aria-label="Scroll to top"
-        style={{ opacity: 0, visibility: "hidden" }}
-        _hover={{ borderColor: colors.text, color: colors.text }}
-        transition="border-color .15s ease, color .15s ease"
-      >
-        <ArrowUp size={17} />
       </Box>
     </Box>
   );

@@ -1,169 +1,175 @@
-import React, { useRef } from "react";
-import { Box, Grid, HStack, Text, VStack } from "@chakra-ui/react";
-import { useGSAP } from "@gsap/react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import React from "react";
+import { Box, Flex, Grid, Text, VStack } from "@chakra-ui/react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
-import { StudioSection, useStudioColors } from "../public/studio";
-import { gsap, prefersReducedMotion } from "../../utils/gsap";
+import { StudioPill, StudioSection, useStudioColors } from "../public/studio";
 
 const Experience = () => {
   const { portfolioData } = usePortfolio();
   const experienceData = portfolioData.experiences || [];
   const colors = useStudioColors();
-  const rootRef = useRef(null);
-
-  useGSAP(
-    () => {
-      if (prefersReducedMotion()) return;
-      gsap.from("[data-exp-line]", {
-        scaleY: 0,
-        transformOrigin: "top center",
-        duration: 1.1,
-        ease: "power3.out",
-        scrollTrigger: { trigger: rootRef.current, start: "top 76%", once: true },
-      });
-      gsap.from("[data-exp-item]", {
-        y: 20,
-        autoAlpha: 0,
-        duration: 0.6,
-        ease: "power3.out",
-        stagger: 0.1,
-        scrollTrigger: { trigger: rootRef.current, start: "top 76%", once: true },
-      });
-    },
-    { scope: rootRef }
-  );
 
   if (experienceData.length === 0) return null;
 
   return (
-    <StudioSection id="experience" eyebrow="Timeline" title="Where I have worked.">
-      <Box ref={rootRef} position="relative">
-        {/* Vertical line */}
-        <Box
-          data-exp-line
-          position="absolute"
-          top={0}
-          bottom={0}
-          left={{ base: "19px", md: "23px" }}
-          w="1px"
-          bg={colors.borderSoft}
-          zIndex={0}
-        />
+    <StudioSection
+      id="experience"
+      title="Experience"
+      watermark="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=50"
+    >
+      <VStack align="stretch" spacing={0}>
+        {experienceData.map((exp, index) => {
+          const bullets = Array.isArray(exp.description)
+            ? exp.description.slice(0, 3)
+            : [exp.description].filter(Boolean);
 
-        <VStack align="stretch" spacing={0}>
-          {experienceData.map((exp, index) => (
+          const isLast = index === experienceData.length - 1;
+          const isCurrent = /present/i.test(exp.period || "");
+
+          return (
             <Grid
-              data-exp-item
               key={exp.id || `${exp.company}-${index}`}
-              templateColumns={{ base: "40px 1fr", md: "48px 1fr" }}
-              gap={{ base: 4, md: 6 }}
-              pb={{ base: 8, md: 10 }}
-              _last={{ pb: 0 }}
+              templateColumns={{ base: "1fr", md: "210px minmax(0, 1fr)" }}
+              gap={{ base: 3, md: 8 }}
+              px={{ base: 3, md: 5 }}
+              py={{ base: 7, md: 8 }}
+              bg={index % 2 === 0 ? "transparent" : "transparent"}
+              borderTop={index === 0 ? "2px solid" : "1px solid"}
+              borderBottom={isLast ? "1px solid" : "none"}
+              borderColor={index === 0 ? colors.heading : "#c6d7e8"}
+              transition="background-color .16s ease, box-shadow .16s ease"
+              _hover={{ bg: "#e2ecf8", boxShadow: `inset 4px 0 0 ${colors.accent}` }}
             >
-              {/* ── Left: dot + logo ── */}
-              <Box display="flex" flexDirection="column" alignItems="center" position="relative" zIndex={1}>
-                {/* Logo box (acts as the dot) */}
-                <Box
-                  w={{ base: "40px", md: "48px" }}
-                  h={{ base: "40px", md: "48px" }}
-                  bg={colors.bg}
-                  border="1px solid"
-                  borderColor={colors.borderSoft}
-                  overflow="hidden"
-                  flexShrink={0}
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                >
-                  {exp.logo ? (
-                    <LazyLoadImage
-                      src={exp.logo}
-                      alt={exp.company}
-                      effect="opacity"
-                      width="100%"
-                      height="100%"
-                      style={{ width: "100%", height: "100%", objectFit: "contain" }}
-                    />
-                  ) : (
-                    <Box w="8px" h="8px" borderRadius="full" bg={colors.muted} />
-                  )}
-                </Box>
-              </Box>
-
-              {/* ── Right: content ── */}
-              <Box pt="10px" pb={{ base: 4, md: 6 }}>
-                {/* Period */}
+              {/* Period column */}
+              <Box>
                 <Text
                   fontSize="12px"
-                  fontWeight="600"
-                  letterSpacing="0.06em"
-                  textTransform="uppercase"
-                  color={colors.accent}
-                  mb={2}
-                >
-                  {exp.period}
-                </Text>
-
-                {/* Position + company */}
-                <Text
-                  fontSize={{ base: "20px", md: "26px" }}
-                  fontWeight="800"
-                  lineHeight="1.1"
-                  letterSpacing="-0.02em"
+                  fontWeight="700"
+                  letterSpacing=".18em"
+                  color={colors.muted}
                   mb={1}
                 >
-                  {exp.position}
+                  {String(index + 1).padStart(2, "0")}
                 </Text>
-                <Text fontSize="14px" color={colors.muted} mb={4}>
-                  {exp.company}
-                  {exp.location ? ` · ${exp.location}` : ""}
+                <Text
+                  fontSize={{ base: "16px", md: "22px" }}
+                  fontWeight="700"
+                  color={colors.heading}
+                  lineHeight="1.35"
+                >
+                  {exp.period || "—"}
                 </Text>
-
-                {/* Description */}
-                {exp.description && (
-                  <VStack align="stretch" spacing={2} mb={4}>
-                    {(Array.isArray(exp.description)
-                      ? exp.description.slice(0, 3)
-                      : [exp.description]
-                    ).map(
-                      (line, i) =>
-                        line && (
-                          <Box key={i} display="flex" gap={3} alignItems="flex-start">
-                            <Text fontSize={{ base: "14px", md: "15px" }} lineHeight="1.72" color={colors.muted}>
-                              {line}
-                            </Text>
-                          </Box>
-                        )
-                    )}
-                  </VStack>
+                {isCurrent && (
+                  <Box
+                    as="span"
+                    display="inline-flex"
+                    alignItems="center"
+                    mt={2}
+                    px="9px"
+                    py="3px"
+                    bg={colors.chipBlue}
+                    border="1px solid"
+                    borderColor={colors.chipBlueBorder}
+                    boxShadow="inset 0 1px 0 #ffffff"
+                    fontSize="12px"
+                    fontWeight="700"
+                    color={colors.chipBlueText}
+                  >
+                    Current role
+                  </Box>
                 )}
-
-                {/* Technologies */}
-                {exp.technologies?.length > 0 && (
-                  <HStack spacing={2} flexWrap="wrap">
-                    {exp.technologies.slice(0, 5).map((tech) => (
-                      <Box
-                        key={tech}
-                        fontSize="11px"
-                        fontWeight="600"
-                        px={2}
-                        py="3px"
-                        border="1px solid"
-                        borderColor={colors.borderSoft}
-                        color={colors.muted}
-                        letterSpacing="0.03em"
-                      >
-                        {tech}
-                      </Box>
-                    ))}
-                  </HStack>
+                {(exp.location || exp.type) && (
+                  <Text fontSize="13px" color={colors.muted} mt={2}>
+                    {[exp.location, exp.type].filter(Boolean).join(" · ")}
+                  </Text>
                 )}
               </Box>
+
+              {/* Details */}
+              <Flex gap={{ base: 4, md: 5 }} align="flex-start" minW={0}>
+                <Box
+                  w={{ base: "56px", md: "64px" }}
+                  h={{ base: "56px", md: "64px" }}
+                  flexShrink={0}
+                  bg="#ffffff"
+                  border="1px solid"
+                  borderColor={colors.border}
+                  boxShadow="0 2px 5px rgba(18,58,99,0.12)"
+                  overflow="hidden"
+                >
+                  {exp.logo ? (
+                    <img
+                      src={exp.logo}
+                      alt={exp.company}
+                      loading="lazy"
+                      decoding="async"
+                      style={{
+                        display: "block",
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "contain",
+                        padding: "7px",
+                        boxSizing: "border-box",
+                        background: "#ffffff",
+                      }}
+                    />
+                  ) : (
+                    <Flex
+                      w="100%"
+                      h="100%"
+                      align="center"
+                      justify="center"
+                      color={colors.heading}
+                      fontSize="24px"
+                      fontWeight="700"
+                    >
+                      {(exp.company || "?").charAt(0)}
+                    </Flex>
+                  )}
+                </Box>
+
+                <Box minW={0}>
+                  <Text
+                    fontSize={{ base: "19px", md: "23px" }}
+                    fontWeight="700"
+                    color={colors.heading}
+                    lineHeight="1.3"
+                  >
+                    {exp.position}
+                  </Text>
+
+                  <Text fontSize="16px" fontWeight="700" color={colors.accent} mt="2px">
+                    {exp.company}
+                  </Text>
+
+                  {bullets.length > 0 && (
+                    <VStack align="stretch" spacing={2} mt={4} maxW="1000px">
+                      {bullets.map((line, i) => (
+                        <Flex key={i} gap={3} align="flex-start">
+                          <Text
+                            fontSize={{ base: "16px", md: "17px" }}
+                            lineHeight="1.75"
+                            color={colors.text}
+                          >
+                            {line}
+                          </Text>
+                        </Flex>
+                      ))}
+                    </VStack>
+                  )}
+
+                  {exp.technologies?.length > 0 && (
+                    <Flex gap={2} flexWrap="wrap" mt={4}>
+                      {exp.technologies.slice(0, 6).map((tech) => (
+                        <StudioPill key={tech}>{tech}</StudioPill>
+                      ))}
+                    </Flex>
+                  )}
+                </Box>
+              </Flex>
             </Grid>
-          ))}
-        </VStack>
-      </Box>
+          );
+        })}
+      </VStack>
     </StudioSection>
   );
 };

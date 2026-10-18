@@ -120,8 +120,8 @@ const theme = extendTheme({
   },
 
   fonts: {
-    heading: "'Plus Jakarta Sans', 'Tahoma', 'Verdana', 'Geneva', sans-serif",
-    body: "'Plus Jakarta Sans', 'Tahoma', 'Verdana', 'Geneva', sans-serif",
+    heading: "'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+    body: "'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
     mono: "'Lucida Console', 'Courier New', monospace",
   },
 
@@ -134,12 +134,12 @@ const theme = extendTheme({
         scrollBehavior: "smooth",
       },
       body: {
-        bg: mode("#fafaf8", "#1e1e1e")(props),
-        color: mode("#1a1a1a", "#eaeaea")(props),
-        fontSize: "16px",
+        bg: "#ffffff",
+        color: "#3b444d",
+        fontSize: "18px",
         lineHeight: "1.65",
         fontFamily:
-          "'Plus Jakarta Sans', 'Tahoma', 'Verdana', 'Geneva', sans-serif",
+          "'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
         letterSpacing: "0",
         overflowX: "hidden",
         backgroundImage: "none",
@@ -168,15 +168,18 @@ const theme = extendTheme({
       },
 
       "*::selection": {
-        bg: mode("#1a1a1a", "#eaeaea")(props),
-        color: mode("#fafaf8", "#1e1e1e")(props),
+        bg: "#1f5fa9",
+        color: "#ffffff",
       },
 
-      a: {
-        // Link warna teks biasa, bukan biru
-        color: mode("#1a1a1a", "#eaeaea")(props),
+      // Zero-specificity anchor default so it never fights button/link
+      // variants (a:hover previously made button text invisible).
+      ":where(a):where(:not(.chakra-button))": {
+        color: "#1f5fa9",
         textDecoration: "none",
+        transition: "color .12s ease",
         _hover: {
+          color: "#17497f",
           textDecoration: "underline",
         },
       },
@@ -195,7 +198,7 @@ const theme = extendTheme({
         fontWeight: "600",
         fontSize: "15px",
         fontFamily:
-          "'Plus Jakarta Sans', 'Tahoma', 'Verdana', 'Geneva', sans-serif",
+          "'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
         borderRadius: "999px",
         transition:
           "background-color .16s ease, border-color .16s ease, color .16s ease, transform .16s ease",
@@ -238,6 +241,96 @@ const theme = extendTheme({
             textDecoration: "none",
           },
         }),
+
+        // Public classic (2015) — glossy "rock" primary button
+        classic: {
+          bg: "linear-gradient(180deg, #4c8ede 0%, #2f74c0 48%, #2264ad 52%, #17497f 100%)",
+          color: "#ffffff",
+          border: "1px solid #143e6b",
+          borderRadius: "4px",
+          fontWeight: "700",
+          fontSize: "15px",
+          textShadow: "0 1px 1px rgba(9,30,55,0.5)",
+          boxShadow:
+            "inset 0 1px 0 rgba(255,255,255,0.35), 0 1px 2px rgba(9,30,55,0.3)",
+          _hover: {
+            bg: "linear-gradient(180deg, #5c9ce8 0%, #3a80cc 48%, #2a6cb8 52%, #1c548c 100%)",
+            borderColor: "#143e6b",
+            color: "#ffffff",
+            textDecoration: "none",
+          },
+          _active: {
+            bg: "linear-gradient(180deg, #17497f 0%, #2264ad 100%)",
+            boxShadow: "inset 0 2px 3px rgba(9,30,55,0.4)",
+          },
+        },
+
+        // Public classic (2015) — glossy white secondary button
+        classicOutline: {
+          bg: "linear-gradient(180deg, #ffffff 0%, #f4f8fc 48%, #e9f1f9 52%, #dce8f4 100%)",
+          color: "#123a63",
+          border: "1px solid #b9c9da",
+          borderRadius: "4px",
+          fontWeight: "700",
+          fontSize: "15px",
+          textShadow: "0 1px 0 #ffffff",
+          boxShadow:
+            "inset 0 1px 0 rgba(255,255,255,0.9), 0 1px 2px rgba(9,30,55,0.12)",
+          _hover: {
+            bg: "linear-gradient(180deg, #ffffff 0%, #eef5fb 48%, #e0ecf8 52%, #d0e1f1 100%)",
+            borderColor: "#9fb6cd",
+            color: "#0f3356",
+            textDecoration: "none",
+          },
+          _active: {
+            bg: "linear-gradient(180deg, #dce8f4 0%, #e9f1f9 100%)",
+            boxShadow: "inset 0 2px 3px rgba(9,30,55,0.18)",
+          },
+        },
+
+        // Public classic — glossy white button for navy/blue bands
+        classicWhite: {
+          bg: "linear-gradient(180deg, #ffffff 0%, #f6fafe 48%, #ecf3fa 52%, #e2edf7 100%)",
+          color: "#123a63",
+          border: "1px solid #ffffff",
+          borderRadius: "4px",
+          fontWeight: "700",
+          fontSize: "15px",
+          textShadow: "0 1px 0 #ffffff",
+          boxShadow:
+            "inset 0 1px 0 rgba(255,255,255,0.9), 0 2px 4px rgba(9,24,42,0.35)",
+          _hover: {
+            bg: "linear-gradient(180deg, #ffffff 0%, #eef5fc 48%, #e2eef8 52%, #d5e6f4 100%)",
+            borderColor: "#e3edf7",
+            color: "#0d2b4a",
+            textDecoration: "none",
+          },
+          _active: {
+            bg: "linear-gradient(180deg, #dbe7f5 0%, #eaf2fa 100%)",
+          },
+        },
+
+        // Public classic — glassy outline button for navy/blue bands
+        classicOnDark: {
+          bg: "linear-gradient(180deg, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.1) 48%, rgba(255,255,255,0.06) 52%, rgba(255,255,255,0.1) 100%)",
+          color: "#ffffff",
+          border: "1px solid rgba(255,255,255,0.55)",
+          borderRadius: "4px",
+          fontWeight: "700",
+          fontSize: "15px",
+          textShadow: "0 1px 1px rgba(9,24,42,0.5)",
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.3)",
+          _hover: {
+            bg: "linear-gradient(180deg, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0.16) 48%, rgba(255,255,255,0.12) 52%, rgba(255,255,255,0.16) 100%)",
+            borderColor: "#ffffff",
+            color: "#ffffff",
+            textDecoration: "none",
+          },
+          _active: {
+            bg: "rgba(255,255,255,0.2)",
+            boxShadow: "inset 0 2px 3px rgba(9,24,42,0.25)",
+          },
+        },
 
         // Admin panel — dulu biru, sekarang studio solid
         facebook: (props) => ({
@@ -370,7 +463,7 @@ const theme = extendTheme({
         fontWeight: "bold",
         color: mode("#1a1a1a", "#eaeaea")(props),
         fontFamily:
-          "'Plus Jakarta Sans', 'Tahoma', 'Verdana', 'Geneva', sans-serif",
+          "'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
         mb: 1,
       }),
     },
@@ -403,7 +496,7 @@ const theme = extendTheme({
     Heading: {
       baseStyle: {
         fontFamily:
-          "'Plus Jakarta Sans', 'Tahoma', 'Verdana', 'Geneva', sans-serif",
+          "'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
         fontWeight: "bold",
         letterSpacing: "0",
       },
@@ -412,7 +505,7 @@ const theme = extendTheme({
     Text: {
       baseStyle: {
         fontFamily:
-          "'Plus Jakarta Sans', 'Tahoma', 'Verdana', 'Geneva', sans-serif",
+          "'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
         letterSpacing: "0",
       },
     },
