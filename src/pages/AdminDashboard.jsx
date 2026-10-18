@@ -1070,7 +1070,6 @@ const AdminDashboard = () => {
                   leftIcon={<ExternalLink size={14} />}
                   variant="studioGhost"
                   size="sm"
-                  _hover={{ textDecoration: "none" }}
                 >
                   Open Vercel
                 </Button>

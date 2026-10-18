@@ -1,16 +1,11 @@
-import React, { useMemo, useRef } from "react";
-import { Box, Grid, Text, VStack } from "@chakra-ui/react";
-import { useGSAP } from "@gsap/react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import { BookOpen, Calendar, Star } from "lucide-react";
+import React, { useMemo } from "react";
+import { Box, Flex, Grid, Text, VStack } from "@chakra-ui/react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
-import { StudioPill, StudioSection, useStudioColors } from "../public/studio";
-import { gsap, prefersReducedMotion } from "../../utils/gsap";
+import { StudioSection, useStudioColors } from "../public/studio";
 
 const Education = () => {
   const { portfolioData } = usePortfolio();
   const colors = useStudioColors();
-  const rootRef = useRef(null);
 
   const allEducation = useMemo(
     () => [
@@ -20,241 +15,182 @@ const Education = () => {
     [portfolioData.education, portfolioData.certifications]
   );
 
-  useGSAP(
-    () => {
-      if (prefersReducedMotion()) return;
-      gsap.from("[data-education-item]", {
-        y: 34,
-        autoAlpha: 0,
-        duration: 0.72,
-        ease: "power3.out",
-        stagger: 0.1,
-        scrollTrigger: {
-          trigger: rootRef.current,
-          start: "top 74%",
-          once: true,
-        },
-      });
-    },
-    { scope: rootRef }
-  );
-
   if (allEducation.length === 0) return null;
 
   return (
-    <StudioSection id="education" eyebrow="Learning" title="Degree">
-      <VStack ref={rootRef} align="stretch" spacing={0}>
+    <StudioSection
+      id="education"
+      title="Education & Certifications"
+      watermark="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=50"
+    >
+      <VStack align="stretch" spacing={0}>
         {allEducation.map((edu, index) => {
-          const isLast = index === allEducation.length - 1;
           const scoreValue = edu.gpa || edu.score;
-          const hasAchievements = edu.achievements?.length > 0;
-          const hasSkills = edu.skills?.length > 0;
-          const hasDescription = !!edu.description;
+          const isLast = index === allEducation.length - 1;
 
           return (
-            <Box
-              data-education-item
+            <Grid
               key={`${edu.title}-${index}`}
-              borderTop="1px solid"
+              templateColumns={{
+                base: "1fr",
+                md: "84px minmax(0, 1fr) 220px",
+              }}
+              gap={{ base: 4, md: 7 }}
+              px={{ base: 3, md: 5 }}
+              py={{ base: 7, md: 8 }}
+              borderTop={index === 0 ? "2px solid" : "1px solid"}
               borderBottom={isLast ? "1px solid" : "none"}
-              borderColor={colors.borderSoft}
-              py={{ base: 6, md: 8 }}
-              // _hover={{ bg: colors.surface }}
-              transition="background .18s ease"
+              borderColor={index === 0 ? colors.heading : "#c6d7e8"}
+              transition="background-color .16s ease"
+              _hover={{ bg: "#f2f6fb" }}
             >
-              <Grid
-                templateColumns={{ base: "1fr", md: "200px 1fr" }}
-                gap={{ base: 5, md: 10 }}
+              {/* Logo */}
+              <Box
+                w={{ base: "64px", md: "84px" }}
+                h={{ base: "64px", md: "84px" }}
+                bg="#ffffff"
+                border="1px solid"
+                borderColor="#b9c9da"
+                boxShadow="0 2px 5px rgba(18,58,99,0.12)"
+                overflow="hidden"
               >
-                {/* ── Left: logo + meta ── */}
-                <Box>
-                  {/* Logo */}
-                  <Box
-                    w={{ base: "56px", md: "72px" }}
-                    h={{ base: "56px", md: "72px" }}
-                    overflow="hidden"
-                    bg={colors.surfaceAlt}
-                    border="1px solid"
-                    borderColor={colors.borderSoft}
-                    mb={4}
-                    flexShrink={0}
+                {edu.logo ? (
+                  <img
+                    src={edu.logo}
+                    alt={edu.title}
+                    loading="lazy"
+                    decoding="async"
+                    style={{
+                      display: "block",
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "contain",
+                      padding: "7px",
+                      boxSizing: "border-box",
+                      background: "#ffffff",
+                    }}
+                  />
+                ) : (
+                  <Flex
+                    w="100%"
+                    h="100%"
+                    align="center"
+                    justify="center"
+                    color={colors.heading}
+                    fontSize="26px"
+                    fontWeight="700"
                   >
-                    {edu.logo ? (
-                      <LazyLoadImage
-                        src={edu.logo}
-                        alt={edu.title}
-                        effect="opacity"
-                        width="100%"
-                        height="100%"
-                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                      />
-                    ) : (
-                      <Box
-                        w="100%" h="100%"
-                        display="flex" alignItems="center" justifyContent="center"
-                      >
-                        <BookOpen size={20} color={colors.muted} />
-                      </Box>
-                    )}
-                  </Box>
+                    {(edu.title || "?").charAt(0)}
+                  </Flex>
+                )}
+              </Box>
 
-                  {/* Period */}
-                  {edu.period && (
-                    <Box display="flex" alignItems="center" gap={2} mb={2}>
-                      <Calendar size={12} color={colors.muted} />
-                      <Text fontSize="12px" color={colors.muted} letterSpacing="0.02em">
-                        {edu.period}
-                      </Text>
-                    </Box>
-                  )}
+              {/* Main details */}
+              <Box minW={0}>
+                <Text
+                  fontSize={{ base: "19px", md: "22px" }}
+                  fontWeight="700"
+                  lineHeight="1.35"
+                  color={colors.heading}
+                >
+                  {edu.title}
+                </Text>
 
-                  {/* Status + score pills */}
-                  <Box display="flex" flexWrap="wrap" gap={2} mt={1}>
-                    {(edu.status || edu.type) && (
-                      <StudioPill tone={edu.status === "Completed" ? "primary" : "accent"}>
-                        {edu.status || edu.type}
-                      </StudioPill>
-                    )}
-                    {scoreValue && (
-                      <Box
-                        display="flex" alignItems="center" gap={1}
-                        px={2} py="3px"
-                        border="1px solid"
-                        borderColor={colors.borderSoft}
-                        fontSize="11px"
-                        fontWeight="700"
-                        color={colors.accent}
-                        letterSpacing="0.04em"
-                      >
-                        <Star size={10} />
-                        {scoreValue}
-                      </Box>
-                    )}
-                  </Box>
-                </Box>
-
-                {/* ── Right: content ── */}
-                <Box minW={0}>
-                  {/* Institution */}
-                  <Text
-                    fontSize={{ base: "20px", md: "26px" }}
-                    fontWeight="800"
-                    lineHeight="1.1"
-                    letterSpacing="-0.02em"
-                    mb={1}
-                  >
-                    {edu.title}
+                {(edu.degree || edu.major) && (
+                  <Text fontSize="15px" fontWeight="700" color={colors.accent} mt="2px">
+                    {edu.degree || edu.major}
                   </Text>
+                )}
 
-                  {/* Degree / major */}
-                  {(edu.degree || edu.major) && (
-                    <Text
-                      fontSize={{ base: "14px", md: "15px" }}
-                      color={colors.accent}
-                      fontWeight="600"
-                      letterSpacing="0.01em"
-                      mb={3}
-                    >
-                      {edu.degree || edu.major}
-                    </Text>
-                  )}
+                {edu.description && (
+                  <Text
+                    fontSize={{ base: "16px", md: "17px" }}
+                    lineHeight="1.8"
+                    color={colors.text}
+                    mt={3}
+                  >
+                    {edu.description}
+                  </Text>
+                )}
 
-                  {/* Description */}
-                  {hasDescription && (
-                    <Text
-                      fontSize={{ base: "14px", md: "15px" }}
-                      color={colors.muted}
-                      lineHeight="1.7"
-                      mb={4}
-                      maxW="800px"
-                    >
-                      {edu.description}
-                    </Text>
-                  )}
-
-                  {/* Achievements */}
-                  {hasAchievements && (
-                    <Box mb={4}>
-                      <Box
-                        display="flex"
-                        alignItems="center"
-                        gap={2}
-                        mb={2}
-                      >
-                        {/* <Award size={13} color={colors.muted} /> */}
-                        <Text
-                          fontSize="11px"
-                          fontWeight="700"
-                          letterSpacing="0.08em"
-                          textTransform="uppercase"
-                          color={colors.muted}
-                        >
-                          Achievements
+                {edu.achievements?.length > 0 && (
+                  <VStack align="stretch" spacing={2} mt={3}>
+                    {edu.achievements.map((achievement, i) => (
+                      <Flex key={i} gap={3} align="flex-start">
+                        <Text fontSize="16px" lineHeight="1.75" color={colors.text}>
+                          - {achievement}
                         </Text>
-                      </Box>
-                      <VStack align="stretch" spacing={1}>
-                        {edu.achievements.map((a, i) => (
-                          <Box
-                            key={i}
-                            display="flex"
-                            alignItems="flex-start"
-                            gap={2}
-                          >
-                            <Text
-                              fontSize={{ base: "13px", md: "14px" }}
-                              color={colors.text}
-                              lineHeight="1.65"
-                            >
-                              - {a}
-                            </Text>
-                          </Box>
-                        ))}
-                      </VStack>
-                    </Box>
-                  )}
+                      </Flex>
+                    ))}
+                  </VStack>
+                )}
+              </Box>
 
-                  {/* Skills */}
-                  {hasSkills && (
-                    <Box>
-                      <Text
-                        fontSize="11px"
-                        fontWeight="700"
-                        letterSpacing="0.08em"
-                        textTransform="uppercase"
-                        color={colors.muted}
-                        mb={2}
-                      >
-                        Skills covered
-                      </Text>
-                      <Box display="flex" flexWrap="wrap" gap={2}>
-                        {edu.skills.map((skill, i) => (
-                          <Box
-                            key={i}
-                            fontSize="12px"
-                            fontWeight="500"
-                            px={3}
-                            py="4px"
-                            border="1px solid"
-                            borderColor={colors.borderSoft}
-                            color={colors.muted}
-                            letterSpacing="0.02em"
-                            _hover={{ borderColor: colors.accent, color: colors.text }}
-                            transition="border-color .15s ease, color .15s ease"
-                          >
-                            {skill}
-                          </Box>
-                        ))}
-                      </Box>
+              {/* Meta column */}
+              <VStack align={{ base: "flex-start", md: "stretch" }} spacing={2}>
+                {edu.period && (
+                  <Text fontSize="15px" fontWeight="700" color={colors.heading}>
+                    {edu.period}
+                  </Text>
+                )}
+                {(edu.status || edu.type) && (
+                  <Box>
+                    <BlueChip label={edu.status || edu.type} colors={colors} />
+                  </Box>
+                )}
+                {scoreValue && (
+                  <Box>
+                    <Box
+                      as="span"
+                      display="inline-flex"
+                      alignItems="center"
+                      px="10px"
+                      py="4px"
+                      bg={colors.chipBlue}
+                      border="1px solid"
+                      borderColor={colors.chipBlueBorder}
+                      boxShadow="inset 0 1px 0 #ffffff"
+                      fontSize="14px"
+                      fontWeight="700"
+                      color={colors.chipBlueText}
+                    >
+                      GPA: {scoreValue}
                     </Box>
-                  )}
-                </Box>
-              </Grid>
-            </Box>
+                  </Box>
+                )}
+                {edu.skills?.length > 0 && (
+                  <Flex gap={2} flexWrap="wrap" pt={{ base: 1, md: 2 }}>
+                    {edu.skills.map((skill, i) => (
+                      <BlueChip key={i} label={skill} colors={colors} />
+                    ))}
+                  </Flex>
+                )}
+              </VStack>
+            </Grid>
           );
         })}
       </VStack>
     </StudioSection>
   );
 };
+
+const BlueChip = ({ label, colors }) => (
+  <Box
+    as="span"
+    display="inline-flex"
+    alignItems="center"
+    px="10px"
+    py="4px"
+    bg="linear-gradient(180deg, #ffffff 0%, #edf3fa 100%)"
+    border="1px solid"
+    borderColor={colors.border}
+    boxShadow="inset 0 1px 0 #ffffff"
+    fontSize="14px"
+    fontWeight="600"
+    color="#34506e"
+  >
+    {label}
+  </Box>
+);
 
 export default Education;

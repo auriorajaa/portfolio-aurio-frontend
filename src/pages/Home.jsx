@@ -4,7 +4,7 @@ import { Box, Center, Spinner } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
 import Layout from "../components/layout/Layout";
 import Hero from "../components/sections/Hero";
-import About from "../components/sections/About";
+// import About from "../components/sections/About";
 import Experience from "../components/sections/Experience";
 import Projects from "../components/sections/Projects";
 import Skills from "../components/sections/Skills";
@@ -50,6 +50,16 @@ const Home = ({ isDownloading, handleDownload }) => {
     }
   }, [location]);
 
+  // Land on the right section when arriving with a hash (e.g. /#projects
+  // from an article or project page).
+  useLayoutEffect(() => {
+    if (loading || !location.hash) return;
+    const el = document.getElementById(location.hash.replace("#", ""));
+    if (el) {
+      el.scrollIntoView({ behavior: "auto", block: "start" });
+    }
+  }, [loading, location]);
+
   if (loading) {
     return (
       <Center minH="100vh">
@@ -87,9 +97,9 @@ const Home = ({ isDownloading, handleDownload }) => {
         <script type="application/ld+json">{JSON.stringify(websiteSchema)}</script>
       </Helmet>
 
-      <Layout isDownloading={isDownloading} handleDownload={handleDownload}>
+      <Layout isDownloading={isDownloading} handleDownload={handleDownload} tinted>
         <Hero />
-        <About />
+        {/* <About /> */}
         <Experience />
         <Projects />
         <Skills />
