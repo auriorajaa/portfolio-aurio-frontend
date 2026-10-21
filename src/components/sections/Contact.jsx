@@ -3,34 +3,40 @@ import {
   Box,
   Button,
   Flex,
+  FormControl,
+  FormLabel,
   Grid,
-  Heading,
-  Link,
+  Input,
   Text,
+  Textarea,
   useToast,
 } from "@chakra-ui/react";
+import { Send } from "lucide-react";
 import emailjs from "@emailjs/browser";
 import { usePortfolio } from "../../contexts/PortfolioContext";
-import { useStudioColors } from "../public/studio";
+import { LAGOON, DoodlePaperPlane, DoodleTape } from "../public/studio";
 
-const fieldStyle = {
-  width: "100%",
-  padding: "12px 14px",
-  fontSize: "16px",
-  color: "#3b444d",
-  background: "#f8fafd",
-  border: "1px solid #c9d6e4",
-  borderRadius: "4px",
-  outline: "none",
-  fontFamily: "inherit",
-  boxSizing: "border-box",
-  transition: "border-color .15s ease, box-shadow .15s ease",
+const inputStyles = {
+  bg: "#FFFFFF",
+  border: "1.5px solid",
+  borderColor: "#CFE8E4",
+  borderRadius: "8px",
+  fontSize: "15px",
+  color: LAGOON.heading,
+  _hover: { borderColor: "#9FD8D1" },
+  _focus: {
+    borderColor: LAGOON.primary,
+    boxShadow: "0 0 0 3px rgba(14,140,134,0.16)",
+    bg: "#FFFFFF",
+  },
+  _placeholder: { color: "#9AB4B1" },
 };
 
+// A clipboard hanging by the door. Grab the form, fill in the
+// blanks, hand it back. The memo corner keeps the "TO:" address.
 const Contact = () => {
   const { portfolioData } = usePortfolio();
   const personalInfo = portfolioData.personalInfo || {};
-  const colors = useStudioColors();
   const toast = useToast();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [sending, setSending] = useState(false);
@@ -38,16 +44,6 @@ const Contact = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((current) => ({ ...current, [name]: value }));
-  };
-
-  const handleFocus = (e) => {
-    e.target.style.borderColor = "#1f5fa9";
-    e.target.style.boxShadow = "0 0 0 3px rgba(31,95,169,0.15)";
-  };
-
-  const handleBlur = (e) => {
-    e.target.style.borderColor = "#c9d6e4";
-    e.target.style.boxShadow = "none";
   };
 
   const handleSubmit = async (e) => {
@@ -72,8 +68,8 @@ const Contact = () => {
       );
       setForm({ name: "", email: "", message: "" });
       toast({
-        title: "Message sent.",
-        description: "Thanks — I'll get back to you soon.",
+        title: "Slip handed in.",
+        description: "Thanks, I'll get back to you soon.",
         status: "success",
         duration: 3000,
         isClosable: true,
@@ -91,232 +87,204 @@ const Contact = () => {
     }
   };
 
-  const socials = [
-    personalInfo.email && {
-      label: "Email",
-      href: `mailto:${personalInfo.email}`,
-      external: false,
-    },
-    personalInfo.github && {
-      label: "GitHub",
-      href: personalInfo.github,
-      external: true,
-    },
-    personalInfo.linkedin && {
-      label: "LinkedIn",
-      href: personalInfo.linkedin,
-      external: true,
-    },
-  ].filter(Boolean);
-
   return (
     <Box
-      as="section"
-      id="contact"
-      bg={colors.navyGradient}
-      color="#ffffff"
-      mx={{ base: "12px", md: "28px" }}
-      my={{ base: "14px", md: "26px" }}
-      border="1px solid rgba(255,255,255,0.22)"
-      boxShadow="0 6px 18px rgba(18,58,99,0.25)"
+      position="relative"
+      mt="20px"
+      transform={{ base: "none", lg: "rotate(-0.6deg)" }}
     >
+      {/* Metal clamp */}
       <Box
-        maxW="1400px"
-        mx="auto"
-        px={{ base: 5, md: 10 }}
-        py={{ base: 14, md: 20 }}
+        aria-hidden="true"
+        position="absolute"
+        top="-16px"
+        left="50%"
+        ml="-36px"
+        w="72px"
+        h="32px"
+        bg={LAGOON.primary}
+        border="2px solid #0B2F2F"
+        borderRadius="8px"
+        boxShadow="2px 3px 0 rgba(11,47,47,0.55)"
+        zIndex={3}
       >
-        {/* Campaign call */}
-        <Box textAlign="center" maxW="780px" mx="auto">
-          <Flex align="center" justify="center" gap={3} mb={5}>
-            <Box w="44px" h="2px" bg="rgba(255,255,255,0.5)" />
-            <Text
-              fontSize="12px"
-              fontWeight="800"
-              letterSpacing=".22em"
-              textTransform="uppercase"
-              color="#c9dcf1"
-            >
-              Get in Touch
-            </Text>
-            <Box w="44px" h="2px" bg="rgba(255,255,255,0.5)" />
-          </Flex>
-
-          <Heading
-            as="h2"
-            fontSize={{ base: "30px", md: "44px" }}
-            fontWeight="800"
-            lineHeight="1.2"
-            textShadow="0 2px 3px rgba(9,24,42,0.45)"
-          >
-            Have a project in mind?
-          </Heading>
-
-          <Text
-            mt={4}
-            fontSize={{ base: "16px", md: "18px" }}
-            lineHeight="1.8"
-            color="#dbe7f5"
-          >
-            Send a message below! I usually reply within 24–48 hours.
-          </Text>
-
-          <Flex
-            display="inline-flex"
-            align="center"
-            gap={3}
-            bg="rgba(255,255,255,0.12)"
-            border="1px solid rgba(255,255,255,0.35)"
-            boxShadow="inset 0 1px 0 rgba(255,255,255,0.15)"
-            px={5}
-            py={3}
-            my={5}
-          >
-            <Text fontSize="15px" fontWeight="600" color="#ffffff">
-              Currently open to full-time roles & project work
-            </Text>
-          </Flex>
-        </Box>
-
-        {/* Form card */}
         <Box
-          maxW="820px"
-          mx="auto"
-          mt={{ base: 9, md: 11 }}
-          bg="#ffffff"
-          border="1px solid"
-          borderColor="#b9c9da"
-          boxShadow="0 10px 30px rgba(9,24,42,0.35)"
-        >
-          <Box as="form" onSubmit={handleSubmit} p={{ base: 5, md: 8 }}>
-            <Grid
-              templateColumns={{ base: "1fr", md: "1fr 1fr" }}
-              gap={{ base: 5, md: 6 }}
+          position="absolute"
+          top="50%"
+          left="50%"
+          ml="-8px"
+          mt="-8px"
+          w="16px"
+          h="16px"
+          borderRadius="full"
+          bg="#FFFFFF"
+          border="1.5px solid #0B2F2F"
+        />
+      </Box>
+
+      {/* Board */}
+      <Box
+        bg="#FFFFFF"
+        border="2px solid #0B2F2F"
+        borderRadius="16px"
+        boxShadow="9px 9px 0 rgba(11,47,47,0.9)"
+        p={{ base: 6, md: 8 }}
+        pt={{ base: 8, md: 10 }}
+      >
+        <Flex align="flex-start" justify="space-between" gap={4} mb={6}>
+          <Box>
+            <Text className="public-mono" fontSize="12px" fontWeight="500" color={LAGOON.muted}>
+              clipboard — slip no. 001
+            </Text>
+            <Text
+              fontFamily="heading"
+              fontSize={{ base: "20px", md: "22px" }}
+              fontWeight="700"
+              letterSpacing="-.02em"
+              color={LAGOON.heading}
+              mt="3px"
             >
-              <Box>
-                <Text
-                  as="label"
-                  htmlFor="contact-name"
-                  fontSize="12px"
-                  fontWeight="700"
-                  letterSpacing=".1em"
-                  textTransform="uppercase"
-                  color={colors.muted}
-                  display="block"
-                  mb="6px"
-                >
-                  Name
-                </Text>
-                <input
+              Write me a message
+            </Text>
+          </Box>
+          <Text
+            className="public-hand"
+            fontSize="19px"
+            fontWeight="600"
+            color={LAGOON.primaryDark}
+            lineHeight="1.1"
+            display={{ base: "none", sm: "block" }}
+            transform="rotate(-2deg)"
+            mt="4px"
+          >
+            just type and hand it back!
+          </Text>
+        </Flex>
+
+        <Grid
+          templateColumns={{ base: "1fr", lg: "1fr 184px" }}
+          gap={{ base: 5, md: 6 }}
+          alignItems="start"
+        >
+          {/* Form sheet, paper-clipped to the board */}
+          <Box
+            as="form"
+            onSubmit={handleSubmit}
+            bg="#F7FBFA"
+            border="1.5px dashed rgba(11,47,47,0.4)"
+            borderRadius="10px"
+            p={{ base: 4, md: 5 }}
+          >
+            <Grid templateColumns={{ base: "1fr", sm: "1fr 1fr" }} gap={4}>
+              <FormControl isRequired>
+                <FormLabel className="public-mono" fontSize="12px" fontWeight="500" color={LAGOON.muted} mb={2}>
+                  From
+                </FormLabel>
+                <Input
                   id="contact-name"
                   name="name"
                   value={form.name}
                   onChange={handleChange}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
                   placeholder="Your name"
-                  style={fieldStyle}
+                  h="48px"
+                  px={4}
+                  {...inputStyles}
                 />
-              </Box>
+              </FormControl>
 
-              <Box>
-                <Text
-                  as="label"
-                  htmlFor="contact-email"
-                  fontSize="12px"
-                  fontWeight="700"
-                  letterSpacing=".1em"
-                  textTransform="uppercase"
-                  color={colors.muted}
-                  display="block"
-                  mb="6px"
-                >
-                  Email
-                </Text>
-                <input
+              <FormControl isRequired>
+                <FormLabel className="public-mono" fontSize="12px" fontWeight="500" color={LAGOON.muted} mb={2}>
+                  Reply to
+                </FormLabel>
+                <Input
                   id="contact-email"
                   name="email"
                   type="email"
                   value={form.email}
                   onChange={handleChange}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
                   placeholder="your@email.com"
-                  style={fieldStyle}
+                  h="48px"
+                  px={4}
+                  {...inputStyles}
                 />
-              </Box>
+              </FormControl>
             </Grid>
 
-            <Box mt={{ base: 5, md: 6 }}>
-              <Text
-                as="label"
-                htmlFor="contact-message"
-                fontSize="12px"
-                fontWeight="700"
-                letterSpacing=".1em"
-                textTransform="uppercase"
-                color={colors.muted}
-                display="block"
-                mb="6px"
-              >
+            <FormControl isRequired mt={4}>
+              <FormLabel className="public-mono" fontSize="12px" fontWeight="500" color={LAGOON.muted} mb={2}>
                 Message
-              </Text>
-              <textarea
+              </FormLabel>
+              <Textarea
                 id="contact-message"
                 name="message"
                 value={form.message}
                 onChange={handleChange}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                placeholder="What would you like to talk about?"
+                placeholder="What's on your mind?"
                 rows={5}
-                style={{ ...fieldStyle, resize: "vertical" }}
+                resize="vertical"
+                px={4}
+                py={3}
+                sx={{
+                  backgroundImage:
+                    "repeating-linear-gradient(transparent, transparent 33px, rgba(11,47,47,0.10) 33px, rgba(11,47,47,0.10) 34px)",
+                  backgroundPositionY: "14px",
+                }}
+                {...inputStyles}
               />
-            </Box>
+            </FormControl>
 
             <Button
               type="submit"
-              variant="classic"
+              variant="lagoonCoral"
               w="100%"
-              h="52px"
-              mt={{ base: 6, md: 7 }}
-              fontSize="17px"
+              h="50px"
+              mt={5}
+              leftIcon={<Send size={16} />}
               isLoading={sending}
               loadingText="Sending..."
             >
-              Send Message
+              Hand in the slip
             </Button>
           </Box>
-        </Box>
 
-        {/* Socials + direct email */}
-        <Box textAlign="center" mt={{ base: 8, md: 10 }}>
-          <Text fontSize="14px" color="#c9dcf1" mb={4}>
-            Or find me on
-          </Text>
-          <Flex justify="center" gap={3} flexWrap="wrap">
-            {socials.map((social) => (
-              <Button
-                key={social.label}
-                as={Link}
-                href={social.href}
-                isExternal={social.external}
-                variant="classicWhite"
-                h="46px"
-                px={7}
-                fontSize="15px"
-              >
-                {social.label}
-              </Button>
-            ))}
-          </Flex>
-          <Text mt={5} fontSize="14px" color="#c9dcf1">
-            Or email me directly at{" "}
-            <Text as="span" fontWeight="700" color="#ffffff">
-              {personalInfo.email}
-            </Text>
-          </Text>
-        </Box>
+          {/* Memo corner with the address */}
+          <Box position="relative" display={{ base: "none", lg: "block" }}>
+            <DoodleTape
+              w={88}
+              h={20}
+              color="rgba(255,107,74,0.5)"
+              rotation={-4}
+              top="-10px"
+              left="48px"
+              zIndex={2}
+            />
+            <Box
+              bg="#FFD34D"
+              border="1.5px solid #0B2F2F"
+              borderRadius="4px"
+              p={5}
+              transform="rotate(1.8deg)"
+              boxShadow="4px 4px 0 rgba(11,47,47,0.35)"
+              transition="transform .2s ease"
+              _hover={{ transform: "rotate(0.4deg)" }}
+            >
+              <Text className="public-hand" fontSize="21px" fontWeight="600" color="#0B2F2F" lineHeight="1.1">
+                TO:
+              </Text>
+              <Text fontSize="15px" fontWeight="700" color="#0B2F2F" mt={2} lineHeight="1.5">
+                {personalInfo.name || "Aurio Rajaa"}
+                <br />
+                {personalInfo.location || "Jakarta, Indonesia"}
+              </Text>
+              <Box mt={4} borderTop="1.5px dashed rgba(11,47,47,0.35)" pt={4} textAlign="center">
+                <DoodlePaperPlane size={52} />
+              </Box>
+              <Text className="public-mono" fontSize="10px" fontWeight="600" color="#0B2F2F" mt={3} letterSpacing=".14em" textAlign="center">
+                NO ENVELOPE NEEDED
+              </Text>
+            </Box>
+          </Box>
+        </Grid>
       </Box>
     </Box>
   );

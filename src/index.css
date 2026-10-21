@@ -13,9 +13,14 @@ code {
     monospace;
 }
 
-/* Keep anchored sections clear of the sticky header. */
+/* Keep anchored sections clear of the floating header.
+   #contact lives in the footer, where only a short offset is needed. */
 section[id] {
-  scroll-margin-top: 130px;
+  scroll-margin-top: 118px;
+}
+
+#contact {
+  scroll-margin-top: 96px;
 }
 
 .spin {
@@ -28,5 +33,319 @@ section[id] {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Public "Lagoon" scope — applies only while a public page mounts
+   (body class is toggled by PublicShell). Admin stays untouched.
+   ───────────────────────────────────────────────────────────── */
+
+body.public-body {
+  --font-display: "Bricolage Grotesque", "Plus Jakarta Sans", "Helvetica Neue",
+    Helvetica, Arial, sans-serif;
+  --font-body: "Plus Jakarta Sans", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+  background-color: #f5fbfb;
+}
+
+body.public-body ::selection {
+  background: #14b8a6;
+  color: #042a29;
+}
+
+.public-shell {
+  overflow-x: clip;
+}
+
+.public-mono {
+  font-family: "IBM Plex Mono", "Lucida Console", "Courier New", monospace;
+}
+
+/* Decorative helpers */
+.public-dots {
+  background-image: radial-gradient(
+    rgba(11, 47, 47, 0.14) 1.2px,
+    transparent 1.2px
+  );
+  background-size: 22px 22px;
+}
+
+.public-dots-light {
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.22) 1.2px,
+    transparent 1.2px
+  );
+  background-size: 24px 24px;
+}
+
+/* Marquee */
+@keyframes lagoon-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: lagoon-marquee 34s linear infinite;
+  will-change: transform;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Handwritten accent for small annotations */
+.public-hand {
+  font-family: "Caveat", "Comic Sans MS", cursive;
+}
+
+/* ── Custom ink cursor (desktop, public pages only) ───────────── */
+html.cursor-fancy,
+html.cursor-fancy * {
+  cursor: none !important;
+}
+
+/* Text fields keep their native caret/selection feel. */
+html.cursor-fancy input,
+html.cursor-fancy textarea,
+html.cursor-fancy select,
+html.cursor-fancy [contenteditable="true"] {
+  cursor: auto !important;
+}
+
+html.cursor-fancy input,
+html.cursor-fancy textarea {
+  caret-color: #0b4f4c;
+}
+
+/* The cursor hand idles with a gentle "pointing" sway. */
+.cursor-hand {
+  position: relative;
+  z-index: 1;
+  transform-origin: 38% 5%;
+  animation: cursor-point 2.2s ease-in-out infinite;
+}
+
+@keyframes cursor-point {
+  0%, 100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg) translateY(-1px);
+  }
+}
+
+/* The little boat on the scroll route bobs all the way down. */
+.rail-boat {
+  transform-origin: 50% 30%;
+  animation: rail-bob 2.4s ease-in-out infinite;
+}
+
+@keyframes rail-bob {
+  0%, 100% {
+    transform: rotate(-4deg) translateY(0);
+  }
+  50% {
+    transform: rotate(3deg) translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-hand,
+  .rail-boat {
+    animation: none;
+  }
+}
+
+/* ── Custom scrollbar, public scope only:
+      two sewn-on strips with a stitched fabric thumb ────────────── */
+body.public-body {
+  scrollbar-width: thin;
+  scrollbar-color: #0e8c86 #f4faf8;
+}
+
+body.public-body::-webkit-scrollbar {
+  width: 12px;
+}
+
+body.public-body::-webkit-scrollbar-track {
+  background: #f4faf8;
+  background-image: linear-gradient(
+    rgba(11, 47, 47, 0.16) 0 8px,
+    transparent 8px 19px
+  );
+  background-size: 1.5px 19px;
+  background-repeat: repeat-y;
+  background-position: center top;
+}
+
+/* Thumb: a little fabric patch, stitched with dashed ink thread,
+   with a white running-stripe underneath. It reaches both ends of
+   the track exactly, so the stitch ends flush with the scroll. */
+body.public-body::-webkit-scrollbar-thumb {
+  background-image:
+    repeating-linear-gradient(
+      -60deg,
+      rgba(255, 255, 255, 0.42) 0 3px,
+      rgba(255, 255, 255, 0) 3px 9px
+    ),
+    #0e8c86;
+  border: 2px dashed #0b2f2f;
+  border-radius: 8px;
+  background-clip: padding-box;
+}
+
+body.public-body::-webkit-scrollbar-thumb:hover {
+  background-image:
+    repeating-linear-gradient(
+      -60deg,
+      rgba(255, 255, 255, 0.42) 0 3px,
+      rgba(255, 255, 255, 0) 3px 9px
+    ),
+    #ff6b4a;
+  background-clip: padding-box;
+}
+
+body.public-body::-webkit-scrollbar-thumb:active {
+  background-image:
+    repeating-linear-gradient(
+      -60deg,
+      rgba(255, 255, 255, 0.42) 0 3px,
+      rgba(255, 255, 255, 0) 3px 9px
+    ),
+    #0b4f4c;
+  background-clip: padding-box;
+}
+
+body.public-body::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Receipt paper: a sawtooth bottom edge for the experience slips. */
+.receipt-edge {
+  clip-path: polygon(
+    0% 0%,
+    100% 0%,
+    100% calc(100% - 11px),
+    92.85% 100%,
+    85.7% calc(100% - 11px),
+    78.55% 100%,
+    71.4% calc(100% - 11px),
+    64.3% 100%,
+    57.15% calc(100% - 11px),
+    50% 100%,
+    42.85% calc(100% - 11px),
+    35.7% 100%,
+    28.55% calc(100% - 11px),
+    21.4% 100%,
+    14.3% calc(100% - 11px),
+    7.15% 100%,
+    0% calc(100% - 11px)
+  );
+}
+
+/* ── Boot loader: shows before React replaces #root ───────────── */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  background-color: #f7fbfa;
+}
+
+.boot-sun {
+  animation: boot-float 1.15s ease-in-out infinite alternate;
+}
+
+.boot-waves path {
+  animation: boot-wave 1.15s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+.boot-waves path:nth-of-type(2) {
+  animation-delay: -0.4s;
+}
+
+.boot-text {
+  font-family: "IBM Plex Mono", "Lucida Console", "Courier New", monospace;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  color: #8faaa6;
+  text-transform: lowercase;
+}
+
+.boot-text::after {
+  content: "...";
+  animation: boot-dots 1.4s steps(4, end) infinite;
+}
+
+@keyframes boot-float {
+  from {
+    transform: translateY(7px);
+  }
+  to {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes boot-wave {
+  from {
+    transform: translateX(-9px);
+  }
+  to {
+    transform: translateX(9px);
+  }
+}
+
+@keyframes boot-dots {
+  0% {
+    content: "";
+  }
+  25% {
+    content: ".";
+  }
+  50% {
+    content: "..";
+  }
+  75% {
+    content: "...";
+  }
+}
+
+/* Article body images */
+.public-shell .article-body img {
+  border-radius: 20px;
+}
+
+/* Keyboard focus ring for public pages only */
+body.public-body :focus-visible {
+  outline: 2px solid #0e8c86;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .marquee-track {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
