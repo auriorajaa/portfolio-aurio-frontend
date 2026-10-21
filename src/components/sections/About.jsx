@@ -1,81 +1,148 @@
 import React from "react";
-import { Box, Grid, Text } from "@chakra-ui/react";
+import { Box, Grid, Link, Text } from "@chakra-ui/react";
+import { ArrowRight } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
-import { StudioSection, useStudioColors } from "../public/studio";
+import { LAGOON, DoodleAsterisk, DoodleHeart, DoodleTape } from "../public/studio";
 
 const About = () => {
   const { portfolioData } = usePortfolio();
   const personalInfo = portfolioData.personalInfo || {};
-  const colors = useStudioColors();
 
   const facts = [
-    personalInfo.location && { label: "Based in", value: personalInfo.location },
-    { label: "Focus", value: "Backend systems, APIs & web applications" },
-    personalInfo.title && { label: "Role", value: personalInfo.title },
-    { label: "Response time", value: "Within 24–48 hours" },
+    personalInfo.location && { label: "based in", value: personalInfo.location },
+    { label: "focus", value: "Backend systems, APIs & web apps" },
+    { label: "reply time", value: "within 1-2 days" },
   ].filter(Boolean);
 
   return (
-    <StudioSection
+    <Box
+      as="section"
       id="about"
-      title="About"
-      watermark="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1200&q=50"
+      position="relative"
+      bg={LAGOON.surface}
+      py={{ base: 14, md: 20 }}
     >
-      {/* Full-width bio, set like editorial columns on wide screens */}
-      {personalInfo.bio && (
-        <Text
-          fontSize={{ base: "17px", md: "18px" }}
-          lineHeight="1.95"
-          color={colors.text}
-          sx={{
-            columnCount: { base: 1, lg: 2 },
-            columnGap: "56px",
-            columnRule: `1px solid ${colors.border}`,
-          }}
+      <Box maxW="1200px" mx="auto" px={{ base: 5, md: 8, lg: 10 }}>
+        <Grid
+          templateColumns={{ base: "1fr", lg: "0.9fr 1.1fr" }}
+          gap={{ base: 10, lg: 16 }}
+          alignItems="start"
         >
-          {personalInfo.bio}
-        </Text>
-      )}
-
-      {/* Facts strip along the bottom */}
-      <Grid
-        templateColumns={{ base: "1fr 1fr", md: `repeat(${facts.length}, 1fr)` }}
-        borderTop="3px solid"
-        borderColor={colors.heading}
-        mt={{ base: 10, md: 12 }}
-      >
-        {facts.map((fact, index) => (
-          <Box
-            key={fact.label}
-            px={{ base: 4, md: 6 }}
-            py={{ base: 5, md: 6 }}
-            borderLeft={{
-              base: index % 2 === 1 ? "1px solid" : "none",
-              md: index === 0 ? "none" : "1px solid",
-            }}
-            borderTop={{
-              base: index >= 2 ? "1px solid" : "none",
-              md: "none",
-            }}
-            borderColor={colors.borderSoft}
-          >
+          {/* Left — heading */}
+          <Box>
             <Text
-              fontSize="12px"
-              fontWeight="700"
-              textTransform="uppercase"
-              letterSpacing=".1em"
-              color={colors.muted}
-              mb={1}
+              className="public-mono"
+              fontSize="13px"
+              fontWeight="500"
+              letterSpacing=".04em"
+              color={LAGOON.coralDeep}
+              mb={4}
             >
-              {fact.label}
+              01 / about
             </Text>
-            <Text fontSize={{ base: "15px", md: "17px" }} fontWeight="700" color={colors.heading}>
-              {fact.value}
+            <Text
+              fontFamily="heading"
+              fontSize={{ base: "34px", md: "44px" }}
+              fontWeight="700"
+              lineHeight="1.1"
+              letterSpacing="-.035em"
+              color={LAGOON.heading}
+            >
+              A bit about me
             </Text>
+            <Text
+              className="public-hand"
+              fontSize={{ base: "26px", md: "28px" }}
+              fontWeight="600"
+              color={LAGOON.primary}
+              transform="rotate(-2deg)"
+              display="inline-block"
+              mt={3}
+            >
+              nice to meet you!
+            </Text>
+            <Box mt={5} display="inline-flex" alignItems="flex-end" gap={2}>
+              <DoodleHeart size={24} />
+              <DoodleAsterisk size={22} color={LAGOON.sun} />
+            </Box>
           </Box>
-        ))}
-      </Grid>
-    </StudioSection>
+
+          {/* Right — bio + facts */}
+          <Box>
+            {personalInfo.bio && (
+              <Text
+                fontSize={{ base: "17px", md: "19px" }}
+                lineHeight="1.85"
+                color={LAGOON.text}
+                maxW="640px"
+              >
+                {personalInfo.bio}
+              </Text>
+            )}
+
+            <Grid
+              templateColumns={{ base: "1fr", sm: `repeat(${Math.min(facts.length, 3)}, 1fr)` }}
+              gap={6}
+              mt={10}
+              position="relative"
+            >
+              <DoodleTape
+                w={110}
+                h={20}
+                color="rgba(14,140,134,0.55)"
+                rotation={2}
+                top="-12px"
+                left="46%"
+                ml="-55px"
+              />
+              {facts.map((fact) => (
+                <Box
+                  key={fact.label}
+                  borderTop="2px solid"
+                  borderColor={LAGOON.ink}
+                  pt={3}
+                >
+                  <Text
+                    className="public-mono"
+                    fontSize="12px"
+                    fontWeight="500"
+                    color={LAGOON.muted}
+                    mb={1}
+                  >
+                    {fact.label}
+                  </Text>
+                  <Text fontSize="15px" fontWeight="700" color={LAGOON.heading}>
+                    {fact.value}
+                  </Text>
+                </Box>
+              ))}
+            </Grid>
+
+            <Link
+              href="/#contact"
+              display="inline-flex"
+              alignItems="center"
+              gap="8px"
+              mt={10}
+              position="relative"
+              zIndex={1}
+              fontSize="16px"
+              fontWeight="700"
+              color={LAGOON.primaryDark}
+              _hover={{
+                color: LAGOON.coralDeep,
+                textDecoration: "none",
+                gap: "12px",
+              }}
+              transition="all .16s ease"
+            >
+              Let&apos;s work together
+              <ArrowRight size={16} />
+            </Link>
+          </Box>
+        </Grid>
+      </Box>
+    </Box>
   );
 };
 

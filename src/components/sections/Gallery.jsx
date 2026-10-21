@@ -12,11 +12,10 @@ import {
 } from "@chakra-ui/react";
 import { Maximize2, X } from "lucide-react";
 import { usePortfolio } from "../../contexts/PortfolioContext";
-import { StudioSection, useStudioColors } from "../public/studio";
+import { LAGOON, LagoonSection, DoodleStar, DoodleTape } from "../public/studio";
 
 const Gallery = () => {
   const { portfolioData } = usePortfolio();
-  const colors = useStudioColors();
   const [selected, setSelected] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -62,41 +61,48 @@ const Gallery = () => {
   if (achievements.length === 0 && activities.length === 0) return null;
 
   return (
-    <StudioSection id="gallery" title="Gallery" band>
+    <LagoonSection
+      id="gallery"
+      eyebrow="06 / gallery"
+      title="Gallery"
+      description="Certificates, activities, and snapshots from along the way."
+    >
       <Box>
         {achievements.length > 0 && (
           <Box mb={{ base: 12, md: 16 }}>
-            <GroupHeader colors={colors} count={achievements.length}>
-              Achievements & Certificates
-            </GroupHeader>
+            <GroupHeader count={achievements.length}>Achievements</GroupHeader>
 
-            {/* Ruled archive list */}
-            <Box>
-              {achievements.map((item, i) => (
-                <CertificateRow
-                  key={`ach-${i}`}
-                  item={item}
-                  index={i}
-                  colors={colors}
-                  onOpen={() => openItem(item)}
-                />
-              ))}
-            </Box>
-          </Box>
-        )}
-
-        {activities.length > 0 && (
-          <Box>
-            <GroupHeader colors={colors} count={activities.length}>
-              Activities & Involvement
-            </GroupHeader>
             <Grid
               templateColumns={{
                 base: "1fr",
                 sm: "repeat(2, minmax(0, 1fr))",
                 lg: "repeat(3, minmax(0, 1fr))",
               }}
-              gap={{ base: 6, md: 7 }}
+              gap={{ base: 5, md: 6 }}
+              alignItems="stretch"
+            >
+              {achievements.map((item, i) => (
+                <DiplomaCard
+                  key={`ach-${i}`}
+                  item={item}
+                  index={i}
+                  onOpen={() => openItem(item)}
+                />
+              ))}
+            </Grid>
+          </Box>
+        )}
+
+        {activities.length > 0 && (
+          <Box>
+            <GroupHeader count={activities.length}>Activities</GroupHeader>
+            <Grid
+              templateColumns={{
+                base: "1fr",
+                sm: "repeat(2, minmax(0, 1fr))",
+                lg: "repeat(3, minmax(0, 1fr))",
+              }}
+              gap={{ base: 5, md: 6 }}
               alignItems="stretch"
             >
               {activities.map((item, i) => (
@@ -104,7 +110,6 @@ const Gallery = () => {
                   key={`act-${i}`}
                   item={item}
                   index={i}
-                  colors={colors}
                   onOpen={() => openItem(item)}
                 />
               ))}
@@ -115,66 +120,135 @@ const Gallery = () => {
 
       {/* Lightbox */}
       <Modal isOpen={isOpen} onClose={closeItem} size="5xl" isCentered scrollBehavior="inside">
-        <ModalOverlay bg="rgba(9,24,42,0.8)" />
+        <ModalOverlay bg="rgba(8,47,46,0.72)" />
         <ModalContent
-          bg="#ffffff"
-          border="1px solid"
-          borderColor={colors.border}
+          position="relative"
+          bg="#FFFFFF"
+          borderRadius="10px"
+          border="2px solid"
+          borderColor={LAGOON.ink}
+          boxShadow="10px 10px 0 rgba(0,0,0,0.35)"
           mx={4}
-          overflow="hidden"
+          overflow="visible"
         >
-          <ModalBody p={0}>
+          <ModalBody p={{ base: 3, md: 4 }} position="relative">
             {selected && (
               <Box>
-                <Flex
-                  justify="space-between"
-                  align="center"
-                  px={5}
-                  py={3}
-                  bg={colors.navyGradient}
-                  borderBottom="3px solid"
-                  borderColor="#ffffff"
-                >
+                {/* corner tapes + round ink close, like the rest of the room */}
+                <DoodleTape
+                  w={66}
+                  h={18}
+                  color="rgba(255,200,87,0.85)"
+                  rotation={-6}
+                  top="-13px"
+                  left="26px"
+                  zIndex={2}
+                />
+                <DoodleTape
+                  w={66}
+                  h={18}
+                  color="rgba(14,140,134,0.55)"
+                  rotation={6}
+                  top="-13px"
+                  right="26px"
+                  zIndex={2}
+                />
+                <IconButton
+                  icon={<X size={15} />}
+                  aria-label="Close"
+                  position="absolute"
+                  top={{ base: "10px", md: "12px" }}
+                  right={{ base: "10px", md: "12px" }}
+                  w="36px"
+                  h="36px"
+                  minW="36px"
+                  borderRadius="full"
+                  border="2px solid #0B2F2F"
+                  bg={LAGOON.coral}
+                  color="#FFFFFF"
+                  boxShadow="2px 2px 0 rgba(11,47,47,0.9)"
+                  onClick={closeItem}
+                  _hover={{ bg: LAGOON.coralDeep }}
+                  zIndex={2}
+                />
+
+                <Flex justify="space-between" align="flex-start" gap={3} mb={3} pr={{ base: "46px", md: "52px" }}>
                   <Text
-                    fontSize="17px"
-                    fontWeight="700"
-                    color="#ffffff"
-                    textShadow="0 1px 1px rgba(9,24,42,0.5)"
-                    noOfLines={1}
+                    fontFamily="heading"
+                    fontSize={{ base: "17px", md: "19px" }}
+                    fontWeight="800"
+                    letterSpacing="-.02em"
+                    color={LAGOON.heading}
+                    noOfLines={2}
                   >
                     {selected.title}
                   </Text>
-                  <IconButton
-                    icon={<X size={16} />}
-                    aria-label="Close"
-                    size="sm"
-                    variant="classicWhite"
-                    minW="30px"
-                    h="30px"
-                    onClick={closeItem}
-                  />
+                  {selected.type && (
+                    <Text
+                      className="public-mono"
+                      fontSize="10px"
+                      fontWeight="600"
+                      color={LAGOON.muted}
+                      letterSpacing=".14em"
+                      textTransform="uppercase"
+                      flexShrink={0}
+                      mt="5px"
+                    >
+                      {selected.type}
+                    </Text>
+                  )}
                 </Flex>
 
-                <Box bg={colors.surface} p={{ base: 4, md: 6 }}>
+                <Box
+                  border="1.5px solid"
+                  borderColor={LAGOON.ink}
+                  borderRadius="10px"
+                  overflow="hidden"
+                  bg={LAGOON.surfaceTint}
+                >
                   <img
                     src={selected.image}
                     alt={selected.title}
                     style={{
                       display: "block",
                       width: "100%",
-                      maxHeight: "62vh",
+                      maxHeight: "56vh",
                       objectFit: "contain",
-                      margin: "0 auto",
                     }}
                   />
                 </Box>
 
-                <Box px={5} py={4}>
-                  <Text fontSize="14px" color={colors.muted} mb={2}>
-                    {[selected.type, selected.caption, selected.date].filter(Boolean).join(" · ")}
-                  </Text>
+                <Box px={{ base: 2, md: 3 }} pt={4} pb={2}>
+                  <Flex align="center" justify="space-between" gap={3} flexWrap="wrap">
+                    {selected.caption ? (
+                      <Text
+                        className="public-hand"
+                        fontSize="21px"
+                        fontWeight="600"
+                        color={LAGOON.primaryDark}
+                        lineHeight="1.2"
+                        transform="rotate(-0.6deg)"
+                        noOfLines={2}
+                      >
+                        {selected.caption}
+                      </Text>
+                    ) : (
+                      <span />
+                    )}
+                    {selected.date && (
+                      <Text className="public-mono" fontSize="11px" color={LAGOON.muted}>
+                        {selected.date}
+                      </Text>
+                    )}
+                  </Flex>
                   {selected.description && (
-                    <Text fontSize="16px" lineHeight="1.75" color={colors.text} whiteSpace="pre-line">
+                    <Text
+                      fontSize="14.5px"
+                      lineHeight="1.7"
+                      color={LAGOON.text}
+                      mt={2}
+                      whiteSpace="pre-line"
+                    >
                       {selected.description}
                     </Text>
                   )}
@@ -184,154 +258,59 @@ const Gallery = () => {
           </ModalBody>
         </ModalContent>
       </Modal>
-    </StudioSection>
+    </LagoonSection>
   );
 };
 
-const GroupHeader = ({ children, count, colors }) => (
-  <Flex align="center" gap={3} mb={6}>
-    <Box w="34px" h="6px" bg={colors.accent} flexShrink={0} />
-    <Text fontSize={{ base: "19px", md: "22px" }} fontWeight="700" color={colors.heading} flexShrink={0}>
+const GroupHeader = ({ children, count }) => (
+  <Flex align="center" gap={3} mb={6} data-reveal>
+    <DoodleStar size={22} transform="rotate(-12deg)" />
+    <Text
+      fontFamily="heading"
+      fontSize={{ base: "22px", md: "26px" }}
+      fontWeight="700"
+      letterSpacing="-.02em"
+      color={LAGOON.heading}
+      flexShrink={0}
+    >
       {children}
     </Text>
-    <Box flex="1" h="1px" bg="#c6d7e8" />
-    {typeof count === "number" && (
-      <Box
-        as="span"
-        flexShrink={0}
-        px="10px"
-        py="3px"
-        bg={colors.chipBlue}
-        border="1px solid"
-        borderColor={colors.chipBlueBorder}
-        boxShadow="inset 0 1px 0 #ffffff"
-        fontSize="12px"
-        fontWeight="700"
-        color={colors.chipBlueText}
-      >
-        {String(count).padStart(2, "0")} items
-      </Box>
-    )}
+    <Box flex="1" h="2px" mt="10px" style={{ borderTop: "2px dashed #CFE8E4" }} />
+    <Text
+      className="public-mono"
+      fontSize="13px"
+      color={LAGOON.muted}
+      flexShrink={0}
+    >
+      ({String(count).padStart(2, "0")})
+    </Text>
   </Flex>
 );
 
-const CertificateRow = ({ item, index, colors, onOpen }) => (
+const Rosette = () => (
   <Box
-    as="button"
-    type="button"
-    role="group"
-    onClick={onOpen}
-    display="grid"
-    gridTemplateColumns={{
-      base: "76px minmax(0, 1fr)",
-      md: "52px 150px minmax(0, 1fr) 190px",
-    }}
-    gap={{ base: 4, md: 6 }}
-    alignItems="center"
-    w="100%"
-    textAlign="left"
-    px={{ base: 2, md: 4 }}
-    py={{ base: 4, md: 5 }}
-    borderTop={index === 0 ? "2px solid #c6d7e8" : "none"}
-    borderBottom="1px solid #c6d7e8"
-    bg="transparent"
-    cursor="pointer"
-    transition="background-color .16s ease, box-shadow .16s ease"
-    _hover={{ bg: "#ffffff", boxShadow: `inset 4px 0 0 ${colors.accent}` }}
+    aria-hidden="true"
+    position="absolute"
+    top="-18px"
+    right="16px"
+    w="52px"
+    h="64px"
+    pointerEvents="none"
+    zIndex={2}
   >
-    {/* Index */}
-    <Text
-      display={{ base: "none", md: "block" }}
-      fontSize="13px"
-      fontWeight="700"
-      letterSpacing=".14em"
-      color={colors.muted}
-    >
-      {String(index + 1).padStart(2, "0")}
-    </Text>
-
-    {/* Thumb */}
-    <Box
-      w={{ base: "76px", md: "150px" }}
-      aspectRatio="4 / 3"
-      bg="#ffffff"
-      border="1px solid"
-      borderColor="#b9c9da"
-      boxShadow="0 2px 6px rgba(18,58,99,0.12)"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      overflow="hidden"
-      p={2}
-      transition="box-shadow .16s ease"
-      _groupHover={{ boxShadow: "0 7px 16px rgba(18,58,99,0.2)" }}
-    >
-      <img
-        src={item.image}
-        alt={item.title}
-        loading="lazy"
-        decoding="async"
-        style={{
-          display: "block",
-          maxWidth: "100%",
-          maxHeight: "100%",
-          objectFit: "contain",
-        }}
-      />
-    </Box>
-
-    {/* Title + issuer */}
-    <Box minW={0}>
-      <Text
-        fontSize={{ base: "16px", md: "19px" }}
-        fontWeight="700"
-        color={colors.heading}
-        lineHeight="1.4"
-        noOfLines={2}
-      >
-        {item.title}
-      </Text>
-      {item.caption && (
-        <Flex align="center" gap={2} mt="5px">
-          <Text fontSize="14px" color={colors.muted} noOfLines={1}>
-            {item.caption}
-          </Text>
-        </Flex>
-      )}
-    </Box>
-
-    {/* Meta */}
-    <Flex display={{ base: "none", md: "flex" }} direction="column" align="flex-end" gap={2}>
-      <Text fontSize="15px" fontWeight="700" color={colors.accent} noOfLines={1}>
-        {item.date}
-      </Text>
-      <Flex
-        align="center"
-        gap="5px"
-        px="10px"
-        py="4px"
-        bg="linear-gradient(180deg, #ffffff 0%, #edf3fa 100%)"
-        border="1px solid"
-        borderColor={colors.border}
-        boxShadow="inset 0 1px 0 #ffffff"
-        fontSize="12px"
-        fontWeight="700"
-        color="#34506e"
-        transition="background .15s ease, color .15s ease, border-color .15s ease"
-        _groupHover={{
-          bg: "linear-gradient(180deg, #2a6cb4 0%, #17497f 100%)",
-          color: "#ffffff",
-          borderColor: colors.primaryDark,
-        }}
-      >
-        <Maximize2 size={12} />
-        View
-      </Flex>
-    </Flex>
+    <svg width="52" height="64" viewBox="0 0 52 64" fill="none" style={{ display: "block" }}>
+      <rect x="11" y="32" width="9" height="21" rx="2" fill="#FF6B4A" stroke="#0B2F2F" strokeWidth="1.7" transform="rotate(9 15.5 42.5)" />
+      <rect x="32" y="32" width="9" height="21" rx="2" fill="#FFC857" stroke="#0B2F2F" strokeWidth="1.7" transform="rotate(-9 36.5 42.5)" />
+      <circle cx="26" cy="20" r="16" fill="#FFC857" stroke="#0B2F2F" strokeWidth="2.2" />
+      <circle cx="26" cy="20" r="9.5" fill="#FFFFFF" stroke="#0B2F2F" strokeWidth="1.7" />
+      <path d="M21.8 20.2l3 3.2 5.4-6.4" fill="none" stroke="#0B2F2F" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   </Box>
 );
 
-const ActivityCard = ({ item, index, colors, onOpen }) => (
+// Framed certificate: double border, dashed inner frame,
+// rosette ribbon, handwritten signing line at the bottom.
+const DiplomaCard = ({ item, index, onOpen }) => (
   <Box
     as="button"
     type="button"
@@ -339,27 +318,140 @@ const ActivityCard = ({ item, index, colors, onOpen }) => (
     onClick={onOpen}
     display="flex"
     flexDirection="column"
+    width="100%"
     textAlign="left"
-    bg="#ffffff"
-    border="1px solid"
-    borderColor="#b9c9da"
-    boxShadow="0 2px 8px rgba(18,58,99,0.1)"
-    p={0}
-    overflow="hidden"
+    position="relative"
+    bg="#FFFFFF"
+    border="2px solid"
+    borderColor={LAGOON.ink}
+    borderRadius="10px"
+    p={{ base: 5, md: 6 }}
     cursor="pointer"
-    transition="transform .16s ease, box-shadow .16s ease, border-color .16s ease"
+    transition="box-shadow .16s ease, transform .16s ease"
     _hover={{
-      transform: "translateY(-3px)",
-      boxShadow: "0 12px 24px rgba(18,58,99,0.22)",
-      borderColor: "#8fa9c4",
+      transform: "translate(-2px, -2px)",
+      boxShadow: "5px 5px 0 #0B2F2F",
     }}
   >
+    <Rosette />
+    <Box
+      aria-hidden="true"
+      position="absolute"
+      top="10px"
+      left="10px"
+      right="10px"
+      bottom="10px"
+      border="1.5px dashed rgba(11,47,47,0.45)"
+      borderRadius="5px"
+      pointerEvents="none"
+    />
+    <Box position="relative" px={{ base: 2, md: 3 }} pt={2} pb={1} display="flex" flexDirection="column" flex="1" minW={0}>
+      <Text
+        className="public-mono"
+        fontSize="10px"
+        fontWeight="600"
+        color={LAGOON.muted}
+        letterSpacing=".14em"
+        textTransform="uppercase"
+      >
+        certificate — no. {String(index + 1).padStart(2, "0")}
+      </Text>
+      <Text
+        fontFamily="heading"
+        fontSize="18px"
+        fontWeight="800"
+        lineHeight="1.3"
+        letterSpacing="-.01em"
+        color={LAGOON.heading}
+        mt={2}
+        noOfLines={2}
+      >
+        {item.title}
+      </Text>
+      {item.image && (
+        <Box
+          mt={3}
+          border="1.5px solid"
+          borderColor={LAGOON.ink}
+          borderRadius="4px"
+          overflow="hidden"
+          aspectRatio="16 / 10"
+          bg={LAGOON.surfaceTint}
+        >
+          <img
+            src={item.image}
+            alt={item.title}
+            loading="lazy"
+            decoding="async"
+            style={{
+              display: "block",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        </Box>
+      )}
+      {item.description && (
+        <Text fontSize="14px" lineHeight="1.65" color={LAGOON.text} mt={3} noOfLines={2}>
+          {item.description}
+        </Text>
+      )}
+      <Flex mt="auto" pt={4} align="flex-end" gap={3}>
+        <Box flex="1" mb="8px" borderBottom="1.5px dashed rgba(11,47,47,0.55)" />
+        <Text
+          className="public-hand"
+          fontSize="19px"
+          fontWeight="600"
+          color={LAGOON.primaryDark}
+          lineHeight="1"
+          transform="rotate(-2deg)"
+          noOfLines={1}
+        >
+          {item.caption || "certified"}
+        </Text>
+      </Flex>
+    </Box>
+  </Box>
+);
+
+// Polaroid print: thick white mat, handwritten caption,
+// hung slightly crooked with tape-worthy vibes.
+const ActivityCard = ({ item, index, onOpen }) => (
+  <Box
+    as="button"
+    type="button"
+    role="group"
+    onClick={onOpen}
+    display="flex"
+    flexDirection="column"
+    width="100%"
+    textAlign="center"
+    bg="#FFFFFF"
+    border="1.5px solid"
+    borderColor={LAGOON.ink}
+    borderRadius="14px"
+    p={{ base: 5, md: 6 }}
+    overflow="hidden"
+    cursor="pointer"
+    transition="box-shadow .16s ease, transform .16s ease"
+    _hover={{
+      transform: "translate(-2px, -2px)",
+      boxShadow: "6px 6px 0 #0B2F2F",
+    }}
+  >
+    {/* arched portrait window */}
     <Box
       position="relative"
-      aspectRatio="16 / 10"
+      aspectRatio="4 / 3.4"
+      w="86%"
+      mx="auto"
+      mb={5}
       overflow="hidden"
-      borderBottom="1px solid"
-      borderColor={colors.borderSoft}
+      border="1.5px solid"
+      borderColor={LAGOON.ink}
+      borderRadius="999px 999px 10px 10px"
+      _groupHover={{ "& img": { transform: "scale(1.05)" } }}
     >
       <img
         src={item.image}
@@ -371,77 +463,101 @@ const ActivityCard = ({ item, index, colors, onOpen }) => (
           width: "100%",
           height: "100%",
           objectFit: "cover",
+          transition: "transform .3s ease",
         }}
       />
+      <Flex
+        position="absolute"
+        inset={0}
+        align="center"
+        justify="center"
+        bg="rgba(8,47,46,0.4)"
+        opacity={0}
+        transition="opacity .2s ease"
+        _groupHover={{ opacity: 1 }}
+      >
+        <Flex
+          align="center"
+          gap="6px"
+          bg="#FFFFFF"
+          color={LAGOON.heading}
+          fontSize="12.5px"
+          fontWeight="700"
+          px="14px"
+          py="8px"
+          borderRadius="999px"
+          border="1.5px solid #0B2F2F"
+        >
+          <Maximize2 size={12} />
+          View
+        </Flex>
+      </Flex>
       <Box
         position="absolute"
-        top="10px"
-        left="10px"
+        top="9px"
+        left="9px"
         px="8px"
         py="2px"
-        bg="rgba(255,255,255,0.94)"
-        border="1px solid"
-        borderColor="rgba(18,58,99,0.25)"
-        boxShadow="0 1px 3px rgba(9,24,42,0.25)"
-        fontSize="12px"
+        bg="#FFFFFF"
+        border="1.5px solid"
+        borderColor={LAGOON.ink}
+        borderRadius="999px"
+        fontSize="11px"
         fontWeight="700"
-        color={colors.heading}
+        className="public-mono"
+        color={LAGOON.heading}
       >
         {String(index + 1).padStart(2, "0")}
       </Box>
     </Box>
-    <Box px={5} py={4} flex="1" display="flex" flexDirection="column" minW={0}>
-      {item.caption && (
-        <Text
-          as="span"
-          alignSelf="flex-start"
-          px="9px"
-          py="3px"
-          bg={colors.chipBlue}
-          border="1px solid"
-          borderColor={colors.chipBlueBorder}
-          boxShadow="inset 0 1px 0 #ffffff"
-          fontSize="13px"
-          fontWeight="700"
-          color={colors.chipBlueText}
-          noOfLines={1}
-          maxW="100%"
-        >
-          {item.caption}
-        </Text>
-      )}
-      <Text
-        fontSize="18px"
-        fontWeight="700"
-        lineHeight="1.4"
-        color={colors.heading}
-        mt={2}
-        noOfLines={2}
-      >
-        {item.title}
+
+    <Text
+      className="public-mono"
+      fontSize="10px"
+      fontWeight="600"
+      color={LAGOON.muted}
+      letterSpacing=".14em"
+      textTransform="uppercase"
+    >
+      {item.date || "memories"}
+    </Text>
+    <Text
+      fontFamily="heading"
+      fontSize="18px"
+      fontWeight="800"
+      lineHeight="1.3"
+      letterSpacing="-.01em"
+      color={LAGOON.heading}
+      mt={2}
+      noOfLines={2}
+    >
+      {item.title}
+    </Text>
+    {(item.caption || item.description) && (
+      <Text fontSize="13.5px" lineHeight="1.65" color={LAGOON.text} mt={2} noOfLines={2}>
+        {item.caption || item.description}
       </Text>
-      {item.description && (
-        <Text fontSize="15px" lineHeight="1.7" color={colors.text} mt={2} noOfLines={3}>
-          {item.description}
-        </Text>
-      )}
-      <Flex
-        mt="auto"
-        pt={3}
-        align="center"
-        justify="space-between"
-        gap={2}
-        borderTop="1px solid"
-        borderColor={colors.borderSoft}
+    )}
+    <Flex mt="auto" pt={4} justify="center">
+      <Text
+        display="inline-flex"
+        alignItems="center"
+        fontSize="13.5px"
+        fontWeight="700"
+        color={LAGOON.primaryDark}
+        _groupHover={{ color: LAGOON.coralDeep }}
+        transition="color .15s ease"
       >
-        <Text fontSize="13px" color={colors.muted} noOfLines={1}>
-          {item.date}
-        </Text>
-        <Text fontSize="13px" fontWeight="700" color={colors.accent} flexShrink={0} whiteSpace="nowrap">
-          View →
-        </Text>
-      </Flex>
-    </Box>
+        View →
+      </Text>
+    </Flex>
+
+    {/* film sprockets */}
+    <Flex justify="center" gap="7px" mt={3}>
+      {[0, 1, 2].map((dot) => (
+        <Box key={dot} w="8px" h="8px" borderRadius="2px" border="1.5px solid rgba(11,47,47,0.55)" />
+      ))}
+    </Flex>
   </Box>
 );
 

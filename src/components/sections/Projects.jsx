@@ -3,15 +3,17 @@ import {
   Box,
   Button,
   Flex,
+  Grid,
   HStack,
   Link,
   Text,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { ArrowUpRight, ChevronLeft, ChevronRight, ExternalLink, Github } from "lucide-react";
 
 import { usePortfolio } from "../../contexts/PortfolioContext";
 import { normalizeProjects } from "../../utils/projectMedia";
-import { StudioSection, useStudioColors } from "../public/studio";
+import { LAGOON, LagoonSection, DoodleTape, DoodleRocket } from "../public/studio";
 
 const PAGE_SIZE = 7;
 
@@ -26,7 +28,6 @@ const Projects = () => {
   const [filter, setFilter] = useState("ALL");
   const [page, setPage] = useState(1);
 
-  const colors = useStudioColors();
   const rootRef = useRef(null);
   const navigate = useNavigate();
 
@@ -81,153 +82,257 @@ const Projects = () => {
   };
 
   return (
-    <StudioSection id="projects" title="Projects">
+    <LagoonSection
+      id="projects"
+      eyebrow="02 / projects"
+      title="Projects"
+      description="Selected work from the past few years. Mostly backends, with some full-stack mixed in."
+      headerAside={
+        filteredProjects.length > 0 && (
+          <Text
+            className="public-mono"
+            fontSize="13px"
+            color={LAGOON.muted}
+          >
+            ({filteredProjects.length})
+          </Text>
+        )
+      }
+    >
       <Box ref={rootRef}>
-        {/* Filter buttons */}
-        <Flex gap={2} flexWrap="wrap" mb={{ base: 7, md: 9 }}>
+        {/* Filter pills */}
+        <Flex gap={2} flexWrap="wrap" mb={{ base: 8, md: 10 }} data-reveal>
           {filters.map((tag) => (
             <Button
               key={tag}
-              variant={filter === tag ? "classic" : "classicOutline"}
+              variant={filter === tag ? "lagoon" : "lagoonOutline"}
               size="sm"
-              fontSize="15px"
-              h="36px"
-              px={4}
+              fontSize="14px"
+              h="38px"
+              px={5}
               onClick={() => handleFilter(tag)}
             >
-              {tag.toUpperCase()}
+              {tag === "ALL" ? "All" : tag}
             </Button>
           ))}
         </Flex>
 
-        {/* Lead project — front page banner with caption bar */}
+        {/* Featured project — split card */}
         {featured && (
           <Box
             as="article"
-            role="group"
-            bg="#ffffff"
-            border="1px solid"
-            borderColor="#b9c9da"
-            boxShadow="0 3px 10px rgba(18,58,99,0.12)"
+            role="link"
+            tabIndex={featured.slug ? 0 : undefined}
+            aria-label={featured.title}
+            data-reveal
+            bg="#FFFFFF"
+            border="2px solid"
+            borderColor={LAGOON.ink}
+            borderRadius={{ base: "20px", md: "24px" }}
+            boxShadow="6px 6px 0 #0B2F2F"
             overflow="hidden"
             cursor={featured.slug ? "pointer" : "default"}
-            transition="box-shadow .18s ease, border-color .18s ease"
-            _hover={{ boxShadow: "0 10px 26px rgba(18,58,99,0.22)", borderColor: "#8fa9c4" }}
+            transition="box-shadow .18s ease, transform .18s ease"
+            _hover={{
+              boxShadow: "9px 9px 0 #0B2F2F",
+              transform: "translate(-3px, -3px)",
+            }}
             onClick={() => featured.slug && openProject(featured)}
+            onKeyDown={(event) => {
+              if (featured.slug && (event.key === "Enter" || event.key === " ")) {
+                event.preventDefault();
+                openProject(featured);
+              }
+            }}
             mb={{ base: 8, md: 10 }}
+            position="relative"
           >
-            <Box
-              position="relative"
-              aspectRatio={{ base: "16 / 10", md: "16 / 5" }}
-              maxH="460px"
-              bg={colors.surface}
-              overflow="hidden"
-            >
-              {featured.image ? (
-                <img
-                  src={featured.image}
-                  alt={featured.title}
-                  loading="lazy"
-                  decoding="async"
-                  style={{
-                    display: "block",
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                  }}
-                />
-              ) : (
-                <Flex w="100%" h="100%" align="center" justify="center">
-                  <Text fontSize="13px" color={colors.muted} textTransform="uppercase" letterSpacing=".05em">
-                    No preview
-                  </Text>
-                </Flex>
-              )}
-
-              <Text
-                as="span"
-                position="absolute"
-                top={4}
-                left={4}
-                bg="#ffffff"
-                color={colors.heading}
-                fontSize="12px"
-                fontWeight="700"
-                letterSpacing=".12em"
-                textTransform="uppercase"
-                px="12px"
-                py="5px"
-                border="1px solid"
-                borderColor="#b9c9da"
-                boxShadow="0 2px 5px rgba(9,24,42,0.25)"
+            <Box aria-hidden position="absolute" top="10px" left="10px" right="10px" bottom="10px" border="1.5px dashed rgba(11,47,47,0.3)" borderRadius="12px" pointerEvents="none" zIndex={1} />
+            <DoodleTape
+              w={96}
+              h={24}
+              color="rgba(255,200,87,0.85)"
+              rotation={-5}
+              top="-13px"
+              left="36px"
+              zIndex={2}
+            />
+            <Grid templateColumns={{ base: "1fr", lg: "1.05fr 0.95fr" }}>
+              {/* Visual */}
+              <Box
+                position="relative"
+                bg={LAGOON.surfaceTint}
+                minH={{ base: "260px", lg: "400px" }}
+                overflow="hidden"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                p={{ base: 6, md: 10 }}
               >
-                Featured
-              </Text>
-            </Box>
-
-            {/* Caption bar */}
-            <Box bg={colors.navyGradient} px={{ base: 5, md: 8 }} py={{ base: 5, md: 6 }}>
-              <Flex justify="space-between" align="flex-start" gap={6} flexWrap="wrap">
-                <Box minW={0} flex="1 1 420px">
-                  <Text
-                    fontSize={{ base: "21px", md: "26px" }}
-                    fontWeight="700"
-                    lineHeight="1.3"
-                    color="#ffffff"
-                    noOfLines={2}
-                    textShadow="0 1px 2px rgba(9,24,42,0.5)"
-                  >
-                    {featured.title}
-                  </Text>
-
-                  <Text fontSize="14px" color="#b9cde4" mt={2}>
-                    {[featured.role, featured.period, featured.status]
-                      .filter(Boolean)
-                      .join(" · ")}
-                  </Text>
-
-                  {featured.description && (
+                <Box
+                  aria-hidden="true"
+                  className="public-dots"
+                  position="absolute"
+                  top="24px"
+                  right="24px"
+                  w="120px"
+                  h="100px"
+                  opacity={0.6}
+                />
+                {featured.image ? (
+                  <img
+                    src={featured.image}
+                    alt={featured.title}
+                    loading="lazy"
+                    decoding="async"
+                    style={{
+                      display: "block",
+                      maxWidth: "100%",
+                      maxHeight: "100%",
+                      objectFit: "contain",
+                      borderRadius: "16px",
+                      transition: "transform .25s ease",
+                    }}
+                  />
+                ) : (
+                  <Flex w="100%" h="100%" align="center" justify="center">
                     <Text
-                      fontSize={{ base: "15px", md: "16px" }}
-                      lineHeight="1.7"
-                      color="#dbe7f5"
-                      mt={2}
-                      noOfLines={2}
+                      fontSize="13px"
+                      color={LAGOON.muted}
+                      textTransform="uppercase"
+                      letterSpacing=".08em"
                     >
-                      {featured.description}
+                      No preview
                     </Text>
-                  )}
-                </Box>
+                  </Flex>
+                )}
 
-                <Box pt={{ base: 1, md: 7 }}>
-                  <ProjectActions project={featured} colors={colors} onDark />
+                <Box position="absolute" top={4} left={4}>
+                  <Text
+                    className="public-mono"
+                    fontSize="13px"
+                    fontWeight="500"
+                    color={LAGOON.coralDeep}
+                    bg="#FFFFFF"
+                    border="1.5px solid"
+                    borderColor={LAGOON.ink}
+                    px="10px"
+                    py="4px"
+                    borderRadius="8px"
+                  >
+                    featured
+                  </Text>
                 </Box>
+              </Box>
+
+              {/* Content */}
+              <Flex direction="column" p={{ base: 6, md: 10 }}>
+                <Text
+                  fontFamily="heading"
+                  fontSize={{ base: "26px", md: "34px" }}
+                  fontWeight="700"
+                  lineHeight="1.12"
+                  letterSpacing="-.03em"
+                  color={LAGOON.heading}
+                  noOfLines={2}
+                >
+                  {featured.title}
+                </Text>
+
+                <Text
+                  fontSize="14px"
+                  fontWeight="600"
+                  color={LAGOON.muted}
+                  mt={3}
+                >
+                  {[featured.role, featured.period, featured.status]
+                    .filter(Boolean)
+                    .join(" · ")}
+                </Text>
+
+                {featured.description && (
+                  <Text
+                    fontSize={{ base: "15px", md: "16px" }}
+                    lineHeight="1.75"
+                    color={LAGOON.text}
+                    mt={4}
+                    noOfLines={3}
+                  >
+                    {featured.description}
+                  </Text>
+                )}
+
+                {featured.tags?.length > 0 && (
+                  <Text
+                    fontSize="14px"
+                    color={LAGOON.text}
+                    mt={5}
+                    noOfLines={1}
+                  >
+                    {featured.tags.join(" · ")}
+                  </Text>
+                )}
+
+                <Box flex="1" minH="16px" />
+
+                <Flex
+                  align="center"
+                  gap={4}
+                  mt={6}
+                  pt={5}
+                  borderTop="1px solid"
+                  borderColor={LAGOON.borderSoft}
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <Text
+                    display="inline-flex"
+                    alignItems="center"
+                    gap="6px"
+                    fontSize="15px"
+                    fontWeight="700"
+                    color={LAGOON.primaryDark}
+                  >
+                    View case study
+                    <ArrowUpRight size={16} />
+                  </Text>
+                  <ProjectLinks project={featured} onDark={false} />
+                </Flex>
               </Flex>
-            </Box>
+            </Grid>
           </Box>
         )}
 
-        {/* Wide horizontal grid */}
-        <Box
-          display="grid"
-          gridTemplateColumns={{ base: "1fr", md: "repeat(2, minmax(0, 1fr))" }}
+        {/* Grid */}
+        <Grid
+          templateColumns={{ base: "1fr", md: "repeat(2, minmax(0, 1fr))" }}
           gap={{ base: 6, md: 7 }}
           alignItems="stretch"
         >
-          {gridProjects.map((project) => (
+          {gridProjects.map((project, index) => (
             <ProjectCard
               key={project.id || project.slug}
               project={project}
-              colors={colors}
+              index={index}
               onOpen={() => openProject(project)}
             />
           ))}
-        </Box>
+        </Grid>
 
         {filteredProjects.length === 0 && (
-          <Box py={14} textAlign="center">
-            <Text fontSize="16px" color={colors.muted}>
-              No projects matching "{filter}"
+          <Box
+            py={12}
+            textAlign="center"
+            bg={LAGOON.surfaceAlt}
+            border="1.5px dashed"
+            borderColor={LAGOON.ink}
+            borderRadius="16px"
+          >
+            <DoodleRocket size={44} mb={4} mx="auto" />
+            <Text className="public-hand" fontSize="26px" fontWeight="600" color={LAGOON.primaryDeep} mb={1}>
+              flew away already?
+            </Text>
+            <Text fontSize="16px" color={LAGOON.muted}>
+              No projects matching &quot;{filter}&quot;, try another filter.
             </Text>
           </Box>
         )}
@@ -238,34 +343,34 @@ const Projects = () => {
             justify="center"
             align="center"
             gap={{ base: 2, md: 3 }}
-            mt={{ base: 8, md: 10 }}
-            pt={6}
-            borderTop="1px solid"
-            borderColor={colors.borderSoft}
+            mt={{ base: 10, md: 12 }}
             flexWrap="wrap"
           >
             <Button
-              variant="classicOutline"
+              variant="lagoonOutline"
               size="sm"
-              fontSize="15px"
-              h="36px"
+              w="44px"
+              h="44px"
+              px={0}
+              aria-label="Previous page"
               isDisabled={page === 1}
               onClick={() => page > 1 && goPage(page - 1)}
             >
-              ← Prev
+              <ChevronLeft size={17} />
             </Button>
 
-            <HStack spacing={1}>
+            <HStack spacing={2}>
               {Array.from({ length: totalPages }, (_, index) => index + 1).map(
                 (number) => (
                   <Button
                     key={number}
-                    variant={number === page ? "classic" : "classicOutline"}
+                    variant={number === page ? "lagoon" : "lagoonOutline"}
                     size="sm"
                     fontSize="15px"
-                    minW="36px"
-                    h="36px"
-                    px={2}
+                    w="44px"
+                    h="44px"
+                    px={0}
+                    aria-label={`Page ${number}`}
                     onClick={() => goPage(number)}
                   >
                     {number}
@@ -275,51 +380,114 @@ const Projects = () => {
             </HStack>
 
             <Button
-              variant="classicOutline"
+              variant="lagoonOutline"
               size="sm"
-              fontSize="15px"
-              h="36px"
+              w="44px"
+              h="44px"
+              px={0}
+              aria-label="Next page"
               isDisabled={page === totalPages}
               onClick={() => page < totalPages && goPage(page + 1)}
             >
-              Next →
+              <ChevronRight size={17} />
             </Button>
           </Flex>
         )}
       </Box>
-    </StudioSection>
+    </LagoonSection>
   );
 };
 
-const ProjectCard = ({ project, colors, onOpen }) => (
+const TOKEN_BANDS = [LAGOON.surfaceTint, LAGOON.bgWash, LAGOON.coralSoft, LAGOON.sunSoft];
+
+// Collectible token card: colored head band, portrait window,
+// inner collectors' frame, serial like "#001".
+const ProjectCard = ({ project, index = 0, onOpen }) => (
   <Box
     as="article"
-    role="group"
-    display={{ base: "flex", md: "grid" }}
+    role="link"
+    tabIndex={project.slug ? 0 : undefined}
+    aria-label={project.title}
+    data-reveal
+    display="flex"
     flexDirection="column"
-    gridTemplateColumns={{ md: "44% minmax(0, 1fr)" }}
-    bg="#ffffff"
-    border="1px solid"
-    borderColor="#b9c9da"
-    boxShadow="0 2px 8px rgba(18,58,99,0.1)"
+    position="relative"
+    bg="#FFFFFF"
+    border="2px solid"
+    borderColor={LAGOON.ink}
+    borderRadius="18px"
     overflow="hidden"
     cursor={project.slug ? "pointer" : "default"}
-    transition="box-shadow .18s ease, border-color .18s ease"
+    transition="box-shadow .18s ease, transform .18s ease"
+    boxShadow="5px 5px 0 #0B2F2F"
+    sx={{
+      "&:hover .token-serial": { color: LAGOON.coralDeep },
+      "&:hover .token-title": { color: LAGOON.primaryDeep },
+    }}
     _hover={{
-      boxShadow: "0 8px 18px rgba(18,58,99,0.18)",
-      borderColor: "#8fa9c4",
+      boxShadow: "7px 7px 0 #0B2F2F",
+      transform: "translate(-3px, -3px)",
     }}
     onClick={() => project.slug && onOpen()}
+    onKeyDown={(event) => {
+      if (project.slug && (event.key === "Enter" || event.key === " ")) {
+        event.preventDefault();
+        onOpen();
+      }
+    }}
   >
-    {/* Thumbnail — left half on wide screens */}
+    {/* collectors' inner frame */}
+    <Box aria-hidden position="absolute" top="7px" left="7px" right="7px" bottom="7px" border="1.5px solid rgba(11,47,47,0.28)" borderRadius="12px" pointerEvents="none" zIndex={1} />
+
+    {/* head band with the serial */}
     <Box
-      aspectRatio={{ base: "16 / 10", md: "auto" }}
-      minH={{ md: "230px" }}
-      bg={colors.surface}
+      position="relative"
+      bg={TOKEN_BANDS[index % TOKEN_BANDS.length]}
+      px={{ base: 5, md: 6 }}
+      py={{ base: 4, md: 5 }}
+      borderBottom="2px solid #0B2F2F"
+    >
+      <Flex align="center" justify="space-between" gap={3} mb={2}>
+        <Text
+          className="public-mono token-serial"
+          fontSize="11px"
+          fontWeight="600"
+          color={LAGOON.muted}
+          letterSpacing=".1em"
+          transition="color .15s ease"
+        >
+          {"#"}{String(index + 1).padStart(3, "0")}
+        </Text>
+        <Box onClick={(event) => event.stopPropagation()}>
+          <ProjectLinks project={project} />
+        </Box>
+      </Flex>
+      <Text
+        fontFamily="heading"
+        fontSize={{ base: "20px", md: "23px" }}
+        fontWeight="800"
+        lineHeight="1.2"
+        letterSpacing="-.02em"
+        color={LAGOON.heading}
+        noOfLines={2}
+        className="token-title"
+        transition="color .15s ease"
+      >
+        {project.title}
+      </Text>
+    </Box>
+
+    {/* portrait window */}
+    <Box
+      position="relative"
+      aspectRatio="16 / 10"
+      bg="#FFFFFF"
+      borderBottom="2px solid #0B2F2F"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      p={5}
       overflow="hidden"
-      borderBottom={{ base: "1px solid", md: "none" }}
-      borderRight={{ base: "none", md: "1px solid" }}
-      borderColor={colors.borderSoft}
     >
       {project.image ? (
         <img
@@ -329,82 +497,132 @@ const ProjectCard = ({ project, colors, onOpen }) => (
           decoding="async"
           style={{
             display: "block",
-            width: "100%",
-            height: "100%",
+            maxWidth: "100%",
+            maxHeight: "100%",
             objectFit: "contain",
+            transition: "transform .25s ease",
           }}
         />
       ) : (
-        <Flex w="100%" h="100%" minH={{ base: "180px", md: "230px" }} align="center" justify="center">
-          <Text fontSize="12px" color={colors.muted} textTransform="uppercase" letterSpacing=".05em">
-            No preview
-          </Text>
-        </Flex>
+        <Text
+          fontSize="12px"
+          color={LAGOON.muted}
+          textTransform="uppercase"
+          letterSpacing=".08em"
+        >
+          No preview
+        </Text>
       )}
     </Box>
 
-    {/* Content */}
-    <Flex flex="1" direction="column" p={{ base: 5, md: 6 }}>
-      <Text
-        fontSize={{ base: "18px", md: "20px" }}
-        fontWeight="700"
-        lineHeight="1.35"
-        color={colors.heading}
-        noOfLines={2}
-        transition="color .15s ease"
-        _groupHover={{ color: colors.accent }}
-      >
-        {project.title}
-      </Text>
-
-      {(project.period || project.tags?.length > 0) && (
-        <Text fontSize="14px" color={colors.muted} mt={1} noOfLines={1}>
-          {[project.period, project.tags?.slice(0, 3).join(", ")]
-            .filter(Boolean)
-            .join(" · ")}
-        </Text>
-      )}
-
+    {/* caption plate */}
+    <Flex flex="1" direction="column" px={{ base: 5, md: 6 }} py={{ base: 4, md: 5 }}>
       {project.description && (
-        <Text fontSize="16px" lineHeight="1.7" color={colors.text} mt={3} noOfLines={3}>
+        <Text
+          fontSize="15px"
+          lineHeight="1.7"
+          color={LAGOON.text}
+          noOfLines={3}
+        >
           {project.description}
         </Text>
       )}
 
-      <Box flex="1" minH="10px" />
+      {project.tags?.length > 0 && (
+        <Text className="public-mono" fontSize="11px" fontWeight="500" color={LAGOON.muted} mt={3} noOfLines={1}>
+          {project.tags.slice(0, 4).join(" / ")}
+        </Text>
+      )}
 
-      <ProjectActions project={project} colors={colors} />
+      <Flex flex="1" minH="10px" />
+
+      {(project.period || project.slug) && (
+        <Flex
+          align="center"
+          justify="space-between"
+          gap={3}
+          pt={4}
+          borderTop="1.5px dashed rgba(11,47,47,0.3)"
+        >
+          <Text className="public-mono" fontSize="11px" fontWeight="500" color={LAGOON.muted} noOfLines={1}>
+            {project.period || ""}
+          </Text>
+          {project.slug && (
+            <Text
+              display="inline-flex"
+              alignItems="center"
+              gap="4px"
+              fontSize="14px"
+              fontWeight="700"
+              color={LAGOON.primaryDeep}
+              flexShrink={0}
+            >
+              View project
+              <ArrowUpRight size={15} />
+            </Text>
+          )}
+        </Flex>
+      )}
     </Flex>
   </Box>
 );
 
-const ProjectActions = ({ project, colors, onDark = false }) => {
+const ProjectLinks = ({ project }) => {
   if (!project.github && !project.website) {
     return null;
   }
 
-  const linkProps = onDark
-    ? {
-      color: "#ffffff",
-      textShadow: "0 1px 1px rgba(9,24,42,0.5)",
-      _hover: { color: "#c9dcf1", textDecoration: "none" },
-    }
-    : {
-      color: colors.accent,
-      _hover: { color: colors.primaryDark, textDecoration: "none" },
-    };
-
   return (
-    <HStack spacing={4} mt={3} flexWrap="wrap" onClick={(event) => event.stopPropagation()}>
+    <HStack spacing={3} flexShrink={0}>
       {project.github && (
-        <Link href={project.github} isExternal fontSize="15px" fontWeight="600" {...linkProps}>
-          Source Code
+        <Link
+          href={project.github}
+          isExternal
+          aria-label={`${project.title} source code`}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          w="34px"
+          h="34px"
+          borderRadius="999px"
+          border="1.5px solid"
+          borderColor={LAGOON.ink}
+          color={LAGOON.text}
+          transition="all .15s ease"
+          _hover={{
+            bg: LAGOON.heading,
+            color: "#FFFFFF",
+            borderColor: LAGOON.heading,
+            textDecoration: "none",
+          }}
+        >
+          <Github size={15} />
         </Link>
       )}
 
       {project.website && (
-        <Link href={project.website} isExternal fontSize="15px" fontWeight="600" {...linkProps}>
-          Live Demo
+        <Link
+          href={project.website}
+          isExternal
+          aria-label={`${project.title} live demo`}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          w="34px"
+          h="34px"
+          borderRadius="999px"
+          border="1.5px solid"
+          borderColor={LAGOON.ink}
+          color={LAGOON.text}
+          transition="all .15s ease"
+          _hover={{
+            bg: LAGOON.heading,
+            color: "#FFFFFF",
+            borderColor: LAGOON.heading,
+            textDecoration: "none",
+          }}
+        >
+          <ExternalLink size={15} />
         </Link>
       )}
     </HStack>

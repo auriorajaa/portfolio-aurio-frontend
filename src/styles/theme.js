@@ -120,8 +120,10 @@ const theme = extendTheme({
   },
 
   fonts: {
-    heading: "'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
-    body: "'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+    heading:
+      "var(--font-display, 'Open Sans'), 'Helvetica Neue', Helvetica, Arial, sans-serif",
+    body:
+      "var(--font-body, 'Open Sans'), 'Helvetica Neue', Helvetica, Arial, sans-serif",
     mono: "'Lucida Console', 'Courier New', monospace",
   },
 
@@ -139,7 +141,7 @@ const theme = extendTheme({
         fontSize: "18px",
         lineHeight: "1.65",
         fontFamily:
-          "'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          "var(--font-body, 'Open Sans'), 'Helvetica Neue', Helvetica, Arial, sans-serif",
         letterSpacing: "0",
         overflowX: "hidden",
         backgroundImage: "none",
@@ -198,7 +200,7 @@ const theme = extendTheme({
         fontWeight: "600",
         fontSize: "15px",
         fontFamily:
-          "'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          "var(--font-body, 'Open Sans'), 'Helvetica Neue', Helvetica, Arial, sans-serif",
         borderRadius: "999px",
         transition:
           "background-color .16s ease, border-color .16s ease, color .16s ease, transform .16s ease",
@@ -241,6 +243,163 @@ const theme = extendTheme({
             textDecoration: "none",
           },
         }),
+
+        // Public Lagoon — flat print-style buttons: bold text, ink outline,
+        // solid offset shadow (riso/zine feel). No glows, no soft blur.
+        lagoon: {
+          bg: "#0B4F4C",
+          color: "#FFFFFF",
+          border: "2px solid #0B2F2F",
+          borderRadius: "10px",
+          fontWeight: "700",
+          fontSize: "15px",
+          textShadow: "none",
+          boxShadow: "3px 3px 0 #0B2F2F",
+          _hover: {
+            bg: "#0E6F69",
+            color: "#FFFFFF",
+            textDecoration: "none",
+            transform: "translate(-2px, -2px)",
+            boxShadow: "5px 5px 0 #0B2F2F",
+          },
+          _active: {
+            bg: "#093E3C",
+            transform: "translate(0, 0)",
+            boxShadow: "1px 1px 0 #0B2F2F",
+          },
+          _focusVisible: {
+            boxShadow: "3px 3px 0 #0B2F2F, 0 0 0 3px rgba(14,140,134,0.35)",
+          },
+        },
+
+        // Public Lagoon — coral call-to-action (white text, deep coral bg)
+        lagoonCoral: {
+          bg: "#C94224",
+          color: "#FFFFFF",
+          border: "2px solid #0B2F2F",
+          borderRadius: "10px",
+          fontWeight: "700",
+          fontSize: "15px",
+          textShadow: "none",
+          boxShadow: "3px 3px 0 #0B2F2F",
+          _hover: {
+            bg: "#A83518",
+            color: "#FFFFFF",
+            textDecoration: "none",
+            transform: "translate(-2px, -2px)",
+            boxShadow: "5px 5px 0 #0B2F2F",
+          },
+          _active: {
+            bg: "#933010",
+            transform: "translate(0, 0)",
+            boxShadow: "1px 1px 0 #0B2F2F",
+          },
+          _focusVisible: {
+            boxShadow: "3px 3px 0 #0B2F2F, 0 0 0 3px rgba(255,107,74,0.35)",
+          },
+        },
+
+        // Public Lagoon — quiet secondary on light surfaces
+        lagoonOutline: {
+          bg: "#FFFFFF",
+          color: "#0B2F2F",
+          border: "2px solid #0B2F2F",
+          borderRadius: "10px",
+          fontWeight: "700",
+          fontSize: "15px",
+          textShadow: "none",
+          boxShadow: "3px 3px 0 #0B2F2F",
+          _hover: {
+            bg: "#EAF7F4",
+            color: "#0B2F2F",
+            textDecoration: "none",
+            transform: "translate(-2px, -2px)",
+            boxShadow: "5px 5px 0 #0B2F2F",
+          },
+          _active: {
+            bg: "#DFF3EF",
+            transform: "translate(0, 0)",
+            boxShadow: "1px 1px 0 #0B2F2F",
+          },
+          _focusVisible: {
+            boxShadow: "3px 3px 0 #0B2F2F, 0 0 0 3px rgba(14,140,134,0.28)",
+          },
+        },
+
+        // Public Lagoon — aqua-tinted soft button
+        lagoonSoft: {
+          bg: "#DFF3EF",
+          color: "#0B2F2F",
+          border: "2px solid #0B2F2F",
+          borderRadius: "10px",
+          fontWeight: "700",
+          fontSize: "15px",
+          textShadow: "none",
+          boxShadow: "none",
+          _hover: {
+            bg: "#CFEDE8",
+            color: "#0B2F2F",
+            textDecoration: "none",
+            transform: "translate(-2px, -2px)",
+            boxShadow: "3px 3px 0 #0B2F2F",
+          },
+          _active: {
+            transform: "translate(0, 0)",
+            boxShadow: "none",
+          },
+          _focusVisible: {
+            boxShadow: "0 0 0 3px rgba(14,140,134,0.28)",
+          },
+        },
+
+        // Public Lagoon — white button for deep teal panels
+        lagoonWhite: {
+          bg: "#FFFFFF",
+          color: "#0B2F2F",
+          border: "2px solid #0B2F2F",
+          borderRadius: "10px",
+          fontWeight: "700",
+          fontSize: "15px",
+          textShadow: "none",
+          boxShadow: "3px 3px 0 rgba(0,0,0,0.45)",
+          _hover: {
+            bg: "#EAF7F4",
+            color: "#0B2F2F",
+            textDecoration: "none",
+            transform: "translate(-2px, -2px)",
+            boxShadow: "5px 5px 0 rgba(0,0,0,0.45)",
+          },
+          _active: {
+            transform: "translate(0, 0)",
+            boxShadow: "1px 1px 0 rgba(0,0,0,0.45)",
+          },
+          _focusVisible: {
+            boxShadow: "0 0 0 3px rgba(255,255,255,0.42)",
+          },
+        },
+
+        // Public Lagoon — ghost button on deep teal panels
+        lagoonGlass: {
+          bg: "transparent",
+          color: "#FFFFFF",
+          border: "2px solid rgba(255,255,255,0.85)",
+          borderRadius: "10px",
+          fontWeight: "700",
+          fontSize: "15px",
+          textShadow: "none",
+          boxShadow: "none",
+          _hover: {
+            bg: "rgba(255,255,255,0.14)",
+            color: "#FFFFFF",
+            textDecoration: "none",
+          },
+          _active: {
+            bg: "rgba(255,255,255,0.22)",
+          },
+          _focusVisible: {
+            boxShadow: "0 0 0 3px rgba(255,255,255,0.35)",
+          },
+        },
 
         // Public classic (2015) — glossy "rock" primary button
         classic: {
@@ -463,7 +622,7 @@ const theme = extendTheme({
         fontWeight: "bold",
         color: mode("#1a1a1a", "#eaeaea")(props),
         fontFamily:
-          "'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          "var(--font-body, 'Open Sans'), 'Helvetica Neue', Helvetica, Arial, sans-serif",
         mb: 1,
       }),
     },
@@ -496,7 +655,7 @@ const theme = extendTheme({
     Heading: {
       baseStyle: {
         fontFamily:
-          "'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          "var(--font-display, 'Open Sans'), 'Helvetica Neue', Helvetica, Arial, sans-serif",
         fontWeight: "bold",
         letterSpacing: "0",
       },
@@ -505,7 +664,7 @@ const theme = extendTheme({
     Text: {
       baseStyle: {
         fontFamily:
-          "'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          "var(--font-body, 'Open Sans'), 'Helvetica Neue', Helvetica, Arial, sans-serif",
         letterSpacing: "0",
       },
     },

@@ -1,11 +1,29 @@
 // src/pages/ArticlePage.jsx
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { Box, Button, Center, Container, Flex, Grid, Link, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Container,
+  Flex,
+  Grid,
+  Link,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { ArrowLeft, Facebook, Link2, Linkedin, Twitter } from "lucide-react";
 import Header from "../components/layout/Header";
-import { StudioPill, useStudioColors } from "../components/public/studio";
+import Layout from "../components/layout/Layout";
+import {
+  PublicShell,
+  usePublicColors,
+  DoodleHeart,
+  DoodlePaperPlane,
+  DoodleTape,
+} from "../components/public/studio";
+import { gsap, prefersReducedMotion } from "../utils/gsap";
 import { getArticleBySlug, getAllArticles } from "../services/articleService";
 import {
   DEFAULT_AUTHOR,
@@ -29,13 +47,29 @@ const withTimeout = (promise, ms = 4500) =>
 const ArticlePage = ({ isDownloading, handleDownload }) => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const colors = useStudioColors();
+  const colors = usePublicColors();
   const [article, setArticle] = useState(null);
   const [relatedArticles, setRelatedArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const pageRef = useRef(null);
+  const articleId = article?.id;
 
   const shareUrl = absoluteUrl(`/article/${slug}`);
+
+  // Cover image settles in when the article lands.
+  useLayoutEffect(() => {
+    const scope = pageRef.current;
+    if (!scope || !articleId || prefersReducedMotion()) return undefined;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        "[data-page-reveal]",
+        { y: 26, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.7, ease: "power3.out", stagger: 0.12 }
+      );
+    }, scope);
+    return () => ctx.revert();
+  }, [articleId]);
 
   const loadArticle = useCallback(async () => {
     try {
@@ -76,12 +110,29 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
   }, [slug, loadArticle]);
 
   const handleCopyLink = async () => {
+    const flashCopied = () => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2200);
+    };
     try {
       await navigator.clipboard.writeText(shareUrl);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      flashCopied();
     } catch {
-      window.prompt("Copy link:", shareUrl);
+      // clipboard API blocked (http or permission) — classic execCommand fallback
+      try {
+        const helper = document.createElement("textarea");
+        helper.value = shareUrl;
+        helper.setAttribute("readonly", "");
+        helper.style.position = "fixed";
+        helper.style.opacity = "0";
+        document.body.appendChild(helper);
+        helper.select();
+        document.execCommand("copy");
+        document.body.removeChild(helper);
+        flashCopied();
+      } catch {
+        window.prompt("Copy link, then close:", shareUrl);
+      }
     }
   };
 
@@ -117,20 +168,20 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
 
   if (loading) {
     return (
-      <Box minH="100vh" bg="#ffffff">
+      <PublicShell bg="#FFFFFF">
         <Header isDownloading={isDownloading} handleDownload={handleDownload} />
         <Center minH="50vh">
           <Text fontSize="15px" color={colors.muted}>
-            Loading article…
+            Loading article...
           </Text>
         </Center>
-      </Box>
+      </PublicShell>
     );
   }
 
   if (!article) {
     return (
-      <Box minH="100vh" bg="#ffffff" color={colors.text}>
+      <PublicShell bg="#FFFFFF">
         <Helmet>
           <title>{articleTitle}</title>
           <link rel="canonical" href={shareUrl} />
@@ -140,22 +191,28 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
         <Header isDownloading={isDownloading} handleDownload={handleDownload} />
         <Center minH="60vh" px={4}>
           <VStack spacing={4} textAlign="center">
-            <Text fontSize={{ base: "24px", md: "30px" }} fontWeight="700" color={colors.heading}>
+            <Text
+              fontFamily="heading"
+              fontSize={{ base: "26px", md: "32px" }}
+              fontWeight="700"
+              letterSpacing="-.03em"
+              color={colors.heading}
+            >
               Article not found
             </Text>
             <Text fontSize="16px" color={colors.muted}>
               This piece may have moved or been unpublished.
             </Text>
             <Button
-              variant="classic"
-              leftIcon={<ArrowLeft size={14} />}
+              variant="lagoon"
+              leftIcon={<ArrowLeft size={15} />}
               onClick={() => navigate("/")}
             >
               Back to Portfolio
             </Button>
           </VStack>
         </Center>
-      </Box>
+      </PublicShell>
     );
   }
 
@@ -167,7 +224,8 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
   ]);
 
   return (
-    <Box minH="100vh" bg="#ffffff" color={colors.text}>
+    <Box ref={pageRef}>
+      <Layout isDownloading={isDownloading} handleDownload={handleDownload}>
       <Helmet>
         <title>{articleTitle}</title>
         <link rel="canonical" href={shareUrl} />
@@ -199,122 +257,263 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
         <script type="application/ld+json">{JSON.stringify(breadcrumbs)}</script>
       </Helmet>
 
-      <Header isDownloading={isDownloading} handleDownload={handleDownload} />
-
-      <Container maxW="1400px" px={{ base: 5, md: 10 }} pt={{ base: 8, md: 10 }} pb={4}>
+      <Container maxW="1200px" px={{ base: 5, md: 8, lg: 10 }} pt={{ base: 8, md: 12 }} pb={4}>
         <Button
-          variant="classicOutline"
+          variant="lagoonOutline"
           size="sm"
-          leftIcon={<ArrowLeft size={14} />}
+          leftIcon={<ArrowLeft size={15} />}
           onClick={() => navigate("/", { state: { scrollTo: "articles" } })}
-          mb={6}
+          mb={7}
         >
           All Writing
         </Button>
 
-        <Flex gap={2} flexWrap="wrap" mb={3}>
-          <StudioPill>{article.categoryLabel}</StudioPill>
-          {article.featured && <StudioPill>Featured</StudioPill>}
+        <Flex align="center" gap={3} flexWrap="wrap" mb={4}>
+          <Flex align="center" gap={2}>
+            <DoodlePaperPlane size={40} transform="rotate(-8deg)" />
+            <Text
+              className="public-hand"
+              fontSize={{ base: "26px", md: "30px" }}
+              fontWeight="600"
+              color={colors.coralDeep}
+              transform="rotate(-1.5deg)"
+            >
+              a little something I wrote
+            </Text>
+          </Flex>
         </Flex>
 
         <Text
           as="h1"
-          fontSize={{ base: "30px", md: "42px" }}
+          fontFamily="heading"
+          fontSize={{ base: "34px", md: "52px" }}
           fontWeight="700"
-          lineHeight="1.25"
+          lineHeight="1.05"
+          letterSpacing="-.04em"
           color={colors.heading}
-          mb={4}
+          maxW="900px"
+          mb={5}
         >
           {article.title}
         </Text>
 
+        <Flex align="center" gap={3} flexWrap="wrap" mb={6}>
+          {article.categoryLabel && (
+            <Box
+              className="public-mono"
+              fontSize="12px"
+              fontWeight="600"
+              color={colors.primaryDark}
+              border="1.5px dashed rgba(11,47,47,0.55)"
+              borderRadius="6px"
+              px={3}
+              py="5px"
+              transform="rotate(-2deg)"
+              bg="#FFFFFF"
+            >
+              {article.categoryLabel}
+            </Box>
+          )}
+          {article.featured && (
+            <Text
+              className="public-mono"
+              fontSize="12px"
+              fontWeight="500"
+              color={colors.coralDeep}
+            >
+              featured
+            </Text>
+          )}
+        </Flex>
+
         {article.excerpt && (
-          <Text fontSize={{ base: "17px", md: "20px" }} lineHeight="1.7" color={colors.muted} maxW="880px" mb={5}>
+          <Text
+            fontSize={{ base: "17px", md: "19px" }}
+            lineHeight="1.75"
+            color={colors.muted}
+            maxW="820px"
+            mb={6}
+          >
             {article.excerpt}
           </Text>
         )}
 
-        <Text fontSize="16px" color={colors.muted} borderTop="1px solid" borderColor={colors.borderSoft} pt={4} pb={2}>
-          By <Text as="span" fontWeight="700" color={colors.text}>{article.author}</Text> ·{" "}
-          {formatDate(article.date)}
-          {article.readTime ? ` · ${article.readTime}` : ""}
-        </Text>
+        <Flex
+          align="center"
+          gap={3}
+          flexWrap="wrap"
+          borderTop="1px solid"
+          borderColor={colors.borderSoft}
+          pt={5}
+          pb={6}
+        >
+          <Box
+            w="40px"
+            h="40px"
+            borderRadius="999px"
+            overflow="hidden"
+            border="1.5px solid"
+            borderColor={colors.ink}
+            flexShrink={0}
+          >
+            <img
+              src="/profilepic.png"
+              alt={article.author || DEFAULT_AUTHOR}
+              style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          </Box>
+          <Box>
+            <Text fontSize="15px" fontWeight="700" color={colors.heading}>
+              {article.author || DEFAULT_AUTHOR}
+            </Text>
+            <Text fontSize="13px" color={colors.muted}>
+              {[formatDate(article.date), article.readTime].filter(Boolean).join(" · ")}
+            </Text>
+          </Box>
+        </Flex>
 
         {article.image && (
-          <Box mt={4} border="1px solid" borderColor={colors.border} borderRadius="4px" overflow="hidden" bg={colors.surface}>
+          <Box
+            mt={2}
+            border="2px solid"
+            borderColor={colors.ink}
+            borderRadius="14px"
+            overflow="hidden"
+            bg={colors.surfaceTint}
+            boxShadow="6px 6px 0 rgba(11,47,47,0.9)"
+            data-page-reveal
+            position="relative"
+          >
+            <DoodleTape
+              w={92}
+              h={22}
+              color="rgba(255,200,87,0.85)"
+              rotation={-4}
+              top="-12px"
+              left="44px"
+              ml={-46}
+              zIndex={2}
+            />
+            <DoodleTape
+              w={72}
+              h={20}
+              color="rgba(255,107,74,0.75)"
+              rotation={4}
+              bottom="-10px"
+              right="40px"
+              ml={-36}
+              zIndex={2}
+            />
             <img
               src={article.image}
               alt={article.title}
               loading="lazy"
               decoding="async"
-              style={{ display: "block", width: "100%", height: "auto" }}
+              style={{
+                display: "block",
+                width: "100%",
+                maxHeight: "520px",
+                objectFit: "cover",
+              }}
             />
           </Box>
         )}
       </Container>
 
       {/* Body + Sidebar */}
-      <Container maxW="1400px" px={{ base: 5, md: 10 }} pb={{ base: 12, md: 16 }}>
+      <Container maxW="1200px" px={{ base: 5, md: 8, lg: 10 }} pb={{ base: 12, md: 20 }}>
         <Grid
-          templateColumns={{ base: "1fr", lg: "minmax(0, 1fr) 250px" }}
-          gap={{ base: 10, lg: 12 }}
+          templateColumns={{ base: "1fr", lg: "minmax(0, 1fr) 290px" }}
+          gap={{ base: 10, lg: 14 }}
         >
           {/* Article body */}
           <Box
             className="article-body"
-            maxW="940px"
+            maxW="780px"
             sx={{
               "& p": {
                 mb: "1.4em",
                 lineHeight: "1.85",
-                fontSize: { base: "18px", md: "19px" },
+                fontSize: { base: "17px", md: "18px" },
                 color: colors.text,
               },
               "& h1, & h2, & h3, & h4": {
+                fontFamily: "var(--font-display, 'Open Sans'), 'Helvetica Neue', Helvetica, Arial, sans-serif",
                 fontWeight: "700",
-                lineHeight: "1.3",
+                lineHeight: "1.25",
+                letterSpacing: "-.025em",
                 mt: "1.8em",
                 mb: "0.6em",
                 color: colors.heading,
               },
-              "& h1": { fontSize: { base: "28px", md: "36px" } },
-              "& h2": { fontSize: { base: "24px", md: "28px" } },
+              "& h1": { fontSize: { base: "28px", md: "34px" } },
+              "& h2": { fontSize: { base: "25px", md: "29px" } },
               "& h3": { fontSize: { base: "21px", md: "24px" } },
               "& h4": { fontSize: { base: "18px", md: "19px" } },
               "& blockquote": {
-                my: 6,
-                pl: 4,
-                borderLeft: "4px solid",
-                borderColor: colors.border,
-                fontSize: { base: "18px", md: "19px" },
-                lineHeight: "1.7",
+                my: 7,
+                pl: 6,
+                pr: 5,
+                py: 5,
+                borderLeft: "3px solid",
+                borderColor: colors.coral,
+                bg: colors.surfaceAlt,
+                borderRadius: "0 18px 18px 0",
+                fontSize: { base: "17px", md: "18px" },
+                lineHeight: "1.75",
+                color: colors.primaryDark,
                 fontStyle: "italic",
-                color: "#555555",
               },
               "& ul, & ol": { pl: 6, mb: "1.4em" },
-              "& li": { mb: "0.4em", fontSize: { base: "18px", md: "19px" }, lineHeight: "1.75" },
-              "& img": { maxW: "100%", height: "auto", my: 6, display: "block" },
-              "& a": { color: colors.accent, textDecoration: "underline" },
+              "& li": {
+                mb: "0.5em",
+                fontSize: { base: "17px", md: "18px" },
+                lineHeight: "1.75",
+                color: colors.text,
+              },
+              "& li::marker": { color: colors.primary },
+              "& img": {
+                maxW: "100%",
+                height: "auto",
+                my: 7,
+                display: "block",
+                borderRadius: "14px",
+              },
+              "& a": {
+                color: colors.primary,
+                textDecoration: "underline",
+                textDecorationColor: "rgba(14,140,134,0.4)",
+                textUnderlineOffset: "3px",
+                _hover: { color: colors.coralDeep },
+              },
               "& pre": {
-                bg: "#f5f5f5",
-                border: "1px solid",
-                borderColor: colors.border,
-                borderRadius: "4px",
-                color: "#333333",
-                p: 4,
+                bg: "#082F2E",
+                border: "none",
+                borderRadius: "18px",
+                color: "#E8F8F5",
+                p: 5,
                 overflowX: "auto",
                 mb: "1.4em",
                 fontSize: "14px",
                 lineHeight: "1.7",
+                fontFamily: "'IBM Plex Mono', monospace",
               },
               "& code": {
-                fontFamily: "monospace",
-                bg: "#f2f2f2",
-                border: "1px solid #e5e5e5",
-                borderRadius: "3px",
-                px: "4px",
-                py: "1px",
-                fontSize: "0.88em",
+                fontFamily: "'IBM Plex Mono', monospace",
+                bg: colors.surfaceTint,
+                border: "1px solid",
+                borderColor: colors.chipBorder,
+                borderRadius: "6px",
+                px: "6px",
+                py: "2px",
+                fontSize: "0.86em",
+                color: colors.primaryDark,
+              },
+              "& pre code": {
+                bg: "transparent",
+                border: "none",
+                color: "inherit",
+                p: 0,
               },
               "& hr": {
                 my: 8,
@@ -328,13 +527,26 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
 
           {/* Sidebar */}
           <Box>
-            <Box position={{ lg: "sticky" }} top={{ lg: "88px" }}>
+            <Box position={{ lg: "sticky" }} top={{ lg: "110px" }}>
               {/* Share */}
-              <Box borderTop="2px solid" borderColor={colors.border} pt={4} mb={7}>
-                <Text fontSize="15px" fontWeight="700" color={colors.heading} mb={2}>
+              <Box
+                bg={colors.surfaceAlt}
+                border="1.5px solid"
+                borderColor={colors.ink}
+                borderRadius="12px"
+                p={5}
+                mb={6}
+              >
+                <Text
+                  fontFamily="heading"
+                  fontSize="16px"
+                  fontWeight="700"
+                  color={colors.heading}
+                  mb={3}
+                >
                   Share this article
                 </Text>
-                <VStack align="stretch" spacing={1}>
+                <VStack align="stretch" spacing={2}>
                   {shareLinks.map((s) => (
                     <Link
                       key={s.label}
@@ -343,10 +555,22 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                       display="inline-flex"
                       alignItems="center"
                       gap={2}
-                      fontSize="16px"
-                      color={colors.accent}
-                      py="3px"
-                      _hover={{ color: colors.primaryDark }}
+                      fontSize="15px"
+                      fontWeight="600"
+                      color={colors.text}
+                      px={4}
+                      py="9px"
+                      borderRadius="12px"
+                      border="1px solid"
+                      borderColor={colors.borderSoft}
+                      bg="#FFFFFF"
+                      transition="all .15s ease"
+                      _hover={{
+                        color: colors.primaryDark,
+                        borderColor: colors.chipBorder,
+                        bg: colors.surfaceTint,
+                        textDecoration: "none",
+                      }}
                     >
                       {s.icon} {s.label}
                     </Link>
@@ -358,41 +582,104 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                     display="inline-flex"
                     alignItems="center"
                     gap={2}
-                    fontSize="16px"
-                    color={copied ? colors.primaryDark : colors.accent}
-                    py="3px"
-                    bg="transparent"
-                    border="none"
-                    p={0}
+                    fontSize="15px"
+                    fontWeight="600"
+                    color={colors.text}
+                    px={4}
+                    py="9px"
+                    borderRadius="12px"
+                    border="1px solid"
+                    borderColor={copied ? colors.primaryDeep : colors.borderSoft}
+                    bg={copied ? "#FFC857" : "#FFFFFF"}
+                    boxShadow={copied ? "2px 2px 0 rgba(11,47,47,0.85)" : "none"}
                     cursor="pointer"
                     textAlign="left"
-                    _hover={{ color: colors.primaryDark, textDecoration: "underline" }}
+                    transition="all .15s ease"
+                    _hover={{
+                      color: colors.primaryDark,
+                      borderColor: colors.chipBorder,
+                      bg: colors.surfaceTint,
+                    }}
                   >
                     <Link2 size={14} /> {copied ? "Link copied!" : "Copy link"}
                   </Box>
                 </VStack>
               </Box>
 
-              {/* Tags */}
+              {/* Topics: a teal post-it */}
               {article.tags?.length > 0 && (
-                <Box mb={7}>
-                  <Text fontSize="15px" fontWeight="700" color={colors.heading} mb={2}>
-                    Topics
+                <Box
+                  bg="#E3F4F1"
+                  border="1.5px solid"
+                  borderColor="#0B2F2F"
+                  borderRadius="4px"
+                  boxShadow="3px 3px 0 rgba(11,47,47,0.4)"
+                  p={5}
+                  mb={7}
+                  transform="rotate(-1.2deg)"
+                  position="relative"
+                >
+                  <Box
+                    aria-hidden="true"
+                    position="absolute"
+                    top="-10px"
+                    left="26px"
+                    w="52px"
+                    h="12px"
+                    borderRadius="2px"
+                    bg="rgba(14,140,134,0.55)"
+                    transform="rotate(4deg)"
+                  />
+                  <Text
+                    className="public-hand"
+                    fontSize="26px"
+                    fontWeight="600"
+                    color="#0B2F2F"
+                    mb={3}
+                    transform="rotate(-1deg)"
+                  >
+                    the topics
                   </Text>
-                  <Flex gap={2} flexWrap="wrap">
-                    {article.tags.map((tag) => (
-                      <StudioPill key={tag}>{tag}</StudioPill>
-                    ))}
-                  </Flex>
+                  <Text fontSize="14px" lineHeight="1.9" color={colors.text}>
+                    {article.tags.join(" · ")}
+                  </Text>
                 </Box>
               )}
 
-              {/* Related */}
+              {/* Related reads: a ticket stub with a punched edge */}
               {relatedArticles.length > 0 && (
-                <Box borderTop="2px solid" borderColor={colors.border} pt={4}>
-                  <Text fontSize="14px" fontWeight="700" color={colors.heading} mb={3}>
-                    More to read
-                  </Text>
+                <Box
+                  bg="#FFFFFF"
+                  border="2px solid"
+                  borderColor="#0B2F2F"
+                  borderRadius="8px"
+                  boxShadow="3px 3px 0 rgba(11,47,47,0.85)"
+                  p={5}
+                  pl={7}
+                  position="relative"
+                  sx={{
+                    "&::before": {
+                      content: "' '",
+                      position: "absolute",
+                      top: "10px",
+                      bottom: "10px",
+                      left: "12px",
+                      width: "0",
+                      borderLeft: "2px dashed rgba(11,47,47,0.4)",
+                    },
+                  }}
+                >
+                  <Box mb={3} pl={4}>
+                    <Text
+                      className="public-hand"
+                      fontSize="26px"
+                      fontWeight="600"
+                      color="#0B2F2F"
+                      transform="rotate(-1deg)"
+                    >
+                      keep reading!
+                    </Text>
+                  </Box>
                   <VStack align="stretch" spacing={0}>
                     {relatedArticles.map((r) => (
                       <Box
@@ -405,18 +692,19 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
                         border="none"
                         borderBottom="1px solid"
                         borderColor={colors.borderSoft}
+                        _last={{ borderBottom: "none" }}
                         py={3}
                         cursor="pointer"
                         display="block"
                         w="100%"
                         p={0}
-                        _hover={{ "& .related-title": { color: colors.accent } }}
+                        _hover={{ "& .related-title": { color: colors.primary } }}
                       >
                         <Text
                           className="related-title"
                           fontSize="15px"
                           fontWeight="600"
-                          lineHeight="1.4"
+                          lineHeight="1.45"
                           color={colors.text}
                           transition="color .12s ease"
                           mb="2px"
@@ -435,6 +723,24 @@ const ArticlePage = ({ isDownloading, handleDownload }) => {
           </Box>
         </Grid>
       </Container>
+
+      {/* The wrap-up line */}
+      <Container maxW="1200px" px={{ base: 5, md: 8, lg: 10 }} pb={{ base: 4, md: 6 }}>
+        <Flex align="center" gap={3} justify="center">
+          <Text
+            className="public-hand"
+            fontSize={{ base: "28px", md: "32px" }}
+            fontWeight="600"
+            color={colors.primaryDeep || colors.primary}
+            transform="rotate(-1deg)"
+          >
+            that&apos;s a wrap &mdash; thanks for reading
+          </Text>
+          <DoodleHeart size={24} />
+        </Flex>
+      </Container>
+
+      </Layout>
     </Box>
   );
 };
