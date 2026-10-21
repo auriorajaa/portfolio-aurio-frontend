@@ -12,7 +12,7 @@ import Education from "../components/sections/Education";
 import Gallery from "../components/sections/Gallery";
 import Articles from "../components/sections/Articles";
 import ScrollBoat from "../components/public/ScrollSun";
-import MuralStrip from "../components/public/LagoonMural";
+// import MuralStrip from "../components/public/LagoonMural";
 import { usePortfolio } from "../contexts/PortfolioContext";
 import { useLayoutEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -165,17 +165,17 @@ const Home = ({ isDownloading, handleDownload }) => {
         <Hero />
         <ScrollBoat />
         <About />
-        <MuralStrip variant="crab" />
+        {/* <MuralStrip variant="crab" /> */}
         <Projects />
-        <MuralStrip variant="school" />
+        {/* <MuralStrip variant="school" /> */}
         <Experience />
-        <MuralStrip variant="shark" />
+        {/* <MuralStrip variant="shark" /> */}
         <Skills />
-        <MuralStrip variant="octo" />
+        {/* <MuralStrip variant="octo" /> */}
         <Education />
-        <MuralStrip variant="whale" />
+        {/* <MuralStrip variant="whale" /> */}
         <Gallery />
-        <MuralStrip variant="reef" />
+        {/* <MuralStrip variant="reef" /> */}
         <Articles />
       </Layout>
     </Box>

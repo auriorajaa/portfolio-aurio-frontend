@@ -349,3 +349,224 @@ body.public-body :focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   MuralStrip — living lagoon. Pure CSS cartoon motion over the
+   flat doodle SVG: rolling waves, bobbing boats, swimming casts.
+   Rotation/scale animations rely on transform-box: fill-box so
+   origins can be set in fill percentages.
+────────────────────────────────────────────────────────────── */
+.mural-strip * {
+  transform-box: fill-box;
+}
+
+.mural-wave {
+  animation: mural-wave-drift 4.2s linear infinite;
+}
+
+@keyframes mural-wave-drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-120px);
+  }
+}
+
+.mural-bob {
+  animation: mural-bob 5.5s ease-in-out infinite;
+}
+
+@keyframes mural-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1.2deg);
+  }
+  50% {
+    transform: translateY(7px) rotate(1.5deg);
+  }
+}
+
+.mural-swim {
+  animation: mural-swim 6s ease-in-out infinite;
+}
+
+.mural-swim-fast {
+  animation: mural-swim 3.4s ease-in-out infinite;
+}
+
+@keyframes mural-swim {
+  0%,
+  100% {
+    transform: translateX(-30px) translateY(0);
+  }
+  50% {
+    transform: translateX(26px) translateY(-9px);
+  }
+}
+
+.mural-glide {
+  animation: mural-glide 11s ease-in-out infinite;
+}
+
+@keyframes mural-glide {
+  0%,
+  100% {
+    transform: translateX(-40px) translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateX(34px) translateY(6px) rotate(1deg);
+  }
+}
+
+.mural-bubble {
+  animation: mural-bubble-rise 7s ease-out infinite;
+}
+
+.mural-bubble:nth-of-type(2n) {
+  animation-delay: -2.4s;
+}
+
+@keyframes mural-bubble-rise {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  78% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+}
+
+.mural-tail {
+  animation: mural-tail 1.15s ease-in-out infinite alternate;
+  transform-origin: 92% 50%;
+}
+
+@keyframes mural-tail {
+  from {
+    transform: rotate(-7deg);
+  }
+  to {
+    transform: rotate(8deg);
+  }
+}
+
+.mural-frond {
+  animation: mural-frond 5.2s ease-in-out infinite alternate;
+  transform-origin: 8% 92%;
+}
+
+@keyframes mural-frond {
+  from {
+    transform: rotate(-3.2deg);
+  }
+  to {
+    transform: rotate(3.4deg);
+  }
+}
+
+.mural-weed {
+  animation: mural-weed 4.6s ease-in-out infinite alternate;
+  transform-origin: 50% 100%;
+}
+
+.mural-weed-alt {
+  animation-duration: 3.7s;
+  animation-delay: -1.3s;
+}
+
+@keyframes mural-weed {
+  from {
+    transform: rotate(-4deg);
+  }
+  to {
+    transform: rotate(4.2deg);
+  }
+}
+
+.mural-crab {
+  animation: mural-crab 4.6s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+
+@keyframes mural-crab {
+  0%,
+  100% {
+    transform: translateX(-9px) rotate(-2deg);
+  }
+  50% {
+    transform: translateX(9px) rotate(2deg);
+  }
+}
+
+.mural-spout {
+  animation: mural-spout 3.4s ease-out infinite;
+  transform-origin: 50% 100%;
+}
+
+@keyframes mural-spout {
+  0% {
+    transform: translateY(4px) scale(0.86);
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-14px) scale(1.12);
+    opacity: 0;
+  }
+}
+
+.mural-jelly {
+  animation: mural-jelly 4.8s ease-in-out infinite;
+  transform-origin: 50% 96%;
+}
+
+@keyframes mural-jelly {
+  0%,
+  100% {
+    transform: scale(1, 0.92);
+  }
+  50% {
+    transform: scale(1.05, 1.02);
+  }
+}
+
+.mural-tent {
+  animation: mural-tent 6.4s ease-in-out infinite alternate;
+  transform-origin: 50% 6%;
+}
+
+@keyframes mural-tent {
+  from {
+    transform: rotate(-3.4deg);
+  }
+  to {
+    transform: rotate(3.4deg);
+  }
+}
+
+.mural-star {
+  animation: mural-star 6.8s ease-in-out infinite alternate;
+  transform-origin: 50% 50%;
+}
+
+@keyframes mural-star {
+  from {
+    transform: rotate(-4deg);
+  }
+  to {
+    transform: rotate(4deg);
+  }
+}
