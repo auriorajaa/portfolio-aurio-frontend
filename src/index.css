@@ -120,6 +120,16 @@ html.cursor-fancy textarea {
   caret-color: #027a57;
 }
 
+/* Mobile nav scrim fade-in. */
+@keyframes menu-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* ── Scrollbar: hidden completely on public pages. ─────────────── */
 body.public-body {
   scrollbar-width: none;

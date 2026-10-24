@@ -253,7 +253,9 @@ const Education = () => {
                 {/* Card foot: score chip + striped barcode strip */}
                 <Flex
                   align="center"
-                  gap={4}
+                  gap={3}
+                  rowGap={3}
+                  flexWrap="wrap"
                   mt="auto"
                   pt={4}
                   borderTop="2px dashed"
@@ -303,7 +305,7 @@ const Education = () => {
                     }}
                     borderRadius="4px"
                     opacity={0.9}
-                    minW="60px"
+                    minW="48px"
                   />
 
                   {edu.status && (

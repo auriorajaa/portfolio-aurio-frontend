@@ -93,6 +93,11 @@ const Experience = () => {
                   minW={0}
                   boxShadow={BRUT.shadowXs}
                   flex="1"
+                  overflowX="auto"
+                  sx={{
+                    scrollbarWidth: "none",
+                    "&::-webkit-scrollbar": { display: "none" },
+                  }}
                 >
                   <Text
                     fontFamily="spaceMono"
