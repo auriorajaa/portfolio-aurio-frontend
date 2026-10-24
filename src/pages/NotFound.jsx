@@ -1,343 +1,209 @@
 import React from "react";
-import { Box, Button, Link, Text, VStack, Flex, Grid } from "@chakra-ui/react";
+import { Box, Button, Flex, Grid, Link, Text, VStack } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
 import { ArrowLeft } from "lucide-react";
 import { SITE_NAME } from "../utils/seo";
-import {
-  LAGOON,
-  DoodleAsterisk,
-  DoodleCloudFace,
-  DoodleStar,
-  DoodleSun,
-  PublicShell,
-} from "../components/public/studio";
+import { BRUT, PublicShell } from "../components/public/brutal";
 
-const NotFound = ({ code = "404", title = "Page not found", message }) => (
-  <PublicShell>
-    <Helmet>
-      <title>{`${title} | ${SITE_NAME}`}</title>
-      <meta
-        name="description"
-        content={message || "This page could not be found in Aurio Rajaa's portfolio."}
-      />
-      <meta name="robots" content="noindex, follow" />
-    </Helmet>
+const NotFound = ({ code = "404", title = "Page not found", message }) => {
+  return (
+    <PublicShell>
+      <Helmet>
+        <title>{`${title} | ${SITE_NAME}`}</title>
+        <meta
+          name="description"
+          content={message || "This page could not be found in Aurio Rajaa's portfolio."}
+        />
+        <meta name="robots" content="noindex, follow" />
+      </Helmet>
 
-    <Box
-      minH="100vh"
-      position="relative"
-      overflow="hidden"
-      display="flex"
-      alignItems="center"
-      px={{ base: 5, md: 8 }}
-      pt={{ base: 28, md: 32 }}
-      pb={{ base: 40, md: 44 }}
-    >
-      {/* Flat props around the scene */}
-      <Box aria-hidden="true" position="absolute" top="10%" right="8%">
-        <DoodleSun size={120} transform="rotate(10deg)" />
-      </Box>
-      <Box aria-hidden="true" position="absolute" top={{ base: "6%", md: "9%" }} left={{ base: "8%", md: "14%" }} display={{ base: "block", md: "block" }}>
-        <DoodleCloudFace size={84} transform="rotate(6deg)" />
-      </Box>
-      <Box aria-hidden="true" position="absolute" top="18%" left="6%" display={{ base: "none", md: "block" }}>
-        <DoodleAsterisk size={34} color={LAGOON.coral} transform="rotate(-12deg)" />
-      </Box>
-      <Box aria-hidden="true" position="absolute" top="58%" right="24%" display={{ base: "none", lg: "block" }}>
-        <DoodleStar size={40} transform="rotate(16deg)" />
-      </Box>
-
-      {/* Waves */}
-      <Box aria-hidden="true" position="absolute" bottom={0} left={0} right={0} pointerEvents="none">
-        <svg viewBox="0 0 1440 220" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "150px" }}>
-          <path
-            d="M0,96 C240,160 480,32 720,96 C960,160 1200,32 1440,96 L1440,220 L0,220 Z"
-            fill="#D8F0EC"
-          />
-          <path
-            d="M0,140 C260,190 520,80 780,130 C1040,180 1240,90 1440,140 L1440,220 L0,220 Z"
-            fill="#0E6F69"
-          />
-        </svg>
-      </Box>
-
-      <Grid
-        templateColumns={{ base: "1fr", lg: "1.1fr 0.9fr" }}
-        gap={{ base: 12, lg: 10 }}
+      <Box
+        minH="100vh"
+        display="flex"
         alignItems="center"
-        maxW="1080px"
-        mx="auto"
-        position="relative"
-        zIndex={1}
+        justifyContent="center"
+        px={{ base: 6, md: 8 }}
+        py={{ base: 24, md: 20 }}
+        bg={BRUT.bg}
       >
-        {/* Copy half */}
-        <VStack spacing={5} textAlign={{ base: "center", lg: "left" }} alignItems={{ base: "center", lg: "flex-start" }}>
-          <Box
-            className="public-mono"
-            border="1.5px solid"
-            borderColor={LAGOON.ink}
-            bg="#FFFFFF"
-            px={3}
-            py="6px"
-            borderRadius="8px"
-            boxShadow="3px 3px 0 rgba(11,47,47,0.7)"
-            fontSize="12px"
-            fontWeight="500"
-            letterSpacing=".08em"
-            transform="rotate(-2deg)"
+        <Grid
+          templateColumns={{ base: "1fr", lg: "1.05fr 0.95fr" }}
+          gap={{ base: 14, lg: 16 }}
+          alignItems="center"
+          maxW="1040px"
+          mx="auto"
+          w="100%"
+        >
+          {/* Copy half */}
+          <VStack
+            spacing={5}
+            textAlign={{ base: "center", lg: "left" }}
+            alignItems={{ base: "center", lg: "flex-start" }}
           >
-            {code} · page lost at sea
-          </Box>
-          <Text
-            fontFamily="heading"
-            fontSize={{ base: "40px", md: "52px" }}
-            fontWeight="700"
-            lineHeight="1.05"
-            letterSpacing="-.03em"
-            color={LAGOON.heading}
-          >
-            {title}
-          </Text>
-          <Text fontSize="17px" lineHeight="1.8" color={LAGOON.muted} maxW="440px">
-            {message || "You took a turn off the map. The page you're after doesn't exist — but the shore is that way."}
-          </Text>
-          <Flex gap={3} mt={2} flexWrap="wrap" justify={{ base: "center", lg: "flex-start" }}>
+            <Text
+              fontFamily="bungee"
+              fontSize={{ base: "clamp(72px, 18vw, 132px)" }}
+              lineHeight="0.92"
+              color={BRUT.primary}
+              sx={{
+                WebkitTextStroke: `3px ${BRUT.ink}`,
+                paintOrder: "stroke fill",
+                textShadow: "6px 6px 0 #17181C",
+              }}
+            >
+              {code}
+            </Text>
+            <Text
+              as="h1"
+              fontFamily="bungee"
+              fontSize={{ base: "clamp(24px, 5.5vw, 38px)" }}
+              lineHeight="1.15"
+              color={BRUT.ink}
+            >
+              PAGE NOT FOUND
+            </Text>
+            <Text
+              fontSize="16px"
+              lineHeight="1.8"
+              color={BRUT.ink}
+              fontWeight="500"
+              maxW="440px"
+            >
+              {message ||
+                "You took a turn off the map — this page doesn't exist, but the way home is right here."}
+            </Text>
             <Button
               as={Link}
               href="/"
-              variant="lagoonCoral"
-              h="50px"
-              px={7}
+              h="54px"
+              px={{ base: 7, md: 8 }}
               fontSize="16px"
-              leftIcon={<ArrowLeft size={16} />}
-              _hover={{ textDecoration: "none" }}
-            >
-              Back to the shore
-            </Button>
-          </Flex>
-        </VStack>
-
-        {/* Illustration half: a folded map, made of pure HTML boxes */}
-        <Box position="relative" display={{ base: "none", sm: "block" }}>
-          <Box
-            bg={LAGOON.bgWash}
-            border="2px solid #0B2F2F"
-            borderRadius="18px"
-            boxShadow="8px 8px 0 rgba(11,47,47,0.9)"
-            p={{ base: 5, md: 7 }}
-            transform="rotate(2deg)"
-            position="relative"
-            zIndex={1}
-            h={{ base: "320px", md: "380px" }}
-          >
-            {/* The map sheet */}
-            <Box
-              position="relative"
-              h="100%"
-              bg="#FFFFFF"
-              border="2px solid #0B2F2F"
+              fontFamily="spaceMono"
+              fontWeight="700"
+              letterSpacing=".04em"
+              textTransform="uppercase"
+              bg={BRUT.primary}
+              color="#FFFFFF"
+              border="3px solid"
+              borderColor={BRUT.ink}
               borderRadius="10px"
+              boxShadow={BRUT.shadow}
+              leftIcon={<ArrowLeft size={17} />}
+              transition="transform .16s ease, box-shadow .16s ease"
+              _hover={{
+                bg: BRUT.primaryDeep,
+                color: "#FFFFFF",
+                textDecoration: "none",
+                transform: "translate(-3px, -3px)",
+                boxShadow: BRUT.shadowLg,
+              }}
+              _focusVisible={{
+                boxShadow: `${BRUT.shadow}, 0 0 0 3px rgba(4,167,119,0.4)`,
+              }}
+            >
+              Back to Home
+            </Button>
+          </VStack>
+
+          {/* Clean illustration card: a plain app window holding the giant 404 */}
+          <Box
+            position="relative"
+            bg="#FFFFFF"
+            border="3px solid"
+            borderColor={BRUT.ink}
+            borderRadius="12px"
+            boxShadow={BRUT.shadowLg}
+            overflow="hidden"
+          >
+            {/* Window chrome */}
+            <Flex
+              align="center"
+              gap="7px"
+              bg={BRUT.ink}
+              px={5}
+              py="12px"
+              aria-hidden="true"
+            >
+              <Box w="11px" h="11px" borderRadius="full" bg={BRUT.yellow} border="1.5px solid rgba(255,255,255,0.4)" />
+              <Box w="11px" h="11px" borderRadius="full" bg={BRUT.blue} border="1.5px solid rgba(255,255,255,0.4)" />
+              <Box w="11px" h="11px" borderRadius="full" bg={BRUT.primary} border="1.5px solid rgba(255,255,255,0.4)" />
+              <Text
+                fontFamily="spaceMono"
+                fontSize="11.5px"
+                fontWeight="700"
+                letterSpacing=".12em"
+                color="rgba(255,255,255,0.75)"
+                ml="auto"
+              >
+                error_page.html
+              </Text>
+            </Flex>
+
+            {/* Body: one bold graphic, nothing else */}
+            <Flex
+              position="relative"
+              align="center"
+              justify="center"
+              bg={BRUT.bgWash}
+              px={8}
+              py={{ base: 14, md: 20 }}
               overflow="hidden"
             >
-              {/* Fold creases */}
               <Box
                 aria-hidden="true"
                 position="absolute"
-                top={0}
-                bottom={0}
-                left="34%"
-                w="2px"
-                bg="rgba(11,47,47,0.10)"
+                top="14%"
+                left="12%"
+                w="26px"
+                h="26px"
+                borderRadius="6px"
+                bg={BRUT.yellow}
+                border="2px solid"
+                borderColor={BRUT.ink}
               />
               <Box
                 aria-hidden="true"
                 position="absolute"
-                top={0}
-                bottom={0}
-                left="68%"
-                w="2px"
-                bg="rgba(11,47,47,0.10)"
-              />
-              {/* Grid streets */}
-              <Box
-                aria-hidden="true"
-                position="absolute"
-                top="18%"
-                left={0}
-                right={0}
-                borderTop="1.5px solid rgba(11,47,47,0.14)"
-              />
-              <Box
-                aria-hidden="true"
-                position="absolute"
-                top="52%"
-                left={0}
-                right={0}
-                borderTop="2px solid rgba(11,47,47,0.18)"
-              />
-              <Box
-                aria-hidden="true"
-                position="absolute"
-                top="80%"
-                left={0}
-                right={0}
-                borderTop="1.5px solid rgba(11,47,47,0.14)"
-              />
-              <Box
-                aria-hidden="true"
-                position="absolute"
-                top={0}
-                bottom={0}
-                left="16%"
-                w="1.5px"
-                bg="rgba(11,47,47,0.12)"
-              />
-              <Box
-                aria-hidden="true"
-                position="absolute"
-                top={0}
-                bottom={0}
-                left="84%"
-                w="1.5px"
-                bg="rgba(11,47,47,0.12)"
-              />
-
-              {/* The route: a dashed walk from "me" to "X" */}
-              <Box
-                aria-hidden="true"
-                position="absolute"
-                top="46%"
-                left="18%"
-                w="62%"
-                borderTop="2.5px dashed #0E8C86"
-                transform="rotate(-14deg)"
-                transformOrigin="left center"
-              />
-              <Box
-                aria-hidden="true"
-                position="absolute"
-                top="62%"
-                left="44%"
-                w="38%"
-                borderTop="2.5px dashed #FF6B4A"
-                transform="rotate(30deg)"
-                transformOrigin="left center"
-              />
-
-              {/* Origin pin: me */}
-              <Box position="absolute" left="12%" bottom="22%">
-                <Box
-                  w="16px"
-                  h="16px"
-                  borderRadius="full"
-                  bg={LAGOON.primary}
-                  border="2px solid #0B2F2F"
-                  boxShadow="2px 2px 0 rgba(11,47,47,0.9)"
-                />
-                <Text
-                  className="public-hand"
-                  fontSize="19px"
-                  fontWeight="600"
-                  color={LAGOON.primaryDeep}
-                  textAlign="center"
-                  mt={1}
-                >
-                  me
-                </Text>
-              </Box>
-
-              {/* X marks the spot */}
-              <Box position="absolute" right="14%" top="18%" textAlign="center">
-                <Box
-                  position="relative"
-                  w="26px"
-                  h="26px"
-                  mx="auto"
-                >
-                  <Box
-                    position="absolute"
-                    top="12px"
-                    left={0}
-                    right={0}
-                    h="2.5px"
-                    bg={LAGOON.coralDeep}
-                    transform="rotate(45deg)"
-                  />
-                  <Box
-                    position="absolute"
-                    top="12px"
-                    left={0}
-                    right={0}
-                    h="2.5px"
-                    bg={LAGOON.coralDeep}
-                    transform="rotate(-45deg)"
-                  />
-                </Box>
-                <Text
-                  className="public-hand"
-                  fontSize="19px"
-                  fontWeight="600"
-                  color={LAGOON.coralDeep}
-                  w="110px"
-                  ml="-42px"
-                  mt={1}
-                >
-                  you were here?
-                </Text>
-              </Box>
-
-              {/* Compass */}
-              <Box
-                position="absolute"
-                right="8%"
-                bottom="10%"
-                w="44px"
-                h="44px"
+                bottom="16%"
+                right="12%"
+                w="22px"
+                h="22px"
                 borderRadius="full"
-                bg="#FFFFFF"
-                border="2px solid #0B2F2F"
-                boxShadow="2px 2px 0 rgba(11,47,47,0.9)"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                transform="rotate(8deg)"
+                bg={BRUT.primary}
+                border="2px solid"
+                borderColor={BRUT.ink}
+              />
+              <Box
+                aria-hidden="true"
+                position="absolute"
+                bottom="24%"
+                left="18%"
+                w="14px"
+                h="14px"
+                borderRadius="4px"
+                bg={BRUT.blue}
+                border="2px solid"
+                borderColor={BRUT.ink}
+              />
+              <Text
+                fontFamily="bungee"
+                fontSize={{ base: "clamp(64px, 14vw, 110px)" }}
+                lineHeight="1"
+                color={BRUT.primary}
+                sx={{
+                  WebkitTextStroke: `2.5px ${BRUT.ink}`,
+                  paintOrder: "stroke fill",
+                  textShadow: `5px 5px 0 ${BRUT.yellow}`,
+                }}
               >
-                <Text className="public-mono" fontSize="13px" fontWeight="600" color={LAGOON.heading}>
-                  N
-                </Text>
-                <Box
-                  aria-hidden="true"
-                  position="absolute"
-                  top="5px"
-                  left="50%"
-                  ml="-4px"
-                  w={0}
-                  h={0}
-                  borderLeft="4px solid transparent"
-                  borderRight="4px solid transparent"
-                  borderBottom="6px solid #FF6B4A"
-                />
-              </Box>
-            </Box>
+                {code}
+              </Text>
+            </Flex>
           </Box>
-          <Text
-            className="public-hand"
-            fontSize="26px"
-            fontWeight="600"
-            color={LAGOON.primaryDeep}
-            textAlign="center"
-            transform="rotate(-1deg)"
-            mt={4}
-          >
-            hmm... wrong way?
-          </Text>
-          <Box aria-hidden="true" position="absolute" top="-22px" right="-20px" zIndex={0}>
-            <DoodleSun size={72} transform="rotate(14deg)" />
-          </Box>
-        </Box>
-      </Grid>
-    </Box>
-  </PublicShell>
-);
+        </Grid>
+      </Box>
+    </PublicShell>
+  );
+};
 
 export default NotFound;

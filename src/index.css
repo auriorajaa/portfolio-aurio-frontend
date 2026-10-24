@@ -23,64 +23,67 @@ section[id] {
   scroll-margin-top: 96px;
 }
 
-.spin {
-  animation: arcade-spin 0.9s linear infinite;
-}
-
-@keyframes arcade-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 /* ─────────────────────────────────────────────────────────────
-   Public "Lagoon" scope — applies only while a public page mounts
-   (body class is toggled by PublicShell). Admin stays untouched.
+   Public "Tumble Blocks" scope — applies only while a public page
+   mounts (body class is toggled by PublicShell). Admin stays on
+   its own retro theme, untouched by any of this.
    ───────────────────────────────────────────────────────────── */
 
 body.public-body {
-  --font-display: "Bricolage Grotesque", "Plus Jakarta Sans", "Helvetica Neue",
+  --font-display: "Fredoka", "Plus Jakarta Sans", "Helvetica Neue",
     Helvetica, Arial, sans-serif;
-  --font-body: "Plus Jakarta Sans", "Helvetica Neue", Helvetica, Arial,
-    sans-serif;
-  background-color: #f5fbfb;
+  --font-body: "Space Grotesk", "Plus Jakarta Sans", "Helvetica Neue",
+    Helvetica, Arial, sans-serif;
+  --font-bungee: "Bungee", Impact, "Arial Black", sans-serif;
+  --font-mono: "Space Mono", "Courier New", monospace;
+  background-color: #fcf7ef;
 }
 
 body.public-body ::selection {
-  background: #14b8a6;
-  color: #042a29;
+  background: #ffd23f;
+  color: #17181c;
 }
 
 .public-shell {
   overflow-x: clip;
 }
 
-.public-mono {
-  font-family: "IBM Plex Mono", "Lucida Console", "Courier New", monospace;
-}
-
-/* Decorative helpers */
+/* Halftone dots: the print-shop filling between the blocks */
 .public-dots {
   background-image: radial-gradient(
-    rgba(11, 47, 47, 0.14) 1.2px,
+    rgba(23, 24, 28, 0.28) 1.2px,
     transparent 1.2px
   );
-  background-size: 22px 22px;
+  background-size: 18px 18px;
 }
 
 .public-dots-light {
   background-image: radial-gradient(
-    rgba(255, 255, 255, 0.22) 1.2px,
+    rgba(255, 253, 246, 0.3) 1.2px,
     transparent 1.2px
   );
-  background-size: 24px 24px;
+  background-size: 20px 20px;
+}
+
+/* Blueprint grid for paper backgrounds — very Light HttpStatus */
+.public-grid {
+  background-image:
+    linear-gradient(rgba(23, 24, 28, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 24, 28, 0.055) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+
+/* Diagonal candy stripes for sticker panels */
+.public-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(23, 24, 28, 0.07) 0 6px,
+    transparent 6px 16px
+  );
 }
 
 /* Marquee */
-@keyframes lagoon-marquee {
+@keyframes brut-marquee {
   from {
     transform: translateX(0);
   }
@@ -90,7 +93,7 @@ body.public-body ::selection {
 }
 
 .marquee-track {
-  animation: lagoon-marquee 34s linear infinite;
+  animation: brut-marquee 34s linear infinite;
   will-change: transform;
 }
 
@@ -98,12 +101,7 @@ body.public-body ::selection {
   animation-play-state: paused;
 }
 
-/* Handwritten accent for small annotations */
-.public-hand {
-  font-family: "Caveat", "Comic Sans MS", cursive;
-}
-
-/* ── Custom ink cursor (desktop, public pages only) ───────────── */
+/* ── Custom cursor (desktop, public pages only) ────────────────── */
 html.cursor-fancy,
 html.cursor-fancy * {
   cursor: none !important;
@@ -119,133 +117,36 @@ html.cursor-fancy [contenteditable="true"] {
 
 html.cursor-fancy input,
 html.cursor-fancy textarea {
-  caret-color: #0b4f4c;
+  caret-color: #027a57;
 }
 
-/* The cursor hand idles with a gentle "pointing" sway. */
-.cursor-hand {
-  position: relative;
-  z-index: 1;
-  transform-origin: 38% 5%;
-  animation: cursor-point 2.2s ease-in-out infinite;
-}
-
-@keyframes cursor-point {
-  0%, 100% {
-    transform: rotate(-3deg);
-  }
-  50% {
-    transform: rotate(3deg) translateY(-1px);
-  }
-}
-
-/* The little boat on the scroll route bobs all the way down. */
-.rail-boat {
-  transform-origin: 50% 30%;
-  animation: rail-bob 2.4s ease-in-out infinite;
-}
-
-@keyframes rail-bob {
-  0%, 100% {
-    transform: rotate(-4deg) translateY(0);
-  }
-  50% {
-    transform: rotate(3deg) translateY(-2px);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .cursor-hand,
-  .rail-boat {
-    animation: none;
-  }
-}
-
-/* ── Custom scrollbar, public scope only:
-      two sewn-on strips with a stitched fabric thumb ────────────── */
+/* ── Scrollbar: hidden completely on public pages. ─────────────── */
 body.public-body {
-  scrollbar-width: thin;
-  scrollbar-color: #0e8c86 #f4faf8;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html:has(body.public-body) {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html:has(body.public-body)::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 body.public-body::-webkit-scrollbar {
-  width: 12px;
+  width: 0;
+  height: 0;
+  display: none;
 }
 
-body.public-body::-webkit-scrollbar-track {
-  background: #f4faf8;
-  background-image: linear-gradient(
-    rgba(11, 47, 47, 0.16) 0 8px,
-    transparent 8px 19px
-  );
-  background-size: 1.5px 19px;
-  background-repeat: repeat-y;
-  background-position: center top;
-}
-
-/* Thumb: a little fabric patch, stitched with dashed ink thread,
-   with a white running-stripe underneath. It reaches both ends of
-   the track exactly, so the stitch ends flush with the scroll. */
-body.public-body::-webkit-scrollbar-thumb {
-  background-image:
-    repeating-linear-gradient(
-      -60deg,
-      rgba(255, 255, 255, 0.42) 0 3px,
-      rgba(255, 255, 255, 0) 3px 9px
-    ),
-    #0e8c86;
-  border: 2px dashed #0b2f2f;
-  border-radius: 8px;
-  background-clip: padding-box;
-}
-
-body.public-body::-webkit-scrollbar-thumb:hover {
-  background-image:
-    repeating-linear-gradient(
-      -60deg,
-      rgba(255, 255, 255, 0.42) 0 3px,
-      rgba(255, 255, 255, 0) 3px 9px
-    ),
-    #ff6b4a;
-  background-clip: padding-box;
-}
-
-body.public-body::-webkit-scrollbar-thumb:active {
-  background-image:
-    repeating-linear-gradient(
-      -60deg,
-      rgba(255, 255, 255, 0.42) 0 3px,
-      rgba(255, 255, 255, 0) 3px 9px
-    ),
-    #0b4f4c;
-  background-clip: padding-box;
-}
-
+body.public-body::-webkit-scrollbar-track,
+body.public-body::-webkit-scrollbar-thumb,
 body.public-body::-webkit-scrollbar-corner {
-  background: transparent;
-}
-
-/* Receipt paper: a sawtooth bottom edge for the experience slips. */
-.receipt-edge {
-  clip-path: polygon(
-    0% 0%,
-    100% 0%,
-    100% calc(100% - 11px),
-    92.85% 100%,
-    85.7% calc(100% - 11px),
-    78.55% 100%,
-    71.4% calc(100% - 11px),
-    64.3% 100%,
-    57.15% calc(100% - 11px),
-    50% 100%,
-    42.85% calc(100% - 11px),
-    35.7% 100%,
-    28.55% calc(100% - 11px),
-    21.4% 100%,
-    14.3% calc(100% - 11px),
-    7.15% 100%,
-    0% calc(100% - 11px)
-  );
+  display: none;
 }
 
 /* ── Boot loader: shows before React replaces #root ───────────── */
@@ -254,82 +155,104 @@ body.public-body::-webkit-scrollbar-corner {
   inset: 0;
   z-index: 60;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 26px;
-  background-color: #f7fbfa;
+  background-color: #fcf7ef;
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.boot-sun {
-  animation: boot-float 1.15s ease-in-out infinite alternate;
+.boot.boot-done {
+  opacity: 0;
+  transform: translateY(-28px) scale(0.97);
+  pointer-events: none;
 }
 
-.boot-waves path {
-  animation: boot-wave 1.15s ease-in-out infinite alternate;
-  transform-origin: center;
+.boot-card {
+  background-color: #fff6e3;
+  border: 3px solid #17181c;
+  border-radius: 12px;
+  box-shadow: 8px 8px 0 #17181c;
+  padding: 34px 38px 30px;
+  width: min(86vw, 340px);
+  text-align: center;
 }
 
-.boot-waves path:nth-of-type(2) {
-  animation-delay: -0.4s;
+.boot-rocket {
+  animation: boot-bob 1.3s ease-in-out infinite;
+  transform-origin: 50% 50%;
 }
 
-.boot-text {
-  font-family: "IBM Plex Mono", "Lucida Console", "Courier New", monospace;
-  font-size: 12px;
-  letter-spacing: 0.22em;
-  color: #8faaa6;
-  text-transform: lowercase;
-}
-
-.boot-text::after {
-  content: "...";
-  animation: boot-dots 1.4s steps(4, end) infinite;
-}
-
-@keyframes boot-float {
-  from {
-    transform: translateY(7px);
-  }
-  to {
-    transform: translateY(-7px);
-  }
-}
-
-@keyframes boot-wave {
-  from {
-    transform: translateX(-9px);
-  }
-  to {
-    transform: translateX(9px);
-  }
-}
-
-@keyframes boot-dots {
-  0% {
-    content: "";
-  }
-  25% {
-    content: ".";
+@keyframes boot-bob {
+  0%, 100% {
+    transform: translateY(3px);
   }
   50% {
-    content: "..";
-  }
-  75% {
-    content: "...";
+    transform: translateY(-4px);
   }
 }
 
-/* Article body images */
+.boot-label {
+  font-family: "Bungee", Impact, "Arial Black", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  color: #17181c;
+  margin-top: 14px;
+}
+
+.boot-count {
+  font-family: "Bungee", Impact, "Arial Black", sans-serif;
+  font-size: 54px;
+  line-height: 1;
+  color: #04a777;
+  -webkit-text-stroke: 2px #17181c;
+  paint-order: stroke fill;
+  margin-top: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.boot-bar {
+  margin-top: 20px;
+  height: 20px;
+  background: #ffffff;
+  border: 2.5px solid #17181c;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.boot-bar-fill {
+  height: 100%;
+  width: 0%;
+  background-image: repeating-linear-gradient(
+    -55deg,
+    rgba(23, 24, 28, 0.18) 0 7px,
+    transparent 7px 16px
+  ), #04a777;
+  background-clip: content-box;
+  transition: width 0.18s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot-rocket {
+    animation: none;
+  }
+
+  .boot {
+    transition: opacity 0.25s ease;
+  }
+}
+
+/* Article body images land inside thin ink frames */
 .public-shell .article-body img {
-  border-radius: 20px;
+  border: 2px solid #17181c;
+  border-radius: 8px;
 }
 
 /* Keyboard focus ring for public pages only */
 body.public-body :focus-visible {
-  outline: 2px solid #0e8c86;
-  outline-offset: 3px;
-  border-radius: 4px;
+  outline: 3px solid #04a777;
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -347,226 +270,5 @@ body.public-body :focus-visible {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-}
-
-/* ─────────────────────────────────────────────────────────────
-   MuralStrip — living lagoon. Pure CSS cartoon motion over the
-   flat doodle SVG: rolling waves, bobbing boats, swimming casts.
-   Rotation/scale animations rely on transform-box: fill-box so
-   origins can be set in fill percentages.
-────────────────────────────────────────────────────────────── */
-.mural-strip * {
-  transform-box: fill-box;
-}
-
-.mural-wave {
-  animation: mural-wave-drift 4.2s linear infinite;
-}
-
-@keyframes mural-wave-drift {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-120px);
-  }
-}
-
-.mural-bob {
-  animation: mural-bob 5.5s ease-in-out infinite;
-}
-
-@keyframes mural-bob {
-  0%,
-  100% {
-    transform: translateY(0) rotate(-1.2deg);
-  }
-  50% {
-    transform: translateY(7px) rotate(1.5deg);
-  }
-}
-
-.mural-swim {
-  animation: mural-swim 6s ease-in-out infinite;
-}
-
-.mural-swim-fast {
-  animation: mural-swim 3.4s ease-in-out infinite;
-}
-
-@keyframes mural-swim {
-  0%,
-  100% {
-    transform: translateX(-30px) translateY(0);
-  }
-  50% {
-    transform: translateX(26px) translateY(-9px);
-  }
-}
-
-.mural-glide {
-  animation: mural-glide 11s ease-in-out infinite;
-}
-
-@keyframes mural-glide {
-  0%,
-  100% {
-    transform: translateX(-40px) translateY(0) rotate(-1deg);
-  }
-  50% {
-    transform: translateX(34px) translateY(6px) rotate(1deg);
-  }
-}
-
-.mural-bubble {
-  animation: mural-bubble-rise 7s ease-out infinite;
-}
-
-.mural-bubble:nth-of-type(2n) {
-  animation-delay: -2.4s;
-}
-
-@keyframes mural-bubble-rise {
-  0% {
-    transform: translateY(0);
-    opacity: 0;
-  }
-  12% {
-    opacity: 1;
-  }
-  78% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-30px);
-    opacity: 0;
-  }
-}
-
-.mural-tail {
-  animation: mural-tail 1.15s ease-in-out infinite alternate;
-  transform-origin: 92% 50%;
-}
-
-@keyframes mural-tail {
-  from {
-    transform: rotate(-7deg);
-  }
-  to {
-    transform: rotate(8deg);
-  }
-}
-
-.mural-frond {
-  animation: mural-frond 5.2s ease-in-out infinite alternate;
-  transform-origin: 8% 92%;
-}
-
-@keyframes mural-frond {
-  from {
-    transform: rotate(-3.2deg);
-  }
-  to {
-    transform: rotate(3.4deg);
-  }
-}
-
-.mural-weed {
-  animation: mural-weed 4.6s ease-in-out infinite alternate;
-  transform-origin: 50% 100%;
-}
-
-.mural-weed-alt {
-  animation-duration: 3.7s;
-  animation-delay: -1.3s;
-}
-
-@keyframes mural-weed {
-  from {
-    transform: rotate(-4deg);
-  }
-  to {
-    transform: rotate(4.2deg);
-  }
-}
-
-.mural-crab {
-  animation: mural-crab 4.6s ease-in-out infinite;
-  transform-origin: 50% 100%;
-}
-
-@keyframes mural-crab {
-  0%,
-  100% {
-    transform: translateX(-9px) rotate(-2deg);
-  }
-  50% {
-    transform: translateX(9px) rotate(2deg);
-  }
-}
-
-.mural-spout {
-  animation: mural-spout 3.4s ease-out infinite;
-  transform-origin: 50% 100%;
-}
-
-@keyframes mural-spout {
-  0% {
-    transform: translateY(4px) scale(0.86);
-    opacity: 0;
-  }
-  18% {
-    opacity: 1;
-  }
-  70% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-14px) scale(1.12);
-    opacity: 0;
-  }
-}
-
-.mural-jelly {
-  animation: mural-jelly 4.8s ease-in-out infinite;
-  transform-origin: 50% 96%;
-}
-
-@keyframes mural-jelly {
-  0%,
-  100% {
-    transform: scale(1, 0.92);
-  }
-  50% {
-    transform: scale(1.05, 1.02);
-  }
-}
-
-.mural-tent {
-  animation: mural-tent 6.4s ease-in-out infinite alternate;
-  transform-origin: 50% 6%;
-}
-
-@keyframes mural-tent {
-  from {
-    transform: rotate(-3.4deg);
-  }
-  to {
-    transform: rotate(3.4deg);
-  }
-}
-
-.mural-star {
-  animation: mural-star 6.8s ease-in-out infinite alternate;
-  transform-origin: 50% 50%;
-}
-
-@keyframes mural-star {
-  from {
-    transform: rotate(-4deg);
-  }
-  to {
-    transform: rotate(4deg);
   }
 }
