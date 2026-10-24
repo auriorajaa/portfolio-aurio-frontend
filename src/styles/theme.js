@@ -121,10 +121,12 @@ const theme = extendTheme({
 
   fonts: {
     heading:
-      "var(--font-display, 'Open Sans'), 'Helvetica Neue', Helvetica, Arial, sans-serif",
+      "var(--font-display, 'Fredoka'), 'Plus Jakarta Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
     body:
-      "var(--font-body, 'Open Sans'), 'Helvetica Neue', Helvetica, Arial, sans-serif",
+      "var(--font-body, 'Space Grotesk'), 'Plus Jakarta Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
     mono: "'Lucida Console', 'Courier New', monospace",
+    bungee: "var(--font-bungee, 'Bungee'), Impact, sans-serif",
+    spaceMono: "var(--font-mono, 'Space Mono'), 'Courier New', monospace",
   },
 
   styles: {
@@ -244,160 +246,189 @@ const theme = extendTheme({
           },
         }),
 
-        // Public Lagoon — flat print-style buttons: bold text, ink outline,
-        // solid offset shadow (riso/zine feel). No glows, no soft blur.
-        lagoon: {
-          bg: "#0B4F4C",
+        // Public Tumble Blocks — primary: filled ink-green block with
+        // a hard offset shadow. Presses down flat on click.
+        brut: {
+          bg: "#04A777",
           color: "#FFFFFF",
-          border: "2px solid #0B2F2F",
-          borderRadius: "10px",
+          border: "2px solid #17181C",
+          borderRadius: "8px",
           fontWeight: "700",
           fontSize: "15px",
           textShadow: "none",
-          boxShadow: "3px 3px 0 #0B2F2F",
+          boxShadow: "3px 3px 0 #17181C",
           _hover: {
-            bg: "#0E6F69",
+            bg: "#05BD8A",
             color: "#FFFFFF",
             textDecoration: "none",
             transform: "translate(-2px, -2px)",
-            boxShadow: "5px 5px 0 #0B2F2F",
+            boxShadow: "5px 5px 0 #17181C",
           },
           _active: {
-            bg: "#093E3C",
-            transform: "translate(0, 0)",
-            boxShadow: "1px 1px 0 #0B2F2F",
+            bg: "#027A57",
+            transform: "translate(1px, 1px)",
+            boxShadow: "1px 1px 0 #17181C",
           },
           _focusVisible: {
-            boxShadow: "3px 3px 0 #0B2F2F, 0 0 0 3px rgba(14,140,134,0.35)",
+            boxShadow: "3px 3px 0 #17181C, 0 0 0 3px rgba(4,167,119,0.4)",
           },
         },
 
-        // Public Lagoon — coral call-to-action (white text, deep coral bg)
-        lagoonCoral: {
-          bg: "#C94224",
-          color: "#FFFFFF",
-          border: "2px solid #0B2F2F",
-          borderRadius: "10px",
+        // Public Tumble Blocks — sunny secondary: yellow block, ink text.
+        brutYellow: {
+          bg: "#FFD23F",
+          color: "#17181C",
+          border: "2px solid #17181C",
+          borderRadius: "8px",
           fontWeight: "700",
           fontSize: "15px",
           textShadow: "none",
-          boxShadow: "3px 3px 0 #0B2F2F",
+          boxShadow: "3px 3px 0 #17181C",
           _hover: {
-            bg: "#A83518",
-            color: "#FFFFFF",
+            bg: "#FFDE6B",
+            color: "#17181C",
             textDecoration: "none",
             transform: "translate(-2px, -2px)",
-            boxShadow: "5px 5px 0 #0B2F2F",
+            boxShadow: "5px 5px 0 #17181C",
           },
           _active: {
-            bg: "#933010",
-            transform: "translate(0, 0)",
-            boxShadow: "1px 1px 0 #0B2F2F",
+            bg: "#F2C316",
+            transform: "translate(1px, 1px)",
+            boxShadow: "1px 1px 0 #17181C",
           },
           _focusVisible: {
-            boxShadow: "3px 3px 0 #0B2F2F, 0 0 0 3px rgba(255,107,74,0.35)",
+            boxShadow: "3px 3px 0 #17181C, 0 0 0 3px rgba(255,210,63,0.5)",
           },
         },
 
-        // Public Lagoon — quiet secondary on light surfaces
-        lagoonOutline: {
+        // Public Tumble Blocks — coral call-to-action.
+        brutCoral: {
+          bg: "#FF6B6B",
+          color: "#FFFFFF",
+          border: "2px solid #17181C",
+          borderRadius: "8px",
+          fontWeight: "700",
+          fontSize: "15px",
+          textShadow: "none",
+          boxShadow: "3px 3px 0 #17181C",
+          _hover: {
+            bg: "#FF8080",
+            color: "#FFFFFF",
+            textDecoration: "none",
+            transform: "translate(-2px, -2px)",
+            boxShadow: "5px 5px 0 #17181C",
+          },
+          _active: {
+            bg: "#E14646",
+            transform: "translate(1px, 1px)",
+            boxShadow: "1px 1px 0 #17181C",
+          },
+          _focusVisible: {
+            boxShadow: "3px 3px 0 #17181C, 0 0 0 3px rgba(255,107,107,0.45)",
+          },
+        },
+
+        // Public Tumble Blocks — paper outline (quiet secondary).
+        brutOutline: {
           bg: "#FFFFFF",
-          color: "#0B2F2F",
-          border: "2px solid #0B2F2F",
-          borderRadius: "10px",
+          color: "#17181C",
+          border: "2px solid #17181C",
+          borderRadius: "8px",
           fontWeight: "700",
           fontSize: "15px",
           textShadow: "none",
-          boxShadow: "3px 3px 0 #0B2F2F",
+          boxShadow: "3px 3px 0 #17181C",
           _hover: {
-            bg: "#EAF7F4",
-            color: "#0B2F2F",
+            bg: "#FFF1BF",
+            color: "#17181C",
             textDecoration: "none",
             transform: "translate(-2px, -2px)",
-            boxShadow: "5px 5px 0 #0B2F2F",
+            boxShadow: "5px 5px 0 #17181C",
           },
           _active: {
-            bg: "#DFF3EF",
-            transform: "translate(0, 0)",
-            boxShadow: "1px 1px 0 #0B2F2F",
+            bg: "#CFF3E6",
+            transform: "translate(1px, 1px)",
+            boxShadow: "1px 1px 0 #17181C",
           },
           _focusVisible: {
-            boxShadow: "3px 3px 0 #0B2F2F, 0 0 0 3px rgba(14,140,134,0.28)",
+            boxShadow: "3px 3px 0 #17181C, 0 0 0 3px rgba(23,24,28,0.28)",
           },
         },
 
-        // Public Lagoon — aqua-tinted soft button
-        lagoonSoft: {
-          bg: "#DFF3EF",
-          color: "#0B2F2F",
-          border: "2px solid #0B2F2F",
-          borderRadius: "10px",
+        // Public Tumble Blocks — soft mint tint (tertiary).
+        brutSoft: {
+          bg: "#CFF3E6",
+          color: "#17181C",
+          border: "2px solid #17181C",
+          borderRadius: "8px",
           fontWeight: "700",
           fontSize: "15px",
           textShadow: "none",
           boxShadow: "none",
           _hover: {
-            bg: "#CFEDE8",
-            color: "#0B2F2F",
+            bg: "#B7EED9",
+            color: "#17181C",
             textDecoration: "none",
             transform: "translate(-2px, -2px)",
-            boxShadow: "3px 3px 0 #0B2F2F",
+            boxShadow: "3px 3px 0 #17181C",
           },
           _active: {
+            bg: "#A5E8CF",
             transform: "translate(0, 0)",
             boxShadow: "none",
           },
           _focusVisible: {
-            boxShadow: "0 0 0 3px rgba(14,140,134,0.28)",
+            boxShadow: "0 0 0 3px rgba(4,167,119,0.35)",
           },
         },
 
-        // Public Lagoon — white button for deep teal panels
-        lagoonWhite: {
+        // Public Tumble Blocks — white button for dark ink panels.
+        brutOnDark: {
           bg: "#FFFFFF",
-          color: "#0B2F2F",
-          border: "2px solid #0B2F2F",
-          borderRadius: "10px",
+          color: "#17181C",
+          border: "2px solid #17181C",
+          borderRadius: "8px",
           fontWeight: "700",
           fontSize: "15px",
           textShadow: "none",
-          boxShadow: "3px 3px 0 rgba(0,0,0,0.45)",
+          boxShadow: "3px 3px 0 rgba(255,253,246,0.28)",
           _hover: {
-            bg: "#EAF7F4",
-            color: "#0B2F2F",
+            bg: "#FFF1BF",
+            color: "#17181C",
             textDecoration: "none",
             transform: "translate(-2px, -2px)",
-            boxShadow: "5px 5px 0 rgba(0,0,0,0.45)",
+            boxShadow: "5px 5px 0 rgba(255,253,246,0.32)",
           },
           _active: {
             transform: "translate(0, 0)",
-            boxShadow: "1px 1px 0 rgba(0,0,0,0.45)",
+            boxShadow: "1px 1px 0 rgba(255,253,246,0.28)",
           },
           _focusVisible: {
-            boxShadow: "0 0 0 3px rgba(255,255,255,0.42)",
+            boxShadow: "0 0 0 3px rgba(255,253,246,0.4)",
           },
         },
 
-        // Public Lagoon — ghost button on deep teal panels
-        lagoonGlass: {
+        // Public Tumble Blocks — ghost on dark ink panels.
+        brutGhostOnDark: {
           bg: "transparent",
-          color: "#FFFFFF",
-          border: "2px solid rgba(255,255,255,0.85)",
-          borderRadius: "10px",
+          color: "#FFFDF6",
+          border: "2px solid rgba(255,253,246,0.55)",
+          borderRadius: "8px",
           fontWeight: "700",
           fontSize: "15px",
           textShadow: "none",
           boxShadow: "none",
           _hover: {
-            bg: "rgba(255,255,255,0.14)",
-            color: "#FFFFFF",
+            bg: "rgba(255,253,246,0.12)",
+            color: "#FFFDF6",
+            borderColor: "#FFFDF6",
             textDecoration: "none",
           },
           _active: {
-            bg: "rgba(255,255,255,0.22)",
+            bg: "rgba(255,253,246,0.22)",
           },
           _focusVisible: {
-            boxShadow: "0 0 0 3px rgba(255,255,255,0.35)",
+            boxShadow: "0 0 0 3px rgba(255,253,246,0.35)",
           },
         },
 
