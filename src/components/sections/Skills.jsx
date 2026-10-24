@@ -129,15 +129,15 @@ const SkillTile = ({ skill, index }) => {
       direction="column"
       align="center"
       justify="center"
-      gap="8px"
+      gap="10px"
       bg="#FFFFFF"
       border="2px solid"
       borderColor={BRUT.ink}
       borderRadius="12px"
       boxShadow="3px 3px 0 #17181C"
-      px="6px"
-      pt="15px"
-      pb="13px"
+      px={{ base: "12px", md: "14px" }}
+      pt={{ base: "16px", md: "18px" }}
+      pb={{ base: "15px", md: "16px" }}
       minW={0}
       transition="transform .16s ease, box-shadow .16s ease"
       _hover={{
@@ -185,13 +185,14 @@ const SkillTile = ({ skill, index }) => {
       </Flex>
       <Text
         fontFamily="heading"
-        fontSize="12.5px"
+        fontSize={{ base: "14px", md: "15px" }}
         fontWeight="700"
-        color={BRUT.ink}
-        lineHeight="1.35"
+        color="#111827"
+        lineHeight="1.3"
         noOfLines={2}
         textAlign="center"
         w="100%"
+        sx={{ overflowWrap: "normal" }}
       >
         {skill}
       </Text>
@@ -309,10 +310,10 @@ const Skills = () => {
               {/* App-icon sheet */}
               <Grid
                 templateColumns={{
-                  base: "repeat(auto-fill, minmax(92px, 1fr))",
-                  md: "repeat(auto-fill, minmax(100px, 1fr))",
+                  base: "repeat(auto-fill, minmax(100px, 1fr))",
+                  md: "repeat(auto-fill, minmax(116px, 1fr))",
                 }}
-                gap={{ base: 3.5, md: 4 }}
+                gap={{ base: 4, md: 5 }}
                 position="relative"
                 mt={4}
               >

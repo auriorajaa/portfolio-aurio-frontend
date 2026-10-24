@@ -164,7 +164,7 @@ const Projects = () => {
             tabIndex={featured.slug ? 0 : undefined}
             aria-label={featured.title}
             data-reveal
-            mb={{ base: 10, md: 12 }}
+            mb={{ base: 12, md: 12 }}
             position="relative"
             cursor={featured.slug ? "pointer" : "default"}
             onClick={() => featured.slug && openProject(featured)}
@@ -319,27 +319,59 @@ const Projects = () => {
 
                   <Box flex="1" minH="20px" />
 
+                  {/* Tech stack: stacked above the CTA on mobile */}
+                  {featured.tags?.length > 0 && (
+                    <Flex
+                      position={{ base: "static", lg: "absolute" }}
+                      bottom={{ lg: "-15px" }}
+                      left={{ lg: "34px" }}
+                      gap={2}
+                      flexWrap="wrap"
+                      mt={{ base: 5, lg: 0 }}
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      {featured.tags.slice(0, 4).map((tag, tagIndex) => (
+                        <TechPill key={tag} label={tag} index={tagIndex} />
+                      ))}
+                    </Flex>
+                  )}
+
                   <Flex
-                    align="center"
-                    gap={5}
-                    mt={6}
+                    align={{ base: "stretch", sm: "center" }}
+                    direction={{ base: "column", sm: "row" }}
+                    gap={3}
+                    mt={{ base: 5, sm: 6 }}
                     pt={5}
+                    flexWrap="wrap"
                     borderTop="2px dashed"
                     borderColor={colors.borderDashed}
                     onClick={(event) => event.stopPropagation()}
                   >
                     <Flex
+                      as="button"
+                      type="button"
+                      cursor={featured.slug ? "pointer" : "default"}
                       align="center"
+                      justify="center"
                       gap="7px"
+                      w={{ base: "100%", sm: "auto" }}
                       bg={BRUT.primary}
                       border="2px solid"
                       borderColor={BRUT.ink}
                       borderRadius="6px"
                       px="13px"
-                      py="7px"
+                      py="8px"
                       boxShadow={BRUT.shadowXs}
                       transition="transform .15s ease, box-shadow .15s ease"
-                      _hover={{ transform: "translate(-1px, -1px)", boxShadow: BRUT.shadow }}
+                      _hover={{
+                        bg: BRUT.primaryDeep,
+                        transform: "translate(-1px, -1px)",
+                        boxShadow: BRUT.shadow,
+                      }}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        if (featured.slug) openProject(featured);
+                      }}
                     >
                       <Text
                         fontFamily="spaceMono"
@@ -349,29 +381,13 @@ const Projects = () => {
                         textTransform="uppercase"
                         color="#FFFFFF"
                       >
-                        View case study
+                        View project
                       </Text>
                       <ArrowUpRight size={15} color="#FFFFFF" />
                     </Flex>
                     <ProjectLinks project={featured} />
                   </Flex>
 
-                  {/* Tech sticker pills protruding past the bottom edge */}
-                  {featured.tags?.length > 0 && (
-                    <Flex
-                      position={{ base: "static", lg: "absolute" }}
-                      bottom={{ lg: "-15px" }}
-                      left={{ lg: "34px" }}
-                      gap={2}
-                      flexWrap="wrap"
-                      mt={{ base: 6, lg: 0 }}
-                      onClick={(event) => event.stopPropagation()}
-                    >
-                      {featured.tags.slice(0, 3).map((tag, tagIndex) => (
-                        <TechPill key={tag} label={tag} index={tagIndex} />
-                      ))}
-                    </Flex>
-                  )}
                 </Flex>
               </Grid>
             </Box>
@@ -381,7 +397,7 @@ const Projects = () => {
         {/* Grid: alternating wide/narrow rows of window cards */}
         <Grid
           templateColumns={{ base: "1fr", md: "repeat(12, minmax(0, 1fr))" }}
-          gap={{ base: 10, md: "56px 20px" }}
+          gap={{ base: 14, md: "56px 20px" }}
           alignItems="stretch"
         >
           {gridProjects.map((project, index) => {
@@ -517,12 +533,14 @@ const Projects = () => {
 
 // Tech sticker pill: tinted slab with an ink border, designed to
 // overlap the card's bottom edge like a sticker slapped over it.
+// Yellow/blue/lime fills always carry ink text (white on yellow fails
+// contrast outright); solid green is the only fill that takes white.
 const PILL_TINTS = [
-  { bg: BRUT.yellow, fg: "#FFFFFF" },
+  { bg: BRUT.yellow, fg: BRUT.ink },
   { bg: BRUT.primary, fg: "#FFFFFF" },
-  { bg: BRUT.blue, fg: "#FFFFFF" },
-  { bg: BRUT.lime, fg: "#111827" },
-  { bg: BRUT.primarySoft, fg: "#111827" },
+  { bg: BRUT.blue, fg: BRUT.ink },
+  { bg: BRUT.lime, fg: BRUT.ink },
+  { bg: BRUT.primarySoft, fg: BRUT.ink },
 ];
 
 const TechPill = ({ label, index }) => {
@@ -590,6 +608,7 @@ const ProjectCard = ({ project, index = 0, onOpen, gridColumn }) => {
     >
       <Box
         className="window-card"
+        position="relative"
         display="flex"
         flexDirection="column"
         flex="1"
@@ -711,11 +730,30 @@ const ProjectCard = ({ project, index = 0, onOpen, gridColumn }) => {
 
           <Flex flex="1" minH="10px" />
 
+          {/* Tech stack tags: in-flow above the CTA on mobile */}
+          {project.tags?.length > 0 && (
+            <Flex
+              position={{ base: "static", md: "absolute" }}
+              bottom={{ md: "-15px" }}
+              left={{ md: "22px" }}
+              gap={2}
+              flexWrap="wrap"
+              mt={{ base: 5, md: 0 }}
+              sx={{ pointerEvents: "none" }}
+            >
+              {project.tags.slice(0, 3).map((tag, tagIndex) => (
+                <TechPill key={tag} label={tag} index={tagIndex} />
+              ))}
+            </Flex>
+          )}
+
           {(project.period || project.slug) && (
             <Flex
-              align="center"
+              direction={{ base: "column", sm: "row" }}
+              align={{ base: "stretch", sm: "center" }}
               justify="space-between"
               gap={3}
+              mt={{ base: 5, md: 0 }}
               pt="14px"
               borderTop="2px dashed"
               borderColor={colors.borderDashed}
@@ -732,13 +770,15 @@ const ProjectCard = ({ project, index = 0, onOpen, gridColumn }) => {
               {project.slug && (
                 <Flex
                   align="center"
+                  justify="center"
                   gap="5px"
+                  w={{ base: "100%", sm: "auto" }}
                   bg={BRUT.primary}
                   border="2px solid"
                   borderColor={BRUT.ink}
                   borderRadius="6px"
-                  px="11px"
-                  py="5px"
+                  px="13px"
+                  py="8px"
                   boxShadow={BRUT.shadowXs}
                   flexShrink={0}
                   transition="transform .15s ease, box-shadow .15s ease"
@@ -761,23 +801,6 @@ const ProjectCard = ({ project, index = 0, onOpen, gridColumn }) => {
           )}
         </Flex>
       </Box>
-
-      {/* Tech sticker pills protruding past the bottom edge */}
-      {project.tags?.length > 0 && (
-        <Flex
-          position="absolute"
-          bottom="-14px"
-          left={{ base: "16px", md: "22px" }}
-          gap={2}
-          maxW={{ base: "calc(100% - 26px)", md: "calc(100% - 44px)" }}
-          flexWrap={{ base: "wrap", md: "nowrap" }}
-          sx={{ pointerEvents: "none" }}
-        >
-          {project.tags.slice(0, 3).map((tag, tagIndex) => (
-            <TechPill key={tag} label={tag} index={tagIndex} />
-          ))}
-        </Flex>
-      )}
     </Box>
   );
 };

@@ -8,6 +8,8 @@ const NAV_ITEMS = [
   { label: "Work", href: "#projects" },
   { label: "Experience", href: "#experience" },
   { label: "Skills", href: "#skills" },
+  { label: "Education", href: "#education" },
+  { label: "Gallery", href: "#gallery" },
   { label: "Writing", href: "#articles" },
   { label: "Contact", href: "#contact" },
 ];
@@ -40,11 +42,30 @@ export const Navbar = ({ isDownloading, handleDownload }) => {
       as="header"
       position="sticky"
       top={0}
-      zIndex={1000}
+      zIndex={1200}
       px={{ base: 3, md: 6 }}
       pt={{ base: 3, md: 4 }}
       pointerEvents="none"
     >
+      {/* Mobile menu scrim: blurs and dims the page behind the nav card */}
+      {menuOpen && (
+        <Box
+          aria-hidden="true"
+          display={{ base: "block", lg: "none" }}
+          position="fixed"
+          inset={0}
+          zIndex={-1}
+          bg="rgba(23,24,28,0.35)"
+          pointerEvents="auto"
+          onClick={() => setMenuOpen(false)}
+          sx={{
+            backdropFilter: "blur(5px)",
+            WebkitBackdropFilter: "blur(5px)",
+            animation: "menu-fade .18s ease",
+          }}
+        />
+      )}
+
       <Box
         maxW="1200px"
         mx="auto"
@@ -93,7 +114,7 @@ export const Navbar = ({ isDownloading, handleDownload }) => {
                 {initials}
               </Text>
             </Flex>
-            <Box lineHeight="1.1">
+            <Box lineHeight="1.1" display={{ base: "block", lg: "none", xl: "block" }}>
               <Text
                 fontFamily="heading"
                 fontSize={{ base: "15px", sm: "18px" }}
@@ -135,7 +156,7 @@ export const Navbar = ({ isDownloading, handleDownload }) => {
                 letterSpacing=".1em"
                 textTransform="uppercase"
                 color={BRUT.heading}
-                px={3}
+                px="10px"
                 py="8px"
                 border="2px solid transparent"
                 borderRadius="6px"

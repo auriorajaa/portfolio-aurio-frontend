@@ -356,6 +356,8 @@ const MedalCard = ({ item, index, onOpen }) => {
             letterSpacing=".14em"
             textTransform="uppercase"
             whiteSpace="nowrap"
+            overflow="hidden"
+            textOverflow="ellipsis"
           >
             certificate — no. {String(index + 1).padStart(2, "0")}
           </Text>
@@ -430,14 +432,21 @@ const MedalCard = ({ item, index, onOpen }) => {
         </Flex>
       </Box>
 
-      {/* Foot: signing line */}
-      <Flex align="flex-end" gap={3} px={{ base: 5, md: 6 }} py={{ base: 4, md: 5 }}>
-        <Box minW={0}>
+      {/* Foot: issuer + date, stacked with room to breathe */}
+      <Flex
+        align="center"
+        gap={{ base: 3, md: 4 }}
+        px={{ base: 5, md: 6 }}
+        pt={{ base: 5, md: 6 }}
+        pb={{ base: 5, md: 6 }}
+      >
+        <Box minW={0} flex="1">
           <Text
             fontFamily="heading"
-            fontSize="15px"
+            fontSize={{ base: "14px", md: "15px" }}
             fontWeight="700"
-            color={BRUT.ink}
+            color="#111827"
+            lineHeight="1.35"
             noOfLines={2}
           >
             {item.caption || "certified"}
@@ -445,26 +454,41 @@ const MedalCard = ({ item, index, onOpen }) => {
           {item.date && (
             <Text
               fontFamily="spaceMono"
-              fontSize="12px"
+              fontSize={{ base: "14px", md: "14px" }}
               fontWeight="700"
-              color={BRUT.ink}
-              mt="3px"
+              color="#111827"
+              lineHeight="1.4"
+              mt="4px"
               noOfLines={1}
             >
               {item.date}
             </Text>
           )}
         </Box>
-        <Box flex="1" mb="6px" borderBottom="2px dashed rgba(23,24,28,0.45)" />
-        <Text
-          fontFamily="bungee"
-          fontSize="13px"
-          color={tones.ring === BRUT.blue ? BRUT.blueDeep : BRUT.ink}
-          whiteSpace="nowrap"
+
+        {/* Verified stamp: white mark on solid green, ink border */}
+        <Flex
+          align="center"
+          justify="center"
+          w="32px"
+          h="32px"
           flexShrink={0}
+          bg={BRUT.primary}
+          border="2px solid"
+          borderColor={BRUT.ink}
+          borderRadius="8px"
+          boxShadow={BRUT.shadowXs}
         >
-          ✓
-        </Text>
+          <Text
+            fontFamily="bungee"
+            fontSize="14px"
+            color="#FFFFFF"
+            lineHeight="1"
+            aria-hidden="true"
+          >
+            ✓
+          </Text>
+        </Flex>
       </Flex>
     </Box>
   );
